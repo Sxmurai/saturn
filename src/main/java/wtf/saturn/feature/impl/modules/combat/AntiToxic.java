@@ -28,7 +28,7 @@ public class AntiToxic extends Module {
 
     @EventListener
     public void onAddChatMessage(AddChatMessageEvent event) {
-        String raw = event.getComponent().getUnformattedText();
+        String raw = event.getComponent().getUnformattedText().toLowerCase();
         if (TOXIC_MESSAGES.stream().anyMatch(raw::contains)) {
             event.setCancelled(true);
 
