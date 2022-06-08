@@ -29,8 +29,6 @@ public class HitParticles extends Module {
     protected void onActivated() {
         super.onActivated();
         stopwatch.resetTime();
-
-        mc.thePlayer.sendChatMessage("penis");
     }
 
     @EventListener
