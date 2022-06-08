@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import me.bush.eventbus.bus.EventBus;
 import org.lwjgl.opengl.Display;
 import wtf.saturn.feature.cache.Caches;
+import wtf.saturn.feature.cache.impl.account.AccountCache;
 import wtf.saturn.feature.cache.impl.module.ModuleCache;
 import wtf.saturn.util.versioning.BuildConfig;
 
@@ -37,6 +38,7 @@ public class Launcher {
         Display.setTitle(FULL);
 
         Caches.registerCache(new ModuleCache());
+        Caches.registerCache(new AccountCache());
     }
 
 
