@@ -31,7 +31,7 @@ public class BlockBanner extends BlockContainer
         super(Material.wood);
         float f = 0.25F;
         float f1 = 1.0F;
-        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
+        setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f1, 0.5F + f);
     }
 
     /**
@@ -49,7 +49,7 @@ public class BlockBanner extends BlockContainer
 
     public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos)
     {
-        this.setBlockBoundsBasedOnState(worldIn, pos);
+        setBlockBoundsBasedOnState(worldIn, pos);
         return super.getSelectedBoundingBox(worldIn, pos);
     }
 
@@ -114,7 +114,7 @@ public class BlockBanner extends BlockContainer
             nbttagcompound.removeTag("z");
             nbttagcompound.removeTag("id");
             itemstack.setTagInfo("BlockEntityTag", nbttagcompound);
-            spawnAsEntity(worldIn, pos, itemstack);
+            Block.spawnAsEntity(worldIn, pos, itemstack);
         }
         else
         {
@@ -124,7 +124,7 @@ public class BlockBanner extends BlockContainer
 
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        return !this.func_181087_e(worldIn, pos) && super.canPlaceBlockAt(worldIn, pos);
+        return !func_181087_e(worldIn, pos) && super.canPlaceBlockAt(worldIn, pos);
     }
 
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te)
@@ -136,11 +136,11 @@ public class BlockBanner extends BlockContainer
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             TileEntityBanner.func_181020_a(nbttagcompound, tileentitybanner.getBaseColor(), tileentitybanner.func_181021_d());
             itemstack.setTagInfo("BlockEntityTag", nbttagcompound);
-            spawnAsEntity(worldIn, pos, itemstack);
+            Block.spawnAsEntity(worldIn, pos, itemstack);
         }
         else
         {
-            super.harvestBlock(worldIn, player, pos, state, (TileEntity)null);
+            super.harvestBlock(worldIn, player, pos, state, null);
         }
     }
 
@@ -148,46 +148,46 @@ public class BlockBanner extends BlockContainer
     {
         public BlockBannerHanging()
         {
-            this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+            setDefaultState(blockState.getBaseState().withProperty(BlockBanner.FACING, EnumFacing.NORTH));
         }
 
         public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
         {
-            EnumFacing enumfacing = (EnumFacing)worldIn.getBlockState(pos).getValue(FACING);
+            EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(BlockBanner.FACING);
             float f = 0.0F;
             float f1 = 0.78125F;
             float f2 = 0.0F;
             float f3 = 1.0F;
             float f4 = 0.125F;
-            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 
             switch (enumfacing)
             {
                 case NORTH:
                 default:
-                    this.setBlockBounds(f2, f, 1.0F - f4, f3, f1, 1.0F);
+                    setBlockBounds(f2, f, 1.0F - f4, f3, f1, 1.0F);
                     break;
 
                 case SOUTH:
-                    this.setBlockBounds(f2, f, 0.0F, f3, f1, f4);
+                    setBlockBounds(f2, f, 0.0F, f3, f1, f4);
                     break;
 
                 case WEST:
-                    this.setBlockBounds(1.0F - f4, f, f2, 1.0F, f1, f3);
+                    setBlockBounds(1.0F - f4, f, f2, 1.0F, f1, f3);
                     break;
 
                 case EAST:
-                    this.setBlockBounds(0.0F, f, f2, f4, f1, f3);
+                    setBlockBounds(0.0F, f, f2, f4, f1, f3);
             }
         }
 
         public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
         {
-            EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+            EnumFacing enumfacing = state.getValue(BlockBanner.FACING);
 
             if (!worldIn.getBlockState(pos.offset(enumfacing.getOpposite())).getBlock().getMaterial().isSolid())
             {
-                this.dropBlockAsItem(worldIn, pos, state, 0);
+                dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);
             }
 
@@ -203,17 +203,17 @@ public class BlockBanner extends BlockContainer
                 enumfacing = EnumFacing.NORTH;
             }
 
-            return this.getDefaultState().withProperty(FACING, enumfacing);
+            return getDefaultState().withProperty(BlockBanner.FACING, enumfacing);
         }
 
         public int getMetaFromState(IBlockState state)
         {
-            return ((EnumFacing)state.getValue(FACING)).getIndex();
+            return state.getValue(BlockBanner.FACING).getIndex();
         }
 
         protected BlockState createBlockState()
         {
-            return new BlockState(this, new IProperty[] {FACING});
+            return new BlockState(this, BlockBanner.FACING);
         }
     }
 
@@ -221,14 +221,14 @@ public class BlockBanner extends BlockContainer
     {
         public BlockBannerStanding()
         {
-            this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, Integer.valueOf(0)));
+            setDefaultState(blockState.getBaseState().withProperty(BlockBanner.ROTATION, Integer.valueOf(0)));
         }
 
         public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
         {
             if (!worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid())
             {
-                this.dropBlockAsItem(worldIn, pos, state, 0);
+                dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);
             }
 
@@ -237,17 +237,17 @@ public class BlockBanner extends BlockContainer
 
         public IBlockState getStateFromMeta(int meta)
         {
-            return this.getDefaultState().withProperty(ROTATION, Integer.valueOf(meta));
+            return getDefaultState().withProperty(BlockBanner.ROTATION, Integer.valueOf(meta));
         }
 
         public int getMetaFromState(IBlockState state)
         {
-            return ((Integer)state.getValue(ROTATION)).intValue();
+            return state.getValue(BlockBanner.ROTATION).intValue();
         }
 
         protected BlockState createBlockState()
         {
-            return new BlockState(this, new IProperty[] {ROTATION});
+            return new BlockState(this, BlockBanner.ROTATION);
         }
     }
 }

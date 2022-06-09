@@ -14,8 +14,8 @@ public class ChunkCoordIntPair
 
     public ChunkCoordIntPair(int x, int z)
     {
-        this.chunkXPos = x;
-        this.chunkZPos = z;
+        chunkXPos = x;
+        chunkZPos = z;
     }
 
     /**
@@ -28,14 +28,14 @@ public class ChunkCoordIntPair
 
     public int hashCode()
     {
-        if (this.cachedHashCode == 0)
+        if (cachedHashCode == 0)
         {
-            int i = 1664525 * this.chunkXPos + 1013904223;
-            int j = 1664525 * (this.chunkZPos ^ -559038737) + 1013904223;
-            this.cachedHashCode = i ^ j;
+            int i = 1664525 * chunkXPos + 1013904223;
+            int j = 1664525 * (chunkZPos ^ -559038737) + 1013904223;
+            cachedHashCode = i ^ j;
         }
 
-        return this.cachedHashCode;
+        return cachedHashCode;
     }
 
     public boolean equals(Object p_equals_1_)
@@ -51,18 +51,18 @@ public class ChunkCoordIntPair
         else
         {
             ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)p_equals_1_;
-            return this.chunkXPos == chunkcoordintpair.chunkXPos && this.chunkZPos == chunkcoordintpair.chunkZPos;
+            return chunkXPos == chunkcoordintpair.chunkXPos && chunkZPos == chunkcoordintpair.chunkZPos;
         }
     }
 
     public int getCenterXPos()
     {
-        return (this.chunkXPos << 4) + 8;
+        return (chunkXPos << 4) + 8;
     }
 
     public int getCenterZPosition()
     {
-        return (this.chunkZPos << 4) + 8;
+        return (chunkZPos << 4) + 8;
     }
 
     /**
@@ -70,7 +70,7 @@ public class ChunkCoordIntPair
      */
     public int getXStart()
     {
-        return this.chunkXPos << 4;
+        return chunkXPos << 4;
     }
 
     /**
@@ -78,7 +78,7 @@ public class ChunkCoordIntPair
      */
     public int getZStart()
     {
-        return this.chunkZPos << 4;
+        return chunkZPos << 4;
     }
 
     /**
@@ -86,7 +86,7 @@ public class ChunkCoordIntPair
      */
     public int getXEnd()
     {
-        return (this.chunkXPos << 4) + 15;
+        return (chunkXPos << 4) + 15;
     }
 
     /**
@@ -94,7 +94,7 @@ public class ChunkCoordIntPair
      */
     public int getZEnd()
     {
-        return (this.chunkZPos << 4) + 15;
+        return (chunkZPos << 4) + 15;
     }
 
     /**
@@ -102,7 +102,7 @@ public class ChunkCoordIntPair
      */
     public BlockPos getBlock(int x, int y, int z)
     {
-        return new BlockPos((this.chunkXPos << 4) + x, y, (this.chunkZPos << 4) + z);
+        return new BlockPos((chunkXPos << 4) + x, y, (chunkZPos << 4) + z);
     }
 
     /**
@@ -110,11 +110,11 @@ public class ChunkCoordIntPair
      */
     public BlockPos getCenterBlock(int y)
     {
-        return new BlockPos(this.getCenterXPos(), y, this.getCenterZPosition());
+        return new BlockPos(getCenterXPos(), y, getCenterZPosition());
     }
 
     public String toString()
     {
-        return "[" + this.chunkXPos + ", " + this.chunkZPos + "]";
+        return "[" + chunkXPos + ", " + chunkZPos + "]";
     }
 }

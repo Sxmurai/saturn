@@ -23,70 +23,70 @@ public class BakedQuad implements IVertexProducer
 
     public BakedQuad(int[] p_i9_1_, int p_i9_2_, EnumFacing p_i9_3_, TextureAtlasSprite p_i9_4_)
     {
-        this.vertexData = p_i9_1_;
-        this.tintIndex = p_i9_2_;
-        this.face = p_i9_3_;
-        this.sprite = p_i9_4_;
-        this.fixVertexData();
+        vertexData = p_i9_1_;
+        tintIndex = p_i9_2_;
+        face = p_i9_3_;
+        sprite = p_i9_4_;
+        fixVertexData();
     }
 
     public TextureAtlasSprite getSprite()
     {
-        if (this.sprite == null)
+        if (sprite == null)
         {
-            this.sprite = getSpriteByUv(this.getVertexData());
+            sprite = BakedQuad.getSpriteByUv(getVertexData());
         }
 
-        return this.sprite;
+        return sprite;
     }
 
     public String toString()
     {
-        return "vertex: " + this.vertexData.length / 7 + ", tint: " + this.tintIndex + ", facing: " + this.face + ", sprite: " + this.sprite;
+        return "vertex: " + vertexData.length / 7 + ", tint: " + tintIndex + ", facing: " + face + ", sprite: " + sprite;
     }
 
     public BakedQuad(int[] vertexDataIn, int tintIndexIn, EnumFacing faceIn)
     {
-        this.vertexData = vertexDataIn;
-        this.tintIndex = tintIndexIn;
-        this.face = faceIn;
-        this.fixVertexData();
+        vertexData = vertexDataIn;
+        tintIndex = tintIndexIn;
+        face = faceIn;
+        fixVertexData();
     }
 
     public int[] getVertexData()
     {
-        this.fixVertexData();
-        return this.vertexData;
+        fixVertexData();
+        return vertexData;
     }
 
     public boolean hasTintIndex()
     {
-        return this.tintIndex != -1;
+        return tintIndex != -1;
     }
 
     public int getTintIndex()
     {
-        return this.tintIndex;
+        return tintIndex;
     }
 
     public EnumFacing getFace()
     {
-        return this.face;
+        return face;
     }
 
     public int[] getVertexDataSingle()
     {
-        if (this.vertexDataSingle == null)
+        if (vertexDataSingle == null)
         {
-            this.vertexDataSingle = makeVertexDataSingle(this.getVertexData(), this.getSprite());
+            vertexDataSingle = BakedQuad.makeVertexDataSingle(getVertexData(), getSprite());
         }
 
-        return this.vertexDataSingle;
+        return vertexDataSingle;
     }
 
     private static int[] makeVertexDataSingle(int[] p_makeVertexDataSingle_0_, TextureAtlasSprite p_makeVertexDataSingle_1_)
     {
-        int[] aint = (int[])p_makeVertexDataSingle_0_.clone();
+        int[] aint = p_makeVertexDataSingle_0_.clone();
         int i = p_makeVertexDataSingle_1_.sheetWidth / p_makeVertexDataSingle_1_.getIconWidth();
         int j = p_makeVertexDataSingle_1_.sheetHeight / p_makeVertexDataSingle_1_.getIconHeight();
         int k = aint.length / 4;
@@ -107,7 +107,7 @@ public class BakedQuad implements IVertexProducer
 
     public void pipe(IVertexConsumer p_pipe_1_)
     {
-        Reflector.callVoid(Reflector.LightUtil_putBakedQuad, new Object[] {p_pipe_1_, this});
+        Reflector.callVoid(Reflector.LightUtil_putBakedQuad, p_pipe_1_, this);
     }
 
     private static TextureAtlasSprite getSpriteByUv(int[] p_getSpriteByUv_0_)
@@ -131,7 +131,7 @@ public class BakedQuad implements IVertexProducer
 
         float f6 = (f + f2) / 2.0F;
         float f7 = (f1 + f3) / 2.0F;
-        TextureAtlasSprite textureatlassprite = Minecraft.getMinecraft().getTextureMapBlocks().getIconByUV((double)f6, (double)f7);
+        TextureAtlasSprite textureatlassprite = Minecraft.getMinecraft().getTextureMapBlocks().getIconByUV(f6, f7);
         return textureatlassprite;
     }
 
@@ -139,14 +139,14 @@ public class BakedQuad implements IVertexProducer
     {
         if (Config.isShaders())
         {
-            if (this.vertexData.length == 28)
+            if (vertexData.length == 28)
             {
-                this.vertexData = expandVertexData(this.vertexData);
+                vertexData = BakedQuad.expandVertexData(vertexData);
             }
         }
-        else if (this.vertexData.length == 56)
+        else if (vertexData.length == 56)
         {
-            this.vertexData = compactVertexData(this.vertexData);
+            vertexData = BakedQuad.compactVertexData(vertexData);
         }
     }
 

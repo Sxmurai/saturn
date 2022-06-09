@@ -14,14 +14,14 @@ public class RegistryNamespacedDefaultedByKey<K, V> extends RegistryNamespaced<K
 
     public RegistryNamespacedDefaultedByKey(K p_i46017_1_)
     {
-        this.defaultValueKey = p_i46017_1_;
+        defaultValueKey = p_i46017_1_;
     }
 
     public void register(int id, K p_177775_2_, V p_177775_3_)
     {
-        if (this.defaultValueKey.equals(p_177775_2_))
+        if (defaultValueKey.equals(p_177775_2_))
         {
-            this.defaultValue = p_177775_3_;
+            defaultValue = p_177775_3_;
         }
 
         super.register(id, p_177775_2_, p_177775_3_);
@@ -32,13 +32,13 @@ public class RegistryNamespacedDefaultedByKey<K, V> extends RegistryNamespaced<K
      */
     public void validateKey()
     {
-        Validate.notNull(this.defaultValueKey);
+        Validate.notNull(defaultValueKey);
     }
 
     public V getObject(K name)
     {
         V v = super.getObject(name);
-        return (V)(v == null ? this.defaultValue : v);
+        return v == null ? defaultValue : v;
     }
 
     /**
@@ -47,6 +47,6 @@ public class RegistryNamespacedDefaultedByKey<K, V> extends RegistryNamespaced<K
     public V getObjectById(int id)
     {
         V v = super.getObjectById(id);
-        return (V)(v == null ? this.defaultValue : v);
+        return v == null ? defaultValue : v;
     }
 }

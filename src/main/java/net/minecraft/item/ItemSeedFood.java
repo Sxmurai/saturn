@@ -8,16 +8,16 @@ import net.minecraft.world.World;
 
 public class ItemSeedFood extends ItemFood
 {
-    private Block crops;
+    private final Block crops;
 
     /** Block ID of the soil this seed food should be planted on. */
-    private Block soilId;
+    private final Block soilId;
 
     public ItemSeedFood(int healAmount, float saturation, Block crops, Block soil)
     {
         super(healAmount, saturation, false);
         this.crops = crops;
-        this.soilId = soil;
+        soilId = soil;
     }
 
     /**
@@ -33,9 +33,9 @@ public class ItemSeedFood extends ItemFood
         {
             return false;
         }
-        else if (worldIn.getBlockState(pos).getBlock() == this.soilId && worldIn.isAirBlock(pos.up()))
+        else if (worldIn.getBlockState(pos).getBlock() == soilId && worldIn.isAirBlock(pos.up()))
         {
-            worldIn.setBlockState(pos.up(), this.crops.getDefaultState());
+            worldIn.setBlockState(pos.up(), crops.getDefaultState());
             --stack.stackSize;
             return true;
         }

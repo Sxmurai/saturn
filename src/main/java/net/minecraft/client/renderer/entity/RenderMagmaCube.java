@@ -19,7 +19,7 @@ public class RenderMagmaCube extends RenderLiving<EntityMagmaCube>
      */
     protected ResourceLocation getEntityTexture(EntityMagmaCube entity)
     {
-        return magmaCubeTextures;
+        return RenderMagmaCube.magmaCubeTextures;
     }
 
     /**

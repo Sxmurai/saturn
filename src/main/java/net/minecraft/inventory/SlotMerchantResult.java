@@ -12,7 +12,7 @@ public class SlotMerchantResult extends Slot
     private final InventoryMerchant theMerchantInventory;
 
     /** The Player whos trying to buy/sell stuff. */
-    private EntityPlayer thePlayer;
+    private final EntityPlayer thePlayer;
     private int field_75231_g;
 
     /** "Instance" of the Merchant. */
@@ -21,9 +21,9 @@ public class SlotMerchantResult extends Slot
     public SlotMerchantResult(EntityPlayer player, IMerchant merchant, InventoryMerchant merchantInventory, int slotIndex, int xPosition, int yPosition)
     {
         super(merchantInventory, slotIndex, xPosition, yPosition);
-        this.thePlayer = player;
-        this.theMerchant = merchant;
-        this.theMerchantInventory = merchantInventory;
+        thePlayer = player;
+        theMerchant = merchant;
+        theMerchantInventory = merchantInventory;
     }
 
     /**
@@ -40,9 +40,9 @@ public class SlotMerchantResult extends Slot
      */
     public ItemStack decrStackSize(int amount)
     {
-        if (this.getHasStack())
+        if (getHasStack())
         {
-            this.field_75231_g += Math.min(amount, this.getStack().stackSize);
+            field_75231_g += Math.min(amount, getStack().stackSize);
         }
 
         return super.decrStackSize(amount);
@@ -54,8 +54,8 @@ public class SlotMerchantResult extends Slot
      */
     protected void onCrafting(ItemStack stack, int amount)
     {
-        this.field_75231_g += amount;
-        this.onCrafting(stack);
+        field_75231_g += amount;
+        onCrafting(stack);
     }
 
     /**
@@ -63,23 +63,23 @@ public class SlotMerchantResult extends Slot
      */
     protected void onCrafting(ItemStack stack)
     {
-        stack.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.field_75231_g);
-        this.field_75231_g = 0;
+        stack.onCrafting(thePlayer.worldObj, thePlayer, field_75231_g);
+        field_75231_g = 0;
     }
 
     public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
     {
-        this.onCrafting(stack);
-        MerchantRecipe merchantrecipe = this.theMerchantInventory.getCurrentRecipe();
+        onCrafting(stack);
+        MerchantRecipe merchantrecipe = theMerchantInventory.getCurrentRecipe();
 
         if (merchantrecipe != null)
         {
-            ItemStack itemstack = this.theMerchantInventory.getStackInSlot(0);
-            ItemStack itemstack1 = this.theMerchantInventory.getStackInSlot(1);
+            ItemStack itemstack = theMerchantInventory.getStackInSlot(0);
+            ItemStack itemstack1 = theMerchantInventory.getStackInSlot(1);
 
-            if (this.doTrade(merchantrecipe, itemstack, itemstack1) || this.doTrade(merchantrecipe, itemstack1, itemstack))
+            if (doTrade(merchantrecipe, itemstack, itemstack1) || doTrade(merchantrecipe, itemstack1, itemstack))
             {
-                this.theMerchant.useRecipe(merchantrecipe);
+                theMerchant.useRecipe(merchantrecipe);
                 playerIn.triggerAchievement(StatList.timesTradedWithVillagerStat);
 
                 if (itemstack != null && itemstack.stackSize <= 0)
@@ -92,8 +92,8 @@ public class SlotMerchantResult extends Slot
                     itemstack1 = null;
                 }
 
-                this.theMerchantInventory.setInventorySlotContents(0, itemstack);
-                this.theMerchantInventory.setInventorySlotContents(1, itemstack1);
+                theMerchantInventory.setInventorySlotContents(0, itemstack);
+                theMerchantInventory.setInventorySlotContents(1, itemstack1);
             }
         }
     }

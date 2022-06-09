@@ -21,17 +21,17 @@ public class SimpleTexture extends AbstractTexture
 
     public SimpleTexture(ResourceLocation textureResourceLocation)
     {
-        this.textureLocation = textureResourceLocation;
+        textureLocation = textureResourceLocation;
     }
 
     public void loadTexture(IResourceManager resourceManager) throws IOException
     {
-        this.deleteGlTexture();
+        deleteGlTexture();
         InputStream inputstream = null;
 
         try
         {
-            IResource iresource = resourceManager.getResource(this.textureLocation);
+            IResource iresource = resourceManager.getResource(textureLocation);
             inputstream = iresource.getInputStream();
             BufferedImage bufferedimage = TextureUtil.readBufferedImage(inputstream);
             boolean flag = false;
@@ -41,7 +41,7 @@ public class SimpleTexture extends AbstractTexture
             {
                 try
                 {
-                    TextureMetadataSection texturemetadatasection = (TextureMetadataSection)iresource.getMetadata("texture");
+                    TextureMetadataSection texturemetadatasection = iresource.getMetadata("texture");
 
                     if (texturemetadatasection != null)
                     {
@@ -51,17 +51,17 @@ public class SimpleTexture extends AbstractTexture
                 }
                 catch (RuntimeException runtimeexception)
                 {
-                    logger.warn((String)("Failed reading metadata of: " + this.textureLocation), (Throwable)runtimeexception);
+                    SimpleTexture.logger.warn("Failed reading metadata of: " + textureLocation, runtimeexception);
                 }
             }
 
             if (Config.isShaders())
             {
-                ShadersTex.loadSimpleTexture(this.getGlTextureId(), bufferedimage, flag, flag1, resourceManager, this.textureLocation, this.getMultiTexID());
+                ShadersTex.loadSimpleTexture(getGlTextureId(), bufferedimage, flag, flag1, resourceManager, textureLocation, getMultiTexID());
             }
             else
             {
-                TextureUtil.uploadTextureImageAllocate(this.getGlTextureId(), bufferedimage, flag, flag1);
+                TextureUtil.uploadTextureImageAllocate(getGlTextureId(), bufferedimage, flag, flag1);
             }
         }
         finally

@@ -17,10 +17,10 @@ public class NettyCompressionDecoder extends ByteToMessageDecoder
     public NettyCompressionDecoder(int treshold)
     {
         this.treshold = treshold;
-        this.inflater = new Inflater();
+        inflater = new Inflater();
     }
 
-    protected void decode(ChannelHandlerContext p_decode_1_, ByteBuf p_decode_2_, List<Object> p_decode_3_) throws DataFormatException, Exception
+    protected void decode(ChannelHandlerContext p_decode_1_, ByteBuf p_decode_2_, List<Object> p_decode_3_) throws Exception
     {
         if (p_decode_2_.readableBytes() != 0)
         {
@@ -33,9 +33,9 @@ public class NettyCompressionDecoder extends ByteToMessageDecoder
             }
             else
             {
-                if (i < this.treshold)
+                if (i < treshold)
                 {
-                    throw new DecoderException("Badly compressed packet - size of " + i + " is below server threshold of " + this.treshold);
+                    throw new DecoderException("Badly compressed packet - size of " + i + " is below server threshold of " + treshold);
                 }
 
                 if (i > 2097152)
@@ -45,11 +45,11 @@ public class NettyCompressionDecoder extends ByteToMessageDecoder
 
                 byte[] abyte = new byte[packetbuffer.readableBytes()];
                 packetbuffer.readBytes(abyte);
-                this.inflater.setInput(abyte);
+                inflater.setInput(abyte);
                 byte[] abyte1 = new byte[i];
-                this.inflater.inflate(abyte1);
+                inflater.inflate(abyte1);
                 p_decode_3_.add(Unpooled.wrappedBuffer(abyte1));
-                this.inflater.reset();
+                inflater.reset();
             }
         }
     }

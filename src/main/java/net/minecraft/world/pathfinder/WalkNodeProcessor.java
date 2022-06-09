@@ -25,7 +25,7 @@ public class WalkNodeProcessor extends NodeProcessor
     public void initProcessor(IBlockAccess iblockaccessIn, Entity entityIn)
     {
         super.initProcessor(iblockaccessIn, entityIn);
-        this.shouldAvoidWater = this.avoidsWater;
+        shouldAvoidWater = avoidsWater;
     }
 
     /**
@@ -36,7 +36,7 @@ public class WalkNodeProcessor extends NodeProcessor
     public void postProcess()
     {
         super.postProcess();
-        this.avoidsWater = this.shouldAvoidWater;
+        avoidsWater = shouldAvoidWater;
     }
 
     /**
@@ -46,25 +46,25 @@ public class WalkNodeProcessor extends NodeProcessor
     {
         int i;
 
-        if (this.canSwim && entityIn.isInWater())
+        if (canSwim && entityIn.isInWater())
         {
             i = (int)entityIn.getEntityBoundingBox().minY;
             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(MathHelper.floor_double(entityIn.posX), i, MathHelper.floor_double(entityIn.posZ));
 
-            for (Block block = this.blockaccess.getBlockState(blockpos$mutableblockpos).getBlock(); block == Blocks.flowing_water || block == Blocks.water; block = this.blockaccess.getBlockState(blockpos$mutableblockpos).getBlock())
+            for (Block block = blockaccess.getBlockState(blockpos$mutableblockpos).getBlock(); block == Blocks.flowing_water || block == Blocks.water; block = blockaccess.getBlockState(blockpos$mutableblockpos).getBlock())
             {
                 ++i;
                 blockpos$mutableblockpos.func_181079_c(MathHelper.floor_double(entityIn.posX), i, MathHelper.floor_double(entityIn.posZ));
             }
 
-            this.avoidsWater = false;
+            avoidsWater = false;
         }
         else
         {
             i = MathHelper.floor_double(entityIn.getEntityBoundingBox().minY + 0.5D);
         }
 
-        return this.openPoint(MathHelper.floor_double(entityIn.getEntityBoundingBox().minX), i, MathHelper.floor_double(entityIn.getEntityBoundingBox().minZ));
+        return openPoint(MathHelper.floor_double(entityIn.getEntityBoundingBox().minX), i, MathHelper.floor_double(entityIn.getEntityBoundingBox().minZ));
     }
 
     /**
@@ -72,7 +72,7 @@ public class WalkNodeProcessor extends NodeProcessor
      */
     public PathPoint getPathPointToCoords(Entity entityIn, double x, double y, double target)
     {
-        return this.openPoint(MathHelper.floor_double(x - (double)(entityIn.width / 2.0F)), MathHelper.floor_double(y), MathHelper.floor_double(target - (double)(entityIn.width / 2.0F)));
+        return openPoint(MathHelper.floor_double(x - (double)(entityIn.width / 2.0F)), MathHelper.floor_double(y), MathHelper.floor_double(target - (double)(entityIn.width / 2.0F)));
     }
 
     public int findPathOptions(PathPoint[] pathOptions, Entity entityIn, PathPoint currentPoint, PathPoint targetPoint, float maxDistance)
@@ -80,15 +80,15 @@ public class WalkNodeProcessor extends NodeProcessor
         int i = 0;
         int j = 0;
 
-        if (this.getVerticalOffset(entityIn, currentPoint.xCoord, currentPoint.yCoord + 1, currentPoint.zCoord) == 1)
+        if (getVerticalOffset(entityIn, currentPoint.xCoord, currentPoint.yCoord + 1, currentPoint.zCoord) == 1)
         {
             j = 1;
         }
 
-        PathPoint pathpoint = this.getSafePoint(entityIn, currentPoint.xCoord, currentPoint.yCoord, currentPoint.zCoord + 1, j);
-        PathPoint pathpoint1 = this.getSafePoint(entityIn, currentPoint.xCoord - 1, currentPoint.yCoord, currentPoint.zCoord, j);
-        PathPoint pathpoint2 = this.getSafePoint(entityIn, currentPoint.xCoord + 1, currentPoint.yCoord, currentPoint.zCoord, j);
-        PathPoint pathpoint3 = this.getSafePoint(entityIn, currentPoint.xCoord, currentPoint.yCoord, currentPoint.zCoord - 1, j);
+        PathPoint pathpoint = getSafePoint(entityIn, currentPoint.xCoord, currentPoint.yCoord, currentPoint.zCoord + 1, j);
+        PathPoint pathpoint1 = getSafePoint(entityIn, currentPoint.xCoord - 1, currentPoint.yCoord, currentPoint.zCoord, j);
+        PathPoint pathpoint2 = getSafePoint(entityIn, currentPoint.xCoord + 1, currentPoint.yCoord, currentPoint.zCoord, j);
+        PathPoint pathpoint3 = getSafePoint(entityIn, currentPoint.xCoord, currentPoint.yCoord, currentPoint.zCoord - 1, j);
 
         if (pathpoint != null && !pathpoint.visited && pathpoint.distanceTo(targetPoint) < maxDistance)
         {
@@ -119,22 +119,22 @@ public class WalkNodeProcessor extends NodeProcessor
     private PathPoint getSafePoint(Entity entityIn, int x, int y, int z, int p_176171_5_)
     {
         PathPoint pathpoint = null;
-        int i = this.getVerticalOffset(entityIn, x, y, z);
+        int i = getVerticalOffset(entityIn, x, y, z);
 
         if (i == 2)
         {
-            return this.openPoint(x, y, z);
+            return openPoint(x, y, z);
         }
         else
         {
             if (i == 1)
             {
-                pathpoint = this.openPoint(x, y, z);
+                pathpoint = openPoint(x, y, z);
             }
 
-            if (pathpoint == null && p_176171_5_ > 0 && i != -3 && i != -4 && this.getVerticalOffset(entityIn, x, y + p_176171_5_, z) == 1)
+            if (pathpoint == null && p_176171_5_ > 0 && i != -3 && i != -4 && getVerticalOffset(entityIn, x, y + p_176171_5_, z) == 1)
             {
-                pathpoint = this.openPoint(x, y + p_176171_5_, z);
+                pathpoint = openPoint(x, y + p_176171_5_, z);
                 y += p_176171_5_;
             }
 
@@ -143,11 +143,11 @@ public class WalkNodeProcessor extends NodeProcessor
                 int j = 0;
                 int k;
 
-                for (k = 0; y > 0; pathpoint = this.openPoint(x, y, z))
+                for (k = 0; y > 0; pathpoint = openPoint(x, y, z))
                 {
-                    k = this.getVerticalOffset(entityIn, x, y - 1, z);
+                    k = getVerticalOffset(entityIn, x, y - 1, z);
 
-                    if (this.avoidsWater && k == -1)
+                    if (avoidsWater && k == -1)
                     {
                         return null;
                     }
@@ -188,7 +188,7 @@ public class WalkNodeProcessor extends NodeProcessor
      */
     private int getVerticalOffset(Entity entityIn, int x, int y, int z)
     {
-        return func_176170_a(this.blockaccess, entityIn, x, y, z, this.entitySizeX, this.entitySizeY, this.entitySizeZ, this.avoidsWater, this.canBreakDoors, this.canEnterDoors);
+        return WalkNodeProcessor.func_176170_a(blockaccess, entityIn, x, y, z, entitySizeX, entitySizeY, entitySizeZ, avoidsWater, canBreakDoors, canEnterDoors);
     }
 
     public static int func_176170_a(IBlockAccess blockaccessIn, Entity entityIn, int x, int y, int z, int sizeX, int sizeY, int sizeZ, boolean avoidWater, boolean breakDoors, boolean enterDoors)
@@ -273,36 +273,36 @@ public class WalkNodeProcessor extends NodeProcessor
 
     public void setEnterDoors(boolean canEnterDoorsIn)
     {
-        this.canEnterDoors = canEnterDoorsIn;
+        canEnterDoors = canEnterDoorsIn;
     }
 
     public void setBreakDoors(boolean canBreakDoorsIn)
     {
-        this.canBreakDoors = canBreakDoorsIn;
+        canBreakDoors = canBreakDoorsIn;
     }
 
     public void setAvoidsWater(boolean avoidsWaterIn)
     {
-        this.avoidsWater = avoidsWaterIn;
+        avoidsWater = avoidsWaterIn;
     }
 
     public void setCanSwim(boolean canSwimIn)
     {
-        this.canSwim = canSwimIn;
+        canSwim = canSwimIn;
     }
 
     public boolean getEnterDoors()
     {
-        return this.canEnterDoors;
+        return canEnterDoors;
     }
 
     public boolean getCanSwim()
     {
-        return this.canSwim;
+        return canSwim;
     }
 
     public boolean getAvoidsWater()
     {
-        return this.avoidsWater;
+        return avoidsWater;
     }
 }

@@ -23,13 +23,13 @@ public class DestroyBlockProgress
 
     public DestroyBlockProgress(int miningPlayerEntIdIn, BlockPos positionIn)
     {
-        this.miningPlayerEntId = miningPlayerEntIdIn;
-        this.position = positionIn;
+        miningPlayerEntId = miningPlayerEntIdIn;
+        position = positionIn;
     }
 
     public BlockPos getPosition()
     {
-        return this.position;
+        return position;
     }
 
     /**
@@ -43,12 +43,12 @@ public class DestroyBlockProgress
             damage = 10;
         }
 
-        this.partialBlockProgress = damage;
+        partialBlockProgress = damage;
     }
 
     public int getPartialBlockDamage()
     {
-        return this.partialBlockProgress;
+        return partialBlockProgress;
     }
 
     /**
@@ -56,7 +56,7 @@ public class DestroyBlockProgress
      */
     public void setCloudUpdateTick(int createdAtCloudUpdateTickIn)
     {
-        this.createdAtCloudUpdateTick = createdAtCloudUpdateTickIn;
+        createdAtCloudUpdateTick = createdAtCloudUpdateTickIn;
     }
 
     /**
@@ -64,6 +64,6 @@ public class DestroyBlockProgress
      */
     public int getCreationCloudUpdateTick()
     {
-        return this.createdAtCloudUpdateTick;
+        return createdAtCloudUpdateTick;
     }
 }

@@ -23,6 +23,6 @@ public class RenderSilverfish extends RenderLiving<EntitySilverfish>
      */
     protected ResourceLocation getEntityTexture(EntitySilverfish entity)
     {
-        return silverfishTextures;
+        return RenderSilverfish.silverfishTextures;
     }
 }

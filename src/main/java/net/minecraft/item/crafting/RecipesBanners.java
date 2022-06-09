@@ -19,7 +19,7 @@ public class RecipesBanners
     {
         for (EnumDyeColor enumdyecolor : EnumDyeColor.values())
         {
-            p_179534_1_.addRecipe(new ItemStack(Items.banner, 1, enumdyecolor.getDyeDamage()), new Object[] {"###", "###", " | ", '#', new ItemStack(Blocks.wool, 1, enumdyecolor.getMetadata()), '|', Items.stick});
+            p_179534_1_.addRecipe(new ItemStack(Items.banner, 1, enumdyecolor.getDyeDamage()), "###", "###", " | ", '#', new ItemStack(Blocks.wool, 1, enumdyecolor.getMetadata()), '|', Items.stick);
         }
 
         p_179534_1_.addRecipe(new RecipesBanners.RecipeDuplicatePattern());
@@ -62,7 +62,7 @@ public class RecipesBanners
             }
             else
             {
-                return this.func_179533_c(inv) != null;
+                return func_179533_c(inv) != null;
             }
         }
 
@@ -82,7 +82,7 @@ public class RecipesBanners
                 }
             }
 
-            TileEntityBanner.EnumBannerPattern tileentitybanner$enumbannerpattern = this.func_179533_c(inv);
+            TileEntityBanner.EnumBannerPattern tileentitybanner$enumbannerpattern = func_179533_c(inv);
 
             if (tileentitybanner$enumbannerpattern != null)
             {

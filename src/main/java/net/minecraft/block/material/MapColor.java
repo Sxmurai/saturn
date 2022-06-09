@@ -54,9 +54,9 @@ public class MapColor
     {
         if (index >= 0 && index <= 63)
         {
-            this.colorIndex = index;
-            this.colorValue = color;
-            mapColorArray[index] = this;
+            colorIndex = index;
+            colorValue = color;
+            MapColor.mapColorArray[index] = this;
         }
         else
         {
@@ -88,9 +88,9 @@ public class MapColor
             short1 = 180;
         }
 
-        int i = (this.colorValue >> 16 & 255) * short1 / 255;
-        int j = (this.colorValue >> 8 & 255) * short1 / 255;
-        int k = (this.colorValue & 255) * short1 / 255;
+        int i = (colorValue >> 16 & 255) * short1 / 255;
+        int j = (colorValue >> 8 & 255) * short1 / 255;
+        int k = (colorValue & 255) * short1 / 255;
         return -16777216 | i << 16 | j << 8 | k;
     }
 }

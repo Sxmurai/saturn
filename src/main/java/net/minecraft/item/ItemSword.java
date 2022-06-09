@@ -14,16 +14,16 @@ import net.minecraft.world.World;
 
 public class ItemSword extends Item
 {
-    private float attackDamage;
+    private final float attackDamage;
     private final Item.ToolMaterial material;
 
     public ItemSword(Item.ToolMaterial material)
     {
         this.material = material;
-        this.maxStackSize = 1;
-        this.setMaxDamage(material.getMaxUses());
-        this.setCreativeTab(CreativeTabs.tabCombat);
-        this.attackDamage = 4.0F + material.getDamageVsEntity();
+        maxStackSize = 1;
+        setMaxDamage(material.getMaxUses());
+        setCreativeTab(CreativeTabs.tabCombat);
+        attackDamage = 4.0F + material.getDamageVsEntity();
     }
 
     /**
@@ -31,7 +31,7 @@ public class ItemSword extends Item
      */
     public float getDamageVsEntity()
     {
-        return this.material.getDamageVsEntity();
+        return material.getDamageVsEntity();
     }
 
     public float getStrVsBlock(ItemStack stack, Block block)
@@ -99,7 +99,7 @@ public class ItemSword extends Item
      */
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
-        playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+        playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
         return itemStackIn;
     }
 
@@ -116,7 +116,7 @@ public class ItemSword extends Item
      */
     public int getItemEnchantability()
     {
-        return this.material.getEnchantability();
+        return material.getEnchantability();
     }
 
     /**
@@ -124,7 +124,7 @@ public class ItemSword extends Item
      */
     public String getToolMaterialName()
     {
-        return this.material.toString();
+        return material.toString();
     }
 
     /**
@@ -132,13 +132,13 @@ public class ItemSword extends Item
      */
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
-        return this.material.getRepairItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
+        return material.getRepairItem() == repair.getItem() || super.getIsRepairable(toRepair, repair);
     }
 
     public Multimap<String, AttributeModifier> getItemAttributeModifiers()
     {
         Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Weapon modifier", (double)this.attackDamage, 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(Item.itemModifierUUID, "Weapon modifier", attackDamage, 0));
         return multimap;
     }
 }

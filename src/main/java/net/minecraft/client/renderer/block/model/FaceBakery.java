@@ -23,17 +23,17 @@ public class FaceBakery
 
     public BakedQuad makeBakedQuad(Vector3f posFrom, Vector3f posTo, BlockPartFace face, TextureAtlasSprite sprite, EnumFacing facing, ModelRotation modelRotationIn, BlockPartRotation partRotation, boolean uvLocked, boolean shade)
     {
-        int[] aint = this.makeQuadVertexData(face, sprite, facing, this.getPositionsDiv16(posFrom, posTo), modelRotationIn, partRotation, uvLocked, shade);
-        EnumFacing enumfacing = getFacingFromVertexData(aint);
+        int[] aint = makeQuadVertexData(face, sprite, facing, getPositionsDiv16(posFrom, posTo), modelRotationIn, partRotation, uvLocked, shade);
+        EnumFacing enumfacing = FaceBakery.getFacingFromVertexData(aint);
 
         if (uvLocked)
         {
-            this.func_178409_a(aint, enumfacing, face.blockFaceUV, sprite);
+            func_178409_a(aint, enumfacing, face.blockFaceUV, sprite);
         }
 
         if (partRotation == null)
         {
-            this.applyFacing(aint, enumfacing);
+            applyFacing(aint, enumfacing);
         }
 
         return new BakedQuad(aint, face.tintIndex, enumfacing, sprite);
@@ -41,22 +41,22 @@ public class FaceBakery
 
     public BakedQuad makeBakedQuad(Vector3f p_makeBakedQuad_1_, Vector3f p_makeBakedQuad_2_, BlockPartFace p_makeBakedQuad_3_, TextureAtlasSprite p_makeBakedQuad_4_, EnumFacing p_makeBakedQuad_5_, ITransformation p_makeBakedQuad_6_, BlockPartRotation p_makeBakedQuad_7_, boolean p_makeBakedQuad_8_, boolean p_makeBakedQuad_9_)
     {
-        int[] aint = this.makeQuadVertexData(p_makeBakedQuad_3_, p_makeBakedQuad_4_, p_makeBakedQuad_5_, this.getPositionsDiv16(p_makeBakedQuad_1_, p_makeBakedQuad_2_), p_makeBakedQuad_6_, p_makeBakedQuad_7_, p_makeBakedQuad_8_, p_makeBakedQuad_9_);
-        EnumFacing enumfacing = getFacingFromVertexData(aint);
+        int[] aint = makeQuadVertexData(p_makeBakedQuad_3_, p_makeBakedQuad_4_, p_makeBakedQuad_5_, getPositionsDiv16(p_makeBakedQuad_1_, p_makeBakedQuad_2_), p_makeBakedQuad_6_, p_makeBakedQuad_7_, p_makeBakedQuad_8_, p_makeBakedQuad_9_);
+        EnumFacing enumfacing = FaceBakery.getFacingFromVertexData(aint);
 
         if (p_makeBakedQuad_8_)
         {
-            this.func_178409_a(aint, enumfacing, p_makeBakedQuad_3_.blockFaceUV, p_makeBakedQuad_4_);
+            func_178409_a(aint, enumfacing, p_makeBakedQuad_3_.blockFaceUV, p_makeBakedQuad_4_);
         }
 
         if (p_makeBakedQuad_7_ == null)
         {
-            this.applyFacing(aint, enumfacing);
+            applyFacing(aint, enumfacing);
         }
 
         if (Reflector.ForgeHooksClient_fillNormal.exists())
         {
-            Reflector.callVoid(Reflector.ForgeHooksClient_fillNormal, new Object[] {aint, enumfacing});
+            Reflector.callVoid(Reflector.ForgeHooksClient_fillNormal, aint, enumfacing);
         }
 
         return new BakedQuad(aint, p_makeBakedQuad_3_.tintIndex, enumfacing, p_makeBakedQuad_4_);
@@ -75,7 +75,7 @@ public class FaceBakery
 
         for (int j = 0; j < 4; ++j)
         {
-            this.fillVertexData(aint, j, p_makeQuadVertexData_3_, p_makeQuadVertexData_1_, p_makeQuadVertexData_4_, p_makeQuadVertexData_2_, p_makeQuadVertexData_5_, p_makeQuadVertexData_6_, p_makeQuadVertexData_7_, p_makeQuadVertexData_8_);
+            fillVertexData(aint, j, p_makeQuadVertexData_3_, p_makeQuadVertexData_1_, p_makeQuadVertexData_4_, p_makeQuadVertexData_2_, p_makeQuadVertexData_5_, p_makeQuadVertexData_6_, p_makeQuadVertexData_7_, p_makeQuadVertexData_8_);
         }
 
         return aint;
@@ -83,7 +83,7 @@ public class FaceBakery
 
     private int getFaceShadeColor(EnumFacing facing)
     {
-        float f = this.getFaceBrightness(facing);
+        float f = getFaceBrightness(facing);
         int i = MathHelper.clamp_int((int)(f * 255.0F), 0, 255);
         return -16777216 | i << 16 | i << 8 | i;
     }
@@ -141,12 +141,12 @@ public class FaceBakery
     private void fillVertexData(int[] p_fillVertexData_1_, int p_fillVertexData_2_, EnumFacing p_fillVertexData_3_, BlockPartFace p_fillVertexData_4_, float[] p_fillVertexData_5_, TextureAtlasSprite p_fillVertexData_6_, ITransformation p_fillVertexData_7_, BlockPartRotation p_fillVertexData_8_, boolean p_fillVertexData_9_, boolean p_fillVertexData_10_)
     {
         EnumFacing enumfacing = p_fillVertexData_7_.rotate(p_fillVertexData_3_);
-        int i = p_fillVertexData_10_ ? this.getFaceShadeColor(enumfacing) : -1;
+        int i = p_fillVertexData_10_ ? getFaceShadeColor(enumfacing) : -1;
         EnumFaceDirection.VertexInformation enumfacedirection$vertexinformation = EnumFaceDirection.getFacing(p_fillVertexData_3_).func_179025_a(p_fillVertexData_2_);
         Vector3f vector3f = new Vector3f(p_fillVertexData_5_[enumfacedirection$vertexinformation.field_179184_a], p_fillVertexData_5_[enumfacedirection$vertexinformation.field_179182_b], p_fillVertexData_5_[enumfacedirection$vertexinformation.field_179183_c]);
-        this.func_178407_a(vector3f, p_fillVertexData_8_);
-        int j = this.rotateVertex(vector3f, p_fillVertexData_3_, p_fillVertexData_2_, p_fillVertexData_7_, p_fillVertexData_9_);
-        this.storeVertexData(p_fillVertexData_1_, j, p_fillVertexData_2_, vector3f, i, p_fillVertexData_6_, p_fillVertexData_4_.blockFaceUV);
+        func_178407_a(vector3f, p_fillVertexData_8_);
+        int j = rotateVertex(vector3f, p_fillVertexData_3_, p_fillVertexData_2_, p_fillVertexData_7_, p_fillVertexData_9_);
+        storeVertexData(p_fillVertexData_1_, j, p_fillVertexData_2_, vector3f, i, p_fillVertexData_6_, p_fillVertexData_4_.blockFaceUV);
     }
 
     private void storeVertexData(int[] faceData, int storeIndex, int vertexIndex, Vector3f position, int shadeColor, TextureAtlasSprite sprite, BlockFaceUV faceUV)
@@ -157,15 +157,15 @@ public class FaceBakery
         faceData[j + 1] = Float.floatToRawIntBits(position.y);
         faceData[j + 2] = Float.floatToRawIntBits(position.z);
         faceData[j + 3] = shadeColor;
-        faceData[j + 4] = Float.floatToRawIntBits(sprite.getInterpolatedU((double)faceUV.func_178348_a(vertexIndex)));
-        faceData[j + 4 + 1] = Float.floatToRawIntBits(sprite.getInterpolatedV((double)faceUV.func_178346_b(vertexIndex)));
+        faceData[j + 4] = Float.floatToRawIntBits(sprite.getInterpolatedU(faceUV.func_178348_a(vertexIndex)));
+        faceData[j + 4 + 1] = Float.floatToRawIntBits(sprite.getInterpolatedV(faceUV.func_178346_b(vertexIndex)));
     }
 
     private void func_178407_a(Vector3f p_178407_1_, BlockPartRotation partRotation)
     {
         if (partRotation != null)
         {
-            Matrix4f matrix4f = this.getMatrixIdentity();
+            Matrix4f matrix4f = getMatrixIdentity();
             Vector3f vector3f = new Vector3f(0.0F, 0.0F, 0.0F);
 
             switch (FaceBakery.FaceBakery$1.field_178399_b[partRotation.axis.ordinal()])
@@ -189,11 +189,11 @@ public class FaceBakery
             {
                 if (Math.abs(partRotation.angle) == 22.5F)
                 {
-                    vector3f.scale(field_178418_a);
+                    vector3f.scale(FaceBakery.field_178418_a);
                 }
                 else
                 {
-                    vector3f.scale(field_178417_b);
+                    vector3f.scale(FaceBakery.field_178417_b);
                 }
 
                 Vector3f.add(vector3f, new Vector3f(1.0F, 1.0F, 1.0F), vector3f);
@@ -203,13 +203,13 @@ public class FaceBakery
                 vector3f.set(1.0F, 1.0F, 1.0F);
             }
 
-            this.rotateScale(p_178407_1_, new Vector3f(partRotation.origin), matrix4f, vector3f);
+            rotateScale(p_178407_1_, new Vector3f(partRotation.origin), matrix4f, vector3f);
         }
     }
 
     public int rotateVertex(Vector3f position, EnumFacing facing, int vertexIndex, ModelRotation modelRotationIn, boolean uvLocked)
     {
-        return this.rotateVertex(position, facing, vertexIndex, modelRotationIn, uvLocked);
+        return rotateVertex(position, facing, vertexIndex, modelRotationIn, uvLocked);
     }
 
     public int rotateVertex(Vector3f p_rotateVertex_1_, EnumFacing p_rotateVertex_2_, int p_rotateVertex_3_, ITransformation p_rotateVertex_4_, boolean p_rotateVertex_5_)
@@ -222,11 +222,11 @@ public class FaceBakery
         {
             if (Reflector.ForgeHooksClient_transform.exists())
             {
-                Reflector.call(Reflector.ForgeHooksClient_transform, new Object[] {p_rotateVertex_1_, p_rotateVertex_4_.getMatrix()});
+                Reflector.call(Reflector.ForgeHooksClient_transform, p_rotateVertex_1_, p_rotateVertex_4_.getMatrix());
             }
             else
             {
-                this.rotateScale(p_rotateVertex_1_, new Vector3f(0.5F, 0.5F, 0.5F), ((ModelRotation)p_rotateVertex_4_).getMatrix4d(), new Vector3f(1.0F, 1.0F, 1.0F));
+                rotateScale(p_rotateVertex_1_, new Vector3f(0.5F, 0.5F, 0.5F), ((ModelRotation)p_rotateVertex_4_).getMatrix4d(), new Vector3f(1.0F, 1.0F, 1.0F));
             }
 
             return p_rotateVertex_4_.rotate(p_rotateVertex_2_, p_rotateVertex_3_);
@@ -264,7 +264,7 @@ public class FaceBakery
         Vector3f.sub(vector3f, vector3f1, vector3f3);
         Vector3f.sub(vector3f2, vector3f1, vector3f4);
         Vector3f.cross(vector3f4, vector3f3, vector3f5);
-        float f = (float)Math.sqrt((double)(vector3f5.x * vector3f5.x + vector3f5.y * vector3f5.y + vector3f5.z * vector3f5.z));
+        float f = (float)Math.sqrt(vector3f5.x * vector3f5.x + vector3f5.y * vector3f5.y + vector3f5.z * vector3f5.z);
         vector3f5.x /= f;
         vector3f5.y /= f;
         vector3f5.z /= f;
@@ -303,7 +303,7 @@ public class FaceBakery
     {
         for (int i = 0; i < 4; ++i)
         {
-            this.func_178401_a(i, p_178409_1_, facing, p_178409_3_, p_178409_4_);
+            func_178401_a(i, p_178409_1_, facing, p_178409_3_, p_178409_4_);
         }
     }
 
@@ -446,8 +446,8 @@ public class FaceBakery
         }
 
         int k = p_178401_4_.func_178345_c(p_178401_1_) * i;
-        p_178401_2_[k + 4] = Float.floatToRawIntBits(p_178401_5_.getInterpolatedU((double)f3));
-        p_178401_2_[k + 4 + 1] = Float.floatToRawIntBits(p_178401_5_.getInterpolatedV((double)f4));
+        p_178401_2_[k + 4] = Float.floatToRawIntBits(p_178401_5_.getInterpolatedU(f3));
+        p_178401_2_[k + 4 + 1] = Float.floatToRawIntBits(p_178401_5_.getInterpolatedV(f4));
     }
 
     static final class FaceBakery$1
@@ -460,85 +460,76 @@ public class FaceBakery
         {
             try
             {
-                field_178399_b[EnumFacing.Axis.X.ordinal()] = 1;
+                FaceBakery$1.field_178399_b[EnumFacing.Axis.X.ordinal()] = 1;
             }
             catch (NoSuchFieldError var9)
             {
-                ;
             }
 
             try
             {
-                field_178399_b[EnumFacing.Axis.Y.ordinal()] = 2;
+                FaceBakery$1.field_178399_b[EnumFacing.Axis.Y.ordinal()] = 2;
             }
             catch (NoSuchFieldError var8)
             {
-                ;
             }
 
             try
             {
-                field_178399_b[EnumFacing.Axis.Z.ordinal()] = 3;
+                FaceBakery$1.field_178399_b[EnumFacing.Axis.Z.ordinal()] = 3;
             }
             catch (NoSuchFieldError var7)
             {
-                ;
             }
 
             field_178400_a = new int[EnumFacing.values().length];
 
             try
             {
-                field_178400_a[EnumFacing.DOWN.ordinal()] = 1;
+                FaceBakery$1.field_178400_a[EnumFacing.DOWN.ordinal()] = 1;
             }
             catch (NoSuchFieldError var6)
             {
-                ;
             }
 
             try
             {
-                field_178400_a[EnumFacing.UP.ordinal()] = 2;
+                FaceBakery$1.field_178400_a[EnumFacing.UP.ordinal()] = 2;
             }
             catch (NoSuchFieldError var5)
             {
-                ;
             }
 
             try
             {
-                field_178400_a[EnumFacing.NORTH.ordinal()] = 3;
+                FaceBakery$1.field_178400_a[EnumFacing.NORTH.ordinal()] = 3;
             }
             catch (NoSuchFieldError var4)
             {
-                ;
             }
 
             try
             {
-                field_178400_a[EnumFacing.SOUTH.ordinal()] = 4;
+                FaceBakery$1.field_178400_a[EnumFacing.SOUTH.ordinal()] = 4;
             }
             catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
-                field_178400_a[EnumFacing.WEST.ordinal()] = 5;
+                FaceBakery$1.field_178400_a[EnumFacing.WEST.ordinal()] = 5;
             }
             catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
-                field_178400_a[EnumFacing.EAST.ordinal()] = 6;
+                FaceBakery$1.field_178400_a[EnumFacing.EAST.ordinal()] = 6;
             }
             catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

@@ -17,8 +17,8 @@ public class EntityAIDefendVillage extends EntityAITarget
     public EntityAIDefendVillage(EntityIronGolem ironGolemIn)
     {
         super(ironGolemIn, false, true);
-        this.irongolem = ironGolemIn;
-        this.setMutexBits(1);
+        irongolem = ironGolemIn;
+        setMutexBits(1);
     }
 
     /**
@@ -26,7 +26,7 @@ public class EntityAIDefendVillage extends EntityAITarget
      */
     public boolean shouldExecute()
     {
-        Village village = this.irongolem.getVillage();
+        Village village = irongolem.getVillage();
 
         if (village == null)
         {
@@ -34,18 +34,18 @@ public class EntityAIDefendVillage extends EntityAITarget
         }
         else
         {
-            this.villageAgressorTarget = village.findNearestVillageAggressor(this.irongolem);
+            villageAgressorTarget = village.findNearestVillageAggressor(irongolem);
 
-            if (this.villageAgressorTarget instanceof EntityCreeper)
+            if (villageAgressorTarget instanceof EntityCreeper)
             {
                 return false;
             }
-            else if (!this.isSuitableTarget(this.villageAgressorTarget, false))
+            else if (!isSuitableTarget(villageAgressorTarget, false))
             {
-                if (this.taskOwner.getRNG().nextInt(20) == 0)
+                if (taskOwner.getRNG().nextInt(20) == 0)
                 {
-                    this.villageAgressorTarget = village.getNearestTargetPlayer(this.irongolem);
-                    return this.isSuitableTarget(this.villageAgressorTarget, false);
+                    villageAgressorTarget = village.getNearestTargetPlayer(irongolem);
+                    return isSuitableTarget(villageAgressorTarget, false);
                 }
                 else
                 {
@@ -64,7 +64,7 @@ public class EntityAIDefendVillage extends EntityAITarget
      */
     public void startExecuting()
     {
-        this.irongolem.setAttackTarget(this.villageAgressorTarget);
+        irongolem.setAttackTarget(villageAgressorTarget);
         super.startExecuting();
     }
 }

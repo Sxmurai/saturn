@@ -13,12 +13,12 @@ public class ShaderLinkHelper
 
     public static void setNewStaticShaderLinkHelper()
     {
-        staticShaderLinkHelper = new ShaderLinkHelper();
+        ShaderLinkHelper.staticShaderLinkHelper = new ShaderLinkHelper();
     }
 
     public static ShaderLinkHelper getStaticShaderLinkHelper()
     {
-        return staticShaderLinkHelper;
+        return ShaderLinkHelper.staticShaderLinkHelper;
     }
 
     public void deleteShader(ShaderManager p_148077_1_)
@@ -51,8 +51,8 @@ public class ShaderLinkHelper
 
         if (i == 0)
         {
-            logger.warn("Error encountered when linking program containing VS " + manager.getVertexShaderLoader().getShaderFilename() + " and FS " + manager.getFragmentShaderLoader().getShaderFilename() + ". Log output:");
-            logger.warn(OpenGlHelper.glGetProgramInfoLog(manager.getProgram(), 32768));
+            ShaderLinkHelper.logger.warn("Error encountered when linking program containing VS " + manager.getVertexShaderLoader().getShaderFilename() + " and FS " + manager.getFragmentShaderLoader().getShaderFilename() + ". Log output:");
+            ShaderLinkHelper.logger.warn(OpenGlHelper.glGetProgramInfoLog(manager.getProgram(), 32768));
         }
     }
 }

@@ -21,14 +21,14 @@ public class Util
         }
         catch (ExecutionException executionexception)
         {
-            p_181617_1_.fatal((String)"Error executing task", (Throwable)executionexception);
+            p_181617_1_.fatal("Error executing task", executionexception);
         }
         catch (InterruptedException interruptedexception)
         {
-            p_181617_1_.fatal((String)"Error executing task", (Throwable)interruptedexception);
+            p_181617_1_.fatal("Error executing task", interruptedexception);
         }
 
-        return (V)null;
+        return null;
     }
 
     public static enum EnumOS
@@ -37,6 +37,6 @@ public class Util
         SOLARIS,
         WINDOWS,
         OSX,
-        UNKNOWN;
+        UNKNOWN
     }
 }

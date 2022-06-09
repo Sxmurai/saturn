@@ -14,7 +14,7 @@ import net.minecraft.world.gen.feature.WorldGenForest;
 
 public class BiomeGenForest extends BiomeGenBase
 {
-    private int field_150632_aF;
+    private final int field_150632_aF;
     protected static final WorldGenForest field_150629_aC = new WorldGenForest(false, true);
     protected static final WorldGenForest field_150630_aD = new WorldGenForest(false, false);
     protected static final WorldGenCanopyTree field_150631_aE = new WorldGenCanopyTree(false);
@@ -22,48 +22,48 @@ public class BiomeGenForest extends BiomeGenBase
     public BiomeGenForest(int p_i45377_1_, int p_i45377_2_)
     {
         super(p_i45377_1_);
-        this.field_150632_aF = p_i45377_2_;
-        this.theBiomeDecorator.treesPerChunk = 10;
-        this.theBiomeDecorator.grassPerChunk = 2;
+        field_150632_aF = p_i45377_2_;
+        theBiomeDecorator.treesPerChunk = 10;
+        theBiomeDecorator.grassPerChunk = 2;
 
-        if (this.field_150632_aF == 1)
+        if (field_150632_aF == 1)
         {
-            this.theBiomeDecorator.treesPerChunk = 6;
-            this.theBiomeDecorator.flowersPerChunk = 100;
-            this.theBiomeDecorator.grassPerChunk = 1;
+            theBiomeDecorator.treesPerChunk = 6;
+            theBiomeDecorator.flowersPerChunk = 100;
+            theBiomeDecorator.grassPerChunk = 1;
         }
 
-        this.setFillerBlockMetadata(5159473);
-        this.setTemperatureRainfall(0.7F, 0.8F);
+        setFillerBlockMetadata(5159473);
+        setTemperatureRainfall(0.7F, 0.8F);
 
-        if (this.field_150632_aF == 2)
+        if (field_150632_aF == 2)
         {
-            this.field_150609_ah = 353825;
-            this.color = 3175492;
-            this.setTemperatureRainfall(0.6F, 0.6F);
+            field_150609_ah = 353825;
+            color = 3175492;
+            setTemperatureRainfall(0.6F, 0.6F);
         }
 
-        if (this.field_150632_aF == 0)
+        if (field_150632_aF == 0)
         {
-            this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityWolf.class, 5, 4, 4));
+            spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityWolf.class, 5, 4, 4));
         }
 
-        if (this.field_150632_aF == 3)
+        if (field_150632_aF == 3)
         {
-            this.theBiomeDecorator.treesPerChunk = -999;
+            theBiomeDecorator.treesPerChunk = -999;
         }
     }
 
     protected BiomeGenBase func_150557_a(int p_150557_1_, boolean p_150557_2_)
     {
-        if (this.field_150632_aF == 2)
+        if (field_150632_aF == 2)
         {
-            this.field_150609_ah = 353825;
-            this.color = p_150557_1_;
+            field_150609_ah = 353825;
+            color = p_150557_1_;
 
             if (p_150557_2_)
             {
-                this.field_150609_ah = (this.field_150609_ah & 16711422) >> 1;
+                field_150609_ah = (field_150609_ah & 16711422) >> 1;
             }
 
             return this;
@@ -76,14 +76,14 @@ public class BiomeGenForest extends BiomeGenBase
 
     public WorldGenAbstractTree genBigTreeChance(Random rand)
     {
-        return (WorldGenAbstractTree)(this.field_150632_aF == 3 && rand.nextInt(3) > 0 ? field_150631_aE : (this.field_150632_aF != 2 && rand.nextInt(5) != 0 ? this.worldGeneratorTrees : field_150630_aD));
+        return field_150632_aF == 3 && rand.nextInt(3) > 0 ? BiomeGenForest.field_150631_aE : (field_150632_aF != 2 && rand.nextInt(5) != 0 ? worldGeneratorTrees : BiomeGenForest.field_150630_aD);
     }
 
     public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos)
     {
-        if (this.field_150632_aF == 1)
+        if (field_150632_aF == 1)
         {
-            double d0 = MathHelper.clamp_double((1.0D + GRASS_COLOR_NOISE.func_151601_a((double)pos.getX() / 48.0D, (double)pos.getZ() / 48.0D)) / 2.0D, 0.0D, 0.9999D);
+            double d0 = MathHelper.clamp_double((1.0D + BiomeGenBase.GRASS_COLOR_NOISE.func_151601_a((double)pos.getX() / 48.0D, (double)pos.getZ() / 48.0D)) / 2.0D, 0.0D, 0.9999D);
             BlockFlower.EnumFlowerType blockflower$enumflowertype = BlockFlower.EnumFlowerType.values()[(int)(d0 * (double)BlockFlower.EnumFlowerType.values().length)];
             return blockflower$enumflowertype == BlockFlower.EnumFlowerType.BLUE_ORCHID ? BlockFlower.EnumFlowerType.POPPY : blockflower$enumflowertype;
         }
@@ -95,7 +95,7 @@ public class BiomeGenForest extends BiomeGenBase
 
     public void decorate(World worldIn, Random rand, BlockPos pos)
     {
-        if (this.field_150632_aF == 3)
+        if (field_150632_aF == 3)
         {
             for (int i = 0; i < 4; ++i)
             {
@@ -112,7 +112,7 @@ public class BiomeGenForest extends BiomeGenBase
                     }
                     else
                     {
-                        WorldGenAbstractTree worldgenabstracttree = this.genBigTreeChance(rand);
+                        WorldGenAbstractTree worldgenabstracttree = genBigTreeChance(rand);
                         worldgenabstracttree.func_175904_e();
 
                         if (worldgenabstracttree.generate(worldIn, rand, blockpos))
@@ -126,7 +126,7 @@ public class BiomeGenForest extends BiomeGenBase
 
         int j1 = rand.nextInt(5) - 3;
 
-        if (this.field_150632_aF == 1)
+        if (field_150632_aF == 1)
         {
             j1 += 2;
         }
@@ -137,15 +137,15 @@ public class BiomeGenForest extends BiomeGenBase
 
             if (l1 == 0)
             {
-                DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.SYRINGA);
+                BiomeGenBase.DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.SYRINGA);
             }
             else if (l1 == 1)
             {
-                DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.ROSE);
+                BiomeGenBase.DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.ROSE);
             }
             else if (l1 == 2)
             {
-                DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.PAEONIA);
+                BiomeGenBase.DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.PAEONIA);
             }
 
             for (int i2 = 0; i2 < 5; ++i2)
@@ -154,7 +154,7 @@ public class BiomeGenForest extends BiomeGenBase
                 int k2 = rand.nextInt(16) + 8;
                 int i1 = rand.nextInt(worldIn.getHeight(pos.add(j2, 0, k2)).getY() + 32);
 
-                if (DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, new BlockPos(pos.getX() + j2, i1, pos.getZ() + k2)))
+                if (BiomeGenBase.DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, new BlockPos(pos.getX() + j2, i1, pos.getZ() + k2)))
                 {
                     break;
                 }
@@ -167,15 +167,15 @@ public class BiomeGenForest extends BiomeGenBase
     public int getGrassColorAtPos(BlockPos pos)
     {
         int i = super.getGrassColorAtPos(pos);
-        return this.field_150632_aF == 3 ? (i & 16711422) + 2634762 >> 1 : i;
+        return field_150632_aF == 3 ? (i & 16711422) + 2634762 >> 1 : i;
     }
 
     protected BiomeGenBase createMutatedBiome(final int p_180277_1_)
     {
-        if (this.biomeID == BiomeGenBase.forest.biomeID)
+        if (biomeID == BiomeGenBase.forest.biomeID)
         {
             BiomeGenForest biomegenforest = new BiomeGenForest(p_180277_1_, 1);
-            biomegenforest.setHeight(new BiomeGenBase.Height(this.minHeight, this.maxHeight + 0.2F));
+            biomegenforest.setHeight(new BiomeGenBase.Height(minHeight, maxHeight + 0.2F));
             biomegenforest.setBiomeName("Flower Forest");
             biomegenforest.func_150557_a(6976549, true);
             biomegenforest.setFillerBlockMetadata(8233509);
@@ -183,11 +183,11 @@ public class BiomeGenForest extends BiomeGenBase
         }
         else
         {
-            return this.biomeID != BiomeGenBase.birchForest.biomeID && this.biomeID != BiomeGenBase.birchForestHills.biomeID ? new BiomeGenMutated(p_180277_1_, this)
+            return biomeID != BiomeGenBase.birchForest.biomeID && biomeID != BiomeGenBase.birchForestHills.biomeID ? new BiomeGenMutated(p_180277_1_, this)
             {
                 public void decorate(World worldIn, Random rand, BlockPos pos)
                 {
-                    this.baseBiome.decorate(worldIn, rand, pos);
+                    baseBiome.decorate(worldIn, rand, pos);
                 }
             }: new BiomeGenMutated(p_180277_1_, this)
             {

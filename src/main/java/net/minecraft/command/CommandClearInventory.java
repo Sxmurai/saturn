@@ -41,27 +41,27 @@ public class CommandClearInventory extends CommandBase
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        EntityPlayerMP entityplayermp = args.length == 0 ? getCommandSenderAsPlayer(sender) : getPlayer(sender, args[0]);
-        Item item = args.length >= 2 ? getItemByText(sender, args[1]) : null;
-        int i = args.length >= 3 ? parseInt(args[2], -1) : -1;
-        int j = args.length >= 4 ? parseInt(args[3], -1) : -1;
+        EntityPlayerMP entityplayermp = args.length == 0 ? CommandBase.getCommandSenderAsPlayer(sender) : CommandBase.getPlayer(sender, args[0]);
+        Item item = args.length >= 2 ? CommandBase.getItemByText(sender, args[1]) : null;
+        int i = args.length >= 3 ? CommandBase.parseInt(args[2], -1) : -1;
+        int j = args.length >= 4 ? CommandBase.parseInt(args[3], -1) : -1;
         NBTTagCompound nbttagcompound = null;
 
         if (args.length >= 5)
         {
             try
             {
-                nbttagcompound = JsonToNBT.getTagFromJson(buildString(args, 4));
+                nbttagcompound = JsonToNBT.getTagFromJson(CommandBase.buildString(args, 4));
             }
             catch (NBTException nbtexception)
             {
-                throw new CommandException("commands.clear.tagError", new Object[] {nbtexception.getMessage()});
+                throw new CommandException("commands.clear.tagError", nbtexception.getMessage());
             }
         }
 
         if (args.length >= 2 && item == null)
         {
-            throw new CommandException("commands.clear.failure", new Object[] {entityplayermp.getName()});
+            throw new CommandException("commands.clear.failure", entityplayermp.getName());
         }
         else
         {
@@ -77,17 +77,17 @@ public class CommandClearInventory extends CommandBase
 
             if (k == 0)
             {
-                throw new CommandException("commands.clear.failure", new Object[] {entityplayermp.getName()});
+                throw new CommandException("commands.clear.failure", entityplayermp.getName());
             }
             else
             {
                 if (j == 0)
                 {
-                    sender.addChatMessage(new ChatComponentTranslation("commands.clear.testing", new Object[] {entityplayermp.getName(), Integer.valueOf(k)}));
+                    sender.addChatMessage(new ChatComponentTranslation("commands.clear.testing", entityplayermp.getName(), Integer.valueOf(k)));
                 }
                 else
                 {
-                    notifyOperators(sender, this, "commands.clear.success", new Object[] {entityplayermp.getName(), Integer.valueOf(k)});
+                    CommandBase.notifyOperators(sender, this, "commands.clear.success", entityplayermp.getName(), Integer.valueOf(k));
                 }
             }
         }
@@ -95,7 +95,7 @@ public class CommandClearInventory extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.func_147209_d()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys()) : null);
+        return args.length == 1 ? CommandBase.getListOfStringsMatchingLastWord(args, func_147209_d()) : (args.length == 2 ? CommandBase.getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys()) : null);
     }
 
     protected String[] func_147209_d()

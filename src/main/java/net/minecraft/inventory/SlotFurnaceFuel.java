@@ -16,12 +16,12 @@ public class SlotFurnaceFuel extends Slot
      */
     public boolean isItemValid(ItemStack stack)
     {
-        return TileEntityFurnace.isItemFuel(stack) || isBucket(stack);
+        return TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack);
     }
 
     public int getItemStackLimit(ItemStack stack)
     {
-        return isBucket(stack) ? 1 : super.getItemStackLimit(stack);
+        return SlotFurnaceFuel.isBucket(stack) ? 1 : super.getItemStackLimit(stack);
     }
 
     public static boolean isBucket(ItemStack stack)

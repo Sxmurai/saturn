@@ -48,17 +48,17 @@ public class CommandOp extends CommandBase
 
             if (gameprofile == null)
             {
-                throw new CommandException("commands.op.failed", new Object[] {args[0]});
+                throw new CommandException("commands.op.failed", args[0]);
             }
             else
             {
                 minecraftserver.getConfigurationManager().addOp(gameprofile);
-                notifyOperators(sender, this, "commands.op.success", new Object[] {args[0]});
+                CommandBase.notifyOperators(sender, this, "commands.op.success", args[0]);
             }
         }
         else
         {
-            throw new WrongUsageException("commands.op.usage", new Object[0]);
+            throw new WrongUsageException("commands.op.usage");
         }
     }
 
@@ -67,11 +67,11 @@ public class CommandOp extends CommandBase
         if (args.length == 1)
         {
             String s = args[args.length - 1];
-            List<String> list = Lists.<String>newArrayList();
+            List<String> list = Lists.newArrayList();
 
             for (GameProfile gameprofile : MinecraftServer.getServer().getGameProfiles())
             {
-                if (!MinecraftServer.getServer().getConfigurationManager().canSendCommands(gameprofile) && doesStringStartWith(s, gameprofile.getName()))
+                if (!MinecraftServer.getServer().getConfigurationManager().canSendCommands(gameprofile) && CommandBase.doesStringStartWith(s, gameprofile.getName()))
                 {
                     list.add(gameprofile.getName());
                 }

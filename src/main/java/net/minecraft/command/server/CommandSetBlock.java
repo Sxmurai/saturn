@@ -50,25 +50,25 @@ public class CommandSetBlock extends CommandBase
     {
         if (args.length < 4)
         {
-            throw new WrongUsageException("commands.setblock.usage", new Object[0]);
+            throw new WrongUsageException("commands.setblock.usage");
         }
         else
         {
             sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
-            BlockPos blockpos = parseBlockPos(sender, args, 0, false);
+            BlockPos blockpos = CommandBase.parseBlockPos(sender, args, 0, false);
             Block block = CommandBase.getBlockByText(sender, args[3]);
             int i = 0;
 
             if (args.length >= 5)
             {
-                i = parseInt(args[4], 0, 15);
+                i = CommandBase.parseInt(args[4], 0, 15);
             }
 
             World world = sender.getEntityWorld();
 
             if (!world.isBlockLoaded(blockpos))
             {
-                throw new CommandException("commands.setblock.outOfWorld", new Object[0]);
+                throw new CommandException("commands.setblock.outOfWorld");
             }
             else
             {
@@ -77,7 +77,7 @@ public class CommandSetBlock extends CommandBase
 
                 if (args.length >= 7 && block.hasTileEntity())
                 {
-                    String s = getChatComponentFromNthArg(sender, args, 6).getUnformattedText();
+                    String s = CommandBase.getChatComponentFromNthArg(sender, args, 6).getUnformattedText();
 
                     try
                     {
@@ -86,7 +86,7 @@ public class CommandSetBlock extends CommandBase
                     }
                     catch (NBTException nbtexception)
                     {
-                        throw new CommandException("commands.setblock.tagError", new Object[] {nbtexception.getMessage()});
+                        throw new CommandException("commands.setblock.tagError", nbtexception.getMessage());
                     }
                 }
 
@@ -98,13 +98,13 @@ public class CommandSetBlock extends CommandBase
 
                         if (block == Blocks.air)
                         {
-                            notifyOperators(sender, this, "commands.setblock.success", new Object[0]);
+                            CommandBase.notifyOperators(sender, this, "commands.setblock.success");
                             return;
                         }
                     }
                     else if (args[5].equals("keep") && !world.isAirBlock(blockpos))
                     {
-                        throw new CommandException("commands.setblock.noChange", new Object[0]);
+                        throw new CommandException("commands.setblock.noChange");
                     }
                 }
 
@@ -124,7 +124,7 @@ public class CommandSetBlock extends CommandBase
 
                 if (!world.setBlockState(blockpos, iblockstate, 2))
                 {
-                    throw new CommandException("commands.setblock.noChange", new Object[0]);
+                    throw new CommandException("commands.setblock.noChange");
                 }
                 else
                 {
@@ -143,7 +143,7 @@ public class CommandSetBlock extends CommandBase
 
                     world.notifyNeighborsRespectDebug(blockpos, iblockstate.getBlock());
                     sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 1);
-                    notifyOperators(sender, this, "commands.setblock.success", new Object[0]);
+                    CommandBase.notifyOperators(sender, this, "commands.setblock.success");
                 }
             }
         }
@@ -151,6 +151,6 @@ public class CommandSetBlock extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length > 0 && args.length <= 3 ? func_175771_a(args, 0, pos) : (args.length == 4 ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : (args.length == 6 ? getListOfStringsMatchingLastWord(args, new String[] {"replace", "destroy", "keep"}): null));
+        return args.length > 0 && args.length <= 3 ? CommandBase.func_175771_a(args, 0, pos) : (args.length == 4 ? CommandBase.getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : (args.length == 6 ? CommandBase.getListOfStringsMatchingLastWord(args, "replace", "destroy", "keep"): null));
     }
 }

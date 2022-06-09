@@ -3,7 +3,7 @@ package net.minecraft.block.state.pattern;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 import java.util.Map;
-import java.util.Map.Entry;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockState;
@@ -12,11 +12,11 @@ import net.minecraft.block.state.IBlockState;
 public class BlockStateHelper implements Predicate<IBlockState>
 {
     private final BlockState blockstate;
-    private final Map<IProperty, Predicate> propertyPredicates = Maps.<IProperty, Predicate>newHashMap();
+    private final Map<IProperty, Predicate> propertyPredicates = Maps.newHashMap();
 
     private BlockStateHelper(BlockState blockStateIn)
     {
-        this.blockstate = blockStateIn;
+        blockstate = blockStateIn;
     }
 
     public static BlockStateHelper forBlock(Block blockIn)
@@ -26,13 +26,13 @@ public class BlockStateHelper implements Predicate<IBlockState>
 
     public boolean apply(IBlockState p_apply_1_)
     {
-        if (p_apply_1_ != null && p_apply_1_.getBlock().equals(this.blockstate.getBlock()))
+        if (p_apply_1_ != null && p_apply_1_.getBlock().equals(blockstate.getBlock()))
         {
-            for (Entry<IProperty, Predicate> entry : this.propertyPredicates.entrySet())
+            for (Map.Entry<IProperty, Predicate> entry : propertyPredicates.entrySet())
             {
-                Object object = p_apply_1_.getValue((IProperty)entry.getKey());
+                Object object = p_apply_1_.getValue(entry.getKey());
 
-                if (!((Predicate)entry.getValue()).apply(object))
+                if (!entry.getValue().apply(object))
                 {
                     return false;
                 }
@@ -48,13 +48,13 @@ public class BlockStateHelper implements Predicate<IBlockState>
 
     public <V extends Comparable<V>> BlockStateHelper where(IProperty<V> property, Predicate <? extends V > is)
     {
-        if (!this.blockstate.getProperties().contains(property))
+        if (!blockstate.getProperties().contains(property))
         {
-            throw new IllegalArgumentException(this.blockstate + " cannot support property " + property);
+            throw new IllegalArgumentException(blockstate + " cannot support property " + property);
         }
         else
         {
-            this.propertyPredicates.put(property, is);
+            propertyPredicates.put(property, is);
             return this;
         }
     }

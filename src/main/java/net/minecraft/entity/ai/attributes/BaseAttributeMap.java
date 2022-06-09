@@ -5,23 +5,23 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Map.Entry;
+
 import net.minecraft.server.management.LowerStringMap;
 
 public abstract class BaseAttributeMap
 {
-    protected final Map<IAttribute, IAttributeInstance> attributes = Maps.<IAttribute, IAttributeInstance>newHashMap();
+    protected final Map<IAttribute, IAttributeInstance> attributes = Maps.newHashMap();
     protected final Map<String, IAttributeInstance> attributesByName = new LowerStringMap();
-    protected final Multimap<IAttribute, IAttribute> field_180377_c = HashMultimap.<IAttribute, IAttribute>create();
+    protected final Multimap<IAttribute, IAttribute> field_180377_c = HashMultimap.create();
 
     public IAttributeInstance getAttributeInstance(IAttribute attribute)
     {
-        return (IAttributeInstance)this.attributes.get(attribute);
+        return attributes.get(attribute);
     }
 
     public IAttributeInstance getAttributeInstanceByName(String attributeName)
     {
-        return (IAttributeInstance)this.attributesByName.get(attributeName);
+        return attributesByName.get(attributeName);
     }
 
     /**
@@ -29,19 +29,19 @@ public abstract class BaseAttributeMap
      */
     public IAttributeInstance registerAttribute(IAttribute attribute)
     {
-        if (this.attributesByName.containsKey(attribute.getAttributeUnlocalizedName()))
+        if (attributesByName.containsKey(attribute.getAttributeUnlocalizedName()))
         {
             throw new IllegalArgumentException("Attribute is already registered!");
         }
         else
         {
-            IAttributeInstance iattributeinstance = this.func_180376_c(attribute);
-            this.attributesByName.put(attribute.getAttributeUnlocalizedName(), iattributeinstance);
-            this.attributes.put(attribute, iattributeinstance);
+            IAttributeInstance iattributeinstance = func_180376_c(attribute);
+            attributesByName.put(attribute.getAttributeUnlocalizedName(), iattributeinstance);
+            attributes.put(attribute, iattributeinstance);
 
             for (IAttribute iattribute = attribute.func_180372_d(); iattribute != null; iattribute = iattribute.func_180372_d())
             {
-                this.field_180377_c.put(iattribute, attribute);
+                field_180377_c.put(iattribute, attribute);
             }
 
             return iattributeinstance;
@@ -52,7 +52,7 @@ public abstract class BaseAttributeMap
 
     public Collection<IAttributeInstance> getAllAttributes()
     {
-        return this.attributesByName.values();
+        return attributesByName.values();
     }
 
     public void func_180794_a(IAttributeInstance p_180794_1_)
@@ -61,7 +61,7 @@ public abstract class BaseAttributeMap
 
     public void removeAttributeModifiers(Multimap<String, AttributeModifier> p_111148_1_)
     {
-        for (Entry<String, AttributeModifier> entry : p_111148_1_.entries())
+        for (Map.Entry<String, AttributeModifier> entry : p_111148_1_.entries())
         {
             IAttributeInstance iattributeinstance = this.getAttributeInstanceByName((String)entry.getKey());
 
@@ -74,14 +74,14 @@ public abstract class BaseAttributeMap
 
     public void applyAttributeModifiers(Multimap<String, AttributeModifier> p_111147_1_)
     {
-        for (Entry<String, AttributeModifier> entry : p_111147_1_.entries())
+        for (Map.Entry<String, AttributeModifier> entry : p_111147_1_.entries())
         {
-            IAttributeInstance iattributeinstance = this.getAttributeInstanceByName((String)entry.getKey());
+            IAttributeInstance iattributeinstance = getAttributeInstanceByName(entry.getKey());
 
             if (iattributeinstance != null)
             {
-                iattributeinstance.removeModifier((AttributeModifier)entry.getValue());
-                iattributeinstance.applyModifier((AttributeModifier)entry.getValue());
+                iattributeinstance.removeModifier(entry.getValue());
+                iattributeinstance.applyModifier(entry.getValue());
             }
         }
     }

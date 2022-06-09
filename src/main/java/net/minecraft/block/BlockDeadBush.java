@@ -20,7 +20,7 @@ public class BlockDeadBush extends BlockBush
     {
         super(Material.vine);
         float f = 0.4F;
-        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.8F, 0.5F + f);
+        setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.8F, 0.5F + f);
     }
 
     /**
@@ -60,7 +60,7 @@ public class BlockDeadBush extends BlockBush
         if (!worldIn.isRemote && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears)
         {
             player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
-            spawnAsEntity(worldIn, pos, new ItemStack(Blocks.deadbush, 1, 0));
+            Block.spawnAsEntity(worldIn, pos, new ItemStack(Blocks.deadbush, 1, 0));
         }
         else
         {

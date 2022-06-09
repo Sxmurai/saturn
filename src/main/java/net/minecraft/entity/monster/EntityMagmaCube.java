@@ -12,13 +12,13 @@ public class EntityMagmaCube extends EntitySlime
     public EntityMagmaCube(World worldIn)
     {
         super(worldIn);
-        this.isImmuneToFire = true;
+        isImmuneToFire = true;
     }
 
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
+        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
     }
 
     /**
@@ -26,7 +26,7 @@ public class EntityMagmaCube extends EntitySlime
      */
     public boolean getCanSpawnHere()
     {
-        return this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL;
+        return worldObj.getDifficulty() != EnumDifficulty.PEACEFUL;
     }
 
     /**
@@ -34,7 +34,7 @@ public class EntityMagmaCube extends EntitySlime
      */
     public boolean isNotColliding()
     {
-        return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.worldObj.isAnyLiquid(this.getEntityBoundingBox());
+        return worldObj.checkNoEntityCollision(getEntityBoundingBox(), this) && worldObj.getCollidingBoundingBoxes(this, getEntityBoundingBox()).isEmpty() && !worldObj.isAnyLiquid(getEntityBoundingBox());
     }
 
     /**
@@ -42,7 +42,7 @@ public class EntityMagmaCube extends EntitySlime
      */
     public int getTotalArmorValue()
     {
-        return this.getSlimeSize() * 3;
+        return getSlimeSize() * 3;
     }
 
     public int getBrightnessForRender(float partialTicks)
@@ -65,7 +65,7 @@ public class EntityMagmaCube extends EntitySlime
 
     protected EntitySlime createInstance()
     {
-        return new EntityMagmaCube(this.worldObj);
+        return new EntityMagmaCube(worldObj);
     }
 
     protected Item getDropItem()
@@ -78,20 +78,20 @@ public class EntityMagmaCube extends EntitySlime
      */
     protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
-        Item item = this.getDropItem();
+        Item item = getDropItem();
 
-        if (item != null && this.getSlimeSize() > 1)
+        if (item != null && getSlimeSize() > 1)
         {
-            int i = this.rand.nextInt(4) - 2;
+            int i = rand.nextInt(4) - 2;
 
             if (p_70628_2_ > 0)
             {
-                i += this.rand.nextInt(p_70628_2_ + 1);
+                i += rand.nextInt(p_70628_2_ + 1);
             }
 
             for (int j = 0; j < i; ++j)
             {
-                this.dropItem(item, 1);
+                dropItem(item, 1);
             }
         }
     }
@@ -114,7 +114,7 @@ public class EntityMagmaCube extends EntitySlime
 
     protected void alterSquishAmount()
     {
-        this.squishAmount *= 0.9F;
+        squishAmount *= 0.9F;
     }
 
     /**
@@ -122,14 +122,14 @@ public class EntityMagmaCube extends EntitySlime
      */
     protected void jump()
     {
-        this.motionY = (double)(0.42F + (float)this.getSlimeSize() * 0.1F);
-        this.isAirBorne = true;
+        motionY = 0.42F + (float) getSlimeSize() * 0.1F;
+        isAirBorne = true;
     }
 
     protected void handleJumpLava()
     {
-        this.motionY = (double)(0.22F + (float)this.getSlimeSize() * 0.05F);
-        this.isAirBorne = true;
+        motionY = 0.22F + (float) getSlimeSize() * 0.05F;
+        isAirBorne = true;
     }
 
     public void fall(float distance, float damageMultiplier)
@@ -157,7 +157,7 @@ public class EntityMagmaCube extends EntitySlime
      */
     protected String getJumpSound()
     {
-        return this.getSlimeSize() > 1 ? "mob.magmacube.big" : "mob.magmacube.small";
+        return getSlimeSize() > 1 ? "mob.magmacube.big" : "mob.magmacube.small";
     }
 
     /**

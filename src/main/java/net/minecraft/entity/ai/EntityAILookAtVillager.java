@@ -5,14 +5,14 @@ import net.minecraft.entity.passive.EntityVillager;
 
 public class EntityAILookAtVillager extends EntityAIBase
 {
-    private EntityIronGolem theGolem;
+    private final EntityIronGolem theGolem;
     private EntityVillager theVillager;
     private int lookTime;
 
     public EntityAILookAtVillager(EntityIronGolem theGolemIn)
     {
-        this.theGolem = theGolemIn;
-        this.setMutexBits(3);
+        theGolem = theGolemIn;
+        setMutexBits(3);
     }
 
     /**
@@ -20,18 +20,18 @@ public class EntityAILookAtVillager extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        if (!this.theGolem.worldObj.isDaytime())
+        if (!theGolem.worldObj.isDaytime())
         {
             return false;
         }
-        else if (this.theGolem.getRNG().nextInt(8000) != 0)
+        else if (theGolem.getRNG().nextInt(8000) != 0)
         {
             return false;
         }
         else
         {
-            this.theVillager = (EntityVillager)this.theGolem.worldObj.findNearestEntityWithinAABB(EntityVillager.class, this.theGolem.getEntityBoundingBox().expand(6.0D, 2.0D, 6.0D), this.theGolem);
-            return this.theVillager != null;
+            theVillager = (EntityVillager) theGolem.worldObj.findNearestEntityWithinAABB(EntityVillager.class, theGolem.getEntityBoundingBox().expand(6.0D, 2.0D, 6.0D), theGolem);
+            return theVillager != null;
         }
     }
 
@@ -40,7 +40,7 @@ public class EntityAILookAtVillager extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return this.lookTime > 0;
+        return lookTime > 0;
     }
 
     /**
@@ -48,8 +48,8 @@ public class EntityAILookAtVillager extends EntityAIBase
      */
     public void startExecuting()
     {
-        this.lookTime = 400;
-        this.theGolem.setHoldingRose(true);
+        lookTime = 400;
+        theGolem.setHoldingRose(true);
     }
 
     /**
@@ -57,8 +57,8 @@ public class EntityAILookAtVillager extends EntityAIBase
      */
     public void resetTask()
     {
-        this.theGolem.setHoldingRose(false);
-        this.theVillager = null;
+        theGolem.setHoldingRose(false);
+        theVillager = null;
     }
 
     /**
@@ -66,7 +66,7 @@ public class EntityAILookAtVillager extends EntityAIBase
      */
     public void updateTask()
     {
-        this.theGolem.getLookHelper().setLookPositionWithEntity(this.theVillager, 30.0F, 30.0F);
-        --this.lookTime;
+        theGolem.getLookHelper().setLookPositionWithEntity(theVillager, 30.0F, 30.0F);
+        --lookTime;
     }
 }

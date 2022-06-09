@@ -20,7 +20,7 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer>
 
     public C02PacketUseEntity(Entity entity, C02PacketUseEntity.Action action)
     {
-        this.entityId = entity.getEntityId();
+        entityId = entity.getEntityId();
         this.action = action;
     }
 
@@ -35,12 +35,12 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
-        this.action = (C02PacketUseEntity.Action)buf.readEnumValue(C02PacketUseEntity.Action.class);
+        entityId = buf.readVarIntFromBuffer();
+        action = buf.readEnumValue(Action.class);
 
-        if (this.action == C02PacketUseEntity.Action.INTERACT_AT)
+        if (action == C02PacketUseEntity.Action.INTERACT_AT)
         {
-            this.hitVec = new Vec3((double)buf.readFloat(), (double)buf.readFloat(), (double)buf.readFloat());
+            hitVec = new Vec3(buf.readFloat(), buf.readFloat(), buf.readFloat());
         }
     }
 
@@ -49,14 +49,14 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        buf.writeEnumValue(this.action);
+        buf.writeVarIntToBuffer(entityId);
+        buf.writeEnumValue(action);
 
-        if (this.action == C02PacketUseEntity.Action.INTERACT_AT)
+        if (action == C02PacketUseEntity.Action.INTERACT_AT)
         {
-            buf.writeFloat((float)this.hitVec.xCoord);
-            buf.writeFloat((float)this.hitVec.yCoord);
-            buf.writeFloat((float)this.hitVec.zCoord);
+            buf.writeFloat((float) hitVec.xCoord);
+            buf.writeFloat((float) hitVec.yCoord);
+            buf.writeFloat((float) hitVec.zCoord);
         }
     }
 
@@ -70,23 +70,23 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer>
 
     public Entity getEntityFromWorld(World worldIn)
     {
-        return worldIn.getEntityByID(this.entityId);
+        return worldIn.getEntityByID(entityId);
     }
 
     public C02PacketUseEntity.Action getAction()
     {
-        return this.action;
+        return action;
     }
 
     public Vec3 getHitVec()
     {
-        return this.hitVec;
+        return hitVec;
     }
 
     public static enum Action
     {
         INTERACT,
         ATTACK,
-        INTERACT_AT;
+        INTERACT_AT
     }
 }

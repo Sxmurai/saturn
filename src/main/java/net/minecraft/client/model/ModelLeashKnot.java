@@ -13,11 +13,11 @@ public class ModelLeashKnot extends ModelBase
 
     public ModelLeashKnot(int p_i46365_1_, int p_i46365_2_, int p_i46365_3_, int p_i46365_4_)
     {
-        this.textureWidth = p_i46365_3_;
-        this.textureHeight = p_i46365_4_;
-        this.field_110723_a = new ModelRenderer(this, p_i46365_1_, p_i46365_2_);
-        this.field_110723_a.addBox(-3.0F, -6.0F, -3.0F, 6, 8, 6, 0.0F);
-        this.field_110723_a.setRotationPoint(0.0F, 0.0F, 0.0F);
+        textureWidth = p_i46365_3_;
+        textureHeight = p_i46365_4_;
+        field_110723_a = new ModelRenderer(this, p_i46365_1_, p_i46365_2_);
+        field_110723_a.addBox(-3.0F, -6.0F, -3.0F, 6, 8, 6, 0.0F);
+        field_110723_a.setRotationPoint(0.0F, 0.0F, 0.0F);
     }
 
     /**
@@ -25,8 +25,8 @@ public class ModelLeashKnot extends ModelBase
      */
     public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale)
     {
-        this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale, entityIn);
-        this.field_110723_a.render(scale);
+        setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale, entityIn);
+        field_110723_a.render(scale);
     }
 
     /**
@@ -37,7 +37,7 @@ public class ModelLeashKnot extends ModelBase
     public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn)
     {
         super.setRotationAngles(p_78087_1_, p_78087_2_, p_78087_3_, p_78087_4_, p_78087_5_, p_78087_6_, entityIn);
-        this.field_110723_a.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
-        this.field_110723_a.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
+        field_110723_a.rotateAngleY = p_78087_4_ / (180F / (float)Math.PI);
+        field_110723_a.rotateAngleX = p_78087_5_ / (180F / (float)Math.PI);
     }
 }

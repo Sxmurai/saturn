@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject
 {
-    private final List<ISpectatorMenuObject> field_178672_a = Lists.<ISpectatorMenuObject>newArrayList();
+    private final List<ISpectatorMenuObject> field_178672_a = Lists.newArrayList();
 
     public TeleportToTeam()
     {
@@ -30,13 +30,13 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject
 
         for (ScorePlayerTeam scoreplayerteam : minecraft.theWorld.getScoreboard().getTeams())
         {
-            this.field_178672_a.add(new TeleportToTeam.TeamSelectionObject(scoreplayerteam));
+            field_178672_a.add(new TeleportToTeam.TeamSelectionObject(scoreplayerteam));
         }
     }
 
     public List<ISpectatorMenuObject> func_178669_a()
     {
-        return this.field_178672_a;
+        return field_178672_a;
     }
 
     public IChatComponent func_178670_b()
@@ -62,7 +62,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject
 
     public boolean func_178662_A_()
     {
-        for (ISpectatorMenuObject ispectatormenuobject : this.field_178672_a)
+        for (ISpectatorMenuObject ispectatormenuobject : field_178672_a)
         {
             if (ispectatormenuobject.func_178662_A_())
             {
@@ -81,8 +81,8 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject
 
         public TeamSelectionObject(ScorePlayerTeam p_i45492_2_)
         {
-            this.field_178676_b = p_i45492_2_;
-            this.field_178675_d = Lists.<NetworkPlayerInfo>newArrayList();
+            field_178676_b = p_i45492_2_;
+            field_178675_d = Lists.newArrayList();
 
             for (String s : p_i45492_2_.getMembershipCollection())
             {
@@ -90,36 +90,36 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject
 
                 if (networkplayerinfo != null)
                 {
-                    this.field_178675_d.add(networkplayerinfo);
+                    field_178675_d.add(networkplayerinfo);
                 }
             }
 
-            if (!this.field_178675_d.isEmpty())
+            if (!field_178675_d.isEmpty())
             {
-                String s1 = ((NetworkPlayerInfo)this.field_178675_d.get((new Random()).nextInt(this.field_178675_d.size()))).getGameProfile().getName();
-                this.field_178677_c = AbstractClientPlayer.getLocationSkin(s1);
-                AbstractClientPlayer.getDownloadImageSkin(this.field_178677_c, s1);
+                String s1 = field_178675_d.get((new Random()).nextInt(field_178675_d.size())).getGameProfile().getName();
+                field_178677_c = AbstractClientPlayer.getLocationSkin(s1);
+                AbstractClientPlayer.getDownloadImageSkin(field_178677_c, s1);
             }
             else
             {
-                this.field_178677_c = DefaultPlayerSkin.getDefaultSkinLegacy();
+                field_178677_c = DefaultPlayerSkin.getDefaultSkinLegacy();
             }
         }
 
         public void func_178661_a(SpectatorMenu menu)
         {
-            menu.func_178647_a(new TeleportToPlayer(this.field_178675_d));
+            menu.func_178647_a(new TeleportToPlayer(field_178675_d));
         }
 
         public IChatComponent getSpectatorName()
         {
-            return new ChatComponentText(this.field_178676_b.getTeamName());
+            return new ChatComponentText(field_178676_b.getTeamName());
         }
 
         public void func_178663_a(float p_178663_1_, int alpha)
         {
             int i = -1;
-            String s = FontRenderer.getFormatFromString(this.field_178676_b.getColorPrefix());
+            String s = FontRenderer.getFormatFromString(field_178676_b.getColorPrefix());
 
             if (s.length() >= 2)
             {
@@ -134,7 +134,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject
                 Gui.drawRect(1, 1, 15, 15, MathHelper.func_180183_b(f * p_178663_1_, f1 * p_178663_1_, f2 * p_178663_1_) | alpha << 24);
             }
 
-            Minecraft.getMinecraft().getTextureManager().bindTexture(this.field_178677_c);
+            Minecraft.getMinecraft().getTextureManager().bindTexture(field_178677_c);
             GlStateManager.color(p_178663_1_, p_178663_1_, p_178663_1_, (float)alpha / 255.0F);
             Gui.drawScaledCustomSizeModalRect(2, 2, 8.0F, 8.0F, 8, 8, 12, 12, 64.0F, 64.0F);
             Gui.drawScaledCustomSizeModalRect(2, 2, 40.0F, 8.0F, 8, 8, 12, 12, 64.0F, 64.0F);
@@ -142,7 +142,7 @@ public class TeleportToTeam implements ISpectatorMenuView, ISpectatorMenuObject
 
         public boolean func_178662_A_()
         {
-            return !this.field_178675_d.isEmpty();
+            return !field_178675_d.isEmpty();
         }
     }
 }

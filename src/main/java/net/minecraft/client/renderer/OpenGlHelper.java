@@ -7,21 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import optifine.Config;
 
-import org.lwjgl.opengl.ARBFramebufferObject;
-import org.lwjgl.opengl.ARBMultitexture;
-import org.lwjgl.opengl.ARBShaderObjects;
-import org.lwjgl.opengl.ARBVertexBufferObject;
-import org.lwjgl.opengl.ARBVertexShader;
-import org.lwjgl.opengl.ContextCapabilities;
-import org.lwjgl.opengl.EXTBlendFuncSeparate;
-import org.lwjgl.opengl.EXTFramebufferObject;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import org.lwjgl.opengl.GL14;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.*;
 import oshi.SystemInfo;
 import oshi.hardware.Processor;
 
@@ -102,195 +88,195 @@ public class OpenGlHelper
     {
         Config.initDisplay();
         ContextCapabilities contextcapabilities = GLContext.getCapabilities();
-        arbMultitexture = contextcapabilities.GL_ARB_multitexture && !contextcapabilities.OpenGL13;
-        arbTextureEnvCombine = contextcapabilities.GL_ARB_texture_env_combine && !contextcapabilities.OpenGL13;
+        OpenGlHelper.arbMultitexture = contextcapabilities.GL_ARB_multitexture && !contextcapabilities.OpenGL13;
+        OpenGlHelper.arbTextureEnvCombine = contextcapabilities.GL_ARB_texture_env_combine && !contextcapabilities.OpenGL13;
 
-        if (arbMultitexture)
+        if (OpenGlHelper.arbMultitexture)
         {
-            logText = logText + "Using ARB_multitexture.\n";
-            defaultTexUnit = 33984;
-            lightmapTexUnit = 33985;
-            GL_TEXTURE2 = 33986;
+            OpenGlHelper.logText = OpenGlHelper.logText + "Using ARB_multitexture.\n";
+            OpenGlHelper.defaultTexUnit = 33984;
+            OpenGlHelper.lightmapTexUnit = 33985;
+            OpenGlHelper.GL_TEXTURE2 = 33986;
         }
         else
         {
-            logText = logText + "Using GL 1.3 multitexturing.\n";
-            defaultTexUnit = 33984;
-            lightmapTexUnit = 33985;
-            GL_TEXTURE2 = 33986;
+            OpenGlHelper.logText = OpenGlHelper.logText + "Using GL 1.3 multitexturing.\n";
+            OpenGlHelper.defaultTexUnit = 33984;
+            OpenGlHelper.lightmapTexUnit = 33985;
+            OpenGlHelper.GL_TEXTURE2 = 33986;
         }
 
-        if (arbTextureEnvCombine)
+        if (OpenGlHelper.arbTextureEnvCombine)
         {
-            logText = logText + "Using ARB_texture_env_combine.\n";
-            GL_COMBINE = 34160;
-            GL_INTERPOLATE = 34165;
-            GL_PRIMARY_COLOR = 34167;
-            GL_CONSTANT = 34166;
-            GL_PREVIOUS = 34168;
-            GL_COMBINE_RGB = 34161;
-            GL_SOURCE0_RGB = 34176;
-            GL_SOURCE1_RGB = 34177;
-            GL_SOURCE2_RGB = 34178;
-            GL_OPERAND0_RGB = 34192;
-            GL_OPERAND1_RGB = 34193;
-            GL_OPERAND2_RGB = 34194;
-            GL_COMBINE_ALPHA = 34162;
-            GL_SOURCE0_ALPHA = 34184;
-            GL_SOURCE1_ALPHA = 34185;
-            GL_SOURCE2_ALPHA = 34186;
-            GL_OPERAND0_ALPHA = 34200;
-            GL_OPERAND1_ALPHA = 34201;
-            GL_OPERAND2_ALPHA = 34202;
+            OpenGlHelper.logText = OpenGlHelper.logText + "Using ARB_texture_env_combine.\n";
+            OpenGlHelper.GL_COMBINE = 34160;
+            OpenGlHelper.GL_INTERPOLATE = 34165;
+            OpenGlHelper.GL_PRIMARY_COLOR = 34167;
+            OpenGlHelper.GL_CONSTANT = 34166;
+            OpenGlHelper.GL_PREVIOUS = 34168;
+            OpenGlHelper.GL_COMBINE_RGB = 34161;
+            OpenGlHelper.GL_SOURCE0_RGB = 34176;
+            OpenGlHelper.GL_SOURCE1_RGB = 34177;
+            OpenGlHelper.GL_SOURCE2_RGB = 34178;
+            OpenGlHelper.GL_OPERAND0_RGB = 34192;
+            OpenGlHelper.GL_OPERAND1_RGB = 34193;
+            OpenGlHelper.GL_OPERAND2_RGB = 34194;
+            OpenGlHelper.GL_COMBINE_ALPHA = 34162;
+            OpenGlHelper.GL_SOURCE0_ALPHA = 34184;
+            OpenGlHelper.GL_SOURCE1_ALPHA = 34185;
+            OpenGlHelper.GL_SOURCE2_ALPHA = 34186;
+            OpenGlHelper.GL_OPERAND0_ALPHA = 34200;
+            OpenGlHelper.GL_OPERAND1_ALPHA = 34201;
+            OpenGlHelper.GL_OPERAND2_ALPHA = 34202;
         }
         else
         {
-            logText = logText + "Using GL 1.3 texture combiners.\n";
-            GL_COMBINE = 34160;
-            GL_INTERPOLATE = 34165;
-            GL_PRIMARY_COLOR = 34167;
-            GL_CONSTANT = 34166;
-            GL_PREVIOUS = 34168;
-            GL_COMBINE_RGB = 34161;
-            GL_SOURCE0_RGB = 34176;
-            GL_SOURCE1_RGB = 34177;
-            GL_SOURCE2_RGB = 34178;
-            GL_OPERAND0_RGB = 34192;
-            GL_OPERAND1_RGB = 34193;
-            GL_OPERAND2_RGB = 34194;
-            GL_COMBINE_ALPHA = 34162;
-            GL_SOURCE0_ALPHA = 34184;
-            GL_SOURCE1_ALPHA = 34185;
-            GL_SOURCE2_ALPHA = 34186;
-            GL_OPERAND0_ALPHA = 34200;
-            GL_OPERAND1_ALPHA = 34201;
-            GL_OPERAND2_ALPHA = 34202;
+            OpenGlHelper.logText = OpenGlHelper.logText + "Using GL 1.3 texture combiners.\n";
+            OpenGlHelper.GL_COMBINE = 34160;
+            OpenGlHelper.GL_INTERPOLATE = 34165;
+            OpenGlHelper.GL_PRIMARY_COLOR = 34167;
+            OpenGlHelper.GL_CONSTANT = 34166;
+            OpenGlHelper.GL_PREVIOUS = 34168;
+            OpenGlHelper.GL_COMBINE_RGB = 34161;
+            OpenGlHelper.GL_SOURCE0_RGB = 34176;
+            OpenGlHelper.GL_SOURCE1_RGB = 34177;
+            OpenGlHelper.GL_SOURCE2_RGB = 34178;
+            OpenGlHelper.GL_OPERAND0_RGB = 34192;
+            OpenGlHelper.GL_OPERAND1_RGB = 34193;
+            OpenGlHelper.GL_OPERAND2_RGB = 34194;
+            OpenGlHelper.GL_COMBINE_ALPHA = 34162;
+            OpenGlHelper.GL_SOURCE0_ALPHA = 34184;
+            OpenGlHelper.GL_SOURCE1_ALPHA = 34185;
+            OpenGlHelper.GL_SOURCE2_ALPHA = 34186;
+            OpenGlHelper.GL_OPERAND0_ALPHA = 34200;
+            OpenGlHelper.GL_OPERAND1_ALPHA = 34201;
+            OpenGlHelper.GL_OPERAND2_ALPHA = 34202;
         }
 
-        extBlendFuncSeparate = contextcapabilities.GL_EXT_blend_func_separate && !contextcapabilities.OpenGL14;
-        openGL14 = contextcapabilities.OpenGL14 || contextcapabilities.GL_EXT_blend_func_separate;
-        framebufferSupported = openGL14 && (contextcapabilities.GL_ARB_framebuffer_object || contextcapabilities.GL_EXT_framebuffer_object || contextcapabilities.OpenGL30);
+        OpenGlHelper.extBlendFuncSeparate = contextcapabilities.GL_EXT_blend_func_separate && !contextcapabilities.OpenGL14;
+        OpenGlHelper.openGL14 = contextcapabilities.OpenGL14 || contextcapabilities.GL_EXT_blend_func_separate;
+        OpenGlHelper.framebufferSupported = OpenGlHelper.openGL14 && (contextcapabilities.GL_ARB_framebuffer_object || contextcapabilities.GL_EXT_framebuffer_object || contextcapabilities.OpenGL30);
 
-        if (framebufferSupported)
+        if (OpenGlHelper.framebufferSupported)
         {
-            logText = logText + "Using framebuffer objects because ";
+            OpenGlHelper.logText = OpenGlHelper.logText + "Using framebuffer objects because ";
 
             if (contextcapabilities.OpenGL30)
             {
-                logText = logText + "OpenGL 3.0 is supported and separate blending is supported.\n";
-                framebufferType = 0;
-                GL_FRAMEBUFFER = 36160;
-                GL_RENDERBUFFER = 36161;
-                GL_COLOR_ATTACHMENT0 = 36064;
-                GL_DEPTH_ATTACHMENT = 36096;
-                GL_FRAMEBUFFER_COMPLETE = 36053;
-                GL_FB_INCOMPLETE_ATTACHMENT = 36054;
-                GL_FB_INCOMPLETE_MISS_ATTACH = 36055;
-                GL_FB_INCOMPLETE_DRAW_BUFFER = 36059;
-                GL_FB_INCOMPLETE_READ_BUFFER = 36060;
+                OpenGlHelper.logText = OpenGlHelper.logText + "OpenGL 3.0 is supported and separate blending is supported.\n";
+                OpenGlHelper.framebufferType = 0;
+                OpenGlHelper.GL_FRAMEBUFFER = 36160;
+                OpenGlHelper.GL_RENDERBUFFER = 36161;
+                OpenGlHelper.GL_COLOR_ATTACHMENT0 = 36064;
+                OpenGlHelper.GL_DEPTH_ATTACHMENT = 36096;
+                OpenGlHelper.GL_FRAMEBUFFER_COMPLETE = 36053;
+                OpenGlHelper.GL_FB_INCOMPLETE_ATTACHMENT = 36054;
+                OpenGlHelper.GL_FB_INCOMPLETE_MISS_ATTACH = 36055;
+                OpenGlHelper.GL_FB_INCOMPLETE_DRAW_BUFFER = 36059;
+                OpenGlHelper.GL_FB_INCOMPLETE_READ_BUFFER = 36060;
             }
             else if (contextcapabilities.GL_ARB_framebuffer_object)
             {
-                logText = logText + "ARB_framebuffer_object is supported and separate blending is supported.\n";
-                framebufferType = 1;
-                GL_FRAMEBUFFER = 36160;
-                GL_RENDERBUFFER = 36161;
-                GL_COLOR_ATTACHMENT0 = 36064;
-                GL_DEPTH_ATTACHMENT = 36096;
-                GL_FRAMEBUFFER_COMPLETE = 36053;
-                GL_FB_INCOMPLETE_MISS_ATTACH = 36055;
-                GL_FB_INCOMPLETE_ATTACHMENT = 36054;
-                GL_FB_INCOMPLETE_DRAW_BUFFER = 36059;
-                GL_FB_INCOMPLETE_READ_BUFFER = 36060;
+                OpenGlHelper.logText = OpenGlHelper.logText + "ARB_framebuffer_object is supported and separate blending is supported.\n";
+                OpenGlHelper.framebufferType = 1;
+                OpenGlHelper.GL_FRAMEBUFFER = 36160;
+                OpenGlHelper.GL_RENDERBUFFER = 36161;
+                OpenGlHelper.GL_COLOR_ATTACHMENT0 = 36064;
+                OpenGlHelper.GL_DEPTH_ATTACHMENT = 36096;
+                OpenGlHelper.GL_FRAMEBUFFER_COMPLETE = 36053;
+                OpenGlHelper.GL_FB_INCOMPLETE_MISS_ATTACH = 36055;
+                OpenGlHelper.GL_FB_INCOMPLETE_ATTACHMENT = 36054;
+                OpenGlHelper.GL_FB_INCOMPLETE_DRAW_BUFFER = 36059;
+                OpenGlHelper.GL_FB_INCOMPLETE_READ_BUFFER = 36060;
             }
             else if (contextcapabilities.GL_EXT_framebuffer_object)
             {
-                logText = logText + "EXT_framebuffer_object is supported.\n";
-                framebufferType = 2;
-                GL_FRAMEBUFFER = 36160;
-                GL_RENDERBUFFER = 36161;
-                GL_COLOR_ATTACHMENT0 = 36064;
-                GL_DEPTH_ATTACHMENT = 36096;
-                GL_FRAMEBUFFER_COMPLETE = 36053;
-                GL_FB_INCOMPLETE_MISS_ATTACH = 36055;
-                GL_FB_INCOMPLETE_ATTACHMENT = 36054;
-                GL_FB_INCOMPLETE_DRAW_BUFFER = 36059;
-                GL_FB_INCOMPLETE_READ_BUFFER = 36060;
+                OpenGlHelper.logText = OpenGlHelper.logText + "EXT_framebuffer_object is supported.\n";
+                OpenGlHelper.framebufferType = 2;
+                OpenGlHelper.GL_FRAMEBUFFER = 36160;
+                OpenGlHelper.GL_RENDERBUFFER = 36161;
+                OpenGlHelper.GL_COLOR_ATTACHMENT0 = 36064;
+                OpenGlHelper.GL_DEPTH_ATTACHMENT = 36096;
+                OpenGlHelper.GL_FRAMEBUFFER_COMPLETE = 36053;
+                OpenGlHelper.GL_FB_INCOMPLETE_MISS_ATTACH = 36055;
+                OpenGlHelper.GL_FB_INCOMPLETE_ATTACHMENT = 36054;
+                OpenGlHelper.GL_FB_INCOMPLETE_DRAW_BUFFER = 36059;
+                OpenGlHelper.GL_FB_INCOMPLETE_READ_BUFFER = 36060;
             }
         }
         else
         {
-            logText = logText + "Not using framebuffer objects because ";
-            logText = logText + "OpenGL 1.4 is " + (contextcapabilities.OpenGL14 ? "" : "not ") + "supported, ";
-            logText = logText + "EXT_blend_func_separate is " + (contextcapabilities.GL_EXT_blend_func_separate ? "" : "not ") + "supported, ";
-            logText = logText + "OpenGL 3.0 is " + (contextcapabilities.OpenGL30 ? "" : "not ") + "supported, ";
-            logText = logText + "ARB_framebuffer_object is " + (contextcapabilities.GL_ARB_framebuffer_object ? "" : "not ") + "supported, and ";
-            logText = logText + "EXT_framebuffer_object is " + (contextcapabilities.GL_EXT_framebuffer_object ? "" : "not ") + "supported.\n";
+            OpenGlHelper.logText = OpenGlHelper.logText + "Not using framebuffer objects because ";
+            OpenGlHelper.logText = OpenGlHelper.logText + "OpenGL 1.4 is " + (contextcapabilities.OpenGL14 ? "" : "not ") + "supported, ";
+            OpenGlHelper.logText = OpenGlHelper.logText + "EXT_blend_func_separate is " + (contextcapabilities.GL_EXT_blend_func_separate ? "" : "not ") + "supported, ";
+            OpenGlHelper.logText = OpenGlHelper.logText + "OpenGL 3.0 is " + (contextcapabilities.OpenGL30 ? "" : "not ") + "supported, ";
+            OpenGlHelper.logText = OpenGlHelper.logText + "ARB_framebuffer_object is " + (contextcapabilities.GL_ARB_framebuffer_object ? "" : "not ") + "supported, and ";
+            OpenGlHelper.logText = OpenGlHelper.logText + "EXT_framebuffer_object is " + (contextcapabilities.GL_EXT_framebuffer_object ? "" : "not ") + "supported.\n";
         }
 
-        openGL21 = contextcapabilities.OpenGL21;
-        shadersAvailable = openGL21 || contextcapabilities.GL_ARB_vertex_shader && contextcapabilities.GL_ARB_fragment_shader && contextcapabilities.GL_ARB_shader_objects;
-        logText = logText + "Shaders are " + (shadersAvailable ? "" : "not ") + "available because ";
+        OpenGlHelper.openGL21 = contextcapabilities.OpenGL21;
+        OpenGlHelper.shadersAvailable = OpenGlHelper.openGL21 || contextcapabilities.GL_ARB_vertex_shader && contextcapabilities.GL_ARB_fragment_shader && contextcapabilities.GL_ARB_shader_objects;
+        OpenGlHelper.logText = OpenGlHelper.logText + "Shaders are " + (OpenGlHelper.shadersAvailable ? "" : "not ") + "available because ";
 
-        if (shadersAvailable)
+        if (OpenGlHelper.shadersAvailable)
         {
             if (contextcapabilities.OpenGL21)
             {
-                logText = logText + "OpenGL 2.1 is supported.\n";
-                arbShaders = false;
-                GL_LINK_STATUS = 35714;
-                GL_COMPILE_STATUS = 35713;
-                GL_VERTEX_SHADER = 35633;
-                GL_FRAGMENT_SHADER = 35632;
+                OpenGlHelper.logText = OpenGlHelper.logText + "OpenGL 2.1 is supported.\n";
+                OpenGlHelper.arbShaders = false;
+                OpenGlHelper.GL_LINK_STATUS = 35714;
+                OpenGlHelper.GL_COMPILE_STATUS = 35713;
+                OpenGlHelper.GL_VERTEX_SHADER = 35633;
+                OpenGlHelper.GL_FRAGMENT_SHADER = 35632;
             }
             else
             {
-                logText = logText + "ARB_shader_objects, ARB_vertex_shader, and ARB_fragment_shader are supported.\n";
-                arbShaders = true;
-                GL_LINK_STATUS = 35714;
-                GL_COMPILE_STATUS = 35713;
-                GL_VERTEX_SHADER = 35633;
-                GL_FRAGMENT_SHADER = 35632;
+                OpenGlHelper.logText = OpenGlHelper.logText + "ARB_shader_objects, ARB_vertex_shader, and ARB_fragment_shader are supported.\n";
+                OpenGlHelper.arbShaders = true;
+                OpenGlHelper.GL_LINK_STATUS = 35714;
+                OpenGlHelper.GL_COMPILE_STATUS = 35713;
+                OpenGlHelper.GL_VERTEX_SHADER = 35633;
+                OpenGlHelper.GL_FRAGMENT_SHADER = 35632;
             }
         }
         else
         {
-            logText = logText + "OpenGL 2.1 is " + (contextcapabilities.OpenGL21 ? "" : "not ") + "supported, ";
-            logText = logText + "ARB_shader_objects is " + (contextcapabilities.GL_ARB_shader_objects ? "" : "not ") + "supported, ";
-            logText = logText + "ARB_vertex_shader is " + (contextcapabilities.GL_ARB_vertex_shader ? "" : "not ") + "supported, and ";
-            logText = logText + "ARB_fragment_shader is " + (contextcapabilities.GL_ARB_fragment_shader ? "" : "not ") + "supported.\n";
+            OpenGlHelper.logText = OpenGlHelper.logText + "OpenGL 2.1 is " + (contextcapabilities.OpenGL21 ? "" : "not ") + "supported, ";
+            OpenGlHelper.logText = OpenGlHelper.logText + "ARB_shader_objects is " + (contextcapabilities.GL_ARB_shader_objects ? "" : "not ") + "supported, ";
+            OpenGlHelper.logText = OpenGlHelper.logText + "ARB_vertex_shader is " + (contextcapabilities.GL_ARB_vertex_shader ? "" : "not ") + "supported, and ";
+            OpenGlHelper.logText = OpenGlHelper.logText + "ARB_fragment_shader is " + (contextcapabilities.GL_ARB_fragment_shader ? "" : "not ") + "supported.\n";
         }
 
-        shadersSupported = framebufferSupported && shadersAvailable;
+        OpenGlHelper.shadersSupported = OpenGlHelper.framebufferSupported && OpenGlHelper.shadersAvailable;
         String s = GL11.glGetString(GL11.GL_VENDOR).toLowerCase();
-        nvidia = s.contains("nvidia");
-        arbVbo = !contextcapabilities.OpenGL15 && contextcapabilities.GL_ARB_vertex_buffer_object;
-        vboSupported = contextcapabilities.OpenGL15 || arbVbo;
-        logText = logText + "VBOs are " + (vboSupported ? "" : "not ") + "available because ";
+        OpenGlHelper.nvidia = s.contains("nvidia");
+        OpenGlHelper.arbVbo = !contextcapabilities.OpenGL15 && contextcapabilities.GL_ARB_vertex_buffer_object;
+        OpenGlHelper.vboSupported = contextcapabilities.OpenGL15 || OpenGlHelper.arbVbo;
+        OpenGlHelper.logText = OpenGlHelper.logText + "VBOs are " + (OpenGlHelper.vboSupported ? "" : "not ") + "available because ";
 
-        if (vboSupported)
+        if (OpenGlHelper.vboSupported)
         {
-            if (arbVbo)
+            if (OpenGlHelper.arbVbo)
             {
-                logText = logText + "ARB_vertex_buffer_object is supported.\n";
-                GL_STATIC_DRAW = 35044;
-                GL_ARRAY_BUFFER = 34962;
+                OpenGlHelper.logText = OpenGlHelper.logText + "ARB_vertex_buffer_object is supported.\n";
+                OpenGlHelper.GL_STATIC_DRAW = 35044;
+                OpenGlHelper.GL_ARRAY_BUFFER = 34962;
             }
             else
             {
-                logText = logText + "OpenGL 1.5 is supported.\n";
-                GL_STATIC_DRAW = 35044;
-                GL_ARRAY_BUFFER = 34962;
+                OpenGlHelper.logText = OpenGlHelper.logText + "OpenGL 1.5 is supported.\n";
+                OpenGlHelper.GL_STATIC_DRAW = 35044;
+                OpenGlHelper.GL_ARRAY_BUFFER = 34962;
             }
         }
 
-        field_181063_b = s.contains("ati");
+        OpenGlHelper.field_181063_b = s.contains("ati");
 
-        if (field_181063_b)
+        if (OpenGlHelper.field_181063_b)
         {
-            if (vboSupported)
+            if (OpenGlHelper.vboSupported)
             {
-                field_181062_Q = true;
+                OpenGlHelper.field_181062_Q = true;
             }
             else
             {
@@ -301,32 +287,31 @@ public class OpenGlHelper
         try
         {
             Processor[] aprocessor = (new SystemInfo()).getHardware().getProcessors();
-            field_183030_aa = String.format("%dx %s", new Object[] {Integer.valueOf(aprocessor.length), aprocessor[0]}).replaceAll("\\s+", " ");
+            OpenGlHelper.field_183030_aa = String.format("%dx %s", Integer.valueOf(aprocessor.length), aprocessor[0]).replaceAll("\\s+", " ");
         }
         catch (Throwable var3)
         {
-            ;
         }
     }
 
     public static boolean areShadersSupported()
     {
-        return shadersSupported;
+        return OpenGlHelper.shadersSupported;
     }
 
     public static String getLogText()
     {
-        return logText;
+        return OpenGlHelper.logText;
     }
 
     public static int glGetProgrami(int program, int pname)
     {
-        return arbShaders ? ARBShaderObjects.glGetObjectParameteriARB(program, pname) : GL20.glGetProgrami(program, pname);
+        return OpenGlHelper.arbShaders ? ARBShaderObjects.glGetObjectParameteriARB(program, pname) : GL20.glGetProgrami(program, pname);
     }
 
     public static void glAttachShader(int program, int shaderIn)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glAttachObjectARB(program, shaderIn);
         }
@@ -338,7 +323,7 @@ public class OpenGlHelper
 
     public static void glDeleteShader(int p_153180_0_)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glDeleteObjectARB(p_153180_0_);
         }
@@ -353,12 +338,12 @@ public class OpenGlHelper
      */
     public static int glCreateShader(int type)
     {
-        return arbShaders ? ARBShaderObjects.glCreateShaderObjectARB(type) : GL20.glCreateShader(type);
+        return OpenGlHelper.arbShaders ? ARBShaderObjects.glCreateShaderObjectARB(type) : GL20.glCreateShader(type);
     }
 
     public static void glShaderSource(int shaderIn, ByteBuffer string)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glShaderSourceARB(shaderIn, string);
         }
@@ -370,7 +355,7 @@ public class OpenGlHelper
 
     public static void glCompileShader(int shaderIn)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glCompileShaderARB(shaderIn);
         }
@@ -382,22 +367,22 @@ public class OpenGlHelper
 
     public static int glGetShaderi(int shaderIn, int pname)
     {
-        return arbShaders ? ARBShaderObjects.glGetObjectParameteriARB(shaderIn, pname) : GL20.glGetShaderi(shaderIn, pname);
+        return OpenGlHelper.arbShaders ? ARBShaderObjects.glGetObjectParameteriARB(shaderIn, pname) : GL20.glGetShaderi(shaderIn, pname);
     }
 
     public static String glGetShaderInfoLog(int shaderIn, int maxLength)
     {
-        return arbShaders ? ARBShaderObjects.glGetInfoLogARB(shaderIn, maxLength) : GL20.glGetShaderInfoLog(shaderIn, maxLength);
+        return OpenGlHelper.arbShaders ? ARBShaderObjects.glGetInfoLogARB(shaderIn, maxLength) : GL20.glGetShaderInfoLog(shaderIn, maxLength);
     }
 
     public static String glGetProgramInfoLog(int program, int maxLength)
     {
-        return arbShaders ? ARBShaderObjects.glGetInfoLogARB(program, maxLength) : GL20.glGetProgramInfoLog(program, maxLength);
+        return OpenGlHelper.arbShaders ? ARBShaderObjects.glGetInfoLogARB(program, maxLength) : GL20.glGetProgramInfoLog(program, maxLength);
     }
 
     public static void glUseProgram(int program)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUseProgramObjectARB(program);
         }
@@ -409,12 +394,12 @@ public class OpenGlHelper
 
     public static int glCreateProgram()
     {
-        return arbShaders ? ARBShaderObjects.glCreateProgramObjectARB() : GL20.glCreateProgram();
+        return OpenGlHelper.arbShaders ? ARBShaderObjects.glCreateProgramObjectARB() : GL20.glCreateProgram();
     }
 
     public static void glDeleteProgram(int program)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glDeleteObjectARB(program);
         }
@@ -426,7 +411,7 @@ public class OpenGlHelper
 
     public static void glLinkProgram(int program)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glLinkProgramARB(program);
         }
@@ -438,12 +423,12 @@ public class OpenGlHelper
 
     public static int glGetUniformLocation(int programObj, CharSequence name)
     {
-        return arbShaders ? ARBShaderObjects.glGetUniformLocationARB(programObj, name) : GL20.glGetUniformLocation(programObj, name);
+        return OpenGlHelper.arbShaders ? ARBShaderObjects.glGetUniformLocationARB(programObj, name) : GL20.glGetUniformLocation(programObj, name);
     }
 
     public static void glUniform1(int location, IntBuffer values)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniform1ARB(location, values);
         }
@@ -455,7 +440,7 @@ public class OpenGlHelper
 
     public static void glUniform1i(int location, int v0)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniform1iARB(location, v0);
         }
@@ -467,7 +452,7 @@ public class OpenGlHelper
 
     public static void glUniform1(int location, FloatBuffer values)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniform1ARB(location, values);
         }
@@ -479,7 +464,7 @@ public class OpenGlHelper
 
     public static void glUniform2(int location, IntBuffer values)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniform2ARB(location, values);
         }
@@ -491,7 +476,7 @@ public class OpenGlHelper
 
     public static void glUniform2(int location, FloatBuffer values)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniform2ARB(location, values);
         }
@@ -503,7 +488,7 @@ public class OpenGlHelper
 
     public static void glUniform3(int location, IntBuffer values)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniform3ARB(location, values);
         }
@@ -515,7 +500,7 @@ public class OpenGlHelper
 
     public static void glUniform3(int location, FloatBuffer values)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniform3ARB(location, values);
         }
@@ -527,7 +512,7 @@ public class OpenGlHelper
 
     public static void glUniform4(int location, IntBuffer values)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniform4ARB(location, values);
         }
@@ -539,7 +524,7 @@ public class OpenGlHelper
 
     public static void glUniform4(int location, FloatBuffer values)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniform4ARB(location, values);
         }
@@ -551,7 +536,7 @@ public class OpenGlHelper
 
     public static void glUniformMatrix2(int location, boolean transpose, FloatBuffer matrices)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniformMatrix2ARB(location, transpose, matrices);
         }
@@ -563,7 +548,7 @@ public class OpenGlHelper
 
     public static void glUniformMatrix3(int location, boolean transpose, FloatBuffer matrices)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniformMatrix3ARB(location, transpose, matrices);
         }
@@ -575,7 +560,7 @@ public class OpenGlHelper
 
     public static void glUniformMatrix4(int location, boolean transpose, FloatBuffer matrices)
     {
-        if (arbShaders)
+        if (OpenGlHelper.arbShaders)
         {
             ARBShaderObjects.glUniformMatrix4ARB(location, transpose, matrices);
         }
@@ -587,19 +572,19 @@ public class OpenGlHelper
 
     public static int glGetAttribLocation(int p_153164_0_, CharSequence p_153164_1_)
     {
-        return arbShaders ? ARBVertexShader.glGetAttribLocationARB(p_153164_0_, p_153164_1_) : GL20.glGetAttribLocation(p_153164_0_, p_153164_1_);
+        return OpenGlHelper.arbShaders ? ARBVertexShader.glGetAttribLocationARB(p_153164_0_, p_153164_1_) : GL20.glGetAttribLocation(p_153164_0_, p_153164_1_);
     }
 
     public static int glGenBuffers()
     {
-        return arbVbo ? ARBVertexBufferObject.glGenBuffersARB() : GL15.glGenBuffers();
+        return OpenGlHelper.arbVbo ? ARBBufferObject.glGenBuffersARB() : GL15.glGenBuffers();
     }
 
     public static void glBindBuffer(int target, int buffer)
     {
-        if (arbVbo)
+        if (OpenGlHelper.arbVbo)
         {
-            ARBVertexBufferObject.glBindBufferARB(target, buffer);
+            ARBBufferObject.glBindBufferARB(target, buffer);
         }
         else
         {
@@ -609,9 +594,9 @@ public class OpenGlHelper
 
     public static void glBufferData(int target, ByteBuffer data, int usage)
     {
-        if (arbVbo)
+        if (OpenGlHelper.arbVbo)
         {
-            ARBVertexBufferObject.glBufferDataARB(target, data, usage);
+            ARBBufferObject.glBufferDataARB(target, data, usage);
         }
         else
         {
@@ -621,9 +606,9 @@ public class OpenGlHelper
 
     public static void glDeleteBuffers(int buffer)
     {
-        if (arbVbo)
+        if (OpenGlHelper.arbVbo)
         {
-            ARBVertexBufferObject.glDeleteBuffersARB(buffer);
+            ARBBufferObject.glDeleteBuffersARB(buffer);
         }
         else
         {
@@ -633,14 +618,14 @@ public class OpenGlHelper
 
     public static boolean useVbo()
     {
-        return Config.isMultiTexture() ? false : vboSupported && Minecraft.getMinecraft().gameSettings.useVbo;
+        return !Config.isMultiTexture() && OpenGlHelper.vboSupported && Minecraft.getMinecraft().gameSettings.useVbo;
     }
 
     public static void glBindFramebuffer(int target, int framebufferIn)
     {
-        if (framebufferSupported)
+        if (OpenGlHelper.framebufferSupported)
         {
-            switch (framebufferType)
+            switch (OpenGlHelper.framebufferType)
             {
                 case 0:
                     GL30.glBindFramebuffer(target, framebufferIn);
@@ -658,9 +643,9 @@ public class OpenGlHelper
 
     public static void glBindRenderbuffer(int target, int renderbuffer)
     {
-        if (framebufferSupported)
+        if (OpenGlHelper.framebufferSupported)
         {
-            switch (framebufferType)
+            switch (OpenGlHelper.framebufferType)
             {
                 case 0:
                     GL30.glBindRenderbuffer(target, renderbuffer);
@@ -678,9 +663,9 @@ public class OpenGlHelper
 
     public static void glDeleteRenderbuffers(int renderbuffer)
     {
-        if (framebufferSupported)
+        if (OpenGlHelper.framebufferSupported)
         {
-            switch (framebufferType)
+            switch (OpenGlHelper.framebufferType)
             {
                 case 0:
                     GL30.glDeleteRenderbuffers(renderbuffer);
@@ -698,9 +683,9 @@ public class OpenGlHelper
 
     public static void glDeleteFramebuffers(int framebufferIn)
     {
-        if (framebufferSupported)
+        if (OpenGlHelper.framebufferSupported)
         {
-            switch (framebufferType)
+            switch (OpenGlHelper.framebufferType)
             {
                 case 0:
                     GL30.glDeleteFramebuffers(framebufferIn);
@@ -721,13 +706,13 @@ public class OpenGlHelper
      */
     public static int glGenFramebuffers()
     {
-        if (!framebufferSupported)
+        if (!OpenGlHelper.framebufferSupported)
         {
             return -1;
         }
         else
         {
-            switch (framebufferType)
+            switch (OpenGlHelper.framebufferType)
             {
                 case 0:
                     return GL30.glGenFramebuffers();
@@ -746,13 +731,13 @@ public class OpenGlHelper
 
     public static int glGenRenderbuffers()
     {
-        if (!framebufferSupported)
+        if (!OpenGlHelper.framebufferSupported)
         {
             return -1;
         }
         else
         {
-            switch (framebufferType)
+            switch (OpenGlHelper.framebufferType)
             {
                 case 0:
                     return GL30.glGenRenderbuffers();
@@ -771,9 +756,9 @@ public class OpenGlHelper
 
     public static void glRenderbufferStorage(int target, int internalFormat, int width, int height)
     {
-        if (framebufferSupported)
+        if (OpenGlHelper.framebufferSupported)
         {
-            switch (framebufferType)
+            switch (OpenGlHelper.framebufferType)
             {
                 case 0:
                     GL30.glRenderbufferStorage(target, internalFormat, width, height);
@@ -791,9 +776,9 @@ public class OpenGlHelper
 
     public static void glFramebufferRenderbuffer(int target, int attachment, int renderBufferTarget, int renderBuffer)
     {
-        if (framebufferSupported)
+        if (OpenGlHelper.framebufferSupported)
         {
-            switch (framebufferType)
+            switch (OpenGlHelper.framebufferType)
             {
                 case 0:
                     GL30.glFramebufferRenderbuffer(target, attachment, renderBufferTarget, renderBuffer);
@@ -811,13 +796,13 @@ public class OpenGlHelper
 
     public static int glCheckFramebufferStatus(int target)
     {
-        if (!framebufferSupported)
+        if (!OpenGlHelper.framebufferSupported)
         {
             return -1;
         }
         else
         {
-            switch (framebufferType)
+            switch (OpenGlHelper.framebufferType)
             {
                 case 0:
                     return GL30.glCheckFramebufferStatus(target);
@@ -836,9 +821,9 @@ public class OpenGlHelper
 
     public static void glFramebufferTexture2D(int target, int attachment, int textarget, int texture, int level)
     {
-        if (framebufferSupported)
+        if (OpenGlHelper.framebufferSupported)
         {
-            switch (framebufferType)
+            switch (OpenGlHelper.framebufferType)
             {
                 case 0:
                     GL30.glFramebufferTexture2D(target, attachment, textarget, texture, level);
@@ -859,7 +844,7 @@ public class OpenGlHelper
      */
     public static void setActiveTexture(int texture)
     {
-        if (arbMultitexture)
+        if (OpenGlHelper.arbMultitexture)
         {
             ARBMultitexture.glActiveTextureARB(texture);
         }
@@ -874,7 +859,7 @@ public class OpenGlHelper
      */
     public static void setClientActiveTexture(int texture)
     {
-        if (arbMultitexture)
+        if (OpenGlHelper.arbMultitexture)
         {
             ARBMultitexture.glClientActiveTextureARB(texture);
         }
@@ -889,7 +874,7 @@ public class OpenGlHelper
      */
     public static void setLightmapTextureCoords(int target, float p_77475_1_, float p_77475_2_)
     {
-        if (arbMultitexture)
+        if (OpenGlHelper.arbMultitexture)
         {
             ARBMultitexture.glMultiTexCoord2fARB(target, p_77475_1_, p_77475_2_);
         }
@@ -898,18 +883,18 @@ public class OpenGlHelper
             GL13.glMultiTexCoord2f(target, p_77475_1_, p_77475_2_);
         }
 
-        if (target == lightmapTexUnit)
+        if (target == OpenGlHelper.lightmapTexUnit)
         {
-            lastBrightnessX = p_77475_1_;
-            lastBrightnessY = p_77475_2_;
+            OpenGlHelper.lastBrightnessX = p_77475_1_;
+            OpenGlHelper.lastBrightnessY = p_77475_2_;
         }
     }
 
     public static void glBlendFunc(int sFactorRGB, int dFactorRGB, int sfactorAlpha, int dfactorAlpha)
     {
-        if (openGL14)
+        if (OpenGlHelper.openGL14)
         {
-            if (extBlendFuncSeparate)
+            if (OpenGlHelper.extBlendFuncSeparate)
             {
                 EXTBlendFuncSeparate.glBlendFuncSeparateEXT(sFactorRGB, dFactorRGB, sfactorAlpha, dfactorAlpha);
             }
@@ -926,11 +911,11 @@ public class OpenGlHelper
 
     public static boolean isFramebufferEnabled()
     {
-        return Config.isFastRender() ? false : (Config.isAntialiasing() ? false : framebufferSupported && Minecraft.getMinecraft().gameSettings.fboEnable);
+        return !Config.isFastRender() && (!Config.isAntialiasing() && OpenGlHelper.framebufferSupported && Minecraft.getMinecraft().gameSettings.fboEnable);
     }
 
     public static String func_183029_j()
     {
-        return field_183030_aa == null ? "<unknown>" : field_183030_aa;
+        return OpenGlHelper.field_183030_aa == null ? "<unknown>" : OpenGlHelper.field_183030_aa;
     }
 }

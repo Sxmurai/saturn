@@ -10,8 +10,8 @@ public class ItemEgg extends Item
 {
     public ItemEgg()
     {
-        this.maxStackSize = 16;
-        this.setCreativeTab(CreativeTabs.tabMaterials);
+        maxStackSize = 16;
+        setCreativeTab(CreativeTabs.tabMaterials);
     }
 
     /**
@@ -24,7 +24,7 @@ public class ItemEgg extends Item
             --itemStackIn.stackSize;
         }
 
-        worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (Item.itemRand.nextFloat() * 0.4F + 0.8F));
 
         if (!worldIn.isRemote)
         {

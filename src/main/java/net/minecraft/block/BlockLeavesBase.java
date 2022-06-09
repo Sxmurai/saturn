@@ -12,7 +12,7 @@ public class BlockLeavesBase extends Block
 {
     protected boolean fancyGraphics;
     private static final String __OBFID = "CL_00000326";
-    private static Map mapOriginalOpacity = new IdentityHashMap();
+    private static final Map mapOriginalOpacity = new IdentityHashMap();
 
     protected BlockLeavesBase(Material materialIn, boolean fancyGraphics)
     {
@@ -30,14 +30,14 @@ public class BlockLeavesBase extends Block
 
     public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
-        return Config.isCullFacesLeaves() && worldIn.getBlockState(pos).getBlock() == this ? false : super.shouldSideBeRendered(worldIn, pos, side);
+        return (!Config.isCullFacesLeaves() || worldIn.getBlockState(pos).getBlock() != this) && super.shouldSideBeRendered(worldIn, pos, side);
     }
 
     public static void setLightOpacity(Block p_setLightOpacity_0_, int p_setLightOpacity_1_)
     {
-        if (!mapOriginalOpacity.containsKey(p_setLightOpacity_0_))
+        if (!BlockLeavesBase.mapOriginalOpacity.containsKey(p_setLightOpacity_0_))
         {
-            mapOriginalOpacity.put(p_setLightOpacity_0_, Integer.valueOf(p_setLightOpacity_0_.getLightOpacity()));
+            BlockLeavesBase.mapOriginalOpacity.put(p_setLightOpacity_0_, Integer.valueOf(p_setLightOpacity_0_.getLightOpacity()));
         }
 
         p_setLightOpacity_0_.setLightOpacity(p_setLightOpacity_1_);
@@ -45,10 +45,10 @@ public class BlockLeavesBase extends Block
 
     public static void restoreLightOpacity(Block p_restoreLightOpacity_0_)
     {
-        if (mapOriginalOpacity.containsKey(p_restoreLightOpacity_0_))
+        if (BlockLeavesBase.mapOriginalOpacity.containsKey(p_restoreLightOpacity_0_))
         {
-            int i = ((Integer)mapOriginalOpacity.get(p_restoreLightOpacity_0_)).intValue();
-            setLightOpacity(p_restoreLightOpacity_0_, i);
+            int i = ((Integer) BlockLeavesBase.mapOriginalOpacity.get(p_restoreLightOpacity_0_)).intValue();
+            BlockLeavesBase.setLightOpacity(p_restoreLightOpacity_0_, i);
         }
     }
 }

@@ -24,17 +24,17 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
     protected BlockPressurePlateWeighted(Material p_i46380_1_, int p_i46380_2_, MapColor p_i46380_3_)
     {
         super(p_i46380_1_, p_i46380_3_);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(POWER, Integer.valueOf(0)));
-        this.field_150068_a = p_i46380_2_;
+        setDefaultState(blockState.getBaseState().withProperty(BlockPressurePlateWeighted.POWER, Integer.valueOf(0)));
+        field_150068_a = p_i46380_2_;
     }
 
     protected int computeRedstoneStrength(World worldIn, BlockPos pos)
     {
-        int i = Math.min(worldIn.getEntitiesWithinAABB(Entity.class, this.getSensitiveAABB(pos)).size(), this.field_150068_a);
+        int i = Math.min(worldIn.getEntitiesWithinAABB(Entity.class, getSensitiveAABB(pos)).size(), field_150068_a);
 
         if (i > 0)
         {
-            float f = (float)Math.min(this.field_150068_a, i) / (float)this.field_150068_a;
+            float f = (float)Math.min(field_150068_a, i) / (float) field_150068_a;
             return MathHelper.ceiling_float_int(f * 15.0F);
         }
         else
@@ -45,12 +45,12 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
 
     protected int getRedstoneStrength(IBlockState state)
     {
-        return ((Integer)state.getValue(POWER)).intValue();
+        return state.getValue(BlockPressurePlateWeighted.POWER).intValue();
     }
 
     protected IBlockState setRedstoneStrength(IBlockState state, int strength)
     {
-        return state.withProperty(POWER, Integer.valueOf(strength));
+        return state.withProperty(BlockPressurePlateWeighted.POWER, Integer.valueOf(strength));
     }
 
     /**
@@ -66,7 +66,7 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(POWER, Integer.valueOf(meta));
+        return getDefaultState().withProperty(BlockPressurePlateWeighted.POWER, Integer.valueOf(meta));
     }
 
     /**
@@ -74,11 +74,11 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(POWER)).intValue();
+        return state.getValue(BlockPressurePlateWeighted.POWER).intValue();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {POWER});
+        return new BlockState(this, BlockPressurePlateWeighted.POWER);
     }
 }

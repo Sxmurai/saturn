@@ -10,12 +10,12 @@ public class GuiSlotRealmsProxy extends GuiSlot
     public GuiSlotRealmsProxy(RealmsScrolledSelectionList selectionListIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn)
     {
         super(Minecraft.getMinecraft(), widthIn, heightIn, topIn, bottomIn, slotHeightIn);
-        this.selectionList = selectionListIn;
+        selectionList = selectionListIn;
     }
 
     protected int getSize()
     {
-        return this.selectionList.getItemCount();
+        return selectionList.getItemCount();
     }
 
     /**
@@ -23,7 +23,7 @@ public class GuiSlotRealmsProxy extends GuiSlot
      */
     protected void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY)
     {
-        this.selectionList.selectItem(slotIndex, isDoubleClick, mouseX, mouseY);
+        selectionList.selectItem(slotIndex, isDoubleClick, mouseX, mouseY);
     }
 
     /**
@@ -31,17 +31,17 @@ public class GuiSlotRealmsProxy extends GuiSlot
      */
     protected boolean isSelected(int slotIndex)
     {
-        return this.selectionList.isSelectedItem(slotIndex);
+        return selectionList.isSelectedItem(slotIndex);
     }
 
     protected void drawBackground()
     {
-        this.selectionList.renderBackground();
+        selectionList.renderBackground();
     }
 
     protected void drawSlot(int entryID, int p_180791_2_, int p_180791_3_, int p_180791_4_, int mouseXIn, int mouseYIn)
     {
-        this.selectionList.renderItem(entryID, p_180791_2_, p_180791_3_, p_180791_4_, mouseXIn, mouseYIn);
+        selectionList.renderItem(entryID, p_180791_2_, p_180791_3_, p_180791_4_, mouseXIn, mouseYIn);
     }
 
     public int func_154338_k()
@@ -64,12 +64,12 @@ public class GuiSlotRealmsProxy extends GuiSlot
      */
     protected int getContentHeight()
     {
-        return this.selectionList.getMaxPosition();
+        return selectionList.getMaxPosition();
     }
 
     protected int getScrollBarX()
     {
-        return this.selectionList.getScrollbarPosition();
+        return selectionList.getScrollbarPosition();
     }
 
     public void handleMouseInput()

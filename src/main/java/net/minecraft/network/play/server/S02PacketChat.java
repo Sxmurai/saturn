@@ -22,8 +22,8 @@ public class S02PacketChat implements Packet<INetHandlerPlayClient>
 
     public S02PacketChat(IChatComponent message, byte typeIn)
     {
-        this.chatComponent = message;
-        this.type = typeIn;
+        chatComponent = message;
+        type = typeIn;
     }
 
     /**
@@ -31,8 +31,8 @@ public class S02PacketChat implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.chatComponent = buf.readChatComponent();
-        this.type = buf.readByte();
+        chatComponent = buf.readChatComponent();
+        type = buf.readByte();
     }
 
     /**
@@ -40,8 +40,8 @@ public class S02PacketChat implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeChatComponent(this.chatComponent);
-        buf.writeByte(this.type);
+        buf.writeChatComponent(chatComponent);
+        buf.writeByte(type);
     }
 
     /**
@@ -54,12 +54,12 @@ public class S02PacketChat implements Packet<INetHandlerPlayClient>
 
     public IChatComponent getChatComponent()
     {
-        return this.chatComponent;
+        return chatComponent;
     }
 
     public boolean isChat()
     {
-        return this.type == 1 || this.type == 2;
+        return type == 1 || type == 2;
     }
 
     /**
@@ -68,6 +68,6 @@ public class S02PacketChat implements Packet<INetHandlerPlayClient>
      */
     public byte getType()
     {
-        return this.type;
+        return type;
     }
 }

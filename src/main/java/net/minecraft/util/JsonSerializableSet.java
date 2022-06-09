@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class JsonSerializableSet extends ForwardingSet<String> implements IJsonSerializable
 {
-    private final Set<String> underlyingSet = Sets.<String>newHashSet();
+    private final Set<String> underlyingSet = Sets.newHashSet();
 
     public void fromJson(JsonElement json)
     {
@@ -17,7 +17,7 @@ public class JsonSerializableSet extends ForwardingSet<String> implements IJsonS
         {
             for (JsonElement jsonelement : json.getAsJsonArray())
             {
-                this.add(jsonelement.getAsString());
+                add(jsonelement.getAsString());
             }
         }
     }
@@ -39,6 +39,6 @@ public class JsonSerializableSet extends ForwardingSet<String> implements IJsonS
 
     protected Set<String> delegate()
     {
-        return this.underlyingSet;
+        return underlyingSet;
     }
 }

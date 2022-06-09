@@ -18,15 +18,15 @@ public class S1CPacketEntityMetadata implements Packet<INetHandlerPlayClient>
 
     public S1CPacketEntityMetadata(int entityIdIn, DataWatcher p_i45217_2_, boolean p_i45217_3_)
     {
-        this.entityId = entityIdIn;
+        entityId = entityIdIn;
 
         if (p_i45217_3_)
         {
-            this.field_149378_b = p_i45217_2_.getAllWatched();
+            field_149378_b = p_i45217_2_.getAllWatched();
         }
         else
         {
-            this.field_149378_b = p_i45217_2_.getChanged();
+            field_149378_b = p_i45217_2_.getChanged();
         }
     }
 
@@ -35,8 +35,8 @@ public class S1CPacketEntityMetadata implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
-        this.field_149378_b = DataWatcher.readWatchedListFromPacketBuffer(buf);
+        entityId = buf.readVarIntFromBuffer();
+        field_149378_b = DataWatcher.readWatchedListFromPacketBuffer(buf);
     }
 
     /**
@@ -44,8 +44,8 @@ public class S1CPacketEntityMetadata implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        DataWatcher.writeWatchedListToPacketBuffer(this.field_149378_b, buf);
+        buf.writeVarIntToBuffer(entityId);
+        DataWatcher.writeWatchedListToPacketBuffer(field_149378_b, buf);
     }
 
     /**
@@ -58,11 +58,11 @@ public class S1CPacketEntityMetadata implements Packet<INetHandlerPlayClient>
 
     public List<DataWatcher.WatchableObject> func_149376_c()
     {
-        return this.field_149378_b;
+        return field_149378_b;
     }
 
     public int getEntityId()
     {
-        return this.entityId;
+        return entityId;
     }
 }

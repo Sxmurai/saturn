@@ -12,7 +12,7 @@ public class ItemFireball extends Item
 {
     public ItemFireball()
     {
-        this.setCreativeTab(CreativeTabs.tabMisc);
+        setCreativeTab(CreativeTabs.tabMisc);
     }
 
     /**
@@ -36,7 +36,7 @@ public class ItemFireball extends Item
             {
                 if (worldIn.getBlockState(pos).getBlock().getMaterial() == Material.air)
                 {
-                    worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "item.fireCharge.use", 1.0F, (itemRand.nextFloat() - itemRand.nextFloat()) * 0.2F + 1.0F);
+                    worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "item.fireCharge.use", 1.0F, (Item.itemRand.nextFloat() - Item.itemRand.nextFloat()) * 0.2F + 1.0F);
                     worldIn.setBlockState(pos, Blocks.fire.getDefaultState());
                 }
 

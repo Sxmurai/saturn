@@ -26,16 +26,16 @@ public class RenderOcelot extends RenderLiving<EntityOcelot>
         {
             case 0:
             default:
-                return ocelotTextures;
+                return RenderOcelot.ocelotTextures;
 
             case 1:
-                return blackOcelotTextures;
+                return RenderOcelot.blackOcelotTextures;
 
             case 2:
-                return redOcelotTextures;
+                return RenderOcelot.redOcelotTextures;
 
             case 3:
-                return siameseOcelotTextures;
+                return RenderOcelot.siameseOcelotTextures;
         }
     }
 

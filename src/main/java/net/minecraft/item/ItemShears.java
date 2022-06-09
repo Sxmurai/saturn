@@ -12,9 +12,9 @@ public class ItemShears extends Item
 {
     public ItemShears()
     {
-        this.setMaxStackSize(1);
-        this.setMaxDamage(238);
-        this.setCreativeTab(CreativeTabs.tabTools);
+        setMaxStackSize(1);
+        setMaxDamage(238);
+        setCreativeTab(CreativeTabs.tabTools);
     }
 
     /**

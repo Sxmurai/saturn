@@ -7,13 +7,13 @@ import org.apache.logging.log4j.Logger;
 public class GenLayerHills extends GenLayer
 {
     private static final Logger logger = LogManager.getLogger();
-    private GenLayer field_151628_d;
+    private final GenLayer field_151628_d;
 
     public GenLayerHills(long p_i45479_1_, GenLayer p_i45479_3_, GenLayer p_i45479_4_)
     {
         super(p_i45479_1_);
-        this.parent = p_i45479_3_;
-        this.field_151628_d = p_i45479_4_;
+        parent = p_i45479_3_;
+        field_151628_d = p_i45479_4_;
     }
 
     /**
@@ -22,22 +22,22 @@ public class GenLayerHills extends GenLayer
      */
     public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight)
     {
-        int[] aint = this.parent.getInts(areaX - 1, areaY - 1, areaWidth + 2, areaHeight + 2);
-        int[] aint1 = this.field_151628_d.getInts(areaX - 1, areaY - 1, areaWidth + 2, areaHeight + 2);
+        int[] aint = parent.getInts(areaX - 1, areaY - 1, areaWidth + 2, areaHeight + 2);
+        int[] aint1 = field_151628_d.getInts(areaX - 1, areaY - 1, areaWidth + 2, areaHeight + 2);
         int[] aint2 = IntCache.getIntCache(areaWidth * areaHeight);
 
         for (int i = 0; i < areaHeight; ++i)
         {
             for (int j = 0; j < areaWidth; ++j)
             {
-                this.initChunkSeed((long)(j + areaX), (long)(i + areaY));
+                initChunkSeed(j + areaX, i + areaY);
                 int k = aint[j + 1 + (i + 1) * (areaWidth + 2)];
                 int l = aint1[j + 1 + (i + 1) * (areaWidth + 2)];
                 boolean flag = (l - 2) % 29 == 0;
 
                 if (k > 255)
                 {
-                    logger.debug("old! " + k);
+                    GenLayerHills.logger.debug("old! " + k);
                 }
 
                 if (k != 0 && l >= 2 && (l - 2) % 29 == 1 && k < 128)
@@ -51,7 +51,7 @@ public class GenLayerHills extends GenLayer
                         aint2[j + i * areaWidth] = k;
                     }
                 }
-                else if (this.nextInt(3) != 0 && !flag)
+                else if (nextInt(3) != 0 && !flag)
                 {
                     aint2[j + i * areaWidth] = k;
                 }
@@ -89,7 +89,7 @@ public class GenLayerHills extends GenLayer
                     }
                     else if (k == BiomeGenBase.plains.biomeID)
                     {
-                        if (this.nextInt(3) == 0)
+                        if (nextInt(3) == 0)
                         {
                             i1 = BiomeGenBase.forestHills.biomeID;
                         }
@@ -118,13 +118,13 @@ public class GenLayerHills extends GenLayer
                     {
                         i1 = BiomeGenBase.savannaPlateau.biomeID;
                     }
-                    else if (biomesEqualOrMesaPlateau(k, BiomeGenBase.mesaPlateau_F.biomeID))
+                    else if (GenLayer.biomesEqualOrMesaPlateau(k, BiomeGenBase.mesaPlateau_F.biomeID))
                     {
                         i1 = BiomeGenBase.mesa.biomeID;
                     }
-                    else if (k == BiomeGenBase.deepOcean.biomeID && this.nextInt(3) == 0)
+                    else if (k == BiomeGenBase.deepOcean.biomeID && nextInt(3) == 0)
                     {
-                        int j1 = this.nextInt(2);
+                        int j1 = nextInt(2);
 
                         if (j1 == 0)
                         {
@@ -160,22 +160,22 @@ public class GenLayerHills extends GenLayer
                         int i2 = aint[j + 1 + (i + 1 + 1) * (areaWidth + 2)];
                         int j2 = 0;
 
-                        if (biomesEqualOrMesaPlateau(k2, k))
+                        if (GenLayer.biomesEqualOrMesaPlateau(k2, k))
                         {
                             ++j2;
                         }
 
-                        if (biomesEqualOrMesaPlateau(k1, k))
+                        if (GenLayer.biomesEqualOrMesaPlateau(k1, k))
                         {
                             ++j2;
                         }
 
-                        if (biomesEqualOrMesaPlateau(l1, k))
+                        if (GenLayer.biomesEqualOrMesaPlateau(l1, k))
                         {
                             ++j2;
                         }
 
-                        if (biomesEqualOrMesaPlateau(i2, k))
+                        if (GenLayer.biomesEqualOrMesaPlateau(i2, k))
                         {
                             ++j2;
                         }

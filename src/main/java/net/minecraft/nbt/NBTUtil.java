@@ -145,7 +145,7 @@ public final class NBTUtil
             {
                 NBTBase nbtbase1 = nbttagcompound.getTag(s);
 
-                if (!func_181123_a(nbtbase1, nbttagcompound1.getTag(s), p_181123_2_))
+                if (!NBTUtil.func_181123_a(nbtbase1, nbttagcompound1.getTag(s), p_181123_2_))
                 {
                     return false;
                 }
@@ -171,7 +171,7 @@ public final class NBTUtil
 
                     for (int j = 0; j < nbttaglist1.tagCount(); ++j)
                     {
-                        if (func_181123_a(nbtbase, nbttaglist1.get(j), p_181123_2_))
+                        if (NBTUtil.func_181123_a(nbtbase, nbttaglist1.get(j), p_181123_2_))
                         {
                             flag = true;
                             break;

@@ -25,7 +25,7 @@ import org.apache.logging.log4j.Logger;
 public class RealmsServerStatusPinger
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private final List<NetworkManager> connections = Collections.<NetworkManager>synchronizedList(Lists.<NetworkManager>newArrayList());
+    private final List<NetworkManager> connections = Collections.synchronizedList(Lists.newArrayList());
 
     public void pingServer(final String p_pingServer_1_, final RealmsServerPing p_pingServer_2_) throws UnknownHostException
     {
@@ -33,7 +33,7 @@ public class RealmsServerStatusPinger
         {
             RealmsServerAddress realmsserveraddress = RealmsServerAddress.parseString(p_pingServer_1_);
             final NetworkManager networkmanager = NetworkManager.func_181124_a(InetAddress.getByName(realmsserveraddress.getHost()), realmsserveraddress.getPort(), false);
-            this.connections.add(networkmanager);
+            connections.add(networkmanager);
             networkmanager.setNetHandler(new INetHandlerStatusClient()
             {
                 private boolean field_154345_e = false;
@@ -78,7 +78,7 @@ public class RealmsServerStatusPinger
                     }
 
                     networkmanager.sendPacket(new C01PacketPing(Realms.currentTimeMillis()));
-                    this.field_154345_e = true;
+                    field_154345_e = true;
                 }
                 public void handlePong(S01PacketPong packetIn)
                 {
@@ -86,9 +86,9 @@ public class RealmsServerStatusPinger
                 }
                 public void onDisconnect(IChatComponent reason)
                 {
-                    if (!this.field_154345_e)
+                    if (!field_154345_e)
                     {
-                        RealmsServerStatusPinger.LOGGER.error("Can\'t ping " + p_pingServer_1_ + ": " + reason.getUnformattedText());
+                        RealmsServerStatusPinger.LOGGER.error("Can't ping " + p_pingServer_1_ + ": " + reason.getUnformattedText());
                     }
                 }
             });
@@ -100,20 +100,20 @@ public class RealmsServerStatusPinger
             }
             catch (Throwable throwable)
             {
-                LOGGER.error((Object)throwable);
+                RealmsServerStatusPinger.LOGGER.error(throwable);
             }
         }
     }
 
     public void tick()
     {
-        synchronized (this.connections)
+        synchronized (connections)
         {
-            Iterator<NetworkManager> iterator = this.connections.iterator();
+            Iterator<NetworkManager> iterator = connections.iterator();
 
             while (iterator.hasNext())
             {
-                NetworkManager networkmanager = (NetworkManager)iterator.next();
+                NetworkManager networkmanager = iterator.next();
 
                 if (networkmanager.isChannelOpen())
                 {
@@ -130,13 +130,13 @@ public class RealmsServerStatusPinger
 
     public void removeAll()
     {
-        synchronized (this.connections)
+        synchronized (connections)
         {
-            Iterator<NetworkManager> iterator = this.connections.iterator();
+            Iterator<NetworkManager> iterator = connections.iterator();
 
             while (iterator.hasNext())
             {
-                NetworkManager networkmanager = (NetworkManager)iterator.next();
+                NetworkManager networkmanager = iterator.next();
 
                 if (networkmanager.isChannelOpen())
                 {

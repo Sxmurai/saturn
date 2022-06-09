@@ -13,18 +13,18 @@ public class RenderList extends ChunkRenderContainer
 
     public void renderChunkLayer(EnumWorldBlockLayer layer)
     {
-        if (this.initialized)
+        if (initialized)
         {
-            if (this.renderChunks.size() == 0)
+            if (renderChunks.size() == 0)
             {
                 return;
             }
 
-            for (RenderChunk renderchunk : this.renderChunks)
+            for (RenderChunk renderchunk : renderChunks)
             {
                 ListedRenderChunk listedrenderchunk = (ListedRenderChunk)renderchunk;
                 GlStateManager.pushMatrix();
-                this.preRenderChunk(renderchunk);
+                preRenderChunk(renderchunk);
                 GL11.glCallList(listedrenderchunk.getDisplayList(layer, listedrenderchunk.getCompiledChunk()));
                 GlStateManager.popMatrix();
             }
@@ -35,7 +35,7 @@ public class RenderList extends ChunkRenderContainer
             }
 
             GlStateManager.resetColor();
-            this.renderChunks.clear();
+            renderChunks.clear();
         }
     }
 }

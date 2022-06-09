@@ -2,13 +2,13 @@ package net.minecraft.util;
 
 public class Tuple<A, B>
 {
-    private A a;
-    private B b;
+    private final A a;
+    private final B b;
 
     public Tuple(A aIn, B bIn)
     {
-        this.a = aIn;
-        this.b = bIn;
+        a = aIn;
+        b = bIn;
     }
 
     /**
@@ -16,7 +16,7 @@ public class Tuple<A, B>
      */
     public A getFirst()
     {
-        return this.a;
+        return a;
     }
 
     /**
@@ -24,6 +24,6 @@ public class Tuple<A, B>
      */
     public B getSecond()
     {
-        return this.b;
+        return b;
     }
 }

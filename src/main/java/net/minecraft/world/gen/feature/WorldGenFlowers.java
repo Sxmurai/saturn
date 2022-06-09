@@ -13,13 +13,13 @@ public class WorldGenFlowers extends WorldGenerator
 
     public WorldGenFlowers(BlockFlower p_i45632_1_, BlockFlower.EnumFlowerType p_i45632_2_)
     {
-        this.setGeneratedBlock(p_i45632_1_, p_i45632_2_);
+        setGeneratedBlock(p_i45632_1_, p_i45632_2_);
     }
 
     public void setGeneratedBlock(BlockFlower p_175914_1_, BlockFlower.EnumFlowerType p_175914_2_)
     {
-        this.flower = p_175914_1_;
-        this.field_175915_b = p_175914_1_.getDefaultState().withProperty(p_175914_1_.getTypeProperty(), p_175914_2_);
+        flower = p_175914_1_;
+        field_175915_b = p_175914_1_.getDefaultState().withProperty(p_175914_1_.getTypeProperty(), p_175914_2_);
     }
 
     public boolean generate(World worldIn, Random rand, BlockPos position)
@@ -28,9 +28,9 @@ public class WorldGenFlowers extends WorldGenerator
         {
             BlockPos blockpos = position.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
 
-            if (worldIn.isAirBlock(blockpos) && (!worldIn.provider.getHasNoSky() || blockpos.getY() < 255) && this.flower.canBlockStay(worldIn, blockpos, this.field_175915_b))
+            if (worldIn.isAirBlock(blockpos) && (!worldIn.provider.getHasNoSky() || blockpos.getY() < 255) && flower.canBlockStay(worldIn, blockpos, field_175915_b))
             {
-                worldIn.setBlockState(blockpos, this.field_175915_b, 2);
+                worldIn.setBlockState(blockpos, field_175915_b, 2);
             }
         }
 

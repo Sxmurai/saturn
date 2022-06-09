@@ -21,17 +21,17 @@ public class EntityMinecartEmpty extends EntityMinecart
      */
     public boolean interactFirst(EntityPlayer playerIn)
     {
-        if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityPlayer && this.riddenByEntity != playerIn)
+        if (riddenByEntity != null && riddenByEntity instanceof EntityPlayer && riddenByEntity != playerIn)
         {
             return true;
         }
-        else if (this.riddenByEntity != null && this.riddenByEntity != playerIn)
+        else if (riddenByEntity != null && riddenByEntity != playerIn)
         {
             return false;
         }
         else
         {
-            if (!this.worldObj.isRemote)
+            if (!worldObj.isRemote)
             {
                 playerIn.mountEntity(this);
             }
@@ -47,17 +47,17 @@ public class EntityMinecartEmpty extends EntityMinecart
     {
         if (receivingPower)
         {
-            if (this.riddenByEntity != null)
+            if (riddenByEntity != null)
             {
-                this.riddenByEntity.mountEntity((Entity)null);
+                riddenByEntity.mountEntity(null);
             }
 
-            if (this.getRollingAmplitude() == 0)
+            if (getRollingAmplitude() == 0)
             {
-                this.setRollingDirection(-this.getRollingDirection());
-                this.setRollingAmplitude(10);
-                this.setDamage(50.0F);
-                this.setBeenAttacked();
+                setRollingDirection(-getRollingDirection());
+                setRollingAmplitude(10);
+                setDamage(50.0F);
+                setBeenAttacked();
             }
         }
     }

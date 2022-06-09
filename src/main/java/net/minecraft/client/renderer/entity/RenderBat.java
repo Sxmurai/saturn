@@ -20,7 +20,7 @@ public class RenderBat extends RenderLiving<EntityBat>
      */
     protected ResourceLocation getEntityTexture(EntityBat entity)
     {
-        return batTextures;
+        return RenderBat.batTextures;
     }
 
     /**

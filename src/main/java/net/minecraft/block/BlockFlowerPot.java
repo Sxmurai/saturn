@@ -27,13 +27,13 @@ import net.minecraft.world.World;
 public class BlockFlowerPot extends BlockContainer
 {
     public static final PropertyInteger LEGACY_DATA = PropertyInteger.create("legacy_data", 0, 15);
-    public static final PropertyEnum<BlockFlowerPot.EnumFlowerType> CONTENTS = PropertyEnum.<BlockFlowerPot.EnumFlowerType>create("contents", BlockFlowerPot.EnumFlowerType.class);
+    public static final PropertyEnum<BlockFlowerPot.EnumFlowerType> CONTENTS = PropertyEnum.create("contents", BlockFlowerPot.EnumFlowerType.class);
 
     public BlockFlowerPot()
     {
         super(Material.circuits);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(CONTENTS, BlockFlowerPot.EnumFlowerType.EMPTY).withProperty(LEGACY_DATA, Integer.valueOf(0)));
-        this.setBlockBoundsForItemRender();
+        setDefaultState(blockState.getBaseState().withProperty(BlockFlowerPot.CONTENTS, BlockFlowerPot.EnumFlowerType.EMPTY).withProperty(BlockFlowerPot.LEGACY_DATA, Integer.valueOf(0)));
+        setBlockBoundsForItemRender();
     }
 
     /**
@@ -51,7 +51,7 @@ public class BlockFlowerPot extends BlockContainer
     {
         float f = 0.375F;
         float f1 = f / 2.0F;
-        this.setBlockBounds(0.5F - f1, 0.0F, 0.5F - f1, 0.5F + f1, f, 0.5F + f1);
+        setBlockBounds(0.5F - f1, 0.0F, 0.5F - f1, 0.5F + f1, f, 0.5F + f1);
     }
 
     /**
@@ -98,7 +98,7 @@ public class BlockFlowerPot extends BlockContainer
 
         if (itemstack != null && itemstack.getItem() instanceof ItemBlock)
         {
-            TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
+            TileEntityFlowerPot tileentityflowerpot = getTileEntity(worldIn, pos);
 
             if (tileentityflowerpot == null)
             {
@@ -112,7 +112,7 @@ public class BlockFlowerPot extends BlockContainer
             {
                 Block block = Block.getBlockFromItem(itemstack.getItem());
 
-                if (!this.canNotContain(block, itemstack.getMetadata()))
+                if (!canNotContain(block, itemstack.getMetadata()))
                 {
                     return false;
                 }
@@ -125,7 +125,7 @@ public class BlockFlowerPot extends BlockContainer
 
                     if (!playerIn.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
                     {
-                        playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack)null);
+                        playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
                     }
 
                     return true;
@@ -140,18 +140,18 @@ public class BlockFlowerPot extends BlockContainer
 
     private boolean canNotContain(Block blockIn, int meta)
     {
-        return blockIn != Blocks.yellow_flower && blockIn != Blocks.red_flower && blockIn != Blocks.cactus && blockIn != Blocks.brown_mushroom && blockIn != Blocks.red_mushroom && blockIn != Blocks.sapling && blockIn != Blocks.deadbush ? blockIn == Blocks.tallgrass && meta == BlockTallGrass.EnumType.FERN.getMeta() : true;
+        return blockIn == Blocks.yellow_flower || blockIn == Blocks.red_flower || blockIn == Blocks.cactus || blockIn == Blocks.brown_mushroom || blockIn == Blocks.red_mushroom || blockIn == Blocks.sapling || blockIn == Blocks.deadbush || blockIn == Blocks.tallgrass && meta == BlockTallGrass.EnumType.FERN.getMeta();
     }
 
     public Item getItem(World worldIn, BlockPos pos)
     {
-        TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
+        TileEntityFlowerPot tileentityflowerpot = getTileEntity(worldIn, pos);
         return tileentityflowerpot != null && tileentityflowerpot.getFlowerPotItem() != null ? tileentityflowerpot.getFlowerPotItem() : Items.flower_pot;
     }
 
     public int getDamageValue(World worldIn, BlockPos pos)
     {
-        TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
+        TileEntityFlowerPot tileentityflowerpot = getTileEntity(worldIn, pos);
         return tileentityflowerpot != null && tileentityflowerpot.getFlowerPotItem() != null ? tileentityflowerpot.getFlowerPotData() : 0;
     }
 
@@ -175,18 +175,18 @@ public class BlockFlowerPot extends BlockContainer
     {
         if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down()))
         {
-            this.dropBlockAsItem(worldIn, pos, state, 0);
+            dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockToAir(pos);
         }
     }
 
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
-        TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
+        TileEntityFlowerPot tileentityflowerpot = getTileEntity(worldIn, pos);
 
         if (tileentityflowerpot != null && tileentityflowerpot.getFlowerPotItem() != null)
         {
-            spawnAsEntity(worldIn, pos, new ItemStack(tileentityflowerpot.getFlowerPotItem(), 1, tileentityflowerpot.getFlowerPotData()));
+            Block.spawnAsEntity(worldIn, pos, new ItemStack(tileentityflowerpot.getFlowerPotItem(), 1, tileentityflowerpot.getFlowerPotData()));
         }
 
         super.breakBlock(worldIn, pos, state);
@@ -198,11 +198,11 @@ public class BlockFlowerPot extends BlockContainer
 
         if (player.capabilities.isCreativeMode)
         {
-            TileEntityFlowerPot tileentityflowerpot = this.getTileEntity(worldIn, pos);
+            TileEntityFlowerPot tileentityflowerpot = getTileEntity(worldIn, pos);
 
             if (tileentityflowerpot != null)
             {
-                tileentityflowerpot.setFlowerPotData((Item)null, 0);
+                tileentityflowerpot.setFlowerPotData(null, 0);
             }
         }
     }
@@ -296,7 +296,7 @@ public class BlockFlowerPot extends BlockContainer
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {CONTENTS, LEGACY_DATA});
+        return new BlockState(this, BlockFlowerPot.CONTENTS, BlockFlowerPot.LEGACY_DATA);
     }
 
     /**
@@ -304,7 +304,7 @@ public class BlockFlowerPot extends BlockContainer
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(LEGACY_DATA)).intValue();
+        return state.getValue(BlockFlowerPot.LEGACY_DATA).intValue();
     }
 
     /**
@@ -441,7 +441,7 @@ public class BlockFlowerPot extends BlockContainer
             }
         }
 
-        return state.withProperty(CONTENTS, blockflowerpot$enumflowertype);
+        return state.withProperty(BlockFlowerPot.CONTENTS, blockflowerpot$enumflowertype);
     }
 
     public EnumWorldBlockLayer getBlockLayer()
@@ -483,12 +483,12 @@ public class BlockFlowerPot extends BlockContainer
 
         public String toString()
         {
-            return this.name;
+            return name;
         }
 
         public String getName()
         {
-            return this.name;
+            return name;
         }
     }
 }

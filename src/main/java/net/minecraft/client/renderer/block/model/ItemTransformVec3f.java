@@ -31,22 +31,22 @@ public class ItemTransformVec3f
         {
             return true;
         }
-        else if (this.getClass() != p_equals_1_.getClass())
+        else if (getClass() != p_equals_1_.getClass())
         {
             return false;
         }
         else
         {
             ItemTransformVec3f itemtransformvec3f = (ItemTransformVec3f)p_equals_1_;
-            return !this.rotation.equals(itemtransformvec3f.rotation) ? false : (!this.scale.equals(itemtransformvec3f.scale) ? false : this.translation.equals(itemtransformvec3f.translation));
+            return rotation.equals(itemtransformvec3f.rotation) && (scale.equals(itemtransformvec3f.scale) && translation.equals(itemtransformvec3f.translation));
         }
     }
 
     public int hashCode()
     {
-        int i = this.rotation.hashCode();
-        i = 31 * i + this.translation.hashCode();
-        i = 31 * i + this.scale.hashCode();
+        int i = rotation.hashCode();
+        i = 31 * i + translation.hashCode();
+        i = 31 * i + scale.hashCode();
         return i;
     }
 
@@ -59,13 +59,13 @@ public class ItemTransformVec3f
         public ItemTransformVec3f deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException
         {
             JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
-            Vector3f vector3f = this.parseVector3f(jsonobject, "rotation", ROTATION_DEFAULT);
-            Vector3f vector3f1 = this.parseVector3f(jsonobject, "translation", TRANSLATION_DEFAULT);
+            Vector3f vector3f = parseVector3f(jsonobject, "rotation", Deserializer.ROTATION_DEFAULT);
+            Vector3f vector3f1 = parseVector3f(jsonobject, "translation", Deserializer.TRANSLATION_DEFAULT);
             vector3f1.scale(0.0625F);
             vector3f1.x = MathHelper.clamp_float(vector3f1.x, -1.5F, 1.5F);
             vector3f1.y = MathHelper.clamp_float(vector3f1.y, -1.5F, 1.5F);
             vector3f1.z = MathHelper.clamp_float(vector3f1.z, -1.5F, 1.5F);
-            Vector3f vector3f2 = this.parseVector3f(jsonobject, "scale", SCALE_DEFAULT);
+            Vector3f vector3f2 = parseVector3f(jsonobject, "scale", Deserializer.SCALE_DEFAULT);
             vector3f2.x = MathHelper.clamp_float(vector3f2.x, -4.0F, 4.0F);
             vector3f2.y = MathHelper.clamp_float(vector3f2.y, -4.0F, 4.0F);
             vector3f2.z = MathHelper.clamp_float(vector3f2.z, -4.0F, 4.0F);

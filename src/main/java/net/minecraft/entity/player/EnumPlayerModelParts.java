@@ -20,29 +20,29 @@ public enum EnumPlayerModelParts
 
     private EnumPlayerModelParts(int partIdIn, String partNameIn)
     {
-        this.partId = partIdIn;
-        this.partMask = 1 << partIdIn;
-        this.partName = partNameIn;
-        this.field_179339_k = new ChatComponentTranslation("options.modelPart." + partNameIn, new Object[0]);
+        partId = partIdIn;
+        partMask = 1 << partIdIn;
+        partName = partNameIn;
+        field_179339_k = new ChatComponentTranslation("options.modelPart." + partNameIn);
     }
 
     public int getPartMask()
     {
-        return this.partMask;
+        return partMask;
     }
 
     public int getPartId()
     {
-        return this.partId;
+        return partId;
     }
 
     public String getPartName()
     {
-        return this.partName;
+        return partName;
     }
 
     public IChatComponent func_179326_d()
     {
-        return this.field_179339_k;
+        return field_179339_k;
     }
 }

@@ -39,20 +39,20 @@ public class CommandGameRule extends CommandBase
      */
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        GameRules gamerules = this.getGameRules();
+        GameRules gamerules = getGameRules();
         String s = args.length > 0 ? args[0] : "";
-        String s1 = args.length > 1 ? buildString(args, 1) : "";
+        String s1 = args.length > 1 ? CommandBase.buildString(args, 1) : "";
 
         switch (args.length)
         {
             case 0:
-                sender.addChatMessage(new ChatComponentText(joinNiceString(gamerules.getRules())));
+                sender.addChatMessage(new ChatComponentText(CommandBase.joinNiceString(gamerules.getRules())));
                 break;
 
             case 1:
                 if (!gamerules.hasRule(s))
                 {
-                    throw new CommandException("commands.gamerule.norule", new Object[] {s});
+                    throw new CommandException("commands.gamerule.norule", s);
                 }
 
                 String s2 = gamerules.getString(s);
@@ -63,12 +63,12 @@ public class CommandGameRule extends CommandBase
             default:
                 if (gamerules.areSameType(s, GameRules.ValueType.BOOLEAN_VALUE) && !"true".equals(s1) && !"false".equals(s1))
                 {
-                    throw new CommandException("commands.generic.boolean.invalid", new Object[] {s1});
+                    throw new CommandException("commands.generic.boolean.invalid", s1);
                 }
 
                 gamerules.setOrCreateGameRule(s, s1);
-                func_175773_a(gamerules, s);
-                notifyOperators(sender, this, "commands.gamerule.success", new Object[0]);
+                CommandGameRule.func_175773_a(gamerules, s);
+                CommandBase.notifyOperators(sender, this, "commands.gamerule.success");
         }
     }
 
@@ -89,17 +89,17 @@ public class CommandGameRule extends CommandBase
     {
         if (args.length == 1)
         {
-            return getListOfStringsMatchingLastWord(args, this.getGameRules().getRules());
+            return CommandBase.getListOfStringsMatchingLastWord(args, getGameRules().getRules());
         }
         else
         {
             if (args.length == 2)
             {
-                GameRules gamerules = this.getGameRules();
+                GameRules gamerules = getGameRules();
 
                 if (gamerules.areSameType(args[0], GameRules.ValueType.BOOLEAN_VALUE))
                 {
-                    return getListOfStringsMatchingLastWord(args, new String[] {"true", "false"});
+                    return CommandBase.getListOfStringsMatchingLastWord(args, "true", "false");
                 }
             }
 

@@ -10,13 +10,13 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
-import java.util.Map.Entry;
+
 import net.minecraft.util.HttpUtil;
 
 public class PlayerUsageSnooper
 {
-    private final Map<String, Object> field_152773_a = Maps.<String, Object>newHashMap();
-    private final Map<String, Object> field_152774_b = Maps.<String, Object>newHashMap();
+    private final Map<String, Object> field_152773_a = Maps.newHashMap();
+    private final Map<String, Object> field_152774_b = Maps.newHashMap();
     private final String uniqueID = UUID.randomUUID().toString();
 
     /** URL of the server to send the report to */
@@ -36,15 +36,15 @@ public class PlayerUsageSnooper
     {
         try
         {
-            this.serverUrl = new URL("http://snoop.minecraft.net/" + p_i1563_1_ + "?version=" + 2);
+            serverUrl = new URL("http://snoop.minecraft.net/" + p_i1563_1_ + "?version=" + 2);
         }
         catch (MalformedURLException var6)
         {
             throw new IllegalArgumentException();
         }
 
-        this.playerStatsCollector = playerStatCollector;
-        this.minecraftStartTimeMilis = startTime;
+        playerStatsCollector = playerStatCollector;
+        minecraftStartTimeMilis = startTime;
     }
 
     /**
@@ -52,32 +52,32 @@ public class PlayerUsageSnooper
      */
     public void startSnooper()
     {
-        if (!this.isRunning)
+        if (!isRunning)
         {
-            this.isRunning = true;
-            this.func_152766_h();
-            this.threadTrigger.schedule(new TimerTask()
+            isRunning = true;
+            func_152766_h();
+            threadTrigger.schedule(new TimerTask()
             {
                 public void run()
                 {
-                    if (PlayerUsageSnooper.this.playerStatsCollector.isSnooperEnabled())
+                    if (playerStatsCollector.isSnooperEnabled())
                     {
                         Map<String, Object> map;
 
-                        synchronized (PlayerUsageSnooper.this.syncLock)
+                        synchronized (syncLock)
                         {
-                            map = Maps.<String, Object>newHashMap(PlayerUsageSnooper.this.field_152774_b);
+                            map = Maps.newHashMap(field_152774_b);
 
-                            if (PlayerUsageSnooper.this.selfCounter == 0)
+                            if (selfCounter == 0)
                             {
-                                map.putAll(PlayerUsageSnooper.this.field_152773_a);
+                                map.putAll(field_152773_a);
                             }
 
-                            map.put("snooper_count", Integer.valueOf(PlayerUsageSnooper.this.selfCounter++));
-                            map.put("snooper_token", PlayerUsageSnooper.this.uniqueID);
+                            map.put("snooper_count", Integer.valueOf(selfCounter++));
+                            map.put("snooper_token", uniqueID);
                         }
 
-                        HttpUtil.postMap(PlayerUsageSnooper.this.serverUrl, map, true);
+                        HttpUtil.postMap(serverUrl, map, true);
                     }
                 }
             }, 0L, 900000L);
@@ -86,15 +86,15 @@ public class PlayerUsageSnooper
 
     private void func_152766_h()
     {
-        this.addJvmArgsToSnooper();
-        this.addClientStat("snooper_token", this.uniqueID);
-        this.addStatToSnooper("snooper_token", this.uniqueID);
-        this.addStatToSnooper("os_name", System.getProperty("os.name"));
-        this.addStatToSnooper("os_version", System.getProperty("os.version"));
-        this.addStatToSnooper("os_architecture", System.getProperty("os.arch"));
-        this.addStatToSnooper("java_version", System.getProperty("java.version"));
-        this.addClientStat("version", "1.8.8");
-        this.playerStatsCollector.addServerTypeToSnooper(this);
+        addJvmArgsToSnooper();
+        addClientStat("snooper_token", uniqueID);
+        addStatToSnooper("snooper_token", uniqueID);
+        addStatToSnooper("os_name", System.getProperty("os.name"));
+        addStatToSnooper("os_version", System.getProperty("os.version"));
+        addStatToSnooper("os_architecture", System.getProperty("os.arch"));
+        addStatToSnooper("java_version", System.getProperty("java.version"));
+        addClientStat("version", "1.8.8");
+        playerStatsCollector.addServerTypeToSnooper(this);
     }
 
     private void addJvmArgsToSnooper()
@@ -107,52 +107,52 @@ public class PlayerUsageSnooper
         {
             if (s.startsWith("-X"))
             {
-                this.addClientStat("jvm_arg[" + i++ + "]", s);
+                addClientStat("jvm_arg[" + i++ + "]", s);
             }
         }
 
-        this.addClientStat("jvm_args", Integer.valueOf(i));
+        addClientStat("jvm_args", Integer.valueOf(i));
     }
 
     public void addMemoryStatsToSnooper()
     {
-        this.addStatToSnooper("memory_total", Long.valueOf(Runtime.getRuntime().totalMemory()));
-        this.addStatToSnooper("memory_max", Long.valueOf(Runtime.getRuntime().maxMemory()));
-        this.addStatToSnooper("memory_free", Long.valueOf(Runtime.getRuntime().freeMemory()));
-        this.addStatToSnooper("cpu_cores", Integer.valueOf(Runtime.getRuntime().availableProcessors()));
-        this.playerStatsCollector.addServerStatsToSnooper(this);
+        addStatToSnooper("memory_total", Long.valueOf(Runtime.getRuntime().totalMemory()));
+        addStatToSnooper("memory_max", Long.valueOf(Runtime.getRuntime().maxMemory()));
+        addStatToSnooper("memory_free", Long.valueOf(Runtime.getRuntime().freeMemory()));
+        addStatToSnooper("cpu_cores", Integer.valueOf(Runtime.getRuntime().availableProcessors()));
+        playerStatsCollector.addServerStatsToSnooper(this);
     }
 
     public void addClientStat(String p_152768_1_, Object p_152768_2_)
     {
-        synchronized (this.syncLock)
+        synchronized (syncLock)
         {
-            this.field_152774_b.put(p_152768_1_, p_152768_2_);
+            field_152774_b.put(p_152768_1_, p_152768_2_);
         }
     }
 
     public void addStatToSnooper(String p_152767_1_, Object p_152767_2_)
     {
-        synchronized (this.syncLock)
+        synchronized (syncLock)
         {
-            this.field_152773_a.put(p_152767_1_, p_152767_2_);
+            field_152773_a.put(p_152767_1_, p_152767_2_);
         }
     }
 
     public Map<String, String> getCurrentStats()
     {
-        Map<String, String> map = Maps.<String, String>newLinkedHashMap();
+        Map<String, String> map = Maps.newLinkedHashMap();
 
-        synchronized (this.syncLock)
+        synchronized (syncLock)
         {
-            this.addMemoryStatsToSnooper();
+            addMemoryStatsToSnooper();
 
-            for (Entry<String, Object> entry : this.field_152773_a.entrySet())
+            for (Map.Entry<String, Object> entry : this.field_152773_a.entrySet())
             {
                 map.put(entry.getKey(), entry.getValue().toString());
             }
 
-            for (Entry<String, Object> entry1 : this.field_152774_b.entrySet())
+            for (Map.Entry<String, Object> entry1 : field_152774_b.entrySet())
             {
                 map.put(entry1.getKey(), entry1.getValue().toString());
             }
@@ -163,17 +163,17 @@ public class PlayerUsageSnooper
 
     public boolean isSnooperRunning()
     {
-        return this.isRunning;
+        return isRunning;
     }
 
     public void stopSnooper()
     {
-        this.threadTrigger.cancel();
+        threadTrigger.cancel();
     }
 
     public String getUniqueID()
     {
-        return this.uniqueID;
+        return uniqueID;
     }
 
     /**
@@ -181,6 +181,6 @@ public class PlayerUsageSnooper
      */
     public long getMinecraftStartTimeMillis()
     {
-        return this.minecraftStartTimeMilis;
+        return minecraftStartTimeMilis;
     }
 }

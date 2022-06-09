@@ -19,7 +19,7 @@ public class RandomPositionGenerator
      */
     public static Vec3 findRandomTarget(EntityCreature entitycreatureIn, int xz, int y)
     {
-        return findRandomTargetBlock(entitycreatureIn, xz, y, (Vec3)null);
+        return RandomPositionGenerator.findRandomTargetBlock(entitycreatureIn, xz, y, null);
     }
 
     /**
@@ -27,8 +27,8 @@ public class RandomPositionGenerator
      */
     public static Vec3 findRandomTargetBlockTowards(EntityCreature entitycreatureIn, int xz, int y, Vec3 targetVec3)
     {
-        staticVector = targetVec3.subtract(entitycreatureIn.posX, entitycreatureIn.posY, entitycreatureIn.posZ);
-        return findRandomTargetBlock(entitycreatureIn, xz, y, staticVector);
+        RandomPositionGenerator.staticVector = targetVec3.subtract(entitycreatureIn.posX, entitycreatureIn.posY, entitycreatureIn.posZ);
+        return RandomPositionGenerator.findRandomTargetBlock(entitycreatureIn, xz, y, RandomPositionGenerator.staticVector);
     }
 
     /**
@@ -36,8 +36,8 @@ public class RandomPositionGenerator
      */
     public static Vec3 findRandomTargetBlockAwayFrom(EntityCreature entitycreatureIn, int xz, int y, Vec3 targetVec3)
     {
-        staticVector = (new Vec3(entitycreatureIn.posX, entitycreatureIn.posY, entitycreatureIn.posZ)).subtract(targetVec3);
-        return findRandomTargetBlock(entitycreatureIn, xz, y, staticVector);
+        RandomPositionGenerator.staticVector = (new Vec3(entitycreatureIn.posX, entitycreatureIn.posY, entitycreatureIn.posZ)).subtract(targetVec3);
+        return RandomPositionGenerator.findRandomTargetBlock(entitycreatureIn, xz, y, RandomPositionGenerator.staticVector);
     }
 
     /**
@@ -56,8 +56,8 @@ public class RandomPositionGenerator
 
         if (entitycreatureIn.hasHome())
         {
-            double d0 = entitycreatureIn.getHomePosition().distanceSq((double)MathHelper.floor_double(entitycreatureIn.posX), (double)MathHelper.floor_double(entitycreatureIn.posY), (double)MathHelper.floor_double(entitycreatureIn.posZ)) + 4.0D;
-            double d1 = (double)(entitycreatureIn.getMaximumHomeDistance() + (float)xz);
+            double d0 = entitycreatureIn.getHomePosition().distanceSq(MathHelper.floor_double(entitycreatureIn.posX), MathHelper.floor_double(entitycreatureIn.posY), MathHelper.floor_double(entitycreatureIn.posZ)) + 4.0D;
+            double d1 = entitycreatureIn.getMaximumHomeDistance() + (float)xz;
             flag1 = d0 < d1 * d1;
         }
         else
@@ -119,7 +119,7 @@ public class RandomPositionGenerator
 
         if (flag)
         {
-            return new Vec3((double)i, (double)j, (double)k);
+            return new Vec3(i, j, k);
         }
         else
         {

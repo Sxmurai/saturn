@@ -19,8 +19,8 @@ public class GuiDispenser extends GuiContainer
     public GuiDispenser(InventoryPlayer playerInv, IInventory dispenserInv)
     {
         super(new ContainerDispenser(playerInv, dispenserInv));
-        this.playerInventory = playerInv;
-        this.dispenserInventory = dispenserInv;
+        playerInventory = playerInv;
+        dispenserInventory = dispenserInv;
     }
 
     /**
@@ -28,9 +28,9 @@ public class GuiDispenser extends GuiContainer
      */
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        String s = this.dispenserInventory.getDisplayName().getUnformattedText();
-        this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-        this.fontRendererObj.drawString(this.playerInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+        String s = dispenserInventory.getDisplayName().getUnformattedText();
+        fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+        fontRendererObj.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
     }
 
     /**
@@ -39,9 +39,9 @@ public class GuiDispenser extends GuiContainer
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(dispenserGuiTextures);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+        mc.getTextureManager().bindTexture(GuiDispenser.dispenserGuiTextures);
+        int i = (width - xSize) / 2;
+        int j = (height - ySize) / 2;
+        drawTexturedModalRect(i, j, 0, 0, xSize, ySize);
     }
 }

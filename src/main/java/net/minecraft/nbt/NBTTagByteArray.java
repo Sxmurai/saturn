@@ -24,17 +24,17 @@ public class NBTTagByteArray extends NBTBase
      */
     void write(DataOutput output) throws IOException
     {
-        output.writeInt(this.data.length);
-        output.write(this.data);
+        output.writeInt(data.length);
+        output.write(data);
     }
 
     void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException
     {
         sizeTracker.read(192L);
         int i = input.readInt();
-        sizeTracker.read((long)(8 * i));
-        this.data = new byte[i];
-        input.readFully(this.data);
+        sizeTracker.read(8 * i);
+        data = new byte[i];
+        input.readFully(data);
     }
 
     /**
@@ -47,7 +47,7 @@ public class NBTTagByteArray extends NBTBase
 
     public String toString()
     {
-        return "[" + this.data.length + " bytes]";
+        return "[" + data.length + " bytes]";
     }
 
     /**
@@ -55,23 +55,23 @@ public class NBTTagByteArray extends NBTBase
      */
     public NBTBase copy()
     {
-        byte[] abyte = new byte[this.data.length];
-        System.arraycopy(this.data, 0, abyte, 0, this.data.length);
+        byte[] abyte = new byte[data.length];
+        System.arraycopy(data, 0, abyte, 0, data.length);
         return new NBTTagByteArray(abyte);
     }
 
     public boolean equals(Object p_equals_1_)
     {
-        return super.equals(p_equals_1_) ? Arrays.equals(this.data, ((NBTTagByteArray)p_equals_1_).data) : false;
+        return super.equals(p_equals_1_) && Arrays.equals(data, ((NBTTagByteArray) p_equals_1_).data);
     }
 
     public int hashCode()
     {
-        return super.hashCode() ^ Arrays.hashCode(this.data);
+        return super.hashCode() ^ Arrays.hashCode(data);
     }
 
     public byte[] getByteArray()
     {
-        return this.data;
+        return data;
     }
 }

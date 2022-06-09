@@ -28,7 +28,7 @@ public class SaveFormatOld implements ISaveFormat
             p_i2147_1_.mkdirs();
         }
 
-        this.savesDirectory = p_i2147_1_;
+        savesDirectory = p_i2147_1_;
     }
 
     /**
@@ -41,12 +41,12 @@ public class SaveFormatOld implements ISaveFormat
 
     public List<SaveFormatComparator> getSaveList() throws AnvilConverterException
     {
-        List<SaveFormatComparator> list = Lists.<SaveFormatComparator>newArrayList();
+        List<SaveFormatComparator> list = Lists.newArrayList();
 
         for (int i = 0; i < 5; ++i)
         {
             String s = "World" + (i + 1);
-            WorldInfo worldinfo = this.getWorldInfo(s);
+            WorldInfo worldinfo = getWorldInfo(s);
 
             if (worldinfo != null)
             {
@@ -66,7 +66,7 @@ public class SaveFormatOld implements ISaveFormat
      */
     public WorldInfo getWorldInfo(String saveName)
     {
-        File file1 = new File(this.savesDirectory, saveName);
+        File file1 = new File(savesDirectory, saveName);
 
         if (!file1.exists())
         {
@@ -86,7 +86,7 @@ public class SaveFormatOld implements ISaveFormat
                 }
                 catch (Exception exception1)
                 {
-                    logger.error((String)("Exception reading " + file2), (Throwable)exception1);
+                    SaveFormatOld.logger.error("Exception reading " + file2, exception1);
                 }
             }
 
@@ -102,7 +102,7 @@ public class SaveFormatOld implements ISaveFormat
                 }
                 catch (Exception exception)
                 {
-                    logger.error((String)("Exception reading " + file2), (Throwable)exception);
+                    SaveFormatOld.logger.error("Exception reading " + file2, exception);
                 }
             }
 
@@ -116,7 +116,7 @@ public class SaveFormatOld implements ISaveFormat
      */
     public void renameWorld(String dirName, String newName)
     {
-        File file1 = new File(this.savesDirectory, dirName);
+        File file1 = new File(savesDirectory, dirName);
 
         if (file1.exists())
         {
@@ -141,7 +141,7 @@ public class SaveFormatOld implements ISaveFormat
 
     public boolean func_154335_d(String p_154335_1_)
     {
-        File file1 = new File(this.savesDirectory, p_154335_1_);
+        File file1 = new File(savesDirectory, p_154335_1_);
 
         if (file1.exists())
         {
@@ -157,7 +157,7 @@ public class SaveFormatOld implements ISaveFormat
             }
             catch (Throwable throwable)
             {
-                logger.warn("Couldn\'t make new level", throwable);
+                SaveFormatOld.logger.warn("Couldn't make new level", throwable);
                 return false;
             }
         }
@@ -169,7 +169,7 @@ public class SaveFormatOld implements ISaveFormat
      */
     public boolean deleteWorldDirectory(String p_75802_1_)
     {
-        File file1 = new File(this.savesDirectory, p_75802_1_);
+        File file1 = new File(savesDirectory, p_75802_1_);
 
         if (!file1.exists())
         {
@@ -177,18 +177,18 @@ public class SaveFormatOld implements ISaveFormat
         }
         else
         {
-            logger.info("Deleting level " + p_75802_1_);
+            SaveFormatOld.logger.info("Deleting level " + p_75802_1_);
 
             for (int i = 1; i <= 5; ++i)
             {
-                logger.info("Attempt " + i + "...");
+                SaveFormatOld.logger.info("Attempt " + i + "...");
 
-                if (deleteFiles(file1.listFiles()))
+                if (SaveFormatOld.deleteFiles(file1.listFiles()))
                 {
                     break;
                 }
 
-                logger.warn("Unsuccessful in deleting contents.");
+                SaveFormatOld.logger.warn("Unsuccessful in deleting contents.");
 
                 if (i < 5)
                 {
@@ -198,7 +198,6 @@ public class SaveFormatOld implements ISaveFormat
                     }
                     catch (InterruptedException var5)
                     {
-                        ;
                     }
                 }
             }
@@ -216,17 +215,17 @@ public class SaveFormatOld implements ISaveFormat
         for (int i = 0; i < files.length; ++i)
         {
             File file1 = files[i];
-            logger.debug("Deleting " + file1);
+            SaveFormatOld.logger.debug("Deleting " + file1);
 
-            if (file1.isDirectory() && !deleteFiles(file1.listFiles()))
+            if (file1.isDirectory() && !SaveFormatOld.deleteFiles(file1.listFiles()))
             {
-                logger.warn("Couldn\'t delete directory " + file1);
+                SaveFormatOld.logger.warn("Couldn't delete directory " + file1);
                 return false;
             }
 
             if (!file1.delete())
             {
-                logger.warn("Couldn\'t delete file " + file1);
+                SaveFormatOld.logger.warn("Couldn't delete file " + file1);
                 return false;
             }
         }
@@ -239,7 +238,7 @@ public class SaveFormatOld implements ISaveFormat
      */
     public ISaveHandler getSaveLoader(String saveName, boolean storePlayerdata)
     {
-        return new SaveHandler(this.savesDirectory, saveName, storePlayerdata);
+        return new SaveHandler(savesDirectory, saveName, storePlayerdata);
     }
 
     public boolean func_154334_a(String saveName)
@@ -268,7 +267,7 @@ public class SaveFormatOld implements ISaveFormat
      */
     public boolean canLoadWorld(String p_90033_1_)
     {
-        File file1 = new File(this.savesDirectory, p_90033_1_);
+        File file1 = new File(savesDirectory, p_90033_1_);
         return file1.isDirectory();
     }
 }

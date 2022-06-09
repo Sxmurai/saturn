@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderHorse extends RenderLiving<EntityHorse>
 {
-    private static final Map<String, ResourceLocation> field_110852_a = Maps.<String, ResourceLocation>newHashMap();
+    private static final Map<String, ResourceLocation> field_110852_a = Maps.newHashMap();
     private static final ResourceLocation whiteHorseTextures = new ResourceLocation("textures/entity/horse/horse_white.png");
     private static final ResourceLocation muleTextures = new ResourceLocation("textures/entity/horse/mule.png");
     private static final ResourceLocation donkeyTextures = new ResourceLocation("textures/entity/horse/donkey.png");
@@ -56,24 +56,24 @@ public class RenderHorse extends RenderLiving<EntityHorse>
             {
                 case 0:
                 default:
-                    return whiteHorseTextures;
+                    return RenderHorse.whiteHorseTextures;
 
                 case 1:
-                    return donkeyTextures;
+                    return RenderHorse.donkeyTextures;
 
                 case 2:
-                    return muleTextures;
+                    return RenderHorse.muleTextures;
 
                 case 3:
-                    return zombieHorseTextures;
+                    return RenderHorse.zombieHorseTextures;
 
                 case 4:
-                    return skeletonHorseTextures;
+                    return RenderHorse.skeletonHorseTextures;
             }
         }
         else
         {
-            return this.func_110848_b(entity);
+            return func_110848_b(entity);
         }
     }
 
@@ -87,13 +87,13 @@ public class RenderHorse extends RenderLiving<EntityHorse>
         }
         else
         {
-            ResourceLocation resourcelocation = (ResourceLocation)field_110852_a.get(s);
+            ResourceLocation resourcelocation = RenderHorse.field_110852_a.get(s);
 
             if (resourcelocation == null)
             {
                 resourcelocation = new ResourceLocation(s);
                 Minecraft.getMinecraft().getTextureManager().loadTexture(resourcelocation, new LayeredTexture(horse.getVariantTexturePaths()));
-                field_110852_a.put(s, resourcelocation);
+                RenderHorse.field_110852_a.put(s, resourcelocation);
             }
 
             return resourcelocation;

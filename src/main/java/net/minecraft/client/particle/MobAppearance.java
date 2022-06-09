@@ -18,10 +18,10 @@ public class MobAppearance extends EntityFX
     protected MobAppearance(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0D, 0.0D, 0.0D);
-        this.particleRed = this.particleGreen = this.particleBlue = 1.0F;
-        this.motionX = this.motionY = this.motionZ = 0.0D;
-        this.particleGravity = 0.0F;
-        this.particleMaxAge = 30;
+        particleRed = particleGreen = particleBlue = 1.0F;
+        motionX = motionY = motionZ = 0.0D;
+        particleGravity = 0.0F;
+        particleMaxAge = 30;
     }
 
     public int getFXLayer()
@@ -36,11 +36,11 @@ public class MobAppearance extends EntityFX
     {
         super.onUpdate();
 
-        if (this.entity == null)
+        if (entity == null)
         {
-            EntityGuardian entityguardian = new EntityGuardian(this.worldObj);
+            EntityGuardian entityguardian = new EntityGuardian(worldObj);
             entityguardian.setElder();
-            this.entity = entityguardian;
+            entity = entityguardian;
         }
     }
 
@@ -49,12 +49,12 @@ public class MobAppearance extends EntityFX
      */
     public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
     {
-        if (this.entity != null)
+        if (entity != null)
         {
             RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
             rendermanager.setRenderPosition(EntityFX.interpPosX, EntityFX.interpPosY, EntityFX.interpPosZ);
             float f = 0.42553192F;
-            float f1 = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge;
+            float f1 = ((float) particleAge + partialTicks) / (float) particleMaxAge;
             GlStateManager.depthMask(true);
             GlStateManager.enableBlend();
             GlStateManager.enableDepth();
@@ -69,9 +69,9 @@ public class MobAppearance extends EntityFX
             GlStateManager.rotate(60.0F - 150.0F * f1 - entityIn.rotationPitch, 1.0F, 0.0F, 0.0F);
             GlStateManager.translate(0.0F, -0.4F, -1.5F);
             GlStateManager.scale(f, f, f);
-            this.entity.rotationYaw = this.entity.prevRotationYaw = 0.0F;
-            this.entity.rotationYawHead = this.entity.prevRotationYawHead = 0.0F;
-            rendermanager.renderEntityWithPosYaw(this.entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks);
+            entity.rotationYaw = entity.prevRotationYaw = 0.0F;
+            entity.rotationYawHead = entity.prevRotationYawHead = 0.0F;
+            rendermanager.renderEntityWithPosYaw(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks);
             GlStateManager.popMatrix();
             GlStateManager.enableDepth();
         }

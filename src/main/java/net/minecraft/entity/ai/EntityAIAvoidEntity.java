@@ -16,41 +16,41 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
 
     /** The entity we are attached to */
     protected EntityCreature theEntity;
-    private double farSpeed;
-    private double nearSpeed;
+    private final double farSpeed;
+    private final double nearSpeed;
     protected T closestLivingEntity;
-    private float avoidDistance;
+    private final float avoidDistance;
 
     /** The PathEntity of our entity */
     private PathEntity entityPathEntity;
 
     /** The PathNavigate of our entity */
-    private PathNavigate entityPathNavigate;
-    private Class<T> field_181064_i;
-    private Predicate <? super T > avoidTargetSelector;
+    private final PathNavigate entityPathNavigate;
+    private final Class<T> field_181064_i;
+    private final Predicate <? super T > avoidTargetSelector;
 
     public EntityAIAvoidEntity(EntityCreature p_i46404_1_, Class<T> p_i46404_2_, float p_i46404_3_, double p_i46404_4_, double p_i46404_6_)
     {
-        this(p_i46404_1_, p_i46404_2_, Predicates.<T>alwaysTrue(), p_i46404_3_, p_i46404_4_, p_i46404_6_);
+        this(p_i46404_1_, p_i46404_2_, Predicates.alwaysTrue(), p_i46404_3_, p_i46404_4_, p_i46404_6_);
     }
 
     public EntityAIAvoidEntity(EntityCreature p_i46405_1_, Class<T> p_i46405_2_, Predicate <? super T > p_i46405_3_, float p_i46405_4_, double p_i46405_5_, double p_i46405_7_)
     {
-        this.canBeSeenSelector = new Predicate<Entity>()
+        canBeSeenSelector = new Predicate<Entity>()
         {
             public boolean apply(Entity p_apply_1_)
             {
-                return p_apply_1_.isEntityAlive() && EntityAIAvoidEntity.this.theEntity.getEntitySenses().canSee(p_apply_1_);
+                return p_apply_1_.isEntityAlive() && theEntity.getEntitySenses().canSee(p_apply_1_);
             }
         };
-        this.theEntity = p_i46405_1_;
-        this.field_181064_i = p_i46405_2_;
-        this.avoidTargetSelector = p_i46405_3_;
-        this.avoidDistance = p_i46405_4_;
-        this.farSpeed = p_i46405_5_;
-        this.nearSpeed = p_i46405_7_;
-        this.entityPathNavigate = p_i46405_1_.getNavigator();
-        this.setMutexBits(1);
+        theEntity = p_i46405_1_;
+        field_181064_i = p_i46405_2_;
+        avoidTargetSelector = p_i46405_3_;
+        avoidDistance = p_i46405_4_;
+        farSpeed = p_i46405_5_;
+        nearSpeed = p_i46405_7_;
+        entityPathNavigate = p_i46405_1_.getNavigator();
+        setMutexBits(1);
     }
 
     /**
@@ -58,7 +58,7 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        List<T> list = this.theEntity.worldObj.<T>getEntitiesWithinAABB(this.field_181064_i, this.theEntity.getEntityBoundingBox().expand((double)this.avoidDistance, 3.0D, (double)this.avoidDistance), Predicates.and(new Predicate[] {EntitySelectors.NOT_SPECTATING, this.canBeSeenSelector, this.avoidTargetSelector}));
+        List<T> list = theEntity.worldObj.getEntitiesWithinAABB(field_181064_i, theEntity.getEntityBoundingBox().expand(avoidDistance, 3.0D, avoidDistance), Predicates.and(new Predicate[] {EntitySelectors.NOT_SPECTATING, canBeSeenSelector, avoidTargetSelector}));
 
         if (list.isEmpty())
         {
@@ -66,21 +66,21 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
         }
         else
         {
-            this.closestLivingEntity = list.get(0);
-            Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.theEntity, 16, 7, new Vec3(this.closestLivingEntity.posX, this.closestLivingEntity.posY, this.closestLivingEntity.posZ));
+            closestLivingEntity = list.get(0);
+            Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockAwayFrom(theEntity, 16, 7, new Vec3(closestLivingEntity.posX, closestLivingEntity.posY, closestLivingEntity.posZ));
 
             if (vec3 == null)
             {
                 return false;
             }
-            else if (this.closestLivingEntity.getDistanceSq(vec3.xCoord, vec3.yCoord, vec3.zCoord) < this.closestLivingEntity.getDistanceSqToEntity(this.theEntity))
+            else if (closestLivingEntity.getDistanceSq(vec3.xCoord, vec3.yCoord, vec3.zCoord) < closestLivingEntity.getDistanceSqToEntity(theEntity))
             {
                 return false;
             }
             else
             {
-                this.entityPathEntity = this.entityPathNavigate.getPathToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord);
-                return this.entityPathEntity == null ? false : this.entityPathEntity.isDestinationSame(vec3);
+                entityPathEntity = entityPathNavigate.getPathToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord);
+                return entityPathEntity != null && entityPathEntity.isDestinationSame(vec3);
             }
         }
     }
@@ -90,7 +90,7 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return !this.entityPathNavigate.noPath();
+        return !entityPathNavigate.noPath();
     }
 
     /**
@@ -98,7 +98,7 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
      */
     public void startExecuting()
     {
-        this.entityPathNavigate.setPath(this.entityPathEntity, this.farSpeed);
+        entityPathNavigate.setPath(entityPathEntity, farSpeed);
     }
 
     /**
@@ -106,7 +106,7 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
      */
     public void resetTask()
     {
-        this.closestLivingEntity = null;
+        closestLivingEntity = null;
     }
 
     /**
@@ -114,13 +114,13 @@ public class EntityAIAvoidEntity<T extends Entity> extends EntityAIBase
      */
     public void updateTask()
     {
-        if (this.theEntity.getDistanceSqToEntity(this.closestLivingEntity) < 49.0D)
+        if (theEntity.getDistanceSqToEntity(closestLivingEntity) < 49.0D)
         {
-            this.theEntity.getNavigator().setSpeed(this.nearSpeed);
+            theEntity.getNavigator().setSpeed(nearSpeed);
         }
         else
         {
-            this.theEntity.getNavigator().setSpeed(this.farSpeed);
+            theEntity.getNavigator().setSpeed(farSpeed);
         }
     }
 }

@@ -29,7 +29,7 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
      */
     public ItemStack getStackInSlot(int index)
     {
-        return this.stacks[index];
+        return stacks[index];
     }
 
     /**
@@ -37,25 +37,25 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
      */
     public ItemStack decrStackSize(int index, int count)
     {
-        if (this.stacks[index] != null)
+        if (stacks[index] != null)
         {
-            if (this.stacks[index].stackSize <= count)
+            if (stacks[index].stackSize <= count)
             {
-                ItemStack itemstack1 = this.stacks[index];
-                this.stacks[index] = null;
-                this.markDirty();
+                ItemStack itemstack1 = stacks[index];
+                stacks[index] = null;
+                markDirty();
                 return itemstack1;
             }
             else
             {
-                ItemStack itemstack = this.stacks[index].splitStack(count);
+                ItemStack itemstack = stacks[index].splitStack(count);
 
-                if (this.stacks[index].stackSize == 0)
+                if (stacks[index].stackSize == 0)
                 {
-                    this.stacks[index] = null;
+                    stacks[index] = null;
                 }
 
-                this.markDirty();
+                markDirty();
                 return itemstack;
             }
         }
@@ -70,10 +70,10 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
      */
     public ItemStack removeStackFromSlot(int index)
     {
-        if (this.stacks[index] != null)
+        if (stacks[index] != null)
         {
-            ItemStack itemstack = this.stacks[index];
-            this.stacks[index] = null;
+            ItemStack itemstack = stacks[index];
+            stacks[index] = null;
             return itemstack;
         }
         else
@@ -87,9 +87,9 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
         int i = -1;
         int j = 1;
 
-        for (int k = 0; k < this.stacks.length; ++k)
+        for (int k = 0; k < stacks.length; ++k)
         {
-            if (this.stacks[k] != null && RNG.nextInt(j++) == 0)
+            if (stacks[k] != null && TileEntityDispenser.RNG.nextInt(j++) == 0)
             {
                 i = k;
             }
@@ -103,14 +103,14 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
      */
     public void setInventorySlotContents(int index, ItemStack stack)
     {
-        this.stacks[index] = stack;
+        stacks[index] = stack;
 
-        if (stack != null && stack.stackSize > this.getInventoryStackLimit())
+        if (stack != null && stack.stackSize > getInventoryStackLimit())
         {
-            stack.stackSize = this.getInventoryStackLimit();
+            stack.stackSize = getInventoryStackLimit();
         }
 
-        this.markDirty();
+        markDirty();
     }
 
     /**
@@ -119,11 +119,11 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
      */
     public int addItemStack(ItemStack stack)
     {
-        for (int i = 0; i < this.stacks.length; ++i)
+        for (int i = 0; i < stacks.length; ++i)
         {
-            if (this.stacks[i] == null || this.stacks[i].getItem() == null)
+            if (stacks[i] == null || stacks[i].getItem() == null)
             {
-                this.setInventorySlotContents(i, stack);
+                setInventorySlotContents(i, stack);
                 return i;
             }
         }
@@ -136,7 +136,7 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
      */
     public String getName()
     {
-        return this.hasCustomName() ? this.customName : "container.dispenser";
+        return hasCustomName() ? customName : "container.dispenser";
     }
 
     public void setCustomName(String customName)
@@ -149,29 +149,29 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
      */
     public boolean hasCustomName()
     {
-        return this.customName != null;
+        return customName != null;
     }
 
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
         NBTTagList nbttaglist = compound.getTagList("Items", 10);
-        this.stacks = new ItemStack[this.getSizeInventory()];
+        stacks = new ItemStack[getSizeInventory()];
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
             NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound.getByte("Slot") & 255;
 
-            if (j >= 0 && j < this.stacks.length)
+            if (j >= 0 && j < stacks.length)
             {
-                this.stacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
+                stacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
             }
         }
 
         if (compound.hasKey("CustomName", 8))
         {
-            this.customName = compound.getString("CustomName");
+            customName = compound.getString("CustomName");
         }
     }
 
@@ -180,22 +180,22 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
         super.writeToNBT(compound);
         NBTTagList nbttaglist = new NBTTagList();
 
-        for (int i = 0; i < this.stacks.length; ++i)
+        for (int i = 0; i < stacks.length; ++i)
         {
-            if (this.stacks[i] != null)
+            if (stacks[i] != null)
             {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setByte("Slot", (byte)i);
-                this.stacks[i].writeToNBT(nbttagcompound);
+                stacks[i].writeToNBT(nbttagcompound);
                 nbttaglist.appendTag(nbttagcompound);
             }
         }
 
         compound.setTag("Items", nbttaglist);
 
-        if (this.hasCustomName())
+        if (hasCustomName())
         {
-            compound.setString("CustomName", this.customName);
+            compound.setString("CustomName", customName);
         }
     }
 
@@ -212,7 +212,7 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
      */
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        return worldObj.getTileEntity(pos) == this && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
     }
 
     public void openInventory(EntityPlayer player)
@@ -257,9 +257,9 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
 
     public void clear()
     {
-        for (int i = 0; i < this.stacks.length; ++i)
+        for (int i = 0; i < stacks.length; ++i)
         {
-            this.stacks[i] = null;
+            stacks[i] = null;
         }
     }
 }

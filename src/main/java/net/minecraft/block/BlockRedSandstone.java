@@ -13,13 +13,13 @@ import net.minecraft.util.IStringSerializable;
 
 public class BlockRedSandstone extends Block
 {
-    public static final PropertyEnum<BlockRedSandstone.EnumType> TYPE = PropertyEnum.<BlockRedSandstone.EnumType>create("type", BlockRedSandstone.EnumType.class);
+    public static final PropertyEnum<BlockRedSandstone.EnumType> TYPE = PropertyEnum.create("type", BlockRedSandstone.EnumType.class);
 
     public BlockRedSandstone()
     {
         super(Material.rock, BlockSand.EnumType.RED_SAND.getMapColor());
-        this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, BlockRedSandstone.EnumType.DEFAULT));
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setDefaultState(blockState.getBaseState().withProperty(BlockRedSandstone.TYPE, BlockRedSandstone.EnumType.DEFAULT));
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**
@@ -28,7 +28,7 @@ public class BlockRedSandstone extends Block
      */
     public int damageDropped(IBlockState state)
     {
-        return ((BlockRedSandstone.EnumType)state.getValue(TYPE)).getMetadata();
+        return state.getValue(BlockRedSandstone.TYPE).getMetadata();
     }
 
     /**
@@ -47,7 +47,7 @@ public class BlockRedSandstone extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(TYPE, BlockRedSandstone.EnumType.byMetadata(meta));
+        return getDefaultState().withProperty(BlockRedSandstone.TYPE, BlockRedSandstone.EnumType.byMetadata(meta));
     }
 
     /**
@@ -55,12 +55,12 @@ public class BlockRedSandstone extends Block
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((BlockRedSandstone.EnumType)state.getValue(TYPE)).getMetadata();
+        return state.getValue(BlockRedSandstone.TYPE).getMetadata();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {TYPE});
+        return new BlockState(this, BlockRedSandstone.TYPE);
     }
 
     public static enum EnumType implements IStringSerializable
@@ -69,7 +69,7 @@ public class BlockRedSandstone extends Block
         CHISELED(1, "chiseled_red_sandstone", "chiseled"),
         SMOOTH(2, "smooth_red_sandstone", "smooth");
 
-        private static final BlockRedSandstone.EnumType[] META_LOOKUP = new BlockRedSandstone.EnumType[values().length];
+        private static final BlockRedSandstone.EnumType[] META_LOOKUP = new BlockRedSandstone.EnumType[EnumType.values().length];
         private final int meta;
         private final String name;
         private final String unlocalizedName;
@@ -83,38 +83,38 @@ public class BlockRedSandstone extends Block
 
         public int getMetadata()
         {
-            return this.meta;
+            return meta;
         }
 
         public String toString()
         {
-            return this.name;
+            return name;
         }
 
         public static BlockRedSandstone.EnumType byMetadata(int meta)
         {
-            if (meta < 0 || meta >= META_LOOKUP.length)
+            if (meta < 0 || meta >= EnumType.META_LOOKUP.length)
             {
                 meta = 0;
             }
 
-            return META_LOOKUP[meta];
+            return EnumType.META_LOOKUP[meta];
         }
 
         public String getName()
         {
-            return this.name;
+            return name;
         }
 
         public String getUnlocalizedName()
         {
-            return this.unlocalizedName;
+            return unlocalizedName;
         }
 
         static {
-            for (BlockRedSandstone.EnumType blockredsandstone$enumtype : values())
+            for (BlockRedSandstone.EnumType blockredsandstone$enumtype : EnumType.values())
             {
-                META_LOOKUP[blockredsandstone$enumtype.getMetadata()] = blockredsandstone$enumtype;
+                EnumType.META_LOOKUP[blockredsandstone$enumtype.getMetadata()] = blockredsandstone$enumtype;
             }
         }
     }

@@ -12,14 +12,14 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class MapGenNetherBridge extends MapGenStructure
 {
-    private List<BiomeGenBase.SpawnListEntry> spawnList = Lists.<BiomeGenBase.SpawnListEntry>newArrayList();
+    private final List<BiomeGenBase.SpawnListEntry> spawnList = Lists.newArrayList();
 
     public MapGenNetherBridge()
     {
-        this.spawnList.add(new BiomeGenBase.SpawnListEntry(EntityBlaze.class, 10, 2, 3));
-        this.spawnList.add(new BiomeGenBase.SpawnListEntry(EntityPigZombie.class, 5, 4, 4));
-        this.spawnList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 10, 4, 4));
-        this.spawnList.add(new BiomeGenBase.SpawnListEntry(EntityMagmaCube.class, 3, 4, 4));
+        spawnList.add(new BiomeGenBase.SpawnListEntry(EntityBlaze.class, 10, 2, 3));
+        spawnList.add(new BiomeGenBase.SpawnListEntry(EntityPigZombie.class, 5, 4, 4));
+        spawnList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 10, 4, 4));
+        spawnList.add(new BiomeGenBase.SpawnListEntry(EntityMagmaCube.class, 3, 4, 4));
     }
 
     public String getStructureName()
@@ -29,21 +29,21 @@ public class MapGenNetherBridge extends MapGenStructure
 
     public List<BiomeGenBase.SpawnListEntry> getSpawnList()
     {
-        return this.spawnList;
+        return spawnList;
     }
 
     protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ)
     {
         int i = chunkX >> 4;
         int j = chunkZ >> 4;
-        this.rand.setSeed((long)(i ^ j << 4) ^ this.worldObj.getSeed());
-        this.rand.nextInt();
-        return this.rand.nextInt(3) != 0 ? false : (chunkX != (i << 4) + 4 + this.rand.nextInt(8) ? false : chunkZ == (j << 4) + 4 + this.rand.nextInt(8));
+        rand.setSeed((long)(i ^ j << 4) ^ worldObj.getSeed());
+        rand.nextInt();
+        return rand.nextInt(3) == 0 && (chunkX == (i << 4) + 4 + rand.nextInt(8) && chunkZ == (j << 4) + 4 + rand.nextInt(8));
     }
 
     protected StructureStart getStructureStart(int chunkX, int chunkZ)
     {
-        return new MapGenNetherBridge.Start(this.worldObj, this.rand, chunkX, chunkZ);
+        return new MapGenNetherBridge.Start(worldObj, rand, chunkX, chunkZ);
     }
 
     public static class Start extends StructureStart
@@ -56,19 +56,19 @@ public class MapGenNetherBridge extends MapGenStructure
         {
             super(p_i2040_3_, p_i2040_4_);
             StructureNetherBridgePieces.Start structurenetherbridgepieces$start = new StructureNetherBridgePieces.Start(p_i2040_2_, (p_i2040_3_ << 4) + 2, (p_i2040_4_ << 4) + 2);
-            this.components.add(structurenetherbridgepieces$start);
-            structurenetherbridgepieces$start.buildComponent(structurenetherbridgepieces$start, this.components, p_i2040_2_);
+            components.add(structurenetherbridgepieces$start);
+            structurenetherbridgepieces$start.buildComponent(structurenetherbridgepieces$start, components, p_i2040_2_);
             List<StructureComponent> list = structurenetherbridgepieces$start.field_74967_d;
 
             while (!list.isEmpty())
             {
                 int i = p_i2040_2_.nextInt(list.size());
-                StructureComponent structurecomponent = (StructureComponent)list.remove(i);
-                structurecomponent.buildComponent(structurenetherbridgepieces$start, this.components, p_i2040_2_);
+                StructureComponent structurecomponent = list.remove(i);
+                structurecomponent.buildComponent(structurenetherbridgepieces$start, components, p_i2040_2_);
             }
 
-            this.updateBoundingBox();
-            this.setRandomHeight(worldIn, p_i2040_2_, 48, 70);
+            updateBoundingBox();
+            setRandomHeight(worldIn, p_i2040_2_, 48, 70);
         }
     }
 }

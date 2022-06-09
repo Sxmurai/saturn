@@ -23,12 +23,12 @@ public class DefaultResourcePack implements IResourcePack
 
     public DefaultResourcePack(Map mapAssetsIn)
     {
-        this.mapAssets = mapAssetsIn;
+        mapAssets = mapAssetsIn;
     }
 
     public InputStream getInputStream(ResourceLocation location) throws IOException
     {
-        InputStream inputstream = this.getResourceStream(location);
+        InputStream inputstream = getResourceStream(location);
 
         if (inputstream != null)
         {
@@ -36,7 +36,7 @@ public class DefaultResourcePack implements IResourcePack
         }
         else
         {
-            InputStream inputstream1 = this.getInputStreamAssets(location);
+            InputStream inputstream1 = getInputStreamAssets(location);
 
             if (inputstream1 != null)
             {
@@ -49,9 +49,8 @@ public class DefaultResourcePack implements IResourcePack
         }
     }
 
-    public InputStream getInputStreamAssets(ResourceLocation location) throws IOException, FileNotFoundException
-    {
-        File file1 = (File)this.mapAssets.get(location.toString());
+    public InputStream getInputStreamAssets(ResourceLocation location) throws IOException {
+        File file1 = (File) mapAssets.get(location.toString());
         return file1 != null && file1.isFile() ? new FileInputStream(file1) : null;
     }
 
@@ -64,19 +63,19 @@ public class DefaultResourcePack implements IResourcePack
 
     public boolean resourceExists(ResourceLocation location)
     {
-        return this.getResourceStream(location) != null || this.mapAssets.containsKey(location.toString());
+        return getResourceStream(location) != null || mapAssets.containsKey(location.toString());
     }
 
     public Set getResourceDomains()
     {
-        return defaultResourceDomains;
+        return DefaultResourcePack.defaultResourceDomains;
     }
 
     public IMetadataSection getPackMetadata(IMetadataSerializer p_135058_1_, String p_135058_2_) throws IOException
     {
         try
         {
-            FileInputStream fileinputstream = new FileInputStream((File)this.mapAssets.get("pack.mcmeta"));
+            FileInputStream fileinputstream = new FileInputStream((File) mapAssets.get("pack.mcmeta"));
             return AbstractResourcePack.readMetadata(p_135058_1_, fileinputstream, p_135058_2_);
         }
         catch (RuntimeException var4)

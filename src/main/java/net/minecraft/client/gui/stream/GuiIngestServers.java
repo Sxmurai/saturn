@@ -18,7 +18,7 @@ public class GuiIngestServers extends GuiScreen
 
     public GuiIngestServers(GuiScreen p_i46312_1_)
     {
-        this.field_152309_a = p_i46312_1_;
+        field_152309_a = p_i46312_1_;
     }
 
     /**
@@ -27,16 +27,16 @@ public class GuiIngestServers extends GuiScreen
      */
     public void initGui()
     {
-        this.field_152310_f = I18n.format("options.stream.ingest.title", new Object[0]);
-        this.field_152311_g = new GuiIngestServers.ServerList(this.mc);
+        field_152310_f = I18n.format("options.stream.ingest.title");
+        field_152311_g = new GuiIngestServers.ServerList(mc);
 
-        if (!this.mc.getTwitchStream().func_152908_z())
+        if (!mc.getTwitchStream().func_152908_z())
         {
-            this.mc.getTwitchStream().func_152909_x();
+            mc.getTwitchStream().func_152909_x();
         }
 
-        this.buttonList.add(new GuiButton(1, this.width / 2 - 155, this.height - 24 - 6, 150, 20, I18n.format("gui.done", new Object[0])));
-        this.buttonList.add(new GuiButton(2, this.width / 2 + 5, this.height - 24 - 6, 150, 20, I18n.format("options.stream.ingest.reset", new Object[0])));
+        buttonList.add(new GuiButton(1, width / 2 - 155, height - 24 - 6, 150, 20, I18n.format("gui.done")));
+        buttonList.add(new GuiButton(2, width / 2 + 5, height - 24 - 6, 150, 20, I18n.format("options.stream.ingest.reset")));
     }
 
     /**
@@ -45,7 +45,7 @@ public class GuiIngestServers extends GuiScreen
     public void handleMouseInput() throws IOException
     {
         super.handleMouseInput();
-        this.field_152311_g.handleMouseInput();
+        field_152311_g.handleMouseInput();
     }
 
     /**
@@ -53,9 +53,9 @@ public class GuiIngestServers extends GuiScreen
      */
     public void onGuiClosed()
     {
-        if (this.mc.getTwitchStream().func_152908_z())
+        if (mc.getTwitchStream().func_152908_z())
         {
-            this.mc.getTwitchStream().func_152932_y().func_153039_l();
+            mc.getTwitchStream().func_152932_y().func_153039_l();
         }
     }
 
@@ -68,12 +68,12 @@ public class GuiIngestServers extends GuiScreen
         {
             if (button.id == 1)
             {
-                this.mc.displayGuiScreen(this.field_152309_a);
+                mc.displayGuiScreen(field_152309_a);
             }
             else
             {
-                this.mc.gameSettings.streamPreferredServer = "";
-                this.mc.gameSettings.saveOptions();
+                mc.gameSettings.streamPreferredServer = "";
+                mc.gameSettings.saveOptions();
             }
         }
     }
@@ -83,9 +83,9 @@ public class GuiIngestServers extends GuiScreen
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawDefaultBackground();
-        this.field_152311_g.drawScreen(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.fontRendererObj, this.field_152310_f, this.width / 2, 20, 16777215);
+        drawDefaultBackground();
+        field_152311_g.drawScreen(mouseX, mouseY, partialTicks);
+        drawCenteredString(fontRendererObj, field_152310_f, width / 2, 20, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
@@ -94,23 +94,23 @@ public class GuiIngestServers extends GuiScreen
         public ServerList(Minecraft mcIn)
         {
             super(mcIn, GuiIngestServers.this.width, GuiIngestServers.this.height, 32, GuiIngestServers.this.height - 35, (int)((double)mcIn.fontRendererObj.FONT_HEIGHT * 3.5D));
-            this.setShowSelectionBox(false);
+            setShowSelectionBox(false);
         }
 
         protected int getSize()
         {
-            return this.mc.getTwitchStream().func_152925_v().length;
+            return mc.getTwitchStream().func_152925_v().length;
         }
 
         protected void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY)
         {
-            this.mc.gameSettings.streamPreferredServer = this.mc.getTwitchStream().func_152925_v()[slotIndex].serverUrl;
-            this.mc.gameSettings.saveOptions();
+            mc.gameSettings.streamPreferredServer = mc.getTwitchStream().func_152925_v()[slotIndex].serverUrl;
+            mc.gameSettings.saveOptions();
         }
 
         protected boolean isSelected(int slotIndex)
         {
-            return this.mc.getTwitchStream().func_152925_v()[slotIndex].serverUrl.equals(this.mc.gameSettings.streamPreferredServer);
+            return mc.getTwitchStream().func_152925_v()[slotIndex].serverUrl.equals(mc.gameSettings.streamPreferredServer);
         }
 
         protected void drawBackground()
@@ -119,11 +119,11 @@ public class GuiIngestServers extends GuiScreen
 
         protected void drawSlot(int entryID, int p_180791_2_, int p_180791_3_, int p_180791_4_, int mouseXIn, int mouseYIn)
         {
-            IngestServer ingestserver = this.mc.getTwitchStream().func_152925_v()[entryID];
+            IngestServer ingestserver = mc.getTwitchStream().func_152925_v()[entryID];
             String s = ingestserver.serverUrl.replaceAll("\\{stream_key\\}", "");
             String s1 = (int)ingestserver.bitrateKbps + " kbps";
             String s2 = null;
-            IngestServerTester ingestservertester = this.mc.getTwitchStream().func_152932_y();
+            IngestServerTester ingestservertester = mc.getTwitchStream().func_152932_y();
 
             if (ingestservertester != null)
             {
@@ -151,7 +151,7 @@ public class GuiIngestServers extends GuiScreen
 
             p_180791_2_ = p_180791_2_ - 15;
 
-            if (this.isSelected(entryID))
+            if (isSelected(entryID))
             {
                 s2 = EnumChatFormatting.BLUE + "(Preferred)";
             }
@@ -160,13 +160,13 @@ public class GuiIngestServers extends GuiScreen
                 s2 = EnumChatFormatting.GREEN + "(Default)";
             }
 
-            GuiIngestServers.this.drawString(GuiIngestServers.this.fontRendererObj, ingestserver.serverName, p_180791_2_ + 2, p_180791_3_ + 5, 16777215);
-            GuiIngestServers.this.drawString(GuiIngestServers.this.fontRendererObj, s, p_180791_2_ + 2, p_180791_3_ + GuiIngestServers.this.fontRendererObj.FONT_HEIGHT + 5 + 3, 3158064);
-            GuiIngestServers.this.drawString(GuiIngestServers.this.fontRendererObj, s1, this.getScrollBarX() - 5 - GuiIngestServers.this.fontRendererObj.getStringWidth(s1), p_180791_3_ + 5, 8421504);
+            drawString(fontRendererObj, ingestserver.serverName, p_180791_2_ + 2, p_180791_3_ + 5, 16777215);
+            drawString(fontRendererObj, s, p_180791_2_ + 2, p_180791_3_ + fontRendererObj.FONT_HEIGHT + 5 + 3, 3158064);
+            drawString(fontRendererObj, s1, getScrollBarX() - 5 - fontRendererObj.getStringWidth(s1), p_180791_3_ + 5, 8421504);
 
             if (s2 != null)
             {
-                GuiIngestServers.this.drawString(GuiIngestServers.this.fontRendererObj, s2, this.getScrollBarX() - 5 - GuiIngestServers.this.fontRendererObj.getStringWidth(s2), p_180791_3_ + 5 + 3 + GuiIngestServers.this.fontRendererObj.FONT_HEIGHT, 8421504);
+                drawString(fontRendererObj, s2, getScrollBarX() - 5 - fontRendererObj.getStringWidth(s2), p_180791_3_ + 5 + 3 + fontRendererObj.FONT_HEIGHT, 8421504);
             }
         }
 

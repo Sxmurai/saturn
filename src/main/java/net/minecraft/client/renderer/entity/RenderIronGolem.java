@@ -13,7 +13,7 @@ public class RenderIronGolem extends RenderLiving<EntityIronGolem>
     public RenderIronGolem(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelIronGolem(), 0.5F);
-        this.addLayer(new LayerIronGolemFlower(this));
+        addLayer(new LayerIronGolemFlower(this));
     }
 
     /**
@@ -21,7 +21,7 @@ public class RenderIronGolem extends RenderLiving<EntityIronGolem>
      */
     protected ResourceLocation getEntityTexture(EntityIronGolem entity)
     {
-        return ironGolemTextures;
+        return RenderIronGolem.ironGolemTextures;
     }
 
     protected void rotateCorpse(EntityIronGolem bat, float p_77043_2_, float p_77043_3_, float partialTicks)

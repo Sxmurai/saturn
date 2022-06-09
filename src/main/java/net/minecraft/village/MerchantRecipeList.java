@@ -16,7 +16,7 @@ public class MerchantRecipeList extends ArrayList<MerchantRecipe>
 
     public MerchantRecipeList(NBTTagCompound compound)
     {
-        this.readRecipiesFromTags(compound);
+        readRecipiesFromTags(compound);
     }
 
     /**
@@ -24,18 +24,18 @@ public class MerchantRecipeList extends ArrayList<MerchantRecipe>
      */
     public MerchantRecipe canRecipeBeUsed(ItemStack p_77203_1_, ItemStack p_77203_2_, int p_77203_3_)
     {
-        if (p_77203_3_ > 0 && p_77203_3_ < this.size())
+        if (p_77203_3_ > 0 && p_77203_3_ < size())
         {
-            MerchantRecipe merchantrecipe1 = (MerchantRecipe)this.get(p_77203_3_);
-            return !this.func_181078_a(p_77203_1_, merchantrecipe1.getItemToBuy()) || (p_77203_2_ != null || merchantrecipe1.hasSecondItemToBuy()) && (!merchantrecipe1.hasSecondItemToBuy() || !this.func_181078_a(p_77203_2_, merchantrecipe1.getSecondItemToBuy())) || p_77203_1_.stackSize < merchantrecipe1.getItemToBuy().stackSize || merchantrecipe1.hasSecondItemToBuy() && p_77203_2_.stackSize < merchantrecipe1.getSecondItemToBuy().stackSize ? null : merchantrecipe1;
+            MerchantRecipe merchantrecipe1 = get(p_77203_3_);
+            return !func_181078_a(p_77203_1_, merchantrecipe1.getItemToBuy()) || (p_77203_2_ != null || merchantrecipe1.hasSecondItemToBuy()) && (!merchantrecipe1.hasSecondItemToBuy() || !func_181078_a(p_77203_2_, merchantrecipe1.getSecondItemToBuy())) || p_77203_1_.stackSize < merchantrecipe1.getItemToBuy().stackSize || merchantrecipe1.hasSecondItemToBuy() && p_77203_2_.stackSize < merchantrecipe1.getSecondItemToBuy().stackSize ? null : merchantrecipe1;
         }
         else
         {
-            for (int i = 0; i < this.size(); ++i)
+            for (int i = 0; i < size(); ++i)
             {
-                MerchantRecipe merchantrecipe = (MerchantRecipe)this.get(i);
+                MerchantRecipe merchantrecipe = get(i);
 
-                if (this.func_181078_a(p_77203_1_, merchantrecipe.getItemToBuy()) && p_77203_1_.stackSize >= merchantrecipe.getItemToBuy().stackSize && (!merchantrecipe.hasSecondItemToBuy() && p_77203_2_ == null || merchantrecipe.hasSecondItemToBuy() && this.func_181078_a(p_77203_2_, merchantrecipe.getSecondItemToBuy()) && p_77203_2_.stackSize >= merchantrecipe.getSecondItemToBuy().stackSize))
+                if (func_181078_a(p_77203_1_, merchantrecipe.getItemToBuy()) && p_77203_1_.stackSize >= merchantrecipe.getItemToBuy().stackSize && (!merchantrecipe.hasSecondItemToBuy() && p_77203_2_ == null || merchantrecipe.hasSecondItemToBuy() && func_181078_a(p_77203_2_, merchantrecipe.getSecondItemToBuy()) && p_77203_2_.stackSize >= merchantrecipe.getSecondItemToBuy().stackSize))
                 {
                     return merchantrecipe;
                 }
@@ -52,11 +52,11 @@ public class MerchantRecipeList extends ArrayList<MerchantRecipe>
 
     public void writeToBuf(PacketBuffer buffer)
     {
-        buffer.writeByte((byte)(this.size() & 255));
+        buffer.writeByte((byte)(size() & 255));
 
-        for (int i = 0; i < this.size(); ++i)
+        for (int i = 0; i < size(); ++i)
         {
-            MerchantRecipe merchantrecipe = (MerchantRecipe)this.get(i);
+            MerchantRecipe merchantrecipe = get(i);
             buffer.writeItemStackToBuffer(merchantrecipe.getItemToBuy());
             buffer.writeItemStackToBuffer(merchantrecipe.getItemToSell());
             ItemStack itemstack = merchantrecipe.getSecondItemToBuy();
@@ -112,7 +112,7 @@ public class MerchantRecipeList extends ArrayList<MerchantRecipe>
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
             NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-            this.add(new MerchantRecipe(nbttagcompound));
+            add(new MerchantRecipe(nbttagcompound));
         }
     }
 
@@ -121,9 +121,9 @@ public class MerchantRecipeList extends ArrayList<MerchantRecipe>
         NBTTagCompound nbttagcompound = new NBTTagCompound();
         NBTTagList nbttaglist = new NBTTagList();
 
-        for (int i = 0; i < this.size(); ++i)
+        for (int i = 0; i < size(); ++i)
         {
-            MerchantRecipe merchantrecipe = (MerchantRecipe)this.get(i);
+            MerchantRecipe merchantrecipe = get(i);
             nbttaglist.appendTag(merchantrecipe.writeToTags());
         }
 

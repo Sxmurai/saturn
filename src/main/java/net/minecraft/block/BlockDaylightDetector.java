@@ -30,22 +30,22 @@ public class BlockDaylightDetector extends BlockContainer
     {
         super(Material.wood);
         this.inverted = inverted;
-        this.setDefaultState(this.blockState.getBaseState().withProperty(POWER, Integer.valueOf(0)));
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
-        this.setCreativeTab(CreativeTabs.tabRedstone);
-        this.setHardness(0.2F);
-        this.setStepSound(soundTypeWood);
-        this.setUnlocalizedName("daylightDetector");
+        setDefaultState(blockState.getBaseState().withProperty(BlockDaylightDetector.POWER, Integer.valueOf(0)));
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
+        setCreativeTab(CreativeTabs.tabRedstone);
+        setHardness(0.2F);
+        setStepSound(Block.soundTypeWood);
+        setUnlocalizedName("daylightDetector");
     }
 
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.375F, 1.0F);
     }
 
     public int getWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side)
     {
-        return ((Integer)state.getValue(POWER)).intValue();
+        return state.getValue(BlockDaylightDetector.POWER).intValue();
     }
 
     public void updatePower(World worldIn, BlockPos pos)
@@ -60,14 +60,14 @@ public class BlockDaylightDetector extends BlockContainer
             i = Math.round((float)i * MathHelper.cos(f));
             i = MathHelper.clamp_int(i, 0, 15);
 
-            if (this.inverted)
+            if (inverted)
             {
                 i = 15 - i;
             }
 
-            if (((Integer)iblockstate.getValue(POWER)).intValue() != i)
+            if (iblockstate.getValue(BlockDaylightDetector.POWER).intValue() != i)
             {
-                worldIn.setBlockState(pos, iblockstate.withProperty(POWER, Integer.valueOf(i)), 3);
+                worldIn.setBlockState(pos, iblockstate.withProperty(BlockDaylightDetector.POWER, Integer.valueOf(i)), 3);
             }
         }
     }
@@ -82,14 +82,14 @@ public class BlockDaylightDetector extends BlockContainer
             }
             else
             {
-                if (this.inverted)
+                if (inverted)
                 {
-                    worldIn.setBlockState(pos, Blocks.daylight_detector.getDefaultState().withProperty(POWER, state.getValue(POWER)), 4);
+                    worldIn.setBlockState(pos, Blocks.daylight_detector.getDefaultState().withProperty(BlockDaylightDetector.POWER, state.getValue(BlockDaylightDetector.POWER)), 4);
                     Blocks.daylight_detector.updatePower(worldIn, pos);
                 }
                 else
                 {
-                    worldIn.setBlockState(pos, Blocks.daylight_detector_inverted.getDefaultState().withProperty(POWER, state.getValue(POWER)), 4);
+                    worldIn.setBlockState(pos, Blocks.daylight_detector_inverted.getDefaultState().withProperty(BlockDaylightDetector.POWER, state.getValue(BlockDaylightDetector.POWER)), 4);
                     Blocks.daylight_detector_inverted.updatePower(worldIn, pos);
                 }
 
@@ -157,7 +157,7 @@ public class BlockDaylightDetector extends BlockContainer
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(POWER, Integer.valueOf(meta));
+        return getDefaultState().withProperty(BlockDaylightDetector.POWER, Integer.valueOf(meta));
     }
 
     /**
@@ -165,12 +165,12 @@ public class BlockDaylightDetector extends BlockContainer
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(POWER)).intValue();
+        return state.getValue(BlockDaylightDetector.POWER).intValue();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {POWER});
+        return new BlockState(this, BlockDaylightDetector.POWER);
     }
 
     /**
@@ -178,7 +178,7 @@ public class BlockDaylightDetector extends BlockContainer
      */
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list)
     {
-        if (!this.inverted)
+        if (!inverted)
         {
             super.getSubBlocks(itemIn, tab, list);
         }

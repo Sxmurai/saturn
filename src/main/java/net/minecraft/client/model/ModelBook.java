@@ -28,9 +28,9 @@ public class ModelBook extends ModelBase
 
     public ModelBook()
     {
-        this.coverRight.setRotationPoint(0.0F, 0.0F, -1.0F);
-        this.coverLeft.setRotationPoint(0.0F, 0.0F, 1.0F);
-        this.bookSpine.rotateAngleY = ((float)Math.PI / 2F);
+        coverRight.setRotationPoint(0.0F, 0.0F, -1.0F);
+        coverLeft.setRotationPoint(0.0F, 0.0F, 1.0F);
+        bookSpine.rotateAngleY = ((float)Math.PI / 2F);
     }
 
     /**
@@ -38,14 +38,14 @@ public class ModelBook extends ModelBase
      */
     public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale)
     {
-        this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale, entityIn);
-        this.coverRight.render(scale);
-        this.coverLeft.render(scale);
-        this.bookSpine.render(scale);
-        this.pagesRight.render(scale);
-        this.pagesLeft.render(scale);
-        this.flippingPageRight.render(scale);
-        this.flippingPageLeft.render(scale);
+        setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale, entityIn);
+        coverRight.render(scale);
+        coverLeft.render(scale);
+        bookSpine.render(scale);
+        pagesRight.render(scale);
+        pagesLeft.render(scale);
+        flippingPageRight.render(scale);
+        flippingPageLeft.render(scale);
     }
 
     /**
@@ -56,15 +56,15 @@ public class ModelBook extends ModelBase
     public void setRotationAngles(float p_78087_1_, float p_78087_2_, float p_78087_3_, float p_78087_4_, float p_78087_5_, float p_78087_6_, Entity entityIn)
     {
         float f = (MathHelper.sin(p_78087_1_ * 0.02F) * 0.1F + 1.25F) * p_78087_4_;
-        this.coverRight.rotateAngleY = (float)Math.PI + f;
-        this.coverLeft.rotateAngleY = -f;
-        this.pagesRight.rotateAngleY = f;
-        this.pagesLeft.rotateAngleY = -f;
-        this.flippingPageRight.rotateAngleY = f - f * 2.0F * p_78087_2_;
-        this.flippingPageLeft.rotateAngleY = f - f * 2.0F * p_78087_3_;
-        this.pagesRight.rotationPointX = MathHelper.sin(f);
-        this.pagesLeft.rotationPointX = MathHelper.sin(f);
-        this.flippingPageRight.rotationPointX = MathHelper.sin(f);
-        this.flippingPageLeft.rotationPointX = MathHelper.sin(f);
+        coverRight.rotateAngleY = (float)Math.PI + f;
+        coverLeft.rotateAngleY = -f;
+        pagesRight.rotateAngleY = f;
+        pagesLeft.rotateAngleY = -f;
+        flippingPageRight.rotateAngleY = f - f * 2.0F * p_78087_2_;
+        flippingPageLeft.rotateAngleY = f - f * 2.0F * p_78087_3_;
+        pagesRight.rotationPointX = MathHelper.sin(f);
+        pagesLeft.rotationPointX = MathHelper.sin(f);
+        flippingPageRight.rotationPointX = MathHelper.sin(f);
+        flippingPageLeft.rotationPointX = MathHelper.sin(f);
     }
 }

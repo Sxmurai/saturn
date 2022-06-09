@@ -17,14 +17,14 @@ public class InventoryEnderChest extends InventoryBasic
 
     public void setChestTileEntity(TileEntityEnderChest chestTileEntity)
     {
-        this.associatedChest = chestTileEntity;
+        associatedChest = chestTileEntity;
     }
 
     public void loadInventoryFromNBT(NBTTagList p_70486_1_)
     {
-        for (int i = 0; i < this.getSizeInventory(); ++i)
+        for (int i = 0; i < getSizeInventory(); ++i)
         {
-            this.setInventorySlotContents(i, (ItemStack)null);
+            setInventorySlotContents(i, null);
         }
 
         for (int k = 0; k < p_70486_1_.tagCount(); ++k)
@@ -32,9 +32,9 @@ public class InventoryEnderChest extends InventoryBasic
             NBTTagCompound nbttagcompound = p_70486_1_.getCompoundTagAt(k);
             int j = nbttagcompound.getByte("Slot") & 255;
 
-            if (j >= 0 && j < this.getSizeInventory())
+            if (j >= 0 && j < getSizeInventory())
             {
-                this.setInventorySlotContents(j, ItemStack.loadItemStackFromNBT(nbttagcompound));
+                setInventorySlotContents(j, ItemStack.loadItemStackFromNBT(nbttagcompound));
             }
         }
     }
@@ -43,9 +43,9 @@ public class InventoryEnderChest extends InventoryBasic
     {
         NBTTagList nbttaglist = new NBTTagList();
 
-        for (int i = 0; i < this.getSizeInventory(); ++i)
+        for (int i = 0; i < getSizeInventory(); ++i)
         {
-            ItemStack itemstack = this.getStackInSlot(i);
+            ItemStack itemstack = getStackInSlot(i);
 
             if (itemstack != null)
             {
@@ -64,14 +64,14 @@ public class InventoryEnderChest extends InventoryBasic
      */
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.associatedChest != null && !this.associatedChest.canBeUsed(player) ? false : super.isUseableByPlayer(player);
+        return (this.associatedChest == null || associatedChest.canBeUsed(player)) && super.isUseableByPlayer(player);
     }
 
     public void openInventory(EntityPlayer player)
     {
-        if (this.associatedChest != null)
+        if (associatedChest != null)
         {
-            this.associatedChest.openChest();
+            associatedChest.openChest();
         }
 
         super.openInventory(player);
@@ -79,12 +79,12 @@ public class InventoryEnderChest extends InventoryBasic
 
     public void closeInventory(EntityPlayer player)
     {
-        if (this.associatedChest != null)
+        if (associatedChest != null)
         {
-            this.associatedChest.closeChest();
+            associatedChest.closeChest();
         }
 
         super.closeInventory(player);
-        this.associatedChest = null;
+        associatedChest = null;
     }
 }

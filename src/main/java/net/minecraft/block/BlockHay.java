@@ -18,8 +18,8 @@ public class BlockHay extends BlockRotatedPillar
     public BlockHay()
     {
         super(Material.grass, MapColor.yellowColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AXIS, EnumFacing.Axis.Y));
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setDefaultState(blockState.getBaseState().withProperty(BlockRotatedPillar.AXIS, EnumFacing.Axis.Y));
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**
@@ -39,7 +39,7 @@ public class BlockHay extends BlockRotatedPillar
             enumfacing$axis = EnumFacing.Axis.Z;
         }
 
-        return this.getDefaultState().withProperty(AXIS, enumfacing$axis);
+        return getDefaultState().withProperty(BlockRotatedPillar.AXIS, enumfacing$axis);
     }
 
     /**
@@ -48,7 +48,7 @@ public class BlockHay extends BlockRotatedPillar
     public int getMetaFromState(IBlockState state)
     {
         int i = 0;
-        EnumFacing.Axis enumfacing$axis = (EnumFacing.Axis)state.getValue(AXIS);
+        EnumFacing.Axis enumfacing$axis = state.getValue(BlockRotatedPillar.AXIS);
 
         if (enumfacing$axis == EnumFacing.Axis.X)
         {
@@ -64,7 +64,7 @@ public class BlockHay extends BlockRotatedPillar
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {AXIS});
+        return new BlockState(this, BlockRotatedPillar.AXIS);
     }
 
     protected ItemStack createStackedBlock(IBlockState state)
@@ -78,6 +78,6 @@ public class BlockHay extends BlockRotatedPillar
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(AXIS, facing.getAxis());
+        return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockRotatedPillar.AXIS, facing.getAxis());
     }
 }

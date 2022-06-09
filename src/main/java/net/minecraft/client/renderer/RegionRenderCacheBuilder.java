@@ -8,19 +8,19 @@ public class RegionRenderCacheBuilder
 
     public RegionRenderCacheBuilder()
     {
-        this.worldRenderers[EnumWorldBlockLayer.SOLID.ordinal()] = new WorldRenderer(2097152);
-        this.worldRenderers[EnumWorldBlockLayer.CUTOUT.ordinal()] = new WorldRenderer(131072);
-        this.worldRenderers[EnumWorldBlockLayer.CUTOUT_MIPPED.ordinal()] = new WorldRenderer(131072);
-        this.worldRenderers[EnumWorldBlockLayer.TRANSLUCENT.ordinal()] = new WorldRenderer(262144);
+        worldRenderers[EnumWorldBlockLayer.SOLID.ordinal()] = new WorldRenderer(2097152);
+        worldRenderers[EnumWorldBlockLayer.CUTOUT.ordinal()] = new WorldRenderer(131072);
+        worldRenderers[EnumWorldBlockLayer.CUTOUT_MIPPED.ordinal()] = new WorldRenderer(131072);
+        worldRenderers[EnumWorldBlockLayer.TRANSLUCENT.ordinal()] = new WorldRenderer(262144);
     }
 
     public WorldRenderer getWorldRendererByLayer(EnumWorldBlockLayer layer)
     {
-        return this.worldRenderers[layer.ordinal()];
+        return worldRenderers[layer.ordinal()];
     }
 
     public WorldRenderer getWorldRendererByLayerId(int id)
     {
-        return this.worldRenderers[id];
+        return worldRenderers[id];
     }
 }

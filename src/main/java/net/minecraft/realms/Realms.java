@@ -54,7 +54,7 @@ public class Realms
 
     public static String uuidToName(String p_uuidToName_0_)
     {
-        return Minecraft.getMinecraft().getSessionService().fillProfileProperties(new GameProfile(UUIDTypeAdapter.fromString(p_uuidToName_0_), (String)null), false).getName();
+        return Minecraft.getMinecraft().getSessionService().fillProfileProperties(new GameProfile(UUIDTypeAdapter.fromString(p_uuidToName_0_), null), false).getName();
     }
 
     public static void setScreen(RealmsScreen p_setScreen_0_)

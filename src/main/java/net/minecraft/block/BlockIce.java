@@ -20,9 +20,9 @@ public class BlockIce extends BlockBreakable
     public BlockIce()
     {
         super(Material.ice, false);
-        this.slipperiness = 0.98F;
-        this.setTickRandomly(true);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        slipperiness = 0.98F;
+        setTickRandomly(true);
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     public EnumWorldBlockLayer getBlockLayer()
@@ -35,13 +35,13 @@ public class BlockIce extends BlockBreakable
         player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
         player.addExhaustion(0.025F);
 
-        if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(player))
+        if (canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(player))
         {
-            ItemStack itemstack = this.createStackedBlock(state);
+            ItemStack itemstack = createStackedBlock(state);
 
             if (itemstack != null)
             {
-                spawnAsEntity(worldIn, pos, itemstack);
+                Block.spawnAsEntity(worldIn, pos, itemstack);
             }
         }
         else
@@ -53,7 +53,7 @@ public class BlockIce extends BlockBreakable
             }
 
             int i = EnchantmentHelper.getFortuneModifier(player);
-            this.dropBlockAsItem(worldIn, pos, state, i);
+            dropBlockAsItem(worldIn, pos, state, i);
             Material material = worldIn.getBlockState(pos.down()).getBlock().getMaterial();
 
             if (material.blocksMovement() || material.isLiquid())
@@ -73,7 +73,7 @@ public class BlockIce extends BlockBreakable
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > 11 - this.getLightOpacity())
+        if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > 11 - getLightOpacity())
         {
             if (worldIn.provider.doesWaterVaporize())
             {
@@ -81,7 +81,7 @@ public class BlockIce extends BlockBreakable
             }
             else
             {
-                this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
+                dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
                 worldIn.setBlockState(pos, Blocks.water.getDefaultState());
             }
         }

@@ -26,7 +26,7 @@ public class C18PacketSpectate implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.id = buf.readUuid();
+        id = buf.readUuid();
     }
 
     /**
@@ -34,7 +34,7 @@ public class C18PacketSpectate implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeUuid(this.id);
+        buf.writeUuid(id);
     }
 
     /**
@@ -47,6 +47,6 @@ public class C18PacketSpectate implements Packet<INetHandlerPlayServer>
 
     public Entity getEntity(WorldServer worldIn)
     {
-        return worldIn.getEntityFromUuid(this.id);
+        return worldIn.getEntityFromUuid(id);
     }
 }

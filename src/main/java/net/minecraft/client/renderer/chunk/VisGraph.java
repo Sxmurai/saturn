@@ -21,13 +21,13 @@ public class VisGraph
 
     public void func_178606_a(BlockPos pos)
     {
-        this.field_178612_d.set(getIndex(pos), true);
-        --this.field_178611_f;
+        field_178612_d.set(VisGraph.getIndex(pos), true);
+        --field_178611_f;
     }
 
     private static int getIndex(BlockPos pos)
     {
-        return getIndex(pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15);
+        return VisGraph.getIndex(pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15);
     }
 
     private static int getIndex(int x, int y, int z)
@@ -39,21 +39,21 @@ public class VisGraph
     {
         SetVisibility setvisibility = new SetVisibility();
 
-        if (4096 - this.field_178611_f < 256)
+        if (4096 - field_178611_f < 256)
         {
             setvisibility.setAllVisible(true);
         }
-        else if (this.field_178611_f == 0)
+        else if (field_178611_f == 0)
         {
             setvisibility.setAllVisible(false);
         }
         else
         {
-            for (int i : field_178613_e)
+            for (int i : VisGraph.field_178613_e)
             {
-                if (!this.field_178612_d.get(i))
+                if (!field_178612_d.get(i))
                 {
-                    setvisibility.setManyVisible(this.func_178604_a(i));
+                    setvisibility.setManyVisible(func_178604_a(i));
                 }
             }
         }
@@ -63,7 +63,7 @@ public class VisGraph
 
     public Set func_178609_b(BlockPos pos)
     {
-        return this.func_178604_a(getIndex(pos));
+        return func_178604_a(VisGraph.getIndex(pos));
     }
 
     private Set func_178604_a(int p_178604_1_)
@@ -71,20 +71,20 @@ public class VisGraph
         EnumSet enumset = EnumSet.noneOf(EnumFacing.class);
         ArrayDeque arraydeque = new ArrayDeque(384);
         arraydeque.add(IntegerCache.valueOf(p_178604_1_));
-        this.field_178612_d.set(p_178604_1_, true);
+        field_178612_d.set(p_178604_1_, true);
 
         while (!arraydeque.isEmpty())
         {
             int i = ((Integer)arraydeque.poll()).intValue();
-            this.func_178610_a(i, enumset);
+            func_178610_a(i, enumset);
 
             for (EnumFacing enumfacing : EnumFacing.VALUES)
             {
-                int j = this.func_178603_a(i, enumfacing);
+                int j = func_178603_a(i, enumfacing);
 
-                if (j >= 0 && !this.field_178612_d.get(j))
+                if (j >= 0 && !field_178612_d.get(j))
                 {
-                    this.field_178612_d.set(j, true);
+                    field_178612_d.set(j, true);
                     arraydeque.add(IntegerCache.valueOf(j));
                 }
             }
@@ -139,7 +139,7 @@ public class VisGraph
                     return -1;
                 }
 
-                return p_178603_1_ - field_178615_c;
+                return p_178603_1_ - VisGraph.field_178615_c;
 
             case 2:
                 if ((p_178603_1_ >> 8 & 15) == 15)
@@ -147,7 +147,7 @@ public class VisGraph
                     return -1;
                 }
 
-                return p_178603_1_ + field_178615_c;
+                return p_178603_1_ + VisGraph.field_178615_c;
 
             case 3:
                 if ((p_178603_1_ >> 4 & 15) == 0)
@@ -155,7 +155,7 @@ public class VisGraph
                     return -1;
                 }
 
-                return p_178603_1_ - field_178614_b;
+                return p_178603_1_ - VisGraph.field_178614_b;
 
             case 4:
                 if ((p_178603_1_ >> 4 & 15) == 15)
@@ -163,7 +163,7 @@ public class VisGraph
                     return -1;
                 }
 
-                return p_178603_1_ + field_178614_b;
+                return p_178603_1_ + VisGraph.field_178614_b;
 
             case 5:
                 if ((p_178603_1_ >> 0 & 15) == 0)
@@ -171,7 +171,7 @@ public class VisGraph
                     return -1;
                 }
 
-                return p_178603_1_ - field_178616_a;
+                return p_178603_1_ - VisGraph.field_178616_a;
 
             case 6:
                 if ((p_178603_1_ >> 0 & 15) == 15)
@@ -179,7 +179,7 @@ public class VisGraph
                     return -1;
                 }
 
-                return p_178603_1_ + field_178616_a;
+                return p_178603_1_ + VisGraph.field_178616_a;
 
             default:
                 return -1;
@@ -200,7 +200,7 @@ public class VisGraph
                 {
                     if (j == 0 || j == 15 || k == 0 || k == 15 || l == 0 || l == 15)
                     {
-                        field_178613_e[i++] = getIndex(j, k, l);
+                        VisGraph.field_178613_e[i++] = VisGraph.getIndex(j, k, l);
                     }
                 }
             }
@@ -216,56 +216,50 @@ public class VisGraph
         {
             try
             {
-                field_178617_a[EnumFacing.DOWN.ordinal()] = 1;
+                VisGraph$1.field_178617_a[EnumFacing.DOWN.ordinal()] = 1;
             }
             catch (NoSuchFieldError var6)
             {
-                ;
             }
 
             try
             {
-                field_178617_a[EnumFacing.UP.ordinal()] = 2;
+                VisGraph$1.field_178617_a[EnumFacing.UP.ordinal()] = 2;
             }
             catch (NoSuchFieldError var5)
             {
-                ;
             }
 
             try
             {
-                field_178617_a[EnumFacing.NORTH.ordinal()] = 3;
+                VisGraph$1.field_178617_a[EnumFacing.NORTH.ordinal()] = 3;
             }
             catch (NoSuchFieldError var4)
             {
-                ;
             }
 
             try
             {
-                field_178617_a[EnumFacing.SOUTH.ordinal()] = 4;
+                VisGraph$1.field_178617_a[EnumFacing.SOUTH.ordinal()] = 4;
             }
             catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
-                field_178617_a[EnumFacing.WEST.ordinal()] = 5;
+                VisGraph$1.field_178617_a[EnumFacing.WEST.ordinal()] = 5;
             }
             catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
-                field_178617_a[EnumFacing.EAST.ordinal()] = 6;
+                VisGraph$1.field_178617_a[EnumFacing.EAST.ordinal()] = 6;
             }
             catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

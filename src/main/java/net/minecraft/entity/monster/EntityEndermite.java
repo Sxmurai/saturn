@@ -25,15 +25,15 @@ public class EntityEndermite extends EntityMob
     public EntityEndermite(World worldIn)
     {
         super(worldIn);
-        this.experienceValue = 3;
-        this.setSize(0.4F, 0.3F);
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
-        this.tasks.addTask(3, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+        experienceValue = 3;
+        setSize(0.4F, 0.3F);
+        tasks.addTask(1, new EntityAISwimming(this));
+        tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityPlayer.class, 1.0D, false));
+        tasks.addTask(3, new EntityAIWander(this, 1.0D));
+        tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        tasks.addTask(8, new EntityAILookIdle(this));
+        targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+        targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
     }
 
     public float getEyeHeight()
@@ -44,9 +44,9 @@ public class EntityEndermite extends EntityMob
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(8.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
+        getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(8.0D);
+        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+        getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
     }
 
     /**
@@ -84,7 +84,7 @@ public class EntityEndermite extends EntityMob
 
     protected void playStepSound(BlockPos pos, Block blockIn)
     {
-        this.playSound("mob.silverfish.step", 0.15F, 1.0F);
+        playSound("mob.silverfish.step", 0.15F, 1.0F);
     }
 
     protected Item getDropItem()
@@ -98,8 +98,8 @@ public class EntityEndermite extends EntityMob
     public void readEntityFromNBT(NBTTagCompound tagCompund)
     {
         super.readEntityFromNBT(tagCompund);
-        this.lifetime = tagCompund.getInteger("Lifetime");
-        this.playerSpawned = tagCompund.getBoolean("PlayerSpawned");
+        lifetime = tagCompund.getInteger("Lifetime");
+        playerSpawned = tagCompund.getBoolean("PlayerSpawned");
     }
 
     /**
@@ -108,8 +108,8 @@ public class EntityEndermite extends EntityMob
     public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setInteger("Lifetime", this.lifetime);
-        tagCompound.setBoolean("PlayerSpawned", this.playerSpawned);
+        tagCompound.setInteger("Lifetime", lifetime);
+        tagCompound.setBoolean("PlayerSpawned", playerSpawned);
     }
 
     /**
@@ -117,13 +117,13 @@ public class EntityEndermite extends EntityMob
      */
     public void onUpdate()
     {
-        this.renderYawOffset = this.rotationYaw;
+        renderYawOffset = rotationYaw;
         super.onUpdate();
     }
 
     public boolean isSpawnedByPlayer()
     {
-        return this.playerSpawned;
+        return playerSpawned;
     }
 
     /**
@@ -131,7 +131,7 @@ public class EntityEndermite extends EntityMob
      */
     public void setSpawnedByPlayer(boolean spawnedByPlayer)
     {
-        this.playerSpawned = spawnedByPlayer;
+        playerSpawned = spawnedByPlayer;
     }
 
     /**
@@ -142,23 +142,23 @@ public class EntityEndermite extends EntityMob
     {
         super.onLivingUpdate();
 
-        if (this.worldObj.isRemote)
+        if (worldObj.isRemote)
         {
             for (int i = 0; i < 2; ++i)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, (this.rand.nextDouble() - 0.5D) * 2.0D, -this.rand.nextDouble(), (this.rand.nextDouble() - 0.5D) * 2.0D, new int[0]);
+                worldObj.spawnParticle(EnumParticleTypes.PORTAL, posX + (rand.nextDouble() - 0.5D) * (double) width, posY + rand.nextDouble() * (double) height, posZ + (rand.nextDouble() - 0.5D) * (double) width, (rand.nextDouble() - 0.5D) * 2.0D, -rand.nextDouble(), (rand.nextDouble() - 0.5D) * 2.0D);
             }
         }
         else
         {
-            if (!this.isNoDespawnRequired())
+            if (!isNoDespawnRequired())
             {
-                ++this.lifetime;
+                ++lifetime;
             }
 
-            if (this.lifetime >= 2400)
+            if (lifetime >= 2400)
             {
-                this.setDead();
+                setDead();
             }
         }
     }
@@ -178,7 +178,7 @@ public class EntityEndermite extends EntityMob
     {
         if (super.getCanSpawnHere())
         {
-            EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
+            EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(this, 5.0D);
             return entityplayer == null;
         }
         else

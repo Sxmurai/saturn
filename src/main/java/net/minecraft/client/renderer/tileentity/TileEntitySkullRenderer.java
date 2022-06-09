@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.tileentity;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
-import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
+
 import java.util.Map;
 import java.util.UUID;
 import net.minecraft.client.Minecraft;
@@ -30,22 +30,22 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
     public void renderTileEntityAt(TileEntitySkull te, double x, double y, double z, float partialTicks, int destroyStage)
     {
         EnumFacing enumfacing = EnumFacing.getFront(te.getBlockMetadata() & 7);
-        this.renderSkull((float)x, (float)y, (float)z, enumfacing, (float)(te.getSkullRotation() * 360) / 16.0F, te.getSkullType(), te.getPlayerProfile(), destroyStage);
+        renderSkull((float)x, (float)y, (float)z, enumfacing, (float)(te.getSkullRotation() * 360) / 16.0F, te.getSkullType(), te.getPlayerProfile(), destroyStage);
     }
 
     public void setRendererDispatcher(TileEntityRendererDispatcher rendererDispatcherIn)
     {
         super.setRendererDispatcher(rendererDispatcherIn);
-        instance = this;
+        TileEntitySkullRenderer.instance = this;
     }
 
     public void renderSkull(float p_180543_1_, float p_180543_2_, float p_180543_3_, EnumFacing p_180543_4_, float p_180543_5_, int p_180543_6_, GameProfile p_180543_7_, int p_180543_8_)
     {
-        ModelBase modelbase = this.skeletonHead;
+        ModelBase modelbase = skeletonHead;
 
         if (p_180543_8_ >= 0)
         {
-            this.bindTexture(DESTROY_STAGES[p_180543_8_]);
+            bindTexture(TileEntitySpecialRenderer.DESTROY_STAGES[p_180543_8_]);
             GlStateManager.matrixMode(5890);
             GlStateManager.pushMatrix();
             GlStateManager.scale(4.0F, 2.0F, 1.0F);
@@ -58,30 +58,30 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
             {
                 case 0:
                 default:
-                    this.bindTexture(SKELETON_TEXTURES);
+                    bindTexture(TileEntitySkullRenderer.SKELETON_TEXTURES);
                     break;
 
                 case 1:
-                    this.bindTexture(WITHER_SKELETON_TEXTURES);
+                    bindTexture(TileEntitySkullRenderer.WITHER_SKELETON_TEXTURES);
                     break;
 
                 case 2:
-                    this.bindTexture(ZOMBIE_TEXTURES);
-                    modelbase = this.humanoidHead;
+                    bindTexture(TileEntitySkullRenderer.ZOMBIE_TEXTURES);
+                    modelbase = humanoidHead;
                     break;
 
                 case 3:
-                    modelbase = this.humanoidHead;
+                    modelbase = humanoidHead;
                     ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultSkinLegacy();
 
                     if (p_180543_7_ != null)
                     {
                         Minecraft minecraft = Minecraft.getMinecraft();
-                        Map<Type, MinecraftProfileTexture> map = minecraft.getSkinManager().loadSkinFromCache(p_180543_7_);
+                        Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = minecraft.getSkinManager().loadSkinFromCache(p_180543_7_);
 
-                        if (map.containsKey(Type.SKIN))
+                        if (map.containsKey(MinecraftProfileTexture.Type.SKIN))
                         {
-                            resourcelocation = minecraft.getSkinManager().loadSkin((MinecraftProfileTexture)map.get(Type.SKIN), Type.SKIN);
+                            resourcelocation = minecraft.getSkinManager().loadSkin((MinecraftProfileTexture)map.get(MinecraftProfileTexture.Type.SKIN), MinecraftProfileTexture.Type.SKIN);
                         }
                         else
                         {
@@ -90,11 +90,11 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
                         }
                     }
 
-                    this.bindTexture(resourcelocation);
+                    bindTexture(resourcelocation);
                     break;
 
                 case 4:
-                    this.bindTexture(CREEPER_TEXTURES);
+                    bindTexture(TileEntitySkullRenderer.CREEPER_TEXTURES);
             }
         }
 
@@ -134,7 +134,7 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
         GlStateManager.enableRescaleNormal();
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
         GlStateManager.enableAlpha();
-        modelbase.render((Entity)null, 0.0F, 0.0F, 0.0F, p_180543_5_, 0.0F, f);
+        modelbase.render(null, 0.0F, 0.0F, 0.0F, p_180543_5_, 0.0F, f);
         GlStateManager.popMatrix();
 
         if (p_180543_8_ >= 0)

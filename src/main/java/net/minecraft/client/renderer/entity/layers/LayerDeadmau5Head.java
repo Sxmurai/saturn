@@ -10,14 +10,14 @@ public class LayerDeadmau5Head implements LayerRenderer<AbstractClientPlayer>
 
     public LayerDeadmau5Head(RenderPlayer playerRendererIn)
     {
-        this.playerRenderer = playerRendererIn;
+        playerRenderer = playerRendererIn;
     }
 
     public void doRenderLayer(AbstractClientPlayer entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
         if (entitylivingbaseIn.getName().equals("deadmau5") && entitylivingbaseIn.hasSkin() && !entitylivingbaseIn.isInvisible())
         {
-            this.playerRenderer.bindTexture(entitylivingbaseIn.getLocationSkin());
+            playerRenderer.bindTexture(entitylivingbaseIn.getLocationSkin());
 
             for (int i = 0; i < 2; ++i)
             {
@@ -32,7 +32,7 @@ public class LayerDeadmau5Head implements LayerRenderer<AbstractClientPlayer>
                 GlStateManager.rotate(-f, 0.0F, 1.0F, 0.0F);
                 float f2 = 1.3333334F;
                 GlStateManager.scale(f2, f2, f2);
-                this.playerRenderer.getMainModel().renderDeadmau5Head(0.0625F);
+                playerRenderer.getMainModel().renderDeadmau5Head(0.0625F);
                 GlStateManager.popMatrix();
             }
         }

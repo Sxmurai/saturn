@@ -30,12 +30,12 @@ public class ItemArmor extends Item
             int i = blockpos.getX();
             int j = blockpos.getY();
             int k = blockpos.getZ();
-            AxisAlignedBB axisalignedbb = new AxisAlignedBB((double)i, (double)j, (double)k, (double)(i + 1), (double)(j + 1), (double)(k + 1));
-            List<EntityLivingBase> list = source.getWorld().<EntityLivingBase>getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb, Predicates.<EntityLivingBase> and (EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
+            AxisAlignedBB axisalignedbb = new AxisAlignedBB(i, j, k, i + 1, j + 1, k + 1);
+            List<EntityLivingBase> list = source.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb, Predicates.and (EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
 
             if (list.size() > 0)
             {
-                EntityLivingBase entitylivingbase = (EntityLivingBase)list.get(0);
+                EntityLivingBase entitylivingbase = list.get(0);
                 int l = entitylivingbase instanceof EntityPlayer ? 1 : 0;
                 int i1 = EntityLiving.getArmorPosition(stack);
                 ItemStack itemstack = stack.copy();
@@ -79,11 +79,11 @@ public class ItemArmor extends Item
         this.material = material;
         this.armorType = armorType;
         this.renderIndex = renderIndex;
-        this.damageReduceAmount = material.getDamageReductionAmount(armorType);
-        this.setMaxDamage(material.getDurability(armorType));
-        this.maxStackSize = 1;
-        this.setCreativeTab(CreativeTabs.tabCombat);
-        BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenserBehavior);
+        damageReduceAmount = material.getDamageReductionAmount(armorType);
+        setMaxDamage(material.getDurability(armorType));
+        maxStackSize = 1;
+        setCreativeTab(CreativeTabs.tabCombat);
+        BlockDispenser.dispenseBehaviorRegistry.putObject(this, ItemArmor.dispenserBehavior);
     }
 
     public int getColorFromItemStack(ItemStack stack, int renderPass)
@@ -94,7 +94,7 @@ public class ItemArmor extends Item
         }
         else
         {
-            int i = this.getColor(stack);
+            int i = getColor(stack);
 
             if (i < 0)
             {
@@ -110,7 +110,7 @@ public class ItemArmor extends Item
      */
     public int getItemEnchantability()
     {
-        return this.material.getEnchantability();
+        return material.getEnchantability();
     }
 
     /**
@@ -118,7 +118,7 @@ public class ItemArmor extends Item
      */
     public ItemArmor.ArmorMaterial getArmorMaterial()
     {
-        return this.material;
+        return material;
     }
 
     /**
@@ -126,7 +126,7 @@ public class ItemArmor extends Item
      */
     public boolean hasColor(ItemStack stack)
     {
-        return this.material != ItemArmor.ArmorMaterial.LEATHER ? false : (!stack.hasTagCompound() ? false : (!stack.getTagCompound().hasKey("display", 10) ? false : stack.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
+        return material == ArmorMaterial.LEATHER && (stack.hasTagCompound() && (stack.getTagCompound().hasKey("display", 10) && stack.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
     }
 
     /**
@@ -134,7 +134,7 @@ public class ItemArmor extends Item
      */
     public int getColor(ItemStack stack)
     {
-        if (this.material != ItemArmor.ArmorMaterial.LEATHER)
+        if (material != ItemArmor.ArmorMaterial.LEATHER)
         {
             return -1;
         }
@@ -161,7 +161,7 @@ public class ItemArmor extends Item
      */
     public void removeColor(ItemStack stack)
     {
-        if (this.material == ItemArmor.ArmorMaterial.LEATHER)
+        if (material == ItemArmor.ArmorMaterial.LEATHER)
         {
             NBTTagCompound nbttagcompound = stack.getTagCompound();
 
@@ -182,9 +182,9 @@ public class ItemArmor extends Item
      */
     public void setColor(ItemStack stack, int color)
     {
-        if (this.material != ItemArmor.ArmorMaterial.LEATHER)
+        if (material != ItemArmor.ArmorMaterial.LEATHER)
         {
-            throw new UnsupportedOperationException("Can\'t dye non-leather!");
+            throw new UnsupportedOperationException("Can't dye non-leather!");
         }
         else
         {
@@ -212,7 +212,7 @@ public class ItemArmor extends Item
      */
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
-        return this.material.getRepairItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
+        return material.getRepairItem() == repair.getItem() || super.getIsRepairable(toRepair, repair);
     }
 
     /**
@@ -248,34 +248,34 @@ public class ItemArmor extends Item
         private ArmorMaterial(String name, int maxDamage, int[] reductionAmounts, int enchantability)
         {
             this.name = name;
-            this.maxDamageFactor = maxDamage;
-            this.damageReductionAmountArray = reductionAmounts;
+            maxDamageFactor = maxDamage;
+            damageReductionAmountArray = reductionAmounts;
             this.enchantability = enchantability;
         }
 
         public int getDurability(int armorType)
         {
-            return ItemArmor.maxDamageArray[armorType] * this.maxDamageFactor;
+            return ItemArmor.maxDamageArray[armorType] * maxDamageFactor;
         }
 
         public int getDamageReductionAmount(int armorType)
         {
-            return this.damageReductionAmountArray[armorType];
+            return damageReductionAmountArray[armorType];
         }
 
         public int getEnchantability()
         {
-            return this.enchantability;
+            return enchantability;
         }
 
         public Item getRepairItem()
         {
-            return this == LEATHER ? Items.leather : (this == CHAIN ? Items.iron_ingot : (this == GOLD ? Items.gold_ingot : (this == IRON ? Items.iron_ingot : (this == DIAMOND ? Items.diamond : null))));
+            return this == ArmorMaterial.LEATHER ? Items.leather : (this == ArmorMaterial.CHAIN ? Items.iron_ingot : (this == ArmorMaterial.GOLD ? Items.gold_ingot : (this == ArmorMaterial.IRON ? Items.iron_ingot : (this == ArmorMaterial.DIAMOND ? Items.diamond : null))));
         }
 
         public String getName()
         {
-            return this.name;
+            return name;
         }
     }
 }

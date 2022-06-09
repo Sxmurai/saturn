@@ -8,12 +8,12 @@ import net.minecraft.village.VillageDoorInfo;
 
 public class EntityAIRestrictOpenDoor extends EntityAIBase
 {
-    private EntityCreature entityObj;
+    private final EntityCreature entityObj;
     private VillageDoorInfo frontDoor;
 
     public EntityAIRestrictOpenDoor(EntityCreature creatureIn)
     {
-        this.entityObj = creatureIn;
+        entityObj = creatureIn;
 
         if (!(creatureIn.getNavigator() instanceof PathNavigateGround))
         {
@@ -26,14 +26,14 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        if (this.entityObj.worldObj.isDaytime())
+        if (entityObj.worldObj.isDaytime())
         {
             return false;
         }
         else
         {
-            BlockPos blockpos = new BlockPos(this.entityObj);
-            Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockpos, 16);
+            BlockPos blockpos = new BlockPos(entityObj);
+            Village village = entityObj.worldObj.getVillageCollection().getNearestVillage(blockpos, 16);
 
             if (village == null)
             {
@@ -41,8 +41,8 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase
             }
             else
             {
-                this.frontDoor = village.getNearestDoor(blockpos);
-                return this.frontDoor == null ? false : (double)this.frontDoor.getDistanceToInsideBlockSq(blockpos) < 2.25D;
+                frontDoor = village.getNearestDoor(blockpos);
+                return frontDoor != null && (double) frontDoor.getDistanceToInsideBlockSq(blockpos) < 2.25D;
             }
         }
     }
@@ -52,7 +52,7 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return this.entityObj.worldObj.isDaytime() ? false : !this.frontDoor.getIsDetachedFromVillageFlag() && this.frontDoor.func_179850_c(new BlockPos(this.entityObj));
+        return !this.entityObj.worldObj.isDaytime() && !frontDoor.getIsDetachedFromVillageFlag() && frontDoor.func_179850_c(new BlockPos(entityObj));
     }
 
     /**
@@ -60,8 +60,8 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase
      */
     public void startExecuting()
     {
-        ((PathNavigateGround)this.entityObj.getNavigator()).setBreakDoors(false);
-        ((PathNavigateGround)this.entityObj.getNavigator()).setEnterDoors(false);
+        ((PathNavigateGround) entityObj.getNavigator()).setBreakDoors(false);
+        ((PathNavigateGround) entityObj.getNavigator()).setEnterDoors(false);
     }
 
     /**
@@ -69,9 +69,9 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase
      */
     public void resetTask()
     {
-        ((PathNavigateGround)this.entityObj.getNavigator()).setBreakDoors(true);
-        ((PathNavigateGround)this.entityObj.getNavigator()).setEnterDoors(true);
-        this.frontDoor = null;
+        ((PathNavigateGround) entityObj.getNavigator()).setBreakDoors(true);
+        ((PathNavigateGround) entityObj.getNavigator()).setEnterDoors(true);
+        frontDoor = null;
     }
 
     /**
@@ -79,6 +79,6 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase
      */
     public void updateTask()
     {
-        this.frontDoor.incrementDoorOpeningRestrictionCounter();
+        frontDoor.incrementDoorOpeningRestrictionCounter();
     }
 }

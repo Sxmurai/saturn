@@ -12,15 +12,15 @@ public class ChunkPrimer
     public IBlockState getBlockState(int x, int y, int z)
     {
         int i = x << 12 | z << 8 | y;
-        return this.getBlockState(i);
+        return getBlockState(i);
     }
 
     public IBlockState getBlockState(int index)
     {
-        if (index >= 0 && index < this.data.length)
+        if (index >= 0 && index < data.length)
         {
-            IBlockState iblockstate = (IBlockState)Block.BLOCK_STATE_IDS.getByValue(this.data[index]);
-            return iblockstate != null ? iblockstate : this.defaultState;
+            IBlockState iblockstate = (IBlockState)Block.BLOCK_STATE_IDS.getByValue(data[index]);
+            return iblockstate != null ? iblockstate : defaultState;
         }
         else
         {
@@ -31,14 +31,14 @@ public class ChunkPrimer
     public void setBlockState(int x, int y, int z, IBlockState state)
     {
         int i = x << 12 | z << 8 | y;
-        this.setBlockState(i, state);
+        setBlockState(i, state);
     }
 
     public void setBlockState(int index, IBlockState state)
     {
-        if (index >= 0 && index < this.data.length)
+        if (index >= 0 && index < data.length)
         {
-            this.data[index] = (short)Block.BLOCK_STATE_IDS.get(state);
+            data[index] = (short)Block.BLOCK_STATE_IDS.get(state);
         }
         else
         {

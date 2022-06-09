@@ -5,7 +5,7 @@ public class GenLayerRemoveTooMuchOcean extends GenLayer
     public GenLayerRemoveTooMuchOcean(long p_i45480_1_, GenLayer p_i45480_3_)
     {
         super(p_i45480_1_);
-        this.parent = p_i45480_3_;
+        parent = p_i45480_3_;
     }
 
     /**
@@ -18,7 +18,7 @@ public class GenLayerRemoveTooMuchOcean extends GenLayer
         int j = areaY - 1;
         int k = areaWidth + 2;
         int l = areaHeight + 2;
-        int[] aint = this.parent.getInts(i, j, k, l);
+        int[] aint = parent.getInts(i, j, k, l);
         int[] aint1 = IntCache.getIntCache(areaWidth * areaHeight);
 
         for (int i1 = 0; i1 < areaHeight; ++i1)
@@ -31,9 +31,9 @@ public class GenLayerRemoveTooMuchOcean extends GenLayer
                 int j2 = aint[j1 + 1 + (i1 + 1 + 1) * (areaWidth + 2)];
                 int k2 = aint[j1 + 1 + (i1 + 1) * k];
                 aint1[j1 + i1 * areaWidth] = k2;
-                this.initChunkSeed((long)(j1 + areaX), (long)(i1 + areaY));
+                initChunkSeed(j1 + areaX, i1 + areaY);
 
-                if (k2 == 0 && k1 == 0 && l1 == 0 && i2 == 0 && j2 == 0 && this.nextInt(2) == 0)
+                if (k2 == 0 && k1 == 0 && l1 == 0 && i2 == 0 && j2 == 0 && nextInt(2) == 0)
                 {
                     aint1[j1 + i1 * areaWidth] = 1;
                 }

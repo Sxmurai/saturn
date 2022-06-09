@@ -13,7 +13,7 @@ public class BlockObsidian extends Block
     public BlockObsidian()
     {
         super(Material.rock);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**

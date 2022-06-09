@@ -4,37 +4,37 @@ import net.minecraft.world.World;
 
 public class EntityEnchantmentTableParticleFX extends EntityFX
 {
-    private float field_70565_a;
-    private double coordX;
-    private double coordY;
-    private double coordZ;
+    private final float field_70565_a;
+    private final double coordX;
+    private final double coordY;
+    private final double coordZ;
 
     protected EntityEnchantmentTableParticleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-        this.motionX = xSpeedIn;
-        this.motionY = ySpeedIn;
-        this.motionZ = zSpeedIn;
-        this.coordX = xCoordIn;
-        this.coordY = yCoordIn;
-        this.coordZ = zCoordIn;
-        this.posX = this.prevPosX = xCoordIn + xSpeedIn;
-        this.posY = this.prevPosY = yCoordIn + ySpeedIn;
-        this.posZ = this.prevPosZ = zCoordIn + zSpeedIn;
-        float f = this.rand.nextFloat() * 0.6F + 0.4F;
-        this.field_70565_a = this.particleScale = this.rand.nextFloat() * 0.5F + 0.2F;
-        this.particleRed = this.particleGreen = this.particleBlue = 1.0F * f;
-        this.particleGreen *= 0.9F;
-        this.particleRed *= 0.9F;
-        this.particleMaxAge = (int)(Math.random() * 10.0D) + 30;
-        this.noClip = true;
-        this.setParticleTextureIndex((int)(Math.random() * 26.0D + 1.0D + 224.0D));
+        motionX = xSpeedIn;
+        motionY = ySpeedIn;
+        motionZ = zSpeedIn;
+        coordX = xCoordIn;
+        coordY = yCoordIn;
+        coordZ = zCoordIn;
+        posX = prevPosX = xCoordIn + xSpeedIn;
+        posY = prevPosY = yCoordIn + ySpeedIn;
+        posZ = prevPosZ = zCoordIn + zSpeedIn;
+        float f = rand.nextFloat() * 0.6F + 0.4F;
+        field_70565_a = particleScale = rand.nextFloat() * 0.5F + 0.2F;
+        particleRed = particleGreen = particleBlue = 1.0F * f;
+        particleGreen *= 0.9F;
+        particleRed *= 0.9F;
+        particleMaxAge = (int)(Math.random() * 10.0D) + 30;
+        noClip = true;
+        setParticleTextureIndex((int)(Math.random() * 26.0D + 1.0D + 224.0D));
     }
 
     public int getBrightnessForRender(float partialTicks)
     {
         int i = super.getBrightnessForRender(partialTicks);
-        float f = (float)this.particleAge / (float)this.particleMaxAge;
+        float f = (float) particleAge / (float) particleMaxAge;
         f = f * f;
         f = f * f;
         int j = i & 255;
@@ -55,7 +55,7 @@ public class EntityEnchantmentTableParticleFX extends EntityFX
     public float getBrightness(float partialTicks)
     {
         float f = super.getBrightness(partialTicks);
-        float f1 = (float)this.particleAge / (float)this.particleMaxAge;
+        float f1 = (float) particleAge / (float) particleMaxAge;
         f1 = f1 * f1;
         f1 = f1 * f1;
         return f * (1.0F - f1) + f1;
@@ -66,21 +66,21 @@ public class EntityEnchantmentTableParticleFX extends EntityFX
      */
     public void onUpdate()
     {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        float f = (float)this.particleAge / (float)this.particleMaxAge;
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
+        float f = (float) particleAge / (float) particleMaxAge;
         f = 1.0F - f;
         float f1 = 1.0F - f;
         f1 = f1 * f1;
         f1 = f1 * f1;
-        this.posX = this.coordX + this.motionX * (double)f;
-        this.posY = this.coordY + this.motionY * (double)f - (double)(f1 * 1.2F);
-        this.posZ = this.coordZ + this.motionZ * (double)f;
+        posX = coordX + motionX * (double)f;
+        posY = coordY + motionY * (double)f - (double)(f1 * 1.2F);
+        posZ = coordZ + motionZ * (double)f;
 
-        if (this.particleAge++ >= this.particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
-            this.setDead();
+            setDead();
         }
     }
 

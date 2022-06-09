@@ -18,7 +18,7 @@ public abstract class EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return this.shouldExecute();
+        return shouldExecute();
     }
 
     /**
@@ -57,7 +57,7 @@ public abstract class EntityAIBase
      */
     public void setMutexBits(int mutexBitsIn)
     {
-        this.mutexBits = mutexBitsIn;
+        mutexBits = mutexBitsIn;
     }
 
     /**
@@ -66,6 +66,6 @@ public abstract class EntityAIBase
      */
     public int getMutexBits()
     {
-        return this.mutexBits;
+        return mutexBits;
     }
 }

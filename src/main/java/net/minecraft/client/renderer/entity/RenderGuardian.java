@@ -25,7 +25,7 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
     public RenderGuardian(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelGuardian(), 0.5F);
-        this.field_177115_a = ((ModelGuardian)this.mainModel).func_178706_a();
+        field_177115_a = ((ModelGuardian) mainModel).func_178706_a();
     }
 
     public boolean shouldRender(EntityGuardian livingEntity, ICamera camera, double camX, double camY, double camZ)
@@ -42,13 +42,10 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
 
                 if (entitylivingbase != null)
                 {
-                    Vec3 vec3 = this.func_177110_a(entitylivingbase, (double)entitylivingbase.height * 0.5D, 1.0F);
-                    Vec3 vec31 = this.func_177110_a(livingEntity, (double)livingEntity.getEyeHeight(), 1.0F);
+                    Vec3 vec3 = func_177110_a(entitylivingbase, (double)entitylivingbase.height * 0.5D, 1.0F);
+                    Vec3 vec31 = func_177110_a(livingEntity, livingEntity.getEyeHeight(), 1.0F);
 
-                    if (camera.isBoundingBoxInFrustum(AxisAlignedBB.fromBounds(vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord, vec3.zCoord)))
-                    {
-                        return true;
-                    }
+                    return camera.isBoundingBoxInFrustum(AxisAlignedBB.fromBounds(vec31.xCoord, vec31.yCoord, vec31.zCoord, vec3.xCoord, vec3.yCoord, vec3.zCoord));
                 }
             }
 
@@ -72,10 +69,10 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
      */
     public void doRender(EntityGuardian entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        if (this.field_177115_a != ((ModelGuardian)this.mainModel).func_178706_a())
+        if (field_177115_a != ((ModelGuardian) mainModel).func_178706_a())
         {
-            this.mainModel = new ModelGuardian();
-            this.field_177115_a = ((ModelGuardian)this.mainModel).func_178706_a();
+            mainModel = new ModelGuardian();
+            field_177115_a = ((ModelGuardian) mainModel).func_178706_a();
         }
 
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
@@ -86,7 +83,7 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
             float f = entity.func_175477_p(partialTicks);
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            this.bindTexture(GUARDIAN_BEAM_TEXTURE);
+            bindTexture(RenderGuardian.GUARDIAN_BEAM_TEXTURE);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, 10497.0F);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, 10497.0F);
             GlStateManager.disableLighting();
@@ -101,8 +98,8 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
             float f4 = entity.getEyeHeight();
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)x, (float)y + f4, (float)z);
-            Vec3 vec3 = this.func_177110_a(entitylivingbase, (double)entitylivingbase.height * 0.5D, partialTicks);
-            Vec3 vec31 = this.func_177110_a(entity, (double)f4, partialTicks);
+            Vec3 vec3 = func_177110_a(entitylivingbase, (double)entitylivingbase.height * 0.5D, partialTicks);
+            Vec3 vec31 = func_177110_a(entity, f4, partialTicks);
             Vec3 vec32 = vec3.subtract(vec31);
             double d0 = vec32.lengthVector() + 1.0D;
             vec32 = vec32.normalize();
@@ -137,7 +134,7 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
             double d19 = 0.0D + Math.sin(d1 + (Math.PI * 3D / 2D)) * d2;
             double d20 = 0.0D;
             double d21 = 0.4999D;
-            double d22 = (double)(-1.0F + f3);
+            double d22 = -1.0F + f3;
             double d23 = d0 * (0.5D / d2) + d22;
             worldrenderer.pos(d12, d0, d13).tex(0.4999D, d23).color(j, k, l, 255).endVertex();
             worldrenderer.pos(d12, 0.0D, d13).tex(0.4999D, d22).color(j, k, l, 255).endVertex();
@@ -180,6 +177,6 @@ public class RenderGuardian extends RenderLiving<EntityGuardian>
      */
     protected ResourceLocation getEntityTexture(EntityGuardian entity)
     {
-        return entity.isElder() ? GUARDIAN_ELDER_TEXTURE : GUARDIAN_TEXTURE;
+        return entity.isElder() ? RenderGuardian.GUARDIAN_ELDER_TEXTURE : RenderGuardian.GUARDIAN_TEXTURE;
     }
 }

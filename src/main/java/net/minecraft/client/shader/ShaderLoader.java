@@ -18,47 +18,47 @@ public class ShaderLoader
 {
     private final ShaderLoader.ShaderType shaderType;
     private final String shaderFilename;
-    private int shader;
+    private final int shader;
     private int shaderAttachCount = 0;
 
     private ShaderLoader(ShaderLoader.ShaderType type, int shaderId, String filename)
     {
-        this.shaderType = type;
-        this.shader = shaderId;
-        this.shaderFilename = filename;
+        shaderType = type;
+        shader = shaderId;
+        shaderFilename = filename;
     }
 
     public void attachShader(ShaderManager manager)
     {
-        ++this.shaderAttachCount;
-        OpenGlHelper.glAttachShader(manager.getProgram(), this.shader);
+        ++shaderAttachCount;
+        OpenGlHelper.glAttachShader(manager.getProgram(), shader);
     }
 
     public void deleteShader(ShaderManager manager)
     {
-        --this.shaderAttachCount;
+        --shaderAttachCount;
 
-        if (this.shaderAttachCount <= 0)
+        if (shaderAttachCount <= 0)
         {
-            OpenGlHelper.glDeleteShader(this.shader);
-            this.shaderType.getLoadedShaders().remove(this.shaderFilename);
+            OpenGlHelper.glDeleteShader(shader);
+            shaderType.getLoadedShaders().remove(shaderFilename);
         }
     }
 
     public String getShaderFilename()
     {
-        return this.shaderFilename;
+        return shaderFilename;
     }
 
     public static ShaderLoader loadShader(IResourceManager resourceManager, ShaderLoader.ShaderType type, String filename) throws IOException
     {
-        ShaderLoader shaderloader = (ShaderLoader)type.getLoadedShaders().get(filename);
+        ShaderLoader shaderloader = type.getLoadedShaders().get(filename);
 
         if (shaderloader == null)
         {
             ResourceLocation resourcelocation = new ResourceLocation("shaders/program/" + filename + type.getShaderExtension());
             BufferedInputStream bufferedinputstream = new BufferedInputStream(resourceManager.getResource(resourcelocation).getInputStream());
-            byte[] abyte = toByteArray(bufferedinputstream);
+            byte[] abyte = ShaderLoader.toByteArray(bufferedinputstream);
             ByteBuffer bytebuffer = BufferUtils.createByteBuffer(abyte.length);
             bytebuffer.put(abyte);
             bytebuffer.position(0);
@@ -69,7 +69,7 @@ public class ShaderLoader
             if (OpenGlHelper.glGetShaderi(i, OpenGlHelper.GL_COMPILE_STATUS) == 0)
             {
                 String s = StringUtils.trim(OpenGlHelper.glGetShaderInfoLog(i, 32768));
-                JsonException jsonexception = new JsonException("Couldn\'t compile " + type.getShaderName() + " program: " + s);
+                JsonException jsonexception = new JsonException("Couldn't compile " + type.getShaderName() + " program: " + s);
                 jsonexception.func_151381_b(resourcelocation.getResourcePath());
                 throw jsonexception;
             }
@@ -87,7 +87,7 @@ public class ShaderLoader
 
         try
         {
-            abyte = IOUtils.toByteArray((InputStream)p_177064_0_);
+            abyte = IOUtils.toByteArray(p_177064_0_);
         }
         finally
         {
@@ -105,33 +105,33 @@ public class ShaderLoader
         private final String shaderName;
         private final String shaderExtension;
         private final int shaderMode;
-        private final Map<String, ShaderLoader> loadedShaders = Maps.<String, ShaderLoader>newHashMap();
+        private final Map<String, ShaderLoader> loadedShaders = Maps.newHashMap();
 
         private ShaderType(String p_i45090_3_, String p_i45090_4_, int p_i45090_5_)
         {
-            this.shaderName = p_i45090_3_;
-            this.shaderExtension = p_i45090_4_;
-            this.shaderMode = p_i45090_5_;
+            shaderName = p_i45090_3_;
+            shaderExtension = p_i45090_4_;
+            shaderMode = p_i45090_5_;
         }
 
         public String getShaderName()
         {
-            return this.shaderName;
+            return shaderName;
         }
 
         protected String getShaderExtension()
         {
-            return this.shaderExtension;
+            return shaderExtension;
         }
 
         protected int getShaderMode()
         {
-            return this.shaderMode;
+            return shaderMode;
         }
 
         protected Map<String, ShaderLoader> getLoadedShaders()
         {
-            return this.loadedShaders;
+            return loadedShaders;
         }
     }
 }

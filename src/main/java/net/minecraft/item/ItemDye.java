@@ -22,9 +22,9 @@ public class ItemDye extends Item
 
     public ItemDye()
     {
-        this.setHasSubtypes(true);
-        this.setMaxDamage(0);
-        this.setCreativeTab(CreativeTabs.tabMaterials);
+        setHasSubtypes(true);
+        setMaxDamage(0);
+        setCreativeTab(CreativeTabs.tabMaterials);
     }
 
     /**
@@ -52,7 +52,7 @@ public class ItemDye extends Item
 
             if (enumdyecolor == EnumDyeColor.WHITE)
             {
-                if (applyBonemeal(stack, worldIn, pos))
+                if (ItemDye.applyBonemeal(stack, worldIn, pos))
                 {
                     if (!worldIn.isRemote)
                     {
@@ -142,10 +142,10 @@ public class ItemDye extends Item
 
             for (int i = 0; i < amount; ++i)
             {
-                double d0 = itemRand.nextGaussian() * 0.02D;
-                double d1 = itemRand.nextGaussian() * 0.02D;
-                double d2 = itemRand.nextGaussian() * 0.02D;
-                worldIn.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, (double)((float)pos.getX() + itemRand.nextFloat()), (double)pos.getY() + (double)itemRand.nextFloat() * block.getBlockBoundsMaxY(), (double)((float)pos.getZ() + itemRand.nextFloat()), d0, d1, d2, new int[0]);
+                double d0 = Item.itemRand.nextGaussian() * 0.02D;
+                double d1 = Item.itemRand.nextGaussian() * 0.02D;
+                double d2 = Item.itemRand.nextGaussian() * 0.02D;
+                worldIn.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, (float)pos.getX() + Item.itemRand.nextFloat(), (double)pos.getY() + (double) Item.itemRand.nextFloat() * block.getBlockBoundsMaxY(), (float)pos.getZ() + Item.itemRand.nextFloat(), d0, d1, d2);
             }
         }
     }

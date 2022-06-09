@@ -27,63 +27,63 @@ public class CompiledChunk
     private final boolean[] layersUsed = new boolean[EnumWorldBlockLayer.values().length];
     private final boolean[] layersStarted = new boolean[EnumWorldBlockLayer.values().length];
     private boolean empty = true;
-    private final List<TileEntity> tileEntities = Lists.<TileEntity>newArrayList();
+    private final List<TileEntity> tileEntities = Lists.newArrayList();
     private SetVisibility setVisibility = new SetVisibility();
     private WorldRenderer.State state;
 
     public boolean isEmpty()
     {
-        return this.empty;
+        return empty;
     }
 
     protected void setLayerUsed(EnumWorldBlockLayer layer)
     {
-        this.empty = false;
-        this.layersUsed[layer.ordinal()] = true;
+        empty = false;
+        layersUsed[layer.ordinal()] = true;
     }
 
     public boolean isLayerEmpty(EnumWorldBlockLayer layer)
     {
-        return !this.layersUsed[layer.ordinal()];
+        return !layersUsed[layer.ordinal()];
     }
 
     public void setLayerStarted(EnumWorldBlockLayer layer)
     {
-        this.layersStarted[layer.ordinal()] = true;
+        layersStarted[layer.ordinal()] = true;
     }
 
     public boolean isLayerStarted(EnumWorldBlockLayer layer)
     {
-        return this.layersStarted[layer.ordinal()];
+        return layersStarted[layer.ordinal()];
     }
 
     public List<TileEntity> getTileEntities()
     {
-        return this.tileEntities;
+        return tileEntities;
     }
 
     public void addTileEntity(TileEntity tileEntityIn)
     {
-        this.tileEntities.add(tileEntityIn);
+        tileEntities.add(tileEntityIn);
     }
 
     public boolean isVisible(EnumFacing facing, EnumFacing facing2)
     {
-        return this.setVisibility.isVisible(facing, facing2);
+        return setVisibility.isVisible(facing, facing2);
     }
 
     public void setVisibility(SetVisibility visibility)
     {
-        this.setVisibility = visibility;
+        setVisibility = visibility;
     }
 
     public WorldRenderer.State getState()
     {
-        return this.state;
+        return state;
     }
 
     public void setState(WorldRenderer.State stateIn)
     {
-        this.state = stateIn;
+        state = stateIn;
     }
 }

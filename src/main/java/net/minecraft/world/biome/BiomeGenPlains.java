@@ -14,17 +14,17 @@ public class BiomeGenPlains extends BiomeGenBase
     protected BiomeGenPlains(int p_i1986_1_)
     {
         super(p_i1986_1_);
-        this.setTemperatureRainfall(0.8F, 0.4F);
-        this.setHeight(height_LowPlains);
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityHorse.class, 5, 2, 6));
-        this.theBiomeDecorator.treesPerChunk = -999;
-        this.theBiomeDecorator.flowersPerChunk = 4;
-        this.theBiomeDecorator.grassPerChunk = 10;
+        setTemperatureRainfall(0.8F, 0.4F);
+        setHeight(BiomeGenBase.height_LowPlains);
+        spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityHorse.class, 5, 2, 6));
+        theBiomeDecorator.treesPerChunk = -999;
+        theBiomeDecorator.flowersPerChunk = 4;
+        theBiomeDecorator.grassPerChunk = 10;
     }
 
     public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos)
     {
-        double d0 = GRASS_COLOR_NOISE.func_151601_a((double)pos.getX() / 200.0D, (double)pos.getZ() / 200.0D);
+        double d0 = BiomeGenBase.GRASS_COLOR_NOISE.func_151601_a((double)pos.getX() / 200.0D, (double)pos.getZ() / 200.0D);
 
         if (d0 < -0.8D)
         {
@@ -59,38 +59,38 @@ public class BiomeGenPlains extends BiomeGenBase
 
     public void decorate(World worldIn, Random rand, BlockPos pos)
     {
-        double d0 = GRASS_COLOR_NOISE.func_151601_a((double)(pos.getX() + 8) / 200.0D, (double)(pos.getZ() + 8) / 200.0D);
+        double d0 = BiomeGenBase.GRASS_COLOR_NOISE.func_151601_a((double)(pos.getX() + 8) / 200.0D, (double)(pos.getZ() + 8) / 200.0D);
 
         if (d0 < -0.8D)
         {
-            this.theBiomeDecorator.flowersPerChunk = 15;
-            this.theBiomeDecorator.grassPerChunk = 5;
+            theBiomeDecorator.flowersPerChunk = 15;
+            theBiomeDecorator.grassPerChunk = 5;
         }
         else
         {
-            this.theBiomeDecorator.flowersPerChunk = 4;
-            this.theBiomeDecorator.grassPerChunk = 10;
-            DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.GRASS);
+            theBiomeDecorator.flowersPerChunk = 4;
+            theBiomeDecorator.grassPerChunk = 10;
+            BiomeGenBase.DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.GRASS);
 
             for (int i = 0; i < 7; ++i)
             {
                 int j = rand.nextInt(16) + 8;
                 int k = rand.nextInt(16) + 8;
                 int l = rand.nextInt(worldIn.getHeight(pos.add(j, 0, k)).getY() + 32);
-                DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(j, l, k));
+                BiomeGenBase.DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(j, l, k));
             }
         }
 
-        if (this.field_150628_aC)
+        if (field_150628_aC)
         {
-            DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.SUNFLOWER);
+            BiomeGenBase.DOUBLE_PLANT_GENERATOR.setPlantType(BlockDoublePlant.EnumPlantType.SUNFLOWER);
 
             for (int i1 = 0; i1 < 10; ++i1)
             {
                 int j1 = rand.nextInt(16) + 8;
                 int k1 = rand.nextInt(16) + 8;
                 int l1 = rand.nextInt(worldIn.getHeight(pos.add(j1, 0, k1)).getY() + 32);
-                DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(j1, l1, k1));
+                BiomeGenBase.DOUBLE_PLANT_GENERATOR.generate(worldIn, rand, pos.add(j1, l1, k1));
             }
         }
 

@@ -21,7 +21,7 @@ public class ChatAllowedCharacters
 
         for (char c0 : input.toCharArray())
         {
-            if (isAllowedCharacter(c0))
+            if (ChatAllowedCharacters.isAllowedCharacter(c0))
             {
                 stringbuilder.append(c0);
             }

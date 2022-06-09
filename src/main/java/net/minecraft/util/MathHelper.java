@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class MathHelper
 {
-    public static final float SQRT_2 = sqrt_float(2.0F);
+    public static final float SQRT_2 = MathHelper.sqrt_float(2.0F);
     private static final int SIN_BITS = 12;
     private static final int SIN_MASK = 4095;
     private static final int SIN_COUNT = 4096;
@@ -43,7 +43,7 @@ public class MathHelper
      */
     public static float sin(float p_76126_0_)
     {
-        return fastMath ? SIN_TABLE_FAST[(int)(p_76126_0_ * 651.8986F) & 4095] : SIN_TABLE[(int)(p_76126_0_ * 10430.378F) & 65535];
+        return MathHelper.fastMath ? MathHelper.SIN_TABLE_FAST[(int)(p_76126_0_ * 651.8986F) & 4095] : MathHelper.SIN_TABLE[(int)(p_76126_0_ * 10430.378F) & 65535];
     }
 
     /**
@@ -51,12 +51,12 @@ public class MathHelper
      */
     public static float cos(float value)
     {
-        return fastMath ? SIN_TABLE_FAST[(int)((value + ((float)Math.PI / 2F)) * 651.8986F) & 4095] : SIN_TABLE[(int)(value * 10430.378F + 16384.0F) & 65535];
+        return MathHelper.fastMath ? MathHelper.SIN_TABLE_FAST[(int)((value + ((float)Math.PI / 2F)) * 651.8986F) & 4095] : MathHelper.SIN_TABLE[(int)(value * 10430.378F + 16384.0F) & 65535];
     }
 
     public static float sqrt_float(float value)
     {
-        return (float)Math.sqrt((double)value);
+        return (float)Math.sqrt(value);
     }
 
     public static float sqrt_double(double value)
@@ -212,7 +212,7 @@ public class MathHelper
 
     public static boolean epsilonEquals(float p_180185_0_, float p_180185_1_)
     {
-        return abs(p_180185_1_ - p_180185_0_) < 1.0E-5F;
+        return MathHelper.abs(p_180185_1_ - p_180185_0_) < 1.0E-5F;
     }
 
     public static int normalizeAngle(int p_180184_0_, int p_180184_1_)
@@ -280,7 +280,7 @@ public class MathHelper
      */
     public static int parseIntWithDefaultAndMax(String p_82714_0_, int p_82714_1_, int p_82714_2_)
     {
-        return Math.max(p_82714_2_, parseIntWithDefault(p_82714_0_, p_82714_1_));
+        return Math.max(p_82714_2_, MathHelper.parseIntWithDefault(p_82714_0_, p_82714_1_));
     }
 
     /**
@@ -300,7 +300,7 @@ public class MathHelper
 
     public static double parseDoubleWithDefaultAndMax(String p_82713_0_, double p_82713_1_, double p_82713_3_)
     {
-        return Math.max(p_82713_3_, parseDoubleWithDefault(p_82713_0_, p_82713_1_));
+        return Math.max(p_82713_3_, MathHelper.parseDoubleWithDefault(p_82713_0_, p_82713_1_));
     }
 
     /**
@@ -332,8 +332,8 @@ public class MathHelper
      */
     private static int calculateLogBaseTwoDeBruijn(int value)
     {
-        value = isPowerOfTwo(value) ? value : roundUpToPowerOfTwo(value);
-        return multiplyDeBruijnBitPosition[(int)((long)value * 125613361L >> 27) & 31];
+        value = MathHelper.isPowerOfTwo(value) ? value : MathHelper.roundUpToPowerOfTwo(value);
+        return MathHelper.multiplyDeBruijnBitPosition[(int)((long)value * 125613361L >> 27) & 31];
     }
 
     /**
@@ -342,7 +342,7 @@ public class MathHelper
      */
     public static int calculateLogBaseTwo(int value)
     {
-        return calculateLogBaseTwoDeBruijn(value) - (isPowerOfTwo(value) ? 0 : 1);
+        return MathHelper.calculateLogBaseTwoDeBruijn(value) - (MathHelper.isPowerOfTwo(value) ? 0 : 1);
     }
 
     public static int func_154354_b(int p_154354_0_, int p_154354_1_)
@@ -369,7 +369,7 @@ public class MathHelper
 
     public static int func_180183_b(float p_180183_0_, float p_180183_1_, float p_180183_2_)
     {
-        return func_180181_b(floor_float(p_180183_0_ * 255.0F), floor_float(p_180183_1_ * 255.0F), floor_float(p_180183_2_ * 255.0F));
+        return MathHelper.func_180181_b(MathHelper.floor_float(p_180183_0_ * 255.0F), MathHelper.floor_float(p_180183_1_ * 255.0F), MathHelper.floor_float(p_180183_2_ * 255.0F));
     }
 
     public static int func_180181_b(int p_180181_0_, int p_180181_1_, int p_180181_2_)
@@ -400,7 +400,7 @@ public class MathHelper
 
     public static long getPositionRandom(Vec3i pos)
     {
-        return getCoordinateRandom(pos.getX(), pos.getY(), pos.getZ());
+        return MathHelper.getCoordinateRandom(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public static long getCoordinateRandom(int x, int y, int z)
@@ -455,14 +455,14 @@ public class MathHelper
                 p_181159_0_ = d1;
             }
 
-            double d9 = func_181161_i(d0);
+            double d9 = MathHelper.func_181161_i(d0);
             p_181159_2_ = p_181159_2_ * d9;
             p_181159_0_ = p_181159_0_ * d9;
-            double d2 = field_181163_d + p_181159_0_;
+            double d2 = MathHelper.field_181163_d + p_181159_0_;
             int i = (int)Double.doubleToRawLongBits(d2);
-            double d3 = field_181164_e[i];
-            double d4 = field_181165_f[i];
-            double d5 = d2 - field_181163_d;
+            double d3 = MathHelper.field_181164_e[i];
+            double d4 = MathHelper.field_181165_f[i];
+            double d5 = d2 - MathHelper.field_181163_d;
             double d6 = p_181159_0_ * d4 - p_181159_2_ * d5;
             double d7 = (6.0D + d6 * d6) * d6 * 0.16666666666666666D;
             double d8 = d3 + d7;
@@ -549,9 +549,9 @@ public class MathHelper
                 throw new RuntimeException("Something went wrong when converting from HSV to RGB. Input was " + p_181758_0_ + ", " + p_181758_1_ + ", " + p_181758_2_);
         }
 
-        int j = clamp_int((int)(f4 * 255.0F), 0, 255);
-        int k = clamp_int((int)(f5 * 255.0F), 0, 255);
-        int l = clamp_int((int)(f6 * 255.0F), 0, 255);
+        int j = MathHelper.clamp_int((int)(f4 * 255.0F), 0, 255);
+        int k = MathHelper.clamp_int((int)(f5 * 255.0F), 0, 255);
+        int l = MathHelper.clamp_int((int)(f6 * 255.0F), 0, 255);
         return j << 16 | k << 8 | l;
     }
 
@@ -559,17 +559,17 @@ public class MathHelper
     {
         for (int i = 0; i < 65536; ++i)
         {
-            SIN_TABLE[i] = (float)Math.sin((double)i * Math.PI * 2.0D / 65536.0D);
+            MathHelper.SIN_TABLE[i] = (float)Math.sin((double)i * Math.PI * 2.0D / 65536.0D);
         }
 
         for (int j = 0; j < 4096; ++j)
         {
-            SIN_TABLE_FAST[j] = (float)Math.sin((double)(((float)j + 0.5F) / 4096.0F * ((float)Math.PI * 2F)));
+            MathHelper.SIN_TABLE_FAST[j] = (float)Math.sin(((float)j + 0.5F) / 4096.0F * ((float)Math.PI * 2F));
         }
 
         for (int l = 0; l < 360; l += 90)
         {
-            SIN_TABLE_FAST[(int)((float)l * 11.377778F) & 4095] = (float)Math.sin((double)((float)l * 0.017453292F));
+            MathHelper.SIN_TABLE_FAST[(int)((float)l * 11.377778F) & 4095] = (float)Math.sin((float)l * 0.017453292F);
         }
 
         multiplyDeBruijnBitPosition = new int[] {0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8, 31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9};
@@ -581,8 +581,8 @@ public class MathHelper
         {
             double d1 = (double)k / 256.0D;
             double d0 = Math.asin(d1);
-            field_181165_f[k] = Math.cos(d0);
-            field_181164_e[k] = d0;
+            MathHelper.field_181165_f[k] = Math.cos(d0);
+            MathHelper.field_181164_e[k] = d0;
         }
     }
 }

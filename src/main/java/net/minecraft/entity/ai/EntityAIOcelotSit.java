@@ -17,7 +17,7 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
     public EntityAIOcelotSit(EntityOcelot p_i45315_1_, double p_i45315_2_)
     {
         super(p_i45315_1_, p_i45315_2_, 8);
-        this.field_151493_a = p_i45315_1_;
+        field_151493_a = p_i45315_1_;
     }
 
     /**
@@ -25,7 +25,7 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
      */
     public boolean shouldExecute()
     {
-        return this.field_151493_a.isTamed() && !this.field_151493_a.isSitting() && super.shouldExecute();
+        return field_151493_a.isTamed() && !field_151493_a.isSitting() && super.shouldExecute();
     }
 
     /**
@@ -42,7 +42,7 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
     public void startExecuting()
     {
         super.startExecuting();
-        this.field_151493_a.getAISit().setSitting(false);
+        field_151493_a.getAISit().setSitting(false);
     }
 
     /**
@@ -51,7 +51,7 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
     public void resetTask()
     {
         super.resetTask();
-        this.field_151493_a.setSitting(false);
+        field_151493_a.setSitting(false);
     }
 
     /**
@@ -60,15 +60,15 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
     public void updateTask()
     {
         super.updateTask();
-        this.field_151493_a.getAISit().setSitting(false);
+        field_151493_a.getAISit().setSitting(false);
 
-        if (!this.getIsAboveDestination())
+        if (!getIsAboveDestination())
         {
-            this.field_151493_a.setSitting(false);
+            field_151493_a.setSitting(false);
         }
-        else if (!this.field_151493_a.isSitting())
+        else if (!field_151493_a.isSitting())
         {
-            this.field_151493_a.setSitting(true);
+            field_151493_a.setSitting(true);
         }
     }
 
@@ -90,10 +90,7 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
             {
                 TileEntity tileentity = worldIn.getTileEntity(pos);
 
-                if (tileentity instanceof TileEntityChest && ((TileEntityChest)tileentity).numPlayersUsing < 1)
-                {
-                    return true;
-                }
+                return tileentity instanceof TileEntityChest && ((TileEntityChest) tileentity).numPlayersUsing < 1;
             }
             else
             {
@@ -102,13 +99,8 @@ public class EntityAIOcelotSit extends EntityAIMoveToBlock
                     return true;
                 }
 
-                if (block == Blocks.bed && iblockstate.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD)
-                {
-                    return true;
-                }
+                return block == Blocks.bed && iblockstate.getValue(BlockBed.PART) != BlockBed.EnumPartType.HEAD;
             }
-
-            return false;
         }
     }
 }

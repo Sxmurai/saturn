@@ -7,7 +7,7 @@ public class EnchantmentFishingSpeed extends Enchantment
     protected EnchantmentFishingSpeed(int enchID, ResourceLocation enchName, int enchWeight, EnumEnchantmentType enchType)
     {
         super(enchID, enchName, enchWeight, enchType);
-        this.setName("fishingSpeed");
+        setName("fishingSpeed");
     }
 
     /**

@@ -17,24 +17,17 @@ public class LayerSpiderEyes implements LayerRenderer
 
     public LayerSpiderEyes(RenderSpider spiderRendererIn)
     {
-        this.spiderRenderer = spiderRendererIn;
+        spiderRenderer = spiderRendererIn;
     }
 
     public void doRenderLayer(EntitySpider entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
-        this.spiderRenderer.bindTexture(SPIDER_EYES);
+        spiderRenderer.bindTexture(LayerSpiderEyes.SPIDER_EYES);
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
         GlStateManager.blendFunc(1, 1);
 
-        if (entitylivingbaseIn.isInvisible())
-        {
-            GlStateManager.depthMask(false);
-        }
-        else
-        {
-            GlStateManager.depthMask(true);
-        }
+        GlStateManager.depthMask(!entitylivingbaseIn.isInvisible());
 
         char c0 = 61680;
         int i = c0 % 65536;
@@ -47,12 +40,12 @@ public class LayerSpiderEyes implements LayerRenderer
             Shaders.beginSpiderEyes();
         }
 
-        this.spiderRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+        spiderRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
         int k = entitylivingbaseIn.getBrightnessForRender(partialTicks);
         i = k % 65536;
         j = k / 65536;
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)i / 1.0F, (float)j / 1.0F);
-        this.spiderRenderer.func_177105_a(entitylivingbaseIn, partialTicks);
+        spiderRenderer.func_177105_a(entitylivingbaseIn, partialTicks);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
     }
@@ -64,6 +57,6 @@ public class LayerSpiderEyes implements LayerRenderer
 
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
-        this.doRenderLayer((EntitySpider)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+        doRenderLayer((EntitySpider)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
     }
 }

@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 
 public class EntityAIMate extends EntityAIBase
 {
-    private EntityAnimal theAnimal;
+    private final EntityAnimal theAnimal;
     World theWorld;
     private EntityAnimal targetMate;
 
@@ -28,10 +28,10 @@ public class EntityAIMate extends EntityAIBase
 
     public EntityAIMate(EntityAnimal animal, double speedIn)
     {
-        this.theAnimal = animal;
-        this.theWorld = animal.worldObj;
-        this.moveSpeed = speedIn;
-        this.setMutexBits(3);
+        theAnimal = animal;
+        theWorld = animal.worldObj;
+        moveSpeed = speedIn;
+        setMutexBits(3);
     }
 
     /**
@@ -39,14 +39,14 @@ public class EntityAIMate extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        if (!this.theAnimal.isInLove())
+        if (!theAnimal.isInLove())
         {
             return false;
         }
         else
         {
-            this.targetMate = this.getNearbyMate();
-            return this.targetMate != null;
+            targetMate = getNearbyMate();
+            return targetMate != null;
         }
     }
 
@@ -55,7 +55,7 @@ public class EntityAIMate extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return this.targetMate.isEntityAlive() && this.targetMate.isInLove() && this.spawnBabyDelay < 60;
+        return targetMate.isEntityAlive() && targetMate.isInLove() && spawnBabyDelay < 60;
     }
 
     /**
@@ -63,8 +63,8 @@ public class EntityAIMate extends EntityAIBase
      */
     public void resetTask()
     {
-        this.targetMate = null;
-        this.spawnBabyDelay = 0;
+        targetMate = null;
+        spawnBabyDelay = 0;
     }
 
     /**
@@ -72,13 +72,13 @@ public class EntityAIMate extends EntityAIBase
      */
     public void updateTask()
     {
-        this.theAnimal.getLookHelper().setLookPositionWithEntity(this.targetMate, 10.0F, (float)this.theAnimal.getVerticalFaceSpeed());
-        this.theAnimal.getNavigator().tryMoveToEntityLiving(this.targetMate, this.moveSpeed);
-        ++this.spawnBabyDelay;
+        theAnimal.getLookHelper().setLookPositionWithEntity(targetMate, 10.0F, (float) theAnimal.getVerticalFaceSpeed());
+        theAnimal.getNavigator().tryMoveToEntityLiving(targetMate, moveSpeed);
+        ++spawnBabyDelay;
 
-        if (this.spawnBabyDelay >= 60 && this.theAnimal.getDistanceSqToEntity(this.targetMate) < 9.0D)
+        if (spawnBabyDelay >= 60 && theAnimal.getDistanceSqToEntity(targetMate) < 9.0D)
         {
-            this.spawnBaby();
+            spawnBaby();
         }
     }
 
@@ -89,16 +89,16 @@ public class EntityAIMate extends EntityAIBase
     private EntityAnimal getNearbyMate()
     {
         float f = 8.0F;
-        List<EntityAnimal> list = this.theWorld.<EntityAnimal>getEntitiesWithinAABB(this.theAnimal.getClass(), this.theAnimal.getEntityBoundingBox().expand((double)f, (double)f, (double)f));
+        List<EntityAnimal> list = theWorld.getEntitiesWithinAABB(theAnimal.getClass(), theAnimal.getEntityBoundingBox().expand(f, f, f));
         double d0 = Double.MAX_VALUE;
         EntityAnimal entityanimal = null;
 
         for (EntityAnimal entityanimal1 : list)
         {
-            if (this.theAnimal.canMateWith(entityanimal1) && this.theAnimal.getDistanceSqToEntity(entityanimal1) < d0)
+            if (theAnimal.canMateWith(entityanimal1) && theAnimal.getDistanceSqToEntity(entityanimal1) < d0)
             {
                 entityanimal = entityanimal1;
-                d0 = this.theAnimal.getDistanceSqToEntity(entityanimal1);
+                d0 = theAnimal.getDistanceSqToEntity(entityanimal1);
             }
         }
 
@@ -110,50 +110,50 @@ public class EntityAIMate extends EntityAIBase
      */
     private void spawnBaby()
     {
-        EntityAgeable entityageable = this.theAnimal.createChild(this.targetMate);
+        EntityAgeable entityageable = theAnimal.createChild(targetMate);
 
         if (entityageable != null)
         {
-            EntityPlayer entityplayer = this.theAnimal.getPlayerInLove();
+            EntityPlayer entityplayer = theAnimal.getPlayerInLove();
 
-            if (entityplayer == null && this.targetMate.getPlayerInLove() != null)
+            if (entityplayer == null && targetMate.getPlayerInLove() != null)
             {
-                entityplayer = this.targetMate.getPlayerInLove();
+                entityplayer = targetMate.getPlayerInLove();
             }
 
             if (entityplayer != null)
             {
                 entityplayer.triggerAchievement(StatList.animalsBredStat);
 
-                if (this.theAnimal instanceof EntityCow)
+                if (theAnimal instanceof EntityCow)
                 {
                     entityplayer.triggerAchievement(AchievementList.breedCow);
                 }
             }
 
-            this.theAnimal.setGrowingAge(6000);
-            this.targetMate.setGrowingAge(6000);
-            this.theAnimal.resetInLove();
-            this.targetMate.resetInLove();
+            theAnimal.setGrowingAge(6000);
+            targetMate.setGrowingAge(6000);
+            theAnimal.resetInLove();
+            targetMate.resetInLove();
             entityageable.setGrowingAge(-24000);
-            entityageable.setLocationAndAngles(this.theAnimal.posX, this.theAnimal.posY, this.theAnimal.posZ, 0.0F, 0.0F);
-            this.theWorld.spawnEntityInWorld(entityageable);
-            Random random = this.theAnimal.getRNG();
+            entityageable.setLocationAndAngles(theAnimal.posX, theAnimal.posY, theAnimal.posZ, 0.0F, 0.0F);
+            theWorld.spawnEntityInWorld(entityageable);
+            Random random = theAnimal.getRNG();
 
             for (int i = 0; i < 7; ++i)
             {
                 double d0 = random.nextGaussian() * 0.02D;
                 double d1 = random.nextGaussian() * 0.02D;
                 double d2 = random.nextGaussian() * 0.02D;
-                double d3 = random.nextDouble() * (double)this.theAnimal.width * 2.0D - (double)this.theAnimal.width;
-                double d4 = 0.5D + random.nextDouble() * (double)this.theAnimal.height;
-                double d5 = random.nextDouble() * (double)this.theAnimal.width * 2.0D - (double)this.theAnimal.width;
-                this.theWorld.spawnParticle(EnumParticleTypes.HEART, this.theAnimal.posX + d3, this.theAnimal.posY + d4, this.theAnimal.posZ + d5, d0, d1, d2, new int[0]);
+                double d3 = random.nextDouble() * (double) theAnimal.width * 2.0D - (double) theAnimal.width;
+                double d4 = 0.5D + random.nextDouble() * (double) theAnimal.height;
+                double d5 = random.nextDouble() * (double) theAnimal.width * 2.0D - (double) theAnimal.width;
+                theWorld.spawnParticle(EnumParticleTypes.HEART, theAnimal.posX + d3, theAnimal.posY + d4, theAnimal.posZ + d5, d0, d1, d2);
             }
 
-            if (this.theWorld.getGameRules().getBoolean("doMobLoot"))
+            if (theWorld.getGameRules().getBoolean("doMobLoot"))
             {
-                this.theWorld.spawnEntityInWorld(new EntityXPOrb(this.theWorld, this.theAnimal.posX, this.theAnimal.posY, this.theAnimal.posZ, random.nextInt(7) + 1));
+                theWorld.spawnEntityInWorld(new EntityXPOrb(theWorld, theAnimal.posX, theAnimal.posY, theAnimal.posZ, random.nextInt(7) + 1));
             }
         }
     }

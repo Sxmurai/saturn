@@ -21,10 +21,10 @@ public class ItemBanner extends ItemBlock
     public ItemBanner()
     {
         super(Blocks.standing_banner);
-        this.maxStackSize = 16;
-        this.setCreativeTab(CreativeTabs.tabDecorations);
-        this.setHasSubtypes(true);
-        this.setMaxDamage(0);
+        maxStackSize = 16;
+        setCreativeTab(CreativeTabs.tabDecorations);
+        setHasSubtypes(true);
+        setMaxDamage(0);
     }
 
     /**
@@ -84,7 +84,7 @@ public class ItemBanner extends ItemBlock
     public String getItemStackDisplayName(ItemStack stack)
     {
         String s = "item.banner.";
-        EnumDyeColor enumdyecolor = this.getBaseColor(stack);
+        EnumDyeColor enumdyecolor = getBaseColor(stack);
         s = s + enumdyecolor.getUnlocalizedName() + ".name";
         return StatCollector.translateToLocal(s);
     }
@@ -122,7 +122,7 @@ public class ItemBanner extends ItemBlock
         }
         else
         {
-            EnumDyeColor enumdyecolor = this.getBaseColor(stack);
+            EnumDyeColor enumdyecolor = getBaseColor(stack);
             return enumdyecolor.getMapColor().colorValue;
         }
     }
@@ -135,7 +135,7 @@ public class ItemBanner extends ItemBlock
         for (EnumDyeColor enumdyecolor : EnumDyeColor.values())
         {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
-            TileEntityBanner.func_181020_a(nbttagcompound, enumdyecolor.getDyeDamage(), (NBTTagList)null);
+            TileEntityBanner.func_181020_a(nbttagcompound, enumdyecolor.getDyeDamage(), null);
             NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             nbttagcompound1.setTag("BlockEntityTag", nbttagcompound);
             ItemStack itemstack = new ItemStack(itemIn, 1, enumdyecolor.getDyeDamage());

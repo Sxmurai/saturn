@@ -16,7 +16,7 @@ public class S36PacketSignEditorOpen implements Packet<INetHandlerPlayClient>
 
     public S36PacketSignEditorOpen(BlockPos signPositionIn)
     {
-        this.signPosition = signPositionIn;
+        signPosition = signPositionIn;
     }
 
     /**
@@ -32,7 +32,7 @@ public class S36PacketSignEditorOpen implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.signPosition = buf.readBlockPos();
+        signPosition = buf.readBlockPos();
     }
 
     /**
@@ -40,11 +40,11 @@ public class S36PacketSignEditorOpen implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeBlockPos(this.signPosition);
+        buf.writeBlockPos(signPosition);
     }
 
     public BlockPos getSignPosition()
     {
-        return this.signPosition;
+        return signPosition;
     }
 }

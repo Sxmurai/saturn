@@ -6,7 +6,7 @@ import net.minecraft.util.AxisAlignedBB;
 
 public class EntityAIHurtByTarget extends EntityAITarget
 {
-    private boolean entityCallsForHelp;
+    private final boolean entityCallsForHelp;
 
     /** Store the previous revengeTimer value */
     private int revengeTimerOld;
@@ -15,9 +15,9 @@ public class EntityAIHurtByTarget extends EntityAITarget
     public EntityAIHurtByTarget(EntityCreature creatureIn, boolean entityCallsForHelpIn, Class... targetClassesIn)
     {
         super(creatureIn, false);
-        this.entityCallsForHelp = entityCallsForHelpIn;
-        this.targetClasses = targetClassesIn;
-        this.setMutexBits(1);
+        entityCallsForHelp = entityCallsForHelpIn;
+        targetClasses = targetClassesIn;
+        setMutexBits(1);
     }
 
     /**
@@ -25,8 +25,8 @@ public class EntityAIHurtByTarget extends EntityAITarget
      */
     public boolean shouldExecute()
     {
-        int i = this.taskOwner.getRevengeTimer();
-        return i != this.revengeTimerOld && this.isSuitableTarget(this.taskOwner.getAITarget(), false);
+        int i = taskOwner.getRevengeTimer();
+        return i != revengeTimerOld && isSuitableTarget(taskOwner.getAITarget(), false);
     }
 
     /**
@@ -34,20 +34,20 @@ public class EntityAIHurtByTarget extends EntityAITarget
      */
     public void startExecuting()
     {
-        this.taskOwner.setAttackTarget(this.taskOwner.getAITarget());
-        this.revengeTimerOld = this.taskOwner.getRevengeTimer();
+        taskOwner.setAttackTarget(taskOwner.getAITarget());
+        revengeTimerOld = taskOwner.getRevengeTimer();
 
-        if (this.entityCallsForHelp)
+        if (entityCallsForHelp)
         {
-            double d0 = this.getTargetDistance();
+            double d0 = getTargetDistance();
 
-            for (EntityCreature entitycreature : this.taskOwner.worldObj.getEntitiesWithinAABB(this.taskOwner.getClass(), (new AxisAlignedBB(this.taskOwner.posX, this.taskOwner.posY, this.taskOwner.posZ, this.taskOwner.posX + 1.0D, this.taskOwner.posY + 1.0D, this.taskOwner.posZ + 1.0D)).expand(d0, 10.0D, d0)))
+            for (EntityCreature entitycreature : taskOwner.worldObj.getEntitiesWithinAABB(taskOwner.getClass(), (new AxisAlignedBB(taskOwner.posX, taskOwner.posY, taskOwner.posZ, taskOwner.posX + 1.0D, taskOwner.posY + 1.0D, taskOwner.posZ + 1.0D)).expand(d0, 10.0D, d0)))
             {
-                if (this.taskOwner != entitycreature && entitycreature.getAttackTarget() == null && !entitycreature.isOnSameTeam(this.taskOwner.getAITarget()))
+                if (taskOwner != entitycreature && entitycreature.getAttackTarget() == null && !entitycreature.isOnSameTeam(taskOwner.getAITarget()))
                 {
                     boolean flag = false;
 
-                    for (Class oclass : this.targetClasses)
+                    for (Class oclass : targetClasses)
                     {
                         if (entitycreature.getClass() == oclass)
                         {
@@ -58,7 +58,7 @@ public class EntityAIHurtByTarget extends EntityAITarget
 
                     if (!flag)
                     {
-                        this.setEntityAttackTarget(entitycreature, this.taskOwner.getAITarget());
+                        setEntityAttackTarget(entitycreature, taskOwner.getAITarget());
                     }
                 }
             }

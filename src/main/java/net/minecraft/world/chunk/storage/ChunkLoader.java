@@ -30,7 +30,7 @@ public class ChunkLoader
         }
         catch (ClassCastException var5)
         {
-            chunkloader$anvilconverterdata.lastUpdated = (long)nbt.getInteger("LastUpdate");
+            chunkloader$anvilconverterdata.lastUpdated = nbt.getInteger("LastUpdate");
         }
 
         return chunkloader$anvilconverterdata;
@@ -147,8 +147,8 @@ public class ChunkLoader
 
         public AnvilConverterData(int p_i1999_1_, int p_i1999_2_)
         {
-            this.x = p_i1999_1_;
-            this.z = p_i1999_2_;
+            x = p_i1999_1_;
+            z = p_i1999_2_;
         }
     }
 }

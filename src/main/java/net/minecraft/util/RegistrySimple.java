@@ -12,16 +12,16 @@ import org.apache.logging.log4j.Logger;
 public class RegistrySimple<K, V> implements IRegistry<K, V>
 {
     private static final Logger logger = LogManager.getLogger();
-    protected final Map<K, V> registryObjects = this.createUnderlyingMap();
+    protected final Map<K, V> registryObjects = createUnderlyingMap();
 
     protected Map<K, V> createUnderlyingMap()
     {
-        return Maps.<K, V>newHashMap();
+        return Maps.newHashMap();
     }
 
     public V getObject(K name)
     {
-        return this.registryObjects.get(name);
+        return registryObjects.get(name);
     }
 
     /**
@@ -32,17 +32,17 @@ public class RegistrySimple<K, V> implements IRegistry<K, V>
         Validate.notNull(p_82595_1_);
         Validate.notNull(p_82595_2_);
 
-        if (this.registryObjects.containsKey(p_82595_1_))
+        if (registryObjects.containsKey(p_82595_1_))
         {
-            logger.debug("Adding duplicate key \'" + p_82595_1_ + "\' to registry");
+            RegistrySimple.logger.debug("Adding duplicate key '" + p_82595_1_ + "' to registry");
         }
 
-        this.registryObjects.put(p_82595_1_, p_82595_2_);
+        registryObjects.put(p_82595_1_, p_82595_2_);
     }
 
     public Set<K> getKeys()
     {
-        return Collections.<K>unmodifiableSet(this.registryObjects.keySet());
+        return Collections.unmodifiableSet(registryObjects.keySet());
     }
 
     /**
@@ -50,11 +50,11 @@ public class RegistrySimple<K, V> implements IRegistry<K, V>
      */
     public boolean containsKey(K p_148741_1_)
     {
-        return this.registryObjects.containsKey(p_148741_1_);
+        return registryObjects.containsKey(p_148741_1_);
     }
 
     public Iterator<V> iterator()
     {
-        return this.registryObjects.values().iterator();
+        return registryObjects.values().iterator();
     }
 }

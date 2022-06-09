@@ -9,7 +9,7 @@ class EntityRenderer$1 implements Predicate
 
     EntityRenderer$1(EntityRenderer p_i1243_1_)
     {
-        this.field_90032_a = p_i1243_1_;
+        field_90032_a = p_i1243_1_;
     }
 
     public boolean apply(Entity p_apply_1_)
@@ -19,6 +19,6 @@ class EntityRenderer$1 implements Predicate
 
     public boolean apply(Object p_apply_1_)
     {
-        return this.apply((Entity)p_apply_1_);
+        return apply((Entity)p_apply_1_);
     }
 }

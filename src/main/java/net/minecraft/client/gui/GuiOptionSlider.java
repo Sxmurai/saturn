@@ -9,7 +9,7 @@ public class GuiOptionSlider extends GuiButton
 {
     private float sliderValue;
     public boolean dragging;
-    private GameSettings.Options options;
+    private final GameSettings.Options options;
     private final float field_146132_r;
     private final float field_146131_s;
 
@@ -21,13 +21,13 @@ public class GuiOptionSlider extends GuiButton
     public GuiOptionSlider(int p_i45017_1_, int p_i45017_2_, int p_i45017_3_, GameSettings.Options p_i45017_4_, float p_i45017_5_, float p_i45017_6_)
     {
         super(p_i45017_1_, p_i45017_2_, p_i45017_3_, 150, 20, "");
-        this.sliderValue = 1.0F;
-        this.options = p_i45017_4_;
-        this.field_146132_r = p_i45017_5_;
-        this.field_146131_s = p_i45017_6_;
+        sliderValue = 1.0F;
+        options = p_i45017_4_;
+        field_146132_r = p_i45017_5_;
+        field_146131_s = p_i45017_6_;
         Minecraft minecraft = Minecraft.getMinecraft();
-        this.sliderValue = p_i45017_4_.normalizeValue(minecraft.gameSettings.getOptionFloatValue(p_i45017_4_));
-        this.displayString = minecraft.gameSettings.getKeyBinding(p_i45017_4_);
+        sliderValue = p_i45017_4_.normalizeValue(minecraft.gameSettings.getOptionFloatValue(p_i45017_4_));
+        displayString = minecraft.gameSettings.getKeyBinding(p_i45017_4_);
     }
 
     /**
@@ -44,22 +44,22 @@ public class GuiOptionSlider extends GuiButton
      */
     protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
     {
-        if (this.visible)
+        if (visible)
         {
-            if (this.dragging)
+            if (dragging)
             {
-                this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-                this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
-                float f = this.options.denormalizeValue(this.sliderValue);
-                mc.gameSettings.setOptionFloatValue(this.options, f);
-                this.sliderValue = this.options.normalizeValue(f);
-                this.displayString = mc.gameSettings.getKeyBinding(this.options);
+                sliderValue = (float)(mouseX - (xPosition + 4)) / (float)(width - 8);
+                sliderValue = MathHelper.clamp_float(sliderValue, 0.0F, 1.0F);
+                float f = options.denormalizeValue(sliderValue);
+                mc.gameSettings.setOptionFloatValue(options, f);
+                sliderValue = options.normalizeValue(f);
+                displayString = mc.gameSettings.getKeyBinding(options);
             }
 
-            mc.getTextureManager().bindTexture(buttonTextures);
+            mc.getTextureManager().bindTexture(GuiButton.buttonTextures);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
-            this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
+            drawTexturedModalRect(xPosition + (int)(sliderValue * (float)(width - 8)), yPosition, 0, 66, 4, 20);
+            drawTexturedModalRect(xPosition + (int)(sliderValue * (float)(width - 8)) + 4, yPosition, 196, 66, 4, 20);
         }
     }
 
@@ -71,11 +71,11 @@ public class GuiOptionSlider extends GuiButton
     {
         if (super.mousePressed(mc, mouseX, mouseY))
         {
-            this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-            this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
-            mc.gameSettings.setOptionFloatValue(this.options, this.options.denormalizeValue(this.sliderValue));
-            this.displayString = mc.gameSettings.getKeyBinding(this.options);
-            this.dragging = true;
+            sliderValue = (float)(mouseX - (xPosition + 4)) / (float)(width - 8);
+            sliderValue = MathHelper.clamp_float(sliderValue, 0.0F, 1.0F);
+            mc.gameSettings.setOptionFloatValue(options, options.denormalizeValue(sliderValue));
+            displayString = mc.gameSettings.getKeyBinding(options);
+            dragging = true;
             return true;
         }
         else
@@ -89,6 +89,6 @@ public class GuiOptionSlider extends GuiButton
      */
     public void mouseReleased(int mouseX, int mouseY)
     {
-        this.dragging = false;
+        dragging = false;
     }
 }

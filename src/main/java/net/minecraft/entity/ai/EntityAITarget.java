@@ -27,7 +27,7 @@ public abstract class EntityAITarget extends EntityAIBase
     /**
      * When true, only entities that can be reached with minimal effort will be targetted.
      */
-    private boolean nearbyOnly;
+    private final boolean nearbyOnly;
 
     /**
      * When nearbyOnly is true: 0 -> No target, but OK to search; 1 -> Nearby target found; 2 -> Target too far.
@@ -52,9 +52,9 @@ public abstract class EntityAITarget extends EntityAIBase
 
     public EntityAITarget(EntityCreature creature, boolean checkSight, boolean onlyNearby)
     {
-        this.taskOwner = creature;
-        this.shouldCheckSight = checkSight;
-        this.nearbyOnly = onlyNearby;
+        taskOwner = creature;
+        shouldCheckSight = checkSight;
+        nearbyOnly = onlyNearby;
     }
 
     /**
@@ -62,7 +62,7 @@ public abstract class EntityAITarget extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        EntityLivingBase entitylivingbase = this.taskOwner.getAttackTarget();
+        EntityLivingBase entitylivingbase = taskOwner.getAttackTarget();
 
         if (entitylivingbase == null)
         {
@@ -74,7 +74,7 @@ public abstract class EntityAITarget extends EntityAIBase
         }
         else
         {
-            Team team = this.taskOwner.getTeam();
+            Team team = taskOwner.getTeam();
             Team team1 = entitylivingbase.getTeam();
 
             if (team != null && team1 == team)
@@ -83,21 +83,21 @@ public abstract class EntityAITarget extends EntityAIBase
             }
             else
             {
-                double d0 = this.getTargetDistance();
+                double d0 = getTargetDistance();
 
-                if (this.taskOwner.getDistanceSqToEntity(entitylivingbase) > d0 * d0)
+                if (taskOwner.getDistanceSqToEntity(entitylivingbase) > d0 * d0)
                 {
                     return false;
                 }
                 else
                 {
-                    if (this.shouldCheckSight)
+                    if (shouldCheckSight)
                     {
-                        if (this.taskOwner.getEntitySenses().canSee(entitylivingbase))
+                        if (taskOwner.getEntitySenses().canSee(entitylivingbase))
                         {
-                            this.targetUnseenTicks = 0;
+                            targetUnseenTicks = 0;
                         }
-                        else if (++this.targetUnseenTicks > 60)
+                        else if (++targetUnseenTicks > 60)
                         {
                             return false;
                         }
@@ -111,7 +111,7 @@ public abstract class EntityAITarget extends EntityAIBase
 
     protected double getTargetDistance()
     {
-        IAttributeInstance iattributeinstance = this.taskOwner.getEntityAttribute(SharedMonsterAttributes.followRange);
+        IAttributeInstance iattributeinstance = taskOwner.getEntityAttribute(SharedMonsterAttributes.followRange);
         return iattributeinstance == null ? 16.0D : iattributeinstance.getAttributeValue();
     }
 
@@ -120,9 +120,9 @@ public abstract class EntityAITarget extends EntityAIBase
      */
     public void startExecuting()
     {
-        this.targetSearchStatus = 0;
-        this.targetSearchDelay = 0;
-        this.targetUnseenTicks = 0;
+        targetSearchStatus = 0;
+        targetSearchDelay = 0;
+        targetUnseenTicks = 0;
     }
 
     /**
@@ -130,7 +130,7 @@ public abstract class EntityAITarget extends EntityAIBase
      */
     public void resetTask()
     {
-        this.taskOwner.setAttackTarget((EntityLivingBase)null);
+        taskOwner.setAttackTarget(null);
     }
 
     /**
@@ -193,32 +193,29 @@ public abstract class EntityAITarget extends EntityAIBase
      */
     protected boolean isSuitableTarget(EntityLivingBase target, boolean includeInvincibles)
     {
-        if (!isSuitableTarget(this.taskOwner, target, includeInvincibles, this.shouldCheckSight))
+        if (!EntityAITarget.isSuitableTarget(taskOwner, target, includeInvincibles, shouldCheckSight))
         {
             return false;
         }
-        else if (!this.taskOwner.isWithinHomeDistanceFromPosition(new BlockPos(target)))
+        else if (!taskOwner.isWithinHomeDistanceFromPosition(new BlockPos(target)))
         {
             return false;
         }
         else
         {
-            if (this.nearbyOnly)
+            if (nearbyOnly)
             {
-                if (--this.targetSearchDelay <= 0)
+                if (--targetSearchDelay <= 0)
                 {
-                    this.targetSearchStatus = 0;
+                    targetSearchStatus = 0;
                 }
 
-                if (this.targetSearchStatus == 0)
+                if (targetSearchStatus == 0)
                 {
-                    this.targetSearchStatus = this.canEasilyReach(target) ? 1 : 2;
+                    targetSearchStatus = canEasilyReach(target) ? 1 : 2;
                 }
 
-                if (this.targetSearchStatus == 2)
-                {
-                    return false;
-                }
+                return targetSearchStatus != 2;
             }
 
             return true;
@@ -230,8 +227,8 @@ public abstract class EntityAITarget extends EntityAIBase
      */
     private boolean canEasilyReach(EntityLivingBase p_75295_1_)
     {
-        this.targetSearchDelay = 10 + this.taskOwner.getRNG().nextInt(5);
-        PathEntity pathentity = this.taskOwner.getNavigator().getPathToEntityLiving(p_75295_1_);
+        targetSearchDelay = 10 + taskOwner.getRNG().nextInt(5);
+        PathEntity pathentity = taskOwner.getNavigator().getPathToEntityLiving(p_75295_1_);
 
         if (pathentity == null)
         {

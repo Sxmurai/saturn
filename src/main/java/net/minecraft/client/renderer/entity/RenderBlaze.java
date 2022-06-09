@@ -18,6 +18,6 @@ public class RenderBlaze extends RenderLiving<EntityBlaze>
      */
     protected ResourceLocation getEntityTexture(EntityBlaze entity)
     {
-        return blazeTextures;
+        return RenderBlaze.blazeTextures;
     }
 }

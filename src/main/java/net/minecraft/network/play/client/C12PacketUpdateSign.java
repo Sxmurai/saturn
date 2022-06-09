@@ -27,14 +27,14 @@ public class C12PacketUpdateSign implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.pos = buf.readBlockPos();
-        this.lines = new IChatComponent[4];
+        pos = buf.readBlockPos();
+        lines = new IChatComponent[4];
 
         for (int i = 0; i < 4; ++i)
         {
             String s = buf.readStringFromBuffer(384);
             IChatComponent ichatcomponent = IChatComponent.Serializer.jsonToComponent(s);
-            this.lines[i] = ichatcomponent;
+            lines[i] = ichatcomponent;
         }
     }
 
@@ -43,11 +43,11 @@ public class C12PacketUpdateSign implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeBlockPos(this.pos);
+        buf.writeBlockPos(pos);
 
         for (int i = 0; i < 4; ++i)
         {
-            IChatComponent ichatcomponent = this.lines[i];
+            IChatComponent ichatcomponent = lines[i];
             String s = IChatComponent.Serializer.componentToJson(ichatcomponent);
             buf.writeString(s);
         }
@@ -63,11 +63,11 @@ public class C12PacketUpdateSign implements Packet<INetHandlerPlayServer>
 
     public BlockPos getPosition()
     {
-        return this.pos;
+        return pos;
     }
 
     public IChatComponent[] getLines()
     {
-        return this.lines;
+        return lines;
     }
 }

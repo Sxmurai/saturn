@@ -14,18 +14,18 @@ public class GuiHopper extends GuiContainer
     private static final ResourceLocation HOPPER_GUI_TEXTURE = new ResourceLocation("textures/gui/container/hopper.png");
 
     /** The player inventory currently bound to this GUI instance */
-    private IInventory playerInventory;
+    private final IInventory playerInventory;
 
     /** The hopper inventory bound to this GUI instance */
-    private IInventory hopperInventory;
+    private final IInventory hopperInventory;
 
     public GuiHopper(InventoryPlayer playerInv, IInventory hopperInv)
     {
         super(new ContainerHopper(playerInv, hopperInv, Minecraft.getMinecraft().thePlayer));
-        this.playerInventory = playerInv;
-        this.hopperInventory = hopperInv;
-        this.allowUserInput = false;
-        this.ySize = 133;
+        playerInventory = playerInv;
+        hopperInventory = hopperInv;
+        allowUserInput = false;
+        ySize = 133;
     }
 
     /**
@@ -33,8 +33,8 @@ public class GuiHopper extends GuiContainer
      */
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRendererObj.drawString(this.hopperInventory.getDisplayName().getUnformattedText(), 8, 6, 4210752);
-        this.fontRendererObj.drawString(this.playerInventory.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+        fontRendererObj.drawString(hopperInventory.getDisplayName().getUnformattedText(), 8, 6, 4210752);
+        fontRendererObj.drawString(playerInventory.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
     }
 
     /**
@@ -43,9 +43,9 @@ public class GuiHopper extends GuiContainer
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(HOPPER_GUI_TEXTURE);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+        mc.getTextureManager().bindTexture(GuiHopper.HOPPER_GUI_TEXTURE);
+        int i = (width - xSize) / 2;
+        int j = (height - ySize) / 2;
+        drawTexturedModalRect(i, j, 0, 0, xSize, ySize);
     }
 }

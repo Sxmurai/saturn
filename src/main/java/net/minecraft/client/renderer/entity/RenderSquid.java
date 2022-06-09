@@ -19,7 +19,7 @@ public class RenderSquid extends RenderLiving<EntitySquid>
      */
     protected ResourceLocation getEntityTexture(EntitySquid entity)
     {
-        return squidTextures;
+        return RenderSquid.squidTextures;
     }
 
     protected void rotateCorpse(EntitySquid bat, float p_77043_2_, float p_77043_3_, float partialTicks)

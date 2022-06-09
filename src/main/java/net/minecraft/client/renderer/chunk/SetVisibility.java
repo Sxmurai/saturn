@@ -11,7 +11,7 @@ public class SetVisibility
 
     public SetVisibility()
     {
-        this.bitSet = new BitSet(COUNT_FACES * COUNT_FACES);
+        bitSet = new BitSet(SetVisibility.COUNT_FACES * SetVisibility.COUNT_FACES);
     }
 
     public void setManyVisible(Set<EnumFacing> p_178620_1_)
@@ -20,25 +20,25 @@ public class SetVisibility
         {
             for (EnumFacing enumfacing1 : p_178620_1_)
             {
-                this.setVisible(enumfacing, enumfacing1, true);
+                setVisible(enumfacing, enumfacing1, true);
             }
         }
     }
 
     public void setVisible(EnumFacing facing, EnumFacing facing2, boolean p_178619_3_)
     {
-        this.bitSet.set(facing.ordinal() + facing2.ordinal() * COUNT_FACES, p_178619_3_);
-        this.bitSet.set(facing2.ordinal() + facing.ordinal() * COUNT_FACES, p_178619_3_);
+        bitSet.set(facing.ordinal() + facing2.ordinal() * SetVisibility.COUNT_FACES, p_178619_3_);
+        bitSet.set(facing2.ordinal() + facing.ordinal() * SetVisibility.COUNT_FACES, p_178619_3_);
     }
 
     public void setAllVisible(boolean visible)
     {
-        this.bitSet.set(0, this.bitSet.size(), visible);
+        bitSet.set(0, bitSet.size(), visible);
     }
 
     public boolean isVisible(EnumFacing facing, EnumFacing facing2)
     {
-        return this.bitSet.get(facing.ordinal() + facing2.ordinal() * COUNT_FACES);
+        return bitSet.get(facing.ordinal() + facing2.ordinal() * SetVisibility.COUNT_FACES);
     }
 
     public String toString()
@@ -65,8 +65,8 @@ public class SetVisibility
                 }
                 else
                 {
-                    boolean flag = this.isVisible(enumfacing2, enumfacing1);
-                    stringbuilder.append(' ').append((char)(flag ? 'Y' : 'n'));
+                    boolean flag = isVisible(enumfacing2, enumfacing1);
+                    stringbuilder.append(' ').append(flag ? 'Y' : 'n');
                 }
             }
 

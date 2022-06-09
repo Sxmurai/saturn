@@ -15,7 +15,7 @@ public class ItemLead extends Item
 {
     public ItemLead()
     {
-        this.setCreativeTab(CreativeTabs.tabTools);
+        setCreativeTab(CreativeTabs.tabTools);
     }
 
     /**
@@ -33,7 +33,7 @@ public class ItemLead extends Item
             }
             else
             {
-                attachToFence(playerIn, worldIn, pos);
+                ItemLead.attachToFence(playerIn, worldIn, pos);
                 return true;
             }
         }

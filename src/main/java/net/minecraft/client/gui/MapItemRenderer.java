@@ -17,11 +17,11 @@ public class MapItemRenderer
 {
     private static final ResourceLocation mapIcons = new ResourceLocation("textures/map/map_icons.png");
     private final TextureManager textureManager;
-    private final Map<String, MapItemRenderer.Instance> loadedMaps = Maps.<String, MapItemRenderer.Instance>newHashMap();
+    private final Map<String, MapItemRenderer.Instance> loadedMaps = Maps.newHashMap();
 
     public MapItemRenderer(TextureManager textureManagerIn)
     {
-        this.textureManager = textureManagerIn;
+        textureManager = textureManagerIn;
     }
 
     /**
@@ -29,12 +29,12 @@ public class MapItemRenderer
      */
     public void updateMapTexture(MapData mapdataIn)
     {
-        this.getMapRendererInstance(mapdataIn).updateMapTexture();
+        getMapRendererInstance(mapdataIn).updateMapTexture();
     }
 
     public void renderMap(MapData mapdataIn, boolean p_148250_2_)
     {
-        this.getMapRendererInstance(mapdataIn).render(p_148250_2_);
+        getMapRendererInstance(mapdataIn).render(p_148250_2_);
     }
 
     /**
@@ -42,12 +42,12 @@ public class MapItemRenderer
      */
     private MapItemRenderer.Instance getMapRendererInstance(MapData mapdataIn)
     {
-        MapItemRenderer.Instance mapitemrenderer$instance = (MapItemRenderer.Instance)this.loadedMaps.get(mapdataIn.mapName);
+        MapItemRenderer.Instance mapitemrenderer$instance = loadedMaps.get(mapdataIn.mapName);
 
         if (mapitemrenderer$instance == null)
         {
             mapitemrenderer$instance = new MapItemRenderer.Instance(mapdataIn);
-            this.loadedMaps.put(mapdataIn.mapName, mapitemrenderer$instance);
+            loadedMaps.put(mapdataIn.mapName, mapitemrenderer$instance);
         }
 
         return mapitemrenderer$instance;
@@ -58,12 +58,12 @@ public class MapItemRenderer
      */
     public void clearLoadedMaps()
     {
-        for (MapItemRenderer.Instance mapitemrenderer$instance : this.loadedMaps.values())
+        for (MapItemRenderer.Instance mapitemrenderer$instance : loadedMaps.values())
         {
-            this.textureManager.deleteTexture(mapitemrenderer$instance.location);
+            textureManager.deleteTexture(mapitemrenderer$instance.location);
         }
 
-        this.loadedMaps.clear();
+        loadedMaps.clear();
     }
 
     class Instance
@@ -75,14 +75,14 @@ public class MapItemRenderer
 
         private Instance(MapData mapdataIn)
         {
-            this.mapData = mapdataIn;
-            this.mapTexture = new DynamicTexture(128, 128);
-            this.mapTextureData = this.mapTexture.getTextureData();
-            this.location = MapItemRenderer.this.textureManager.getDynamicTextureLocation("map/" + mapdataIn.mapName, this.mapTexture);
+            mapData = mapdataIn;
+            mapTexture = new DynamicTexture(128, 128);
+            mapTextureData = mapTexture.getTextureData();
+            location = textureManager.getDynamicTextureLocation("map/" + mapdataIn.mapName, mapTexture);
 
-            for (int i = 0; i < this.mapTextureData.length; ++i)
+            for (int i = 0; i < mapTextureData.length; ++i)
             {
-                this.mapTextureData[i] = 0;
+                mapTextureData[i] = 0;
             }
         }
 
@@ -90,19 +90,19 @@ public class MapItemRenderer
         {
             for (int i = 0; i < 16384; ++i)
             {
-                int j = this.mapData.colors[i] & 255;
+                int j = mapData.colors[i] & 255;
 
                 if (j / 4 == 0)
                 {
-                    this.mapTextureData[i] = (i + i / 128 & 1) * 8 + 16 << 24;
+                    mapTextureData[i] = (i + i / 128 & 1) * 8 + 16 << 24;
                 }
                 else
                 {
-                    this.mapTextureData[i] = MapColor.mapColorArray[j / 4].func_151643_b(j & 3);
+                    mapTextureData[i] = MapColor.mapColorArray[j / 4].func_151643_b(j & 3);
                 }
             }
 
-            this.mapTexture.updateDynamicTexture();
+            mapTexture.updateDynamicTexture();
         }
 
         private void render(boolean noOverlayRendering)
@@ -112,22 +112,22 @@ public class MapItemRenderer
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             float f = 0.0F;
-            MapItemRenderer.this.textureManager.bindTexture(this.location);
+            textureManager.bindTexture(location);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(1, 771, 0, 1);
             GlStateManager.disableAlpha();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos((double)((float)(i + 0) + f), (double)((float)(j + 128) - f), -0.009999999776482582D).tex(0.0D, 1.0D).endVertex();
-            worldrenderer.pos((double)((float)(i + 128) - f), (double)((float)(j + 128) - f), -0.009999999776482582D).tex(1.0D, 1.0D).endVertex();
-            worldrenderer.pos((double)((float)(i + 128) - f), (double)((float)(j + 0) + f), -0.009999999776482582D).tex(1.0D, 0.0D).endVertex();
-            worldrenderer.pos((double)((float)(i + 0) + f), (double)((float)(j + 0) + f), -0.009999999776482582D).tex(0.0D, 0.0D).endVertex();
+            worldrenderer.pos((float)(i + 0) + f, (float)(j + 128) - f, -0.009999999776482582D).tex(0.0D, 1.0D).endVertex();
+            worldrenderer.pos((float)(i + 128) - f, (float)(j + 128) - f, -0.009999999776482582D).tex(1.0D, 1.0D).endVertex();
+            worldrenderer.pos((float)(i + 128) - f, (float)(j + 0) + f, -0.009999999776482582D).tex(1.0D, 0.0D).endVertex();
+            worldrenderer.pos((float)(i + 0) + f, (float)(j + 0) + f, -0.009999999776482582D).tex(0.0D, 0.0D).endVertex();
             tessellator.draw();
             GlStateManager.enableAlpha();
             GlStateManager.disableBlend();
-            MapItemRenderer.this.textureManager.bindTexture(MapItemRenderer.mapIcons);
+            textureManager.bindTexture(MapItemRenderer.mapIcons);
             int k = 0;
 
-            for (Vec4b vec4b : this.mapData.mapDecorations.values())
+            for (Vec4b vec4b : mapData.mapDecorations.values())
             {
                 if (!noOverlayRendering || vec4b.func_176110_a() == 1)
                 {
@@ -143,10 +143,10 @@ public class MapItemRenderer
                     float f4 = (float)(b0 / 4 + 1) / 4.0F;
                     worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
                     float f5 = -0.001F;
-                    worldrenderer.pos(-1.0D, 1.0D, (double)((float)k * -0.001F)).tex((double)f1, (double)f2).endVertex();
-                    worldrenderer.pos(1.0D, 1.0D, (double)((float)k * -0.001F)).tex((double)f3, (double)f2).endVertex();
-                    worldrenderer.pos(1.0D, -1.0D, (double)((float)k * -0.001F)).tex((double)f3, (double)f4).endVertex();
-                    worldrenderer.pos(-1.0D, -1.0D, (double)((float)k * -0.001F)).tex((double)f1, (double)f4).endVertex();
+                    worldrenderer.pos(-1.0D, 1.0D, (float)k * -0.001F).tex(f1, f2).endVertex();
+                    worldrenderer.pos(1.0D, 1.0D, (float)k * -0.001F).tex(f3, f2).endVertex();
+                    worldrenderer.pos(1.0D, -1.0D, (float)k * -0.001F).tex(f3, f4).endVertex();
+                    worldrenderer.pos(-1.0D, -1.0D, (float)k * -0.001F).tex(f1, f4).endVertex();
                     tessellator.draw();
                     GlStateManager.popMatrix();
                     ++k;

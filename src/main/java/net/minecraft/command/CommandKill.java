@@ -39,15 +39,15 @@ public class CommandKill extends CommandBase
     {
         if (args.length == 0)
         {
-            EntityPlayer entityplayer = getCommandSenderAsPlayer(sender);
+            EntityPlayer entityplayer = CommandBase.getCommandSenderAsPlayer(sender);
             entityplayer.onKillCommand();
-            notifyOperators(sender, this, "commands.kill.successful", new Object[] {entityplayer.getDisplayName()});
+            CommandBase.notifyOperators(sender, this, "commands.kill.successful", entityplayer.getDisplayName());
         }
         else
         {
-            Entity entity = func_175768_b(sender, args[0]);
+            Entity entity = CommandBase.func_175768_b(sender, args[0]);
             entity.onKillCommand();
-            notifyOperators(sender, this, "commands.kill.successful", new Object[] {entity.getDisplayName()});
+            CommandBase.notifyOperators(sender, this, "commands.kill.successful", entity.getDisplayName());
         }
     }
 
@@ -61,6 +61,6 @@ public class CommandKill extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
+        return args.length == 1 ? CommandBase.getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
     }
 }

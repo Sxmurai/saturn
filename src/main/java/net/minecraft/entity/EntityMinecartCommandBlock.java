@@ -18,8 +18,8 @@ public class EntityMinecartCommandBlock extends EntityMinecart
     {
         public void updateCommand()
         {
-            EntityMinecartCommandBlock.this.getDataWatcher().updateObject(23, this.getCommand());
-            EntityMinecartCommandBlock.this.getDataWatcher().updateObject(24, IChatComponent.Serializer.componentToJson(this.getLastOutput()));
+            getDataWatcher().updateObject(23, getCommand());
+            getDataWatcher().updateObject(24, IChatComponent.Serializer.componentToJson(getLastOutput()));
         }
         public int func_145751_f()
         {
@@ -27,19 +27,19 @@ public class EntityMinecartCommandBlock extends EntityMinecart
         }
         public void func_145757_a(ByteBuf p_145757_1_)
         {
-            p_145757_1_.writeInt(EntityMinecartCommandBlock.this.getEntityId());
+            p_145757_1_.writeInt(getEntityId());
         }
         public BlockPos getPosition()
         {
-            return new BlockPos(EntityMinecartCommandBlock.this.posX, EntityMinecartCommandBlock.this.posY + 0.5D, EntityMinecartCommandBlock.this.posZ);
+            return new BlockPos(posX, posY + 0.5D, posZ);
         }
         public Vec3 getPositionVector()
         {
-            return new Vec3(EntityMinecartCommandBlock.this.posX, EntityMinecartCommandBlock.this.posY, EntityMinecartCommandBlock.this.posZ);
+            return new Vec3(posX, posY, posZ);
         }
         public World getEntityWorld()
         {
-            return EntityMinecartCommandBlock.this.worldObj;
+            return worldObj;
         }
         public Entity getCommandSenderEntity()
         {
@@ -63,8 +63,8 @@ public class EntityMinecartCommandBlock extends EntityMinecart
     protected void entityInit()
     {
         super.entityInit();
-        this.getDataWatcher().addObject(23, "");
-        this.getDataWatcher().addObject(24, "");
+        getDataWatcher().addObject(23, "");
+        getDataWatcher().addObject(24, "");
     }
 
     /**
@@ -73,9 +73,9 @@ public class EntityMinecartCommandBlock extends EntityMinecart
     protected void readEntityFromNBT(NBTTagCompound tagCompund)
     {
         super.readEntityFromNBT(tagCompund);
-        this.commandBlockLogic.readDataFromNBT(tagCompund);
-        this.getDataWatcher().updateObject(23, this.getCommandBlockLogic().getCommand());
-        this.getDataWatcher().updateObject(24, IChatComponent.Serializer.componentToJson(this.getCommandBlockLogic().getLastOutput()));
+        commandBlockLogic.readDataFromNBT(tagCompund);
+        getDataWatcher().updateObject(23, getCommandBlockLogic().getCommand());
+        getDataWatcher().updateObject(24, IChatComponent.Serializer.componentToJson(getCommandBlockLogic().getLastOutput()));
     }
 
     /**
@@ -84,7 +84,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart
     protected void writeEntityToNBT(NBTTagCompound tagCompound)
     {
         super.writeEntityToNBT(tagCompound);
-        this.commandBlockLogic.writeDataToNBT(tagCompound);
+        commandBlockLogic.writeDataToNBT(tagCompound);
     }
 
     public EntityMinecart.EnumMinecartType getMinecartType()
@@ -99,7 +99,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart
 
     public CommandBlockLogic getCommandBlockLogic()
     {
-        return this.commandBlockLogic;
+        return commandBlockLogic;
     }
 
     /**
@@ -107,10 +107,10 @@ public class EntityMinecartCommandBlock extends EntityMinecart
      */
     public void onActivatorRailPass(int x, int y, int z, boolean receivingPower)
     {
-        if (receivingPower && this.ticksExisted - this.activatorRailCooldown >= 4)
+        if (receivingPower && ticksExisted - activatorRailCooldown >= 4)
         {
-            this.getCommandBlockLogic().trigger(this.worldObj);
-            this.activatorRailCooldown = this.ticksExisted;
+            getCommandBlockLogic().trigger(worldObj);
+            activatorRailCooldown = ticksExisted;
         }
     }
 
@@ -119,7 +119,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart
      */
     public boolean interactFirst(EntityPlayer playerIn)
     {
-        this.commandBlockLogic.tryOpenEditCommandBlock(playerIn);
+        commandBlockLogic.tryOpenEditCommandBlock(playerIn);
         return false;
     }
 
@@ -131,16 +131,15 @@ public class EntityMinecartCommandBlock extends EntityMinecart
         {
             try
             {
-                this.commandBlockLogic.setLastOutput(IChatComponent.Serializer.jsonToComponent(this.getDataWatcher().getWatchableObjectString(24)));
+                commandBlockLogic.setLastOutput(IChatComponent.Serializer.jsonToComponent(getDataWatcher().getWatchableObjectString(24)));
             }
             catch (Throwable var3)
             {
-                ;
             }
         }
         else if (dataID == 23)
         {
-            this.commandBlockLogic.setCommand(this.getDataWatcher().getWatchableObjectString(23));
+            commandBlockLogic.setCommand(getDataWatcher().getWatchableObjectString(23));
         }
     }
 }

@@ -36,28 +36,28 @@ public class EntityChicken extends EntityAnimal
     public EntityChicken(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.4F, 0.7F);
-        this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 1.4D));
-        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, Items.wheat_seeds, false));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 1.1D));
-        this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
+        setSize(0.4F, 0.7F);
+        timeUntilNextEgg = rand.nextInt(6000) + 6000;
+        tasks.addTask(0, new EntityAISwimming(this));
+        tasks.addTask(1, new EntityAIPanic(this, 1.4D));
+        tasks.addTask(2, new EntityAIMate(this, 1.0D));
+        tasks.addTask(3, new EntityAITempt(this, 1.0D, Items.wheat_seeds, false));
+        tasks.addTask(4, new EntityAIFollowParent(this, 1.1D));
+        tasks.addTask(5, new EntityAIWander(this, 1.0D));
+        tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        tasks.addTask(7, new EntityAILookIdle(this));
     }
 
     public float getEyeHeight()
     {
-        return this.height;
+        return height;
     }
 
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(4.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+        getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(4.0D);
+        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
     }
 
     /**
@@ -67,30 +67,30 @@ public class EntityChicken extends EntityAnimal
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
-        this.field_70888_h = this.wingRotation;
-        this.field_70884_g = this.destPos;
-        this.destPos = (float)((double)this.destPos + (double)(this.onGround ? -1 : 4) * 0.3D);
-        this.destPos = MathHelper.clamp_float(this.destPos, 0.0F, 1.0F);
+        field_70888_h = wingRotation;
+        field_70884_g = destPos;
+        destPos = (float)((double) destPos + (double)(onGround ? -1 : 4) * 0.3D);
+        destPos = MathHelper.clamp_float(destPos, 0.0F, 1.0F);
 
-        if (!this.onGround && this.wingRotDelta < 1.0F)
+        if (!onGround && wingRotDelta < 1.0F)
         {
-            this.wingRotDelta = 1.0F;
+            wingRotDelta = 1.0F;
         }
 
-        this.wingRotDelta = (float)((double)this.wingRotDelta * 0.9D);
+        wingRotDelta = (float)((double) wingRotDelta * 0.9D);
 
-        if (!this.onGround && this.motionY < 0.0D)
+        if (!onGround && motionY < 0.0D)
         {
-            this.motionY *= 0.6D;
+            motionY *= 0.6D;
         }
 
-        this.wingRotation += this.wingRotDelta * 2.0F;
+        wingRotation += wingRotDelta * 2.0F;
 
-        if (!this.worldObj.isRemote && !this.isChild() && !this.isChickenJockey() && --this.timeUntilNextEgg <= 0)
+        if (!worldObj.isRemote && !isChild() && !isChickenJockey() && --timeUntilNextEgg <= 0)
         {
-            this.playSound("mob.chicken.plop", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            this.dropItem(Items.egg, 1);
-            this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+            playSound("mob.chicken.plop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+            dropItem(Items.egg, 1);
+            timeUntilNextEgg = rand.nextInt(6000) + 6000;
         }
     }
 
@@ -124,7 +124,7 @@ public class EntityChicken extends EntityAnimal
 
     protected void playStepSound(BlockPos pos, Block blockIn)
     {
-        this.playSound("mob.chicken.step", 0.15F, 1.0F);
+        playSound("mob.chicken.step", 0.15F, 1.0F);
     }
 
     protected Item getDropItem()
@@ -137,26 +137,26 @@ public class EntityChicken extends EntityAnimal
      */
     protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
-        int i = this.rand.nextInt(3) + this.rand.nextInt(1 + p_70628_2_);
+        int i = rand.nextInt(3) + rand.nextInt(1 + p_70628_2_);
 
         for (int j = 0; j < i; ++j)
         {
-            this.dropItem(Items.feather, 1);
+            dropItem(Items.feather, 1);
         }
 
-        if (this.isBurning())
+        if (isBurning())
         {
-            this.dropItem(Items.cooked_chicken, 1);
+            dropItem(Items.cooked_chicken, 1);
         }
         else
         {
-            this.dropItem(Items.chicken, 1);
+            dropItem(Items.chicken, 1);
         }
     }
 
     public EntityChicken createChild(EntityAgeable ageable)
     {
-        return new EntityChicken(this.worldObj);
+        return new EntityChicken(worldObj);
     }
 
     /**
@@ -174,11 +174,11 @@ public class EntityChicken extends EntityAnimal
     public void readEntityFromNBT(NBTTagCompound tagCompund)
     {
         super.readEntityFromNBT(tagCompund);
-        this.chickenJockey = tagCompund.getBoolean("IsChickenJockey");
+        chickenJockey = tagCompund.getBoolean("IsChickenJockey");
 
         if (tagCompund.hasKey("EggLayTime"))
         {
-            this.timeUntilNextEgg = tagCompund.getInteger("EggLayTime");
+            timeUntilNextEgg = tagCompund.getInteger("EggLayTime");
         }
     }
 
@@ -187,7 +187,7 @@ public class EntityChicken extends EntityAnimal
      */
     protected int getExperiencePoints(EntityPlayer player)
     {
-        return this.isChickenJockey() ? 10 : super.getExperiencePoints(player);
+        return isChickenJockey() ? 10 : super.getExperiencePoints(player);
     }
 
     /**
@@ -196,8 +196,8 @@ public class EntityChicken extends EntityAnimal
     public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setBoolean("IsChickenJockey", this.chickenJockey);
-        tagCompound.setInteger("EggLayTime", this.timeUntilNextEgg);
+        tagCompound.setBoolean("IsChickenJockey", chickenJockey);
+        tagCompound.setInteger("EggLayTime", timeUntilNextEgg);
     }
 
     /**
@@ -205,21 +205,21 @@ public class EntityChicken extends EntityAnimal
      */
     protected boolean canDespawn()
     {
-        return this.isChickenJockey() && this.riddenByEntity == null;
+        return isChickenJockey() && riddenByEntity == null;
     }
 
     public void updateRiderPosition()
     {
         super.updateRiderPosition();
-        float f = MathHelper.sin(this.renderYawOffset * (float)Math.PI / 180.0F);
-        float f1 = MathHelper.cos(this.renderYawOffset * (float)Math.PI / 180.0F);
+        float f = MathHelper.sin(renderYawOffset * (float)Math.PI / 180.0F);
+        float f1 = MathHelper.cos(renderYawOffset * (float)Math.PI / 180.0F);
         float f2 = 0.1F;
         float f3 = 0.0F;
-        this.riddenByEntity.setPosition(this.posX + (double)(f2 * f), this.posY + (double)(this.height * 0.5F) + this.riddenByEntity.getYOffset() + (double)f3, this.posZ - (double)(f2 * f1));
+        riddenByEntity.setPosition(posX + (double)(f2 * f), posY + (double)(height * 0.5F) + riddenByEntity.getYOffset() + (double)f3, posZ - (double)(f2 * f1));
 
-        if (this.riddenByEntity instanceof EntityLivingBase)
+        if (riddenByEntity instanceof EntityLivingBase)
         {
-            ((EntityLivingBase)this.riddenByEntity).renderYawOffset = this.renderYawOffset;
+            ((EntityLivingBase) riddenByEntity).renderYawOffset = renderYawOffset;
         }
     }
 
@@ -228,7 +228,7 @@ public class EntityChicken extends EntityAnimal
      */
     public boolean isChickenJockey()
     {
-        return this.chickenJockey;
+        return chickenJockey;
     }
 
     /**
@@ -236,6 +236,6 @@ public class EntityChicken extends EntityAnimal
      */
     public void setChickenJockey(boolean jockey)
     {
-        this.chickenJockey = jockey;
+        chickenJockey = jockey;
     }
 }

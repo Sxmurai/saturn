@@ -24,9 +24,9 @@ public class PathNavigateGround extends PathNavigate
 
     protected PathFinder getPathFinder()
     {
-        this.nodeProcessor = new WalkNodeProcessor();
-        this.nodeProcessor.setEnterDoors(true);
-        return new PathFinder(this.nodeProcessor);
+        nodeProcessor = new WalkNodeProcessor();
+        nodeProcessor.setEnterDoors(true);
+        return new PathFinder(nodeProcessor);
     }
 
     /**
@@ -34,12 +34,12 @@ public class PathNavigateGround extends PathNavigate
      */
     protected boolean canNavigate()
     {
-        return this.theEntity.onGround || this.getCanSwim() && this.isInLiquid() || this.theEntity.isRiding() && this.theEntity instanceof EntityZombie && this.theEntity.ridingEntity instanceof EntityChicken;
+        return theEntity.onGround || getCanSwim() && isInLiquid() || theEntity.isRiding() && theEntity instanceof EntityZombie && theEntity.ridingEntity instanceof EntityChicken;
     }
 
     protected Vec3 getEntityPosition()
     {
-        return new Vec3(this.theEntity.posX, (double)this.getPathablePosY(), this.theEntity.posZ);
+        return new Vec3(theEntity.posX, getPathablePosY(), theEntity.posZ);
     }
 
     /**
@@ -47,21 +47,21 @@ public class PathNavigateGround extends PathNavigate
      */
     private int getPathablePosY()
     {
-        if (this.theEntity.isInWater() && this.getCanSwim())
+        if (theEntity.isInWater() && getCanSwim())
         {
-            int i = (int)this.theEntity.getEntityBoundingBox().minY;
-            Block block = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), i, MathHelper.floor_double(this.theEntity.posZ))).getBlock();
+            int i = (int) theEntity.getEntityBoundingBox().minY;
+            Block block = worldObj.getBlockState(new BlockPos(MathHelper.floor_double(theEntity.posX), i, MathHelper.floor_double(theEntity.posZ))).getBlock();
             int j = 0;
 
             while (block == Blocks.flowing_water || block == Blocks.water)
             {
                 ++i;
-                block = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), i, MathHelper.floor_double(this.theEntity.posZ))).getBlock();
+                block = worldObj.getBlockState(new BlockPos(MathHelper.floor_double(theEntity.posX), i, MathHelper.floor_double(theEntity.posZ))).getBlock();
                 ++j;
 
                 if (j > 16)
                 {
-                    return (int)this.theEntity.getEntityBoundingBox().minY;
+                    return (int) theEntity.getEntityBoundingBox().minY;
                 }
             }
 
@@ -69,7 +69,7 @@ public class PathNavigateGround extends PathNavigate
         }
         else
         {
-            return (int)(this.theEntity.getEntityBoundingBox().minY + 0.5D);
+            return (int)(theEntity.getEntityBoundingBox().minY + 0.5D);
         }
     }
 
@@ -80,20 +80,20 @@ public class PathNavigateGround extends PathNavigate
     {
         super.removeSunnyPath();
 
-        if (this.shouldAvoidSun)
+        if (shouldAvoidSun)
         {
-            if (this.worldObj.canSeeSky(new BlockPos(MathHelper.floor_double(this.theEntity.posX), (int)(this.theEntity.getEntityBoundingBox().minY + 0.5D), MathHelper.floor_double(this.theEntity.posZ))))
+            if (worldObj.canSeeSky(new BlockPos(MathHelper.floor_double(theEntity.posX), (int)(theEntity.getEntityBoundingBox().minY + 0.5D), MathHelper.floor_double(theEntity.posZ))))
             {
                 return;
             }
 
-            for (int i = 0; i < this.currentPath.getCurrentPathLength(); ++i)
+            for (int i = 0; i < currentPath.getCurrentPathLength(); ++i)
             {
-                PathPoint pathpoint = this.currentPath.getPathPointFromIndex(i);
+                PathPoint pathpoint = currentPath.getPathPointFromIndex(i);
 
-                if (this.worldObj.canSeeSky(new BlockPos(pathpoint.xCoord, pathpoint.yCoord, pathpoint.zCoord)))
+                if (worldObj.canSeeSky(new BlockPos(pathpoint.xCoord, pathpoint.yCoord, pathpoint.zCoord)))
                 {
-                    this.currentPath.setCurrentPathLength(i - 1);
+                    currentPath.setCurrentPathLength(i - 1);
                     return;
                 }
             }
@@ -124,7 +124,7 @@ public class PathNavigateGround extends PathNavigate
             sizeX = sizeX + 2;
             sizeZ = sizeZ + 2;
 
-            if (!this.isSafeToStandAt(i, (int)posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1))
+            if (!isSafeToStandAt(i, (int)posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1))
             {
                 return false;
             }
@@ -171,7 +171,7 @@ public class PathNavigateGround extends PathNavigate
                         l1 = j1 - j;
                     }
 
-                    if (!this.isSafeToStandAt(i, (int)posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1))
+                    if (!isSafeToStandAt(i, (int)posVec31.yCoord, j, sizeX, sizeY, sizeZ, posVec31, d0, d1))
                     {
                         return false;
                     }
@@ -190,7 +190,7 @@ public class PathNavigateGround extends PathNavigate
         int i = x - sizeX / 2;
         int j = z - sizeZ / 2;
 
-        if (!this.isPositionClear(i, y, j, sizeX, sizeY, sizeZ, vec31, p_179683_8_, p_179683_10_))
+        if (!isPositionClear(i, y, j, sizeX, sizeY, sizeZ, vec31, p_179683_8_, p_179683_10_))
         {
             return false;
         }
@@ -205,7 +205,7 @@ public class PathNavigateGround extends PathNavigate
 
                     if (d0 * p_179683_8_ + d1 * p_179683_10_ >= 0.0D)
                     {
-                        Block block = this.worldObj.getBlockState(new BlockPos(k, y - 1, l)).getBlock();
+                        Block block = worldObj.getBlockState(new BlockPos(k, y - 1, l)).getBlock();
                         Material material = block.getMaterial();
 
                         if (material == Material.air)
@@ -213,7 +213,7 @@ public class PathNavigateGround extends PathNavigate
                             return false;
                         }
 
-                        if (material == Material.water && !this.theEntity.isInWater())
+                        if (material == Material.water && !theEntity.isInWater())
                         {
                             return false;
                         }
@@ -242,9 +242,9 @@ public class PathNavigateGround extends PathNavigate
 
             if (d0 * p_179692_8_ + d1 * p_179692_10_ >= 0.0D)
             {
-                Block block = this.worldObj.getBlockState(blockpos).getBlock();
+                Block block = worldObj.getBlockState(blockpos).getBlock();
 
-                if (!block.isPassable(this.worldObj, blockpos))
+                if (!block.isPassable(worldObj, blockpos))
                 {
                     return false;
                 }
@@ -256,41 +256,41 @@ public class PathNavigateGround extends PathNavigate
 
     public void setAvoidsWater(boolean avoidsWater)
     {
-        this.nodeProcessor.setAvoidsWater(avoidsWater);
+        nodeProcessor.setAvoidsWater(avoidsWater);
     }
 
     public boolean getAvoidsWater()
     {
-        return this.nodeProcessor.getAvoidsWater();
+        return nodeProcessor.getAvoidsWater();
     }
 
     public void setBreakDoors(boolean canBreakDoors)
     {
-        this.nodeProcessor.setBreakDoors(canBreakDoors);
+        nodeProcessor.setBreakDoors(canBreakDoors);
     }
 
     public void setEnterDoors(boolean par1)
     {
-        this.nodeProcessor.setEnterDoors(par1);
+        nodeProcessor.setEnterDoors(par1);
     }
 
     public boolean getEnterDoors()
     {
-        return this.nodeProcessor.getEnterDoors();
+        return nodeProcessor.getEnterDoors();
     }
 
     public void setCanSwim(boolean canSwim)
     {
-        this.nodeProcessor.setCanSwim(canSwim);
+        nodeProcessor.setCanSwim(canSwim);
     }
 
     public boolean getCanSwim()
     {
-        return this.nodeProcessor.getCanSwim();
+        return nodeProcessor.getCanSwim();
     }
 
     public void setAvoidSun(boolean par1)
     {
-        this.shouldAvoidSun = par1;
+        shouldAvoidSun = par1;
     }
 }

@@ -48,7 +48,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public String getName()
     {
-        return this.hasCustomName() ? this.customName : "container.brewing";
+        return hasCustomName() ? customName : "container.brewing";
     }
 
     /**
@@ -56,12 +56,12 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public boolean hasCustomName()
     {
-        return this.customName != null && this.customName.length() > 0;
+        return customName != null && customName.length() > 0;
     }
 
     public void setName(String name)
     {
-        this.customName = name;
+        customName = name;
     }
 
     /**
@@ -69,7 +69,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public int getSizeInventory()
     {
-        return this.brewingItemStacks.length;
+        return brewingItemStacks.length;
     }
 
     /**
@@ -77,40 +77,40 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public void update()
     {
-        if (this.brewTime > 0)
+        if (brewTime > 0)
         {
-            --this.brewTime;
+            --brewTime;
 
-            if (this.brewTime == 0)
+            if (brewTime == 0)
             {
-                this.brewPotions();
-                this.markDirty();
+                brewPotions();
+                markDirty();
             }
-            else if (!this.canBrew())
+            else if (!canBrew())
             {
-                this.brewTime = 0;
-                this.markDirty();
+                brewTime = 0;
+                markDirty();
             }
-            else if (this.ingredientID != this.brewingItemStacks[3].getItem())
+            else if (ingredientID != brewingItemStacks[3].getItem())
             {
-                this.brewTime = 0;
-                this.markDirty();
+                brewTime = 0;
+                markDirty();
             }
         }
-        else if (this.canBrew())
+        else if (canBrew())
         {
-            this.brewTime = 400;
-            this.ingredientID = this.brewingItemStacks[3].getItem();
+            brewTime = 400;
+            ingredientID = brewingItemStacks[3].getItem();
         }
 
-        if (!this.worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
-            boolean[] aboolean = this.func_174902_m();
+            boolean[] aboolean = func_174902_m();
 
-            if (!Arrays.equals(aboolean, this.filledSlots))
+            if (!Arrays.equals(aboolean, filledSlots))
             {
-                this.filledSlots = aboolean;
-                IBlockState iblockstate = this.worldObj.getBlockState(this.getPos());
+                filledSlots = aboolean;
+                IBlockState iblockstate = worldObj.getBlockState(getPos());
 
                 if (!(iblockstate.getBlock() instanceof BlockBrewingStand))
                 {
@@ -122,16 +122,16 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
                     iblockstate = iblockstate.withProperty(BlockBrewingStand.HAS_BOTTLE[i], Boolean.valueOf(aboolean[i]));
                 }
 
-                this.worldObj.setBlockState(this.pos, iblockstate, 2);
+                worldObj.setBlockState(pos, iblockstate, 2);
             }
         }
     }
 
     private boolean canBrew()
     {
-        if (this.brewingItemStacks[3] != null && this.brewingItemStacks[3].stackSize > 0)
+        if (brewingItemStacks[3] != null && brewingItemStacks[3].stackSize > 0)
         {
-            ItemStack itemstack = this.brewingItemStacks[3];
+            ItemStack itemstack = brewingItemStacks[3];
 
             if (!itemstack.getItem().isPotionIngredient(itemstack))
             {
@@ -143,10 +143,10 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
                 for (int i = 0; i < 3; ++i)
                 {
-                    if (this.brewingItemStacks[i] != null && this.brewingItemStacks[i].getItem() == Items.potionitem)
+                    if (brewingItemStacks[i] != null && brewingItemStacks[i].getItem() == Items.potionitem)
                     {
-                        int j = this.brewingItemStacks[i].getMetadata();
-                        int k = this.getPotionResult(j, itemstack);
+                        int j = brewingItemStacks[i].getMetadata();
+                        int k = getPotionResult(j, itemstack);
 
                         if (!ItemPotion.isSplash(j) && ItemPotion.isSplash(k))
                         {
@@ -176,16 +176,16 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
     private void brewPotions()
     {
-        if (this.canBrew())
+        if (canBrew())
         {
-            ItemStack itemstack = this.brewingItemStacks[3];
+            ItemStack itemstack = brewingItemStacks[3];
 
             for (int i = 0; i < 3; ++i)
             {
-                if (this.brewingItemStacks[i] != null && this.brewingItemStacks[i].getItem() == Items.potionitem)
+                if (brewingItemStacks[i] != null && brewingItemStacks[i].getItem() == Items.potionitem)
                 {
-                    int j = this.brewingItemStacks[i].getMetadata();
-                    int k = this.getPotionResult(j, itemstack);
+                    int j = brewingItemStacks[i].getMetadata();
+                    int k = getPotionResult(j, itemstack);
                     List<PotionEffect> list = Items.potionitem.getEffects(j);
                     List<PotionEffect> list1 = Items.potionitem.getEffects(k);
 
@@ -193,27 +193,27 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
                     {
                         if (!ItemPotion.isSplash(j) && ItemPotion.isSplash(k))
                         {
-                            this.brewingItemStacks[i].setItemDamage(k);
+                            brewingItemStacks[i].setItemDamage(k);
                         }
                     }
                     else if (j != k)
                     {
-                        this.brewingItemStacks[i].setItemDamage(k);
+                        brewingItemStacks[i].setItemDamage(k);
                     }
                 }
             }
 
             if (itemstack.getItem().hasContainerItem())
             {
-                this.brewingItemStacks[3] = new ItemStack(itemstack.getItem().getContainerItem());
+                brewingItemStacks[3] = new ItemStack(itemstack.getItem().getContainerItem());
             }
             else
             {
-                --this.brewingItemStacks[3].stackSize;
+                --brewingItemStacks[3].stackSize;
 
-                if (this.brewingItemStacks[3].stackSize <= 0)
+                if (brewingItemStacks[3].stackSize <= 0)
                 {
-                    this.brewingItemStacks[3] = null;
+                    brewingItemStacks[3] = null;
                 }
             }
         }
@@ -231,49 +231,49 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
     {
         super.readFromNBT(compound);
         NBTTagList nbttaglist = compound.getTagList("Items", 10);
-        this.brewingItemStacks = new ItemStack[this.getSizeInventory()];
+        brewingItemStacks = new ItemStack[getSizeInventory()];
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
             NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound.getByte("Slot");
 
-            if (j >= 0 && j < this.brewingItemStacks.length)
+            if (j >= 0 && j < brewingItemStacks.length)
             {
-                this.brewingItemStacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
+                brewingItemStacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
             }
         }
 
-        this.brewTime = compound.getShort("BrewTime");
+        brewTime = compound.getShort("BrewTime");
 
         if (compound.hasKey("CustomName", 8))
         {
-            this.customName = compound.getString("CustomName");
+            customName = compound.getString("CustomName");
         }
     }
 
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setShort("BrewTime", (short)this.brewTime);
+        compound.setShort("BrewTime", (short) brewTime);
         NBTTagList nbttaglist = new NBTTagList();
 
-        for (int i = 0; i < this.brewingItemStacks.length; ++i)
+        for (int i = 0; i < brewingItemStacks.length; ++i)
         {
-            if (this.brewingItemStacks[i] != null)
+            if (brewingItemStacks[i] != null)
             {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setByte("Slot", (byte)i);
-                this.brewingItemStacks[i].writeToNBT(nbttagcompound);
+                brewingItemStacks[i].writeToNBT(nbttagcompound);
                 nbttaglist.appendTag(nbttagcompound);
             }
         }
 
         compound.setTag("Items", nbttaglist);
 
-        if (this.hasCustomName())
+        if (hasCustomName())
         {
-            compound.setString("CustomName", this.customName);
+            compound.setString("CustomName", customName);
         }
     }
 
@@ -282,7 +282,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public ItemStack getStackInSlot(int index)
     {
-        return index >= 0 && index < this.brewingItemStacks.length ? this.brewingItemStacks[index] : null;
+        return index >= 0 && index < brewingItemStacks.length ? brewingItemStacks[index] : null;
     }
 
     /**
@@ -290,10 +290,10 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public ItemStack decrStackSize(int index, int count)
     {
-        if (index >= 0 && index < this.brewingItemStacks.length)
+        if (index >= 0 && index < brewingItemStacks.length)
         {
-            ItemStack itemstack = this.brewingItemStacks[index];
-            this.brewingItemStacks[index] = null;
+            ItemStack itemstack = brewingItemStacks[index];
+            brewingItemStacks[index] = null;
             return itemstack;
         }
         else
@@ -307,10 +307,10 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public ItemStack removeStackFromSlot(int index)
     {
-        if (index >= 0 && index < this.brewingItemStacks.length)
+        if (index >= 0 && index < brewingItemStacks.length)
         {
-            ItemStack itemstack = this.brewingItemStacks[index];
-            this.brewingItemStacks[index] = null;
+            ItemStack itemstack = brewingItemStacks[index];
+            brewingItemStacks[index] = null;
             return itemstack;
         }
         else
@@ -324,9 +324,9 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public void setInventorySlotContents(int index, ItemStack stack)
     {
-        if (index >= 0 && index < this.brewingItemStacks.length)
+        if (index >= 0 && index < brewingItemStacks.length)
         {
-            this.brewingItemStacks[index] = stack;
+            brewingItemStacks[index] = stack;
         }
     }
 
@@ -343,7 +343,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        return worldObj.getTileEntity(pos) == this && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
     }
 
     public void openInventory(EntityPlayer player)
@@ -368,7 +368,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
         for (int i = 0; i < 3; ++i)
         {
-            if (this.brewingItemStacks[i] != null)
+            if (brewingItemStacks[i] != null)
             {
                 aboolean[i] = true;
             }
@@ -379,7 +379,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
     public int[] getSlotsForFace(EnumFacing side)
     {
-        return side == EnumFacing.UP ? inputSlots : outputSlots;
+        return side == EnumFacing.UP ? TileEntityBrewingStand.inputSlots : TileEntityBrewingStand.outputSlots;
     }
 
     /**
@@ -388,7 +388,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
      */
     public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction)
     {
-        return this.isItemValidForSlot(index, itemStackIn);
+        return isItemValidForSlot(index, itemStackIn);
     }
 
     /**
@@ -415,7 +415,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
         switch (id)
         {
             case 0:
-                return this.brewTime;
+                return brewTime;
 
             default:
                 return 0;
@@ -427,7 +427,7 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
         switch (id)
         {
             case 0:
-                this.brewTime = value;
+                brewTime = value;
 
             default:
         }
@@ -440,9 +440,9 @@ public class TileEntityBrewingStand extends TileEntityLockable implements ITicka
 
     public void clear()
     {
-        for (int i = 0; i < this.brewingItemStacks.length; ++i)
+        for (int i = 0; i < brewingItemStacks.length; ++i)
         {
-            this.brewingItemStacks[i] = null;
+            brewingItemStacks[i] = null;
         }
     }
 }

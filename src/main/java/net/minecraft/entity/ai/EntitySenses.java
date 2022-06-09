@@ -8,12 +8,12 @@ import net.minecraft.entity.EntityLiving;
 public class EntitySenses
 {
     EntityLiving entityObj;
-    List<Entity> seenEntities = Lists.<Entity>newArrayList();
-    List<Entity> unseenEntities = Lists.<Entity>newArrayList();
+    List<Entity> seenEntities = Lists.newArrayList();
+    List<Entity> unseenEntities = Lists.newArrayList();
 
     public EntitySenses(EntityLiving entityObjIn)
     {
-        this.entityObj = entityObjIn;
+        entityObj = entityObjIn;
     }
 
     /**
@@ -21,8 +21,8 @@ public class EntitySenses
      */
     public void clearSensingCache()
     {
-        this.seenEntities.clear();
-        this.unseenEntities.clear();
+        seenEntities.clear();
+        unseenEntities.clear();
     }
 
     /**
@@ -30,27 +30,27 @@ public class EntitySenses
      */
     public boolean canSee(Entity entityIn)
     {
-        if (this.seenEntities.contains(entityIn))
+        if (seenEntities.contains(entityIn))
         {
             return true;
         }
-        else if (this.unseenEntities.contains(entityIn))
+        else if (unseenEntities.contains(entityIn))
         {
             return false;
         }
         else
         {
-            this.entityObj.worldObj.theProfiler.startSection("canSee");
-            boolean flag = this.entityObj.canEntityBeSeen(entityIn);
-            this.entityObj.worldObj.theProfiler.endSection();
+            entityObj.worldObj.theProfiler.startSection("canSee");
+            boolean flag = entityObj.canEntityBeSeen(entityIn);
+            entityObj.worldObj.theProfiler.endSection();
 
             if (flag)
             {
-                this.seenEntities.add(entityIn);
+                seenEntities.add(entityIn);
             }
             else
             {
-                this.unseenEntities.add(entityIn);
+                unseenEntities.add(entityIn);
             }
 
             return flag;

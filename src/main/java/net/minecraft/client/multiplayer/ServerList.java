@@ -16,12 +16,12 @@ public class ServerList
 
     /** The Minecraft instance. */
     private final Minecraft mc;
-    private final List<ServerData> servers = Lists.<ServerData>newArrayList();
+    private final List<ServerData> servers = Lists.newArrayList();
 
     public ServerList(Minecraft mcIn)
     {
-        this.mc = mcIn;
-        this.loadServerList();
+        mc = mcIn;
+        loadServerList();
     }
 
     /**
@@ -32,8 +32,8 @@ public class ServerList
     {
         try
         {
-            this.servers.clear();
-            NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(this.mc.mcDataDir, "servers.dat"));
+            servers.clear();
+            NBTTagCompound nbttagcompound = CompressedStreamTools.read(new File(mc.mcDataDir, "servers.dat"));
 
             if (nbttagcompound == null)
             {
@@ -44,12 +44,12 @@ public class ServerList
 
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                this.servers.add(ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i)));
+                servers.add(ServerData.getServerDataFromNBTCompound(nbttaglist.getCompoundTagAt(i)));
             }
         }
         catch (Exception exception)
         {
-            logger.error((String)"Couldn\'t load server list", (Throwable)exception);
+            ServerList.logger.error("Couldn't load server list", exception);
         }
     }
 
@@ -63,18 +63,18 @@ public class ServerList
         {
             NBTTagList nbttaglist = new NBTTagList();
 
-            for (ServerData serverdata : this.servers)
+            for (ServerData serverdata : servers)
             {
                 nbttaglist.appendTag(serverdata.getNBTCompound());
             }
 
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             nbttagcompound.setTag("servers", nbttaglist);
-            CompressedStreamTools.safeWrite(nbttagcompound, new File(this.mc.mcDataDir, "servers.dat"));
+            CompressedStreamTools.safeWrite(nbttagcompound, new File(mc.mcDataDir, "servers.dat"));
         }
         catch (Exception exception)
         {
-            logger.error((String)"Couldn\'t save server list", (Throwable)exception);
+            ServerList.logger.error("Couldn't save server list", exception);
         }
     }
 
@@ -83,7 +83,7 @@ public class ServerList
      */
     public ServerData getServerData(int p_78850_1_)
     {
-        return (ServerData)this.servers.get(p_78850_1_);
+        return servers.get(p_78850_1_);
     }
 
     /**
@@ -91,7 +91,7 @@ public class ServerList
      */
     public void removeServerData(int p_78851_1_)
     {
-        this.servers.remove(p_78851_1_);
+        servers.remove(p_78851_1_);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ServerList
      */
     public void addServerData(ServerData p_78849_1_)
     {
-        this.servers.add(p_78849_1_);
+        servers.add(p_78849_1_);
     }
 
     /**
@@ -107,7 +107,7 @@ public class ServerList
      */
     public int countServers()
     {
-        return this.servers.size();
+        return servers.size();
     }
 
     /**
@@ -115,15 +115,15 @@ public class ServerList
      */
     public void swapServers(int p_78857_1_, int p_78857_2_)
     {
-        ServerData serverdata = this.getServerData(p_78857_1_);
-        this.servers.set(p_78857_1_, this.getServerData(p_78857_2_));
-        this.servers.set(p_78857_2_, serverdata);
-        this.saveServerList();
+        ServerData serverdata = getServerData(p_78857_1_);
+        servers.set(p_78857_1_, getServerData(p_78857_2_));
+        servers.set(p_78857_2_, serverdata);
+        saveServerList();
     }
 
     public void func_147413_a(int p_147413_1_, ServerData p_147413_2_)
     {
-        this.servers.set(p_147413_1_, p_147413_2_);
+        servers.set(p_147413_1_, p_147413_2_);
     }
 
     public static void func_147414_b(ServerData p_147414_0_)

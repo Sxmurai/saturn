@@ -22,14 +22,14 @@ public class S2CPacketSpawnGlobalEntity implements Packet<INetHandlerPlayClient>
 
     public S2CPacketSpawnGlobalEntity(Entity entityIn)
     {
-        this.entityId = entityIn.getEntityId();
-        this.x = MathHelper.floor_double(entityIn.posX * 32.0D);
-        this.y = MathHelper.floor_double(entityIn.posY * 32.0D);
-        this.z = MathHelper.floor_double(entityIn.posZ * 32.0D);
+        entityId = entityIn.getEntityId();
+        x = MathHelper.floor_double(entityIn.posX * 32.0D);
+        y = MathHelper.floor_double(entityIn.posY * 32.0D);
+        z = MathHelper.floor_double(entityIn.posZ * 32.0D);
 
         if (entityIn instanceof EntityLightningBolt)
         {
-            this.type = 1;
+            type = 1;
         }
     }
 
@@ -38,11 +38,11 @@ public class S2CPacketSpawnGlobalEntity implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
-        this.type = buf.readByte();
-        this.x = buf.readInt();
-        this.y = buf.readInt();
-        this.z = buf.readInt();
+        entityId = buf.readVarIntFromBuffer();
+        type = buf.readByte();
+        x = buf.readInt();
+        y = buf.readInt();
+        z = buf.readInt();
     }
 
     /**
@@ -50,11 +50,11 @@ public class S2CPacketSpawnGlobalEntity implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        buf.writeByte(this.type);
-        buf.writeInt(this.x);
-        buf.writeInt(this.y);
-        buf.writeInt(this.z);
+        buf.writeVarIntToBuffer(entityId);
+        buf.writeByte(type);
+        buf.writeInt(x);
+        buf.writeInt(y);
+        buf.writeInt(z);
     }
 
     /**
@@ -67,26 +67,26 @@ public class S2CPacketSpawnGlobalEntity implements Packet<INetHandlerPlayClient>
 
     public int func_149052_c()
     {
-        return this.entityId;
+        return entityId;
     }
 
     public int func_149051_d()
     {
-        return this.x;
+        return x;
     }
 
     public int func_149050_e()
     {
-        return this.y;
+        return y;
     }
 
     public int func_149049_f()
     {
-        return this.z;
+        return z;
     }
 
     public int func_149053_g()
     {
-        return this.type;
+        return type;
     }
 }

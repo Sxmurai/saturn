@@ -16,19 +16,19 @@ public class EntityAIEatGrass extends EntityAIBase
     private static final Predicate<IBlockState> field_179505_b = BlockStateHelper.forBlock(Blocks.tallgrass).where(BlockTallGrass.TYPE, Predicates.equalTo(BlockTallGrass.EnumType.GRASS));
 
     /** The entity owner of this AITask */
-    private EntityLiving grassEaterEntity;
+    private final EntityLiving grassEaterEntity;
 
     /** The world the grass eater entity is eating from */
-    private World entityWorld;
+    private final World entityWorld;
 
     /** Number of ticks since the entity started to eat grass */
     int eatingGrassTimer;
 
     public EntityAIEatGrass(EntityLiving grassEaterEntityIn)
     {
-        this.grassEaterEntity = grassEaterEntityIn;
-        this.entityWorld = grassEaterEntityIn.worldObj;
-        this.setMutexBits(7);
+        grassEaterEntity = grassEaterEntityIn;
+        entityWorld = grassEaterEntityIn.worldObj;
+        setMutexBits(7);
     }
 
     /**
@@ -36,14 +36,14 @@ public class EntityAIEatGrass extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        if (this.grassEaterEntity.getRNG().nextInt(this.grassEaterEntity.isChild() ? 50 : 1000) != 0)
+        if (grassEaterEntity.getRNG().nextInt(grassEaterEntity.isChild() ? 50 : 1000) != 0)
         {
             return false;
         }
         else
         {
-            BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
-            return field_179505_b.apply(this.entityWorld.getBlockState(blockpos)) ? true : this.entityWorld.getBlockState(blockpos.down()).getBlock() == Blocks.grass;
+            BlockPos blockpos = new BlockPos(grassEaterEntity.posX, grassEaterEntity.posY, grassEaterEntity.posZ);
+            return EntityAIEatGrass.field_179505_b.apply(entityWorld.getBlockState(blockpos)) || entityWorld.getBlockState(blockpos.down()).getBlock() == Blocks.grass;
         }
     }
 
@@ -52,9 +52,9 @@ public class EntityAIEatGrass extends EntityAIBase
      */
     public void startExecuting()
     {
-        this.eatingGrassTimer = 40;
-        this.entityWorld.setEntityState(this.grassEaterEntity, (byte)10);
-        this.grassEaterEntity.getNavigator().clearPathEntity();
+        eatingGrassTimer = 40;
+        entityWorld.setEntityState(grassEaterEntity, (byte)10);
+        grassEaterEntity.getNavigator().clearPathEntity();
     }
 
     /**
@@ -62,7 +62,7 @@ public class EntityAIEatGrass extends EntityAIBase
      */
     public void resetTask()
     {
-        this.eatingGrassTimer = 0;
+        eatingGrassTimer = 0;
     }
 
     /**
@@ -70,7 +70,7 @@ public class EntityAIEatGrass extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return this.eatingGrassTimer > 0;
+        return eatingGrassTimer > 0;
     }
 
     /**
@@ -78,7 +78,7 @@ public class EntityAIEatGrass extends EntityAIBase
      */
     public int getEatingGrassTimer()
     {
-        return this.eatingGrassTimer;
+        return eatingGrassTimer;
     }
 
     /**
@@ -86,34 +86,34 @@ public class EntityAIEatGrass extends EntityAIBase
      */
     public void updateTask()
     {
-        this.eatingGrassTimer = Math.max(0, this.eatingGrassTimer - 1);
+        eatingGrassTimer = Math.max(0, eatingGrassTimer - 1);
 
-        if (this.eatingGrassTimer == 4)
+        if (eatingGrassTimer == 4)
         {
-            BlockPos blockpos = new BlockPos(this.grassEaterEntity.posX, this.grassEaterEntity.posY, this.grassEaterEntity.posZ);
+            BlockPos blockpos = new BlockPos(grassEaterEntity.posX, grassEaterEntity.posY, grassEaterEntity.posZ);
 
-            if (field_179505_b.apply(this.entityWorld.getBlockState(blockpos)))
+            if (EntityAIEatGrass.field_179505_b.apply(entityWorld.getBlockState(blockpos)))
             {
-                if (this.entityWorld.getGameRules().getBoolean("mobGriefing"))
+                if (entityWorld.getGameRules().getBoolean("mobGriefing"))
                 {
-                    this.entityWorld.destroyBlock(blockpos, false);
+                    entityWorld.destroyBlock(blockpos, false);
                 }
 
-                this.grassEaterEntity.eatGrassBonus();
+                grassEaterEntity.eatGrassBonus();
             }
             else
             {
                 BlockPos blockpos1 = blockpos.down();
 
-                if (this.entityWorld.getBlockState(blockpos1).getBlock() == Blocks.grass)
+                if (entityWorld.getBlockState(blockpos1).getBlock() == Blocks.grass)
                 {
-                    if (this.entityWorld.getGameRules().getBoolean("mobGriefing"))
+                    if (entityWorld.getGameRules().getBoolean("mobGriefing"))
                     {
-                        this.entityWorld.playAuxSFX(2001, blockpos1, Block.getIdFromBlock(Blocks.grass));
-                        this.entityWorld.setBlockState(blockpos1, Blocks.dirt.getDefaultState(), 2);
+                        entityWorld.playAuxSFX(2001, blockpos1, Block.getIdFromBlock(Blocks.grass));
+                        entityWorld.setBlockState(blockpos1, Blocks.dirt.getDefaultState(), 2);
                     }
 
-                    this.grassEaterEntity.eatGrassBonus();
+                    grassEaterEntity.eatGrassBonus();
                 }
             }
         }

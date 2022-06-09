@@ -28,9 +28,9 @@ public class BlockEnderChest extends BlockContainer
     protected BlockEnderChest()
     {
         super(Material.rock);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
-        this.setCreativeTab(CreativeTabs.tabDecorations);
-        this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
+        setDefaultState(blockState.getBaseState().withProperty(BlockEnderChest.FACING, EnumFacing.NORTH));
+        setCreativeTab(CreativeTabs.tabDecorations);
+        setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
     }
 
     /**
@@ -81,7 +81,7 @@ public class BlockEnderChest extends BlockContainer
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+        return getDefaultState().withProperty(BlockEnderChest.FACING, placer.getHorizontalFacing().getOpposite());
     }
 
     /**
@@ -89,7 +89,7 @@ public class BlockEnderChest extends BlockContainer
      */
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
-        worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
+        worldIn.setBlockState(pos, state.withProperty(BlockEnderChest.FACING, placer.getHorizontalFacing().getOpposite()), 2);
     }
 
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
@@ -136,12 +136,12 @@ public class BlockEnderChest extends BlockContainer
             int j = rand.nextInt(2) * 2 - 1;
             int k = rand.nextInt(2) * 2 - 1;
             double d0 = (double)pos.getX() + 0.5D + 0.25D * (double)j;
-            double d1 = (double)((float)pos.getY() + rand.nextFloat());
+            double d1 = (float)pos.getY() + rand.nextFloat();
             double d2 = (double)pos.getZ() + 0.5D + 0.25D * (double)k;
-            double d3 = (double)(rand.nextFloat() * (float)j);
+            double d3 = rand.nextFloat() * (float)j;
             double d4 = ((double)rand.nextFloat() - 0.5D) * 0.125D;
-            double d5 = (double)(rand.nextFloat() * (float)k);
-            worldIn.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5, new int[0]);
+            double d5 = rand.nextFloat() * (float)k;
+            worldIn.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5);
         }
     }
 
@@ -157,7 +157,7 @@ public class BlockEnderChest extends BlockContainer
             enumfacing = EnumFacing.NORTH;
         }
 
-        return this.getDefaultState().withProperty(FACING, enumfacing);
+        return getDefaultState().withProperty(BlockEnderChest.FACING, enumfacing);
     }
 
     /**
@@ -165,11 +165,11 @@ public class BlockEnderChest extends BlockContainer
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((EnumFacing)state.getValue(FACING)).getIndex();
+        return state.getValue(BlockEnderChest.FACING).getIndex();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {FACING});
+        return new BlockState(this, BlockEnderChest.FACING);
     }
 }

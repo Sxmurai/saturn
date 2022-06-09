@@ -26,7 +26,7 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
 
     public EntityAIDoorInteract(EntityLiving entityIn)
     {
-        this.theEntity = entityIn;
+        theEntity = entityIn;
 
         if (!(entityIn.getNavigator() instanceof PathNavigateGround))
         {
@@ -39,13 +39,13 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        if (!this.theEntity.isCollidedHorizontally)
+        if (!theEntity.isCollidedHorizontally)
         {
             return false;
         }
         else
         {
-            PathNavigateGround pathnavigateground = (PathNavigateGround)this.theEntity.getNavigator();
+            PathNavigateGround pathnavigateground = (PathNavigateGround) theEntity.getNavigator();
             PathEntity pathentity = pathnavigateground.getPath();
 
             if (pathentity != null && !pathentity.isFinished() && pathnavigateground.getEnterDoors())
@@ -53,22 +53,22 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
                 for (int i = 0; i < Math.min(pathentity.getCurrentPathIndex() + 2, pathentity.getCurrentPathLength()); ++i)
                 {
                     PathPoint pathpoint = pathentity.getPathPointFromIndex(i);
-                    this.doorPosition = new BlockPos(pathpoint.xCoord, pathpoint.yCoord + 1, pathpoint.zCoord);
+                    doorPosition = new BlockPos(pathpoint.xCoord, pathpoint.yCoord + 1, pathpoint.zCoord);
 
-                    if (this.theEntity.getDistanceSq((double)this.doorPosition.getX(), this.theEntity.posY, (double)this.doorPosition.getZ()) <= 2.25D)
+                    if (theEntity.getDistanceSq(doorPosition.getX(), theEntity.posY, doorPosition.getZ()) <= 2.25D)
                     {
-                        this.doorBlock = this.getBlockDoor(this.doorPosition);
+                        doorBlock = getBlockDoor(doorPosition);
 
-                        if (this.doorBlock != null)
+                        if (doorBlock != null)
                         {
                             return true;
                         }
                     }
                 }
 
-                this.doorPosition = (new BlockPos(this.theEntity)).up();
-                this.doorBlock = this.getBlockDoor(this.doorPosition);
-                return this.doorBlock != null;
+                doorPosition = (new BlockPos(theEntity)).up();
+                doorBlock = getBlockDoor(doorPosition);
+                return doorBlock != null;
             }
             else
             {
@@ -82,7 +82,7 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return !this.hasStoppedDoorInteraction;
+        return !hasStoppedDoorInteraction;
     }
 
     /**
@@ -90,9 +90,9 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
      */
     public void startExecuting()
     {
-        this.hasStoppedDoorInteraction = false;
-        this.entityPositionX = (float)((double)((float)this.doorPosition.getX() + 0.5F) - this.theEntity.posX);
-        this.entityPositionZ = (float)((double)((float)this.doorPosition.getZ() + 0.5F) - this.theEntity.posZ);
+        hasStoppedDoorInteraction = false;
+        entityPositionX = (float)((double)((float) doorPosition.getX() + 0.5F) - theEntity.posX);
+        entityPositionZ = (float)((double)((float) doorPosition.getZ() + 0.5F) - theEntity.posZ);
     }
 
     /**
@@ -100,19 +100,19 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
      */
     public void updateTask()
     {
-        float f = (float)((double)((float)this.doorPosition.getX() + 0.5F) - this.theEntity.posX);
-        float f1 = (float)((double)((float)this.doorPosition.getZ() + 0.5F) - this.theEntity.posZ);
-        float f2 = this.entityPositionX * f + this.entityPositionZ * f1;
+        float f = (float)((double)((float) doorPosition.getX() + 0.5F) - theEntity.posX);
+        float f1 = (float)((double)((float) doorPosition.getZ() + 0.5F) - theEntity.posZ);
+        float f2 = entityPositionX * f + entityPositionZ * f1;
 
         if (f2 < 0.0F)
         {
-            this.hasStoppedDoorInteraction = true;
+            hasStoppedDoorInteraction = true;
         }
     }
 
     private BlockDoor getBlockDoor(BlockPos pos)
     {
-        Block block = this.theEntity.worldObj.getBlockState(pos).getBlock();
+        Block block = theEntity.worldObj.getBlockState(pos).getBlock();
         return block instanceof BlockDoor && block.getMaterial() == Material.wood ? (BlockDoor)block : null;
     }
 }

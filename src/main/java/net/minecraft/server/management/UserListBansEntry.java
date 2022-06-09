@@ -9,7 +9,7 @@ public class UserListBansEntry extends BanEntry<GameProfile>
 {
     public UserListBansEntry(GameProfile profile)
     {
-        this(profile, (Date)null, (String)null, (Date)null, (String)null);
+        this(profile, null, null, null, null);
     }
 
     public UserListBansEntry(GameProfile profile, Date startDate, String banner, Date endDate, String banReason)
@@ -19,15 +19,15 @@ public class UserListBansEntry extends BanEntry<GameProfile>
 
     public UserListBansEntry(JsonObject p_i1136_1_)
     {
-        super(func_152648_b(p_i1136_1_), p_i1136_1_);
+        super(UserListBansEntry.func_152648_b(p_i1136_1_), p_i1136_1_);
     }
 
     protected void onSerialization(JsonObject data)
     {
-        if (this.getValue() != null)
+        if (getValue() != null)
         {
-            data.addProperty("uuid", ((GameProfile)this.getValue()).getId() == null ? "" : ((GameProfile)this.getValue()).getId().toString());
-            data.addProperty("name", ((GameProfile)this.getValue()).getName());
+            data.addProperty("uuid", getValue().getId() == null ? "" : getValue().getId().toString());
+            data.addProperty("name", getValue().getName());
             super.onSerialization(data);
         }
     }

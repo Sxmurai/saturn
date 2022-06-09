@@ -23,7 +23,7 @@ public class TileEntityPiston extends TileEntity implements ITickable
 
     /** the progress in (de)extending */
     private float lastProgress;
-    private List<Entity> field_174933_k = Lists.<Entity>newArrayList();
+    private final List<Entity> field_174933_k = Lists.newArrayList();
 
     public TileEntityPiston()
     {
@@ -31,15 +31,15 @@ public class TileEntityPiston extends TileEntity implements ITickable
 
     public TileEntityPiston(IBlockState pistonStateIn, EnumFacing pistonFacingIn, boolean extendingIn, boolean shouldHeadBeRenderedIn)
     {
-        this.pistonState = pistonStateIn;
-        this.pistonFacing = pistonFacingIn;
-        this.extending = extendingIn;
-        this.shouldHeadBeRendered = shouldHeadBeRenderedIn;
+        pistonState = pistonStateIn;
+        pistonFacing = pistonFacingIn;
+        extending = extendingIn;
+        shouldHeadBeRendered = shouldHeadBeRenderedIn;
     }
 
     public IBlockState getPistonState()
     {
-        return this.pistonState;
+        return pistonState;
     }
 
     public int getBlockMetadata()
@@ -52,17 +52,17 @@ public class TileEntityPiston extends TileEntity implements ITickable
      */
     public boolean isExtending()
     {
-        return this.extending;
+        return extending;
     }
 
     public EnumFacing getFacing()
     {
-        return this.pistonFacing;
+        return pistonFacing;
     }
 
     public boolean shouldPistonHeadBeRendered()
     {
-        return this.shouldHeadBeRendered;
+        return shouldHeadBeRendered;
     }
 
     /**
@@ -76,27 +76,27 @@ public class TileEntityPiston extends TileEntity implements ITickable
             ticks = 1.0F;
         }
 
-        return this.lastProgress + (this.progress - this.lastProgress) * ticks;
+        return lastProgress + (progress - lastProgress) * ticks;
     }
 
     public float getOffsetX(float ticks)
     {
-        return this.extending ? (this.getProgress(ticks) - 1.0F) * (float)this.pistonFacing.getFrontOffsetX() : (1.0F - this.getProgress(ticks)) * (float)this.pistonFacing.getFrontOffsetX();
+        return extending ? (getProgress(ticks) - 1.0F) * (float) pistonFacing.getFrontOffsetX() : (1.0F - getProgress(ticks)) * (float) pistonFacing.getFrontOffsetX();
     }
 
     public float getOffsetY(float ticks)
     {
-        return this.extending ? (this.getProgress(ticks) - 1.0F) * (float)this.pistonFacing.getFrontOffsetY() : (1.0F - this.getProgress(ticks)) * (float)this.pistonFacing.getFrontOffsetY();
+        return extending ? (getProgress(ticks) - 1.0F) * (float) pistonFacing.getFrontOffsetY() : (1.0F - getProgress(ticks)) * (float) pistonFacing.getFrontOffsetY();
     }
 
     public float getOffsetZ(float ticks)
     {
-        return this.extending ? (this.getProgress(ticks) - 1.0F) * (float)this.pistonFacing.getFrontOffsetZ() : (1.0F - this.getProgress(ticks)) * (float)this.pistonFacing.getFrontOffsetZ();
+        return extending ? (getProgress(ticks) - 1.0F) * (float) pistonFacing.getFrontOffsetZ() : (1.0F - getProgress(ticks)) * (float) pistonFacing.getFrontOffsetZ();
     }
 
     private void launchWithSlimeBlock(float p_145863_1_, float p_145863_2_)
     {
-        if (this.extending)
+        if (extending)
         {
             p_145863_1_ = 1.0F - p_145863_1_;
         }
@@ -105,41 +105,41 @@ public class TileEntityPiston extends TileEntity implements ITickable
             --p_145863_1_;
         }
 
-        AxisAlignedBB axisalignedbb = Blocks.piston_extension.getBoundingBox(this.worldObj, this.pos, this.pistonState, p_145863_1_, this.pistonFacing);
+        AxisAlignedBB axisalignedbb = Blocks.piston_extension.getBoundingBox(worldObj, pos, pistonState, p_145863_1_, pistonFacing);
 
         if (axisalignedbb != null)
         {
-            List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity((Entity)null, axisalignedbb);
+            List<Entity> list = worldObj.getEntitiesWithinAABBExcludingEntity(null, axisalignedbb);
 
             if (!list.isEmpty())
             {
-                this.field_174933_k.addAll(list);
+                field_174933_k.addAll(list);
 
-                for (Entity entity : this.field_174933_k)
+                for (Entity entity : field_174933_k)
                 {
-                    if (this.pistonState.getBlock() == Blocks.slime_block && this.extending)
+                    if (pistonState.getBlock() == Blocks.slime_block && extending)
                     {
-                        switch (this.pistonFacing.getAxis())
+                        switch (pistonFacing.getAxis())
                         {
                             case X:
-                                entity.motionX = (double)this.pistonFacing.getFrontOffsetX();
+                                entity.motionX = pistonFacing.getFrontOffsetX();
                                 break;
 
                             case Y:
-                                entity.motionY = (double)this.pistonFacing.getFrontOffsetY();
+                                entity.motionY = pistonFacing.getFrontOffsetY();
                                 break;
 
                             case Z:
-                                entity.motionZ = (double)this.pistonFacing.getFrontOffsetZ();
+                                entity.motionZ = pistonFacing.getFrontOffsetZ();
                         }
                     }
                     else
                     {
-                        entity.moveEntity((double)(p_145863_2_ * (float)this.pistonFacing.getFrontOffsetX()), (double)(p_145863_2_ * (float)this.pistonFacing.getFrontOffsetY()), (double)(p_145863_2_ * (float)this.pistonFacing.getFrontOffsetZ()));
+                        entity.moveEntity(p_145863_2_ * (float) pistonFacing.getFrontOffsetX(), p_145863_2_ * (float) pistonFacing.getFrontOffsetY(), p_145863_2_ * (float) pistonFacing.getFrontOffsetZ());
                     }
                 }
 
-                this.field_174933_k.clear();
+                field_174933_k.clear();
             }
         }
     }
@@ -149,16 +149,16 @@ public class TileEntityPiston extends TileEntity implements ITickable
      */
     public void clearPistonTileEntity()
     {
-        if (this.lastProgress < 1.0F && this.worldObj != null)
+        if (lastProgress < 1.0F && worldObj != null)
         {
-            this.lastProgress = this.progress = 1.0F;
-            this.worldObj.removeTileEntity(this.pos);
-            this.invalidate();
+            lastProgress = progress = 1.0F;
+            worldObj.removeTileEntity(pos);
+            invalidate();
 
-            if (this.worldObj.getBlockState(this.pos).getBlock() == Blocks.piston_extension)
+            if (worldObj.getBlockState(pos).getBlock() == Blocks.piston_extension)
             {
-                this.worldObj.setBlockState(this.pos, this.pistonState, 3);
-                this.worldObj.notifyBlockOfStateChange(this.pos, this.pistonState.getBlock());
+                worldObj.setBlockState(pos, pistonState, 3);
+                worldObj.notifyBlockOfStateChange(pos, pistonState.getBlock());
             }
         }
     }
@@ -168,32 +168,32 @@ public class TileEntityPiston extends TileEntity implements ITickable
      */
     public void update()
     {
-        this.lastProgress = this.progress;
+        lastProgress = progress;
 
-        if (this.lastProgress >= 1.0F)
+        if (lastProgress >= 1.0F)
         {
-            this.launchWithSlimeBlock(1.0F, 0.25F);
-            this.worldObj.removeTileEntity(this.pos);
-            this.invalidate();
+            launchWithSlimeBlock(1.0F, 0.25F);
+            worldObj.removeTileEntity(pos);
+            invalidate();
 
-            if (this.worldObj.getBlockState(this.pos).getBlock() == Blocks.piston_extension)
+            if (worldObj.getBlockState(pos).getBlock() == Blocks.piston_extension)
             {
-                this.worldObj.setBlockState(this.pos, this.pistonState, 3);
-                this.worldObj.notifyBlockOfStateChange(this.pos, this.pistonState.getBlock());
+                worldObj.setBlockState(pos, pistonState, 3);
+                worldObj.notifyBlockOfStateChange(pos, pistonState.getBlock());
             }
         }
         else
         {
-            this.progress += 0.5F;
+            progress += 0.5F;
 
-            if (this.progress >= 1.0F)
+            if (progress >= 1.0F)
             {
-                this.progress = 1.0F;
+                progress = 1.0F;
             }
 
-            if (this.extending)
+            if (extending)
             {
-                this.launchWithSlimeBlock(this.progress, this.progress - this.lastProgress + 0.0625F);
+                launchWithSlimeBlock(progress, progress - lastProgress + 0.0625F);
             }
         }
     }
@@ -201,19 +201,19 @@ public class TileEntityPiston extends TileEntity implements ITickable
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        this.pistonState = Block.getBlockById(compound.getInteger("blockId")).getStateFromMeta(compound.getInteger("blockData"));
-        this.pistonFacing = EnumFacing.getFront(compound.getInteger("facing"));
-        this.lastProgress = this.progress = compound.getFloat("progress");
-        this.extending = compound.getBoolean("extending");
+        pistonState = Block.getBlockById(compound.getInteger("blockId")).getStateFromMeta(compound.getInteger("blockData"));
+        pistonFacing = EnumFacing.getFront(compound.getInteger("facing"));
+        lastProgress = progress = compound.getFloat("progress");
+        extending = compound.getBoolean("extending");
     }
 
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setInteger("blockId", Block.getIdFromBlock(this.pistonState.getBlock()));
-        compound.setInteger("blockData", this.pistonState.getBlock().getMetaFromState(this.pistonState));
-        compound.setInteger("facing", this.pistonFacing.getIndex());
-        compound.setFloat("progress", this.lastProgress);
-        compound.setBoolean("extending", this.extending);
+        compound.setInteger("blockId", Block.getIdFromBlock(pistonState.getBlock()));
+        compound.setInteger("blockData", pistonState.getBlock().getMetaFromState(pistonState));
+        compound.setInteger("facing", pistonFacing.getIndex());
+        compound.setFloat("progress", lastProgress);
+        compound.setBoolean("extending", extending);
     }
 }

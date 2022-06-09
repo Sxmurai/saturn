@@ -16,7 +16,7 @@ public class IntegratedPlayerList extends ServerConfigurationManager
     public IntegratedPlayerList(IntegratedServer p_i1314_1_)
     {
         super(p_i1314_1_);
-        this.setViewDistance(10);
+        setViewDistance(10);
     }
 
     /**
@@ -24,10 +24,10 @@ public class IntegratedPlayerList extends ServerConfigurationManager
      */
     protected void writePlayerData(EntityPlayerMP playerIn)
     {
-        if (playerIn.getName().equals(this.getServerInstance().getServerOwner()))
+        if (playerIn.getName().equals(getServerInstance().getServerOwner()))
         {
-            this.hostPlayerData = new NBTTagCompound();
-            playerIn.writeToNBT(this.hostPlayerData);
+            hostPlayerData = new NBTTagCompound();
+            playerIn.writeToNBT(hostPlayerData);
         }
 
         super.writePlayerData(playerIn);
@@ -38,7 +38,7 @@ public class IntegratedPlayerList extends ServerConfigurationManager
      */
     public String allowUserToConnect(SocketAddress address, GameProfile profile)
     {
-        return profile.getName().equalsIgnoreCase(this.getServerInstance().getServerOwner()) && this.getPlayerByUsername(profile.getName()) != null ? "That name is already taken." : super.allowUserToConnect(address, profile);
+        return profile.getName().equalsIgnoreCase(getServerInstance().getServerOwner()) && getPlayerByUsername(profile.getName()) != null ? "That name is already taken." : super.allowUserToConnect(address, profile);
     }
 
     public IntegratedServer getServerInstance()
@@ -51,6 +51,6 @@ public class IntegratedPlayerList extends ServerConfigurationManager
      */
     public NBTTagCompound getHostPlayerData()
     {
-        return this.hostPlayerData;
+        return hostPlayerData;
     }
 }

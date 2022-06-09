@@ -10,12 +10,12 @@ public class NibbleArray
 
     public NibbleArray()
     {
-        this.data = new byte[2048];
+        data = new byte[2048];
     }
 
     public NibbleArray(byte[] storageArray)
     {
-        this.data = storageArray;
+        data = storageArray;
 
         if (storageArray.length != 2048)
         {
@@ -28,7 +28,7 @@ public class NibbleArray
      */
     public int get(int x, int y, int z)
     {
-        return this.getFromIndex(this.getCoordinateIndex(x, y, z));
+        return getFromIndex(getCoordinateIndex(x, y, z));
     }
 
     /**
@@ -36,7 +36,7 @@ public class NibbleArray
      */
     public void set(int x, int y, int z, int value)
     {
-        this.setIndex(this.getCoordinateIndex(x, y, z), value);
+        setIndex(getCoordinateIndex(x, y, z), value);
     }
 
     private int getCoordinateIndex(int x, int y, int z)
@@ -46,21 +46,21 @@ public class NibbleArray
 
     public int getFromIndex(int index)
     {
-        int i = this.getNibbleIndex(index);
-        return this.isLowerNibble(index) ? this.data[i] & 15 : this.data[i] >> 4 & 15;
+        int i = getNibbleIndex(index);
+        return isLowerNibble(index) ? data[i] & 15 : data[i] >> 4 & 15;
     }
 
     public void setIndex(int index, int value)
     {
-        int i = this.getNibbleIndex(index);
+        int i = getNibbleIndex(index);
 
-        if (this.isLowerNibble(index))
+        if (isLowerNibble(index))
         {
-            this.data[i] = (byte)(this.data[i] & 240 | value & 15);
+            data[i] = (byte)(data[i] & 240 | value & 15);
         }
         else
         {
-            this.data[i] = (byte)(this.data[i] & 15 | (value & 15) << 4);
+            data[i] = (byte)(data[i] & 15 | (value & 15) << 4);
         }
     }
 
@@ -76,6 +76,6 @@ public class NibbleArray
 
     public byte[] getData()
     {
-        return this.data;
+        return data;
     }
 }

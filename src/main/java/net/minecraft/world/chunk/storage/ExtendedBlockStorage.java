@@ -12,7 +12,7 @@ public class ExtendedBlockStorage
     /**
      * Contains the bottom-most Y block represented by this ExtendedBlockStorage. Typically a multiple of 16.
      */
-    private int yBase;
+    private final int yBase;
 
     /**
      * A total count of the number of non-air blocks in this block storage's Chunk.
@@ -35,19 +35,19 @@ public class ExtendedBlockStorage
 
     public ExtendedBlockStorage(int y, boolean storeSkylight)
     {
-        this.yBase = y;
-        this.data = new char[4096];
-        this.blocklightArray = new NibbleArray();
+        yBase = y;
+        data = new char[4096];
+        blocklightArray = new NibbleArray();
 
         if (storeSkylight)
         {
-            this.skylightArray = new NibbleArray();
+            skylightArray = new NibbleArray();
         }
     }
 
     public IBlockState get(int x, int y, int z)
     {
-        IBlockState iblockstate = (IBlockState)Block.BLOCK_STATE_IDS.getByValue(this.data[y << 8 | z << 4 | x]);
+        IBlockState iblockstate = (IBlockState)Block.BLOCK_STATE_IDS.getByValue(data[y << 8 | z << 4 | x]);
         return iblockstate != null ? iblockstate : Blocks.air.getDefaultState();
     }
 
@@ -58,31 +58,31 @@ public class ExtendedBlockStorage
             state = (IBlockState)Reflector.call(state, Reflector.IExtendedBlockState_getClean, new Object[0]);
         }
 
-        IBlockState iblockstate = this.get(x, y, z);
+        IBlockState iblockstate = get(x, y, z);
         Block block = iblockstate.getBlock();
         Block block1 = state.getBlock();
 
         if (block != Blocks.air)
         {
-            --this.blockRefCount;
+            --blockRefCount;
 
             if (block.getTickRandomly())
             {
-                --this.tickRefCount;
+                --tickRefCount;
             }
         }
 
         if (block1 != Blocks.air)
         {
-            ++this.blockRefCount;
+            ++blockRefCount;
 
             if (block1.getTickRandomly())
             {
-                ++this.tickRefCount;
+                ++tickRefCount;
             }
         }
 
-        this.data[y << 8 | z << 4 | x] = (char)Block.BLOCK_STATE_IDS.get(state);
+        data[y << 8 | z << 4 | x] = (char)Block.BLOCK_STATE_IDS.get(state);
     }
 
     /**
@@ -91,7 +91,7 @@ public class ExtendedBlockStorage
      */
     public Block getBlockByExtId(int x, int y, int z)
     {
-        return this.get(x, y, z).getBlock();
+        return get(x, y, z).getBlock();
     }
 
     /**
@@ -99,7 +99,7 @@ public class ExtendedBlockStorage
      */
     public int getExtBlockMetadata(int x, int y, int z)
     {
-        IBlockState iblockstate = this.get(x, y, z);
+        IBlockState iblockstate = get(x, y, z);
         return iblockstate.getBlock().getMetaFromState(iblockstate);
     }
 
@@ -108,7 +108,7 @@ public class ExtendedBlockStorage
      */
     public boolean isEmpty()
     {
-        return this.blockRefCount == 0;
+        return blockRefCount == 0;
     }
 
     /**
@@ -117,7 +117,7 @@ public class ExtendedBlockStorage
      */
     public boolean getNeedsRandomTick()
     {
-        return this.tickRefCount > 0;
+        return tickRefCount > 0;
     }
 
     /**
@@ -125,7 +125,7 @@ public class ExtendedBlockStorage
      */
     public int getYLocation()
     {
-        return this.yBase;
+        return yBase;
     }
 
     /**
@@ -133,7 +133,7 @@ public class ExtendedBlockStorage
      */
     public void setExtSkylightValue(int x, int y, int z, int value)
     {
-        this.skylightArray.set(x, y, z, value);
+        skylightArray.set(x, y, z, value);
     }
 
     /**
@@ -141,7 +141,7 @@ public class ExtendedBlockStorage
      */
     public int getExtSkylightValue(int x, int y, int z)
     {
-        return this.skylightArray.get(x, y, z);
+        return skylightArray.get(x, y, z);
     }
 
     /**
@@ -149,7 +149,7 @@ public class ExtendedBlockStorage
      */
     public void setExtBlocklightValue(int x, int y, int z, int value)
     {
-        this.blocklightArray.set(x, y, z, value);
+        blocklightArray.set(x, y, z, value);
     }
 
     /**
@@ -157,7 +157,7 @@ public class ExtendedBlockStorage
      */
     public int getExtBlocklightValue(int x, int y, int z)
     {
-        return this.blocklightArray.get(x, y, z);
+        return blocklightArray.get(x, y, z);
     }
 
     public void removeInvalidBlocks()
@@ -177,7 +177,7 @@ public class ExtendedBlockStorage
 
                 for (int l1 = 0; l1 < 16; ++l1)
                 {
-                    int i2 = this.data[k1 | l1];
+                    int i2 = data[k1 | l1];
 
                     if (i2 > 0)
                     {
@@ -202,18 +202,18 @@ public class ExtendedBlockStorage
             }
         }
 
-        this.blockRefCount = j;
-        this.tickRefCount = k;
+        blockRefCount = j;
+        tickRefCount = k;
     }
 
     public char[] getData()
     {
-        return this.data;
+        return data;
     }
 
     public void setData(char[] dataArray)
     {
-        this.data = dataArray;
+        data = dataArray;
     }
 
     /**
@@ -221,7 +221,7 @@ public class ExtendedBlockStorage
      */
     public NibbleArray getBlocklightArray()
     {
-        return this.blocklightArray;
+        return blocklightArray;
     }
 
     /**
@@ -229,7 +229,7 @@ public class ExtendedBlockStorage
      */
     public NibbleArray getSkylightArray()
     {
-        return this.skylightArray;
+        return skylightArray;
     }
 
     /**
@@ -237,7 +237,7 @@ public class ExtendedBlockStorage
      */
     public void setBlocklightArray(NibbleArray newBlocklightArray)
     {
-        this.blocklightArray = newBlocklightArray;
+        blocklightArray = newBlocklightArray;
     }
 
     /**
@@ -245,6 +245,6 @@ public class ExtendedBlockStorage
      */
     public void setSkylightArray(NibbleArray newSkylightArray)
     {
-        this.skylightArray = newSkylightArray;
+        skylightArray = newSkylightArray;
     }
 }

@@ -18,7 +18,7 @@ public class LayerHeldItemWitch implements LayerRenderer<EntityWitch>
 
     public LayerHeldItemWitch(RenderWitch witchRendererIn)
     {
-        this.witchRenderer = witchRendererIn;
+        witchRenderer = witchRendererIn;
     }
 
     public void doRenderLayer(EntityWitch entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
@@ -30,7 +30,7 @@ public class LayerHeldItemWitch implements LayerRenderer<EntityWitch>
             GlStateManager.color(1.0F, 1.0F, 1.0F);
             GlStateManager.pushMatrix();
 
-            if (this.witchRenderer.getMainModel().isChild)
+            if (witchRenderer.getMainModel().isChild)
             {
                 GlStateManager.translate(0.0F, 0.625F, 0.0F);
                 GlStateManager.rotate(-20.0F, -1.0F, 0.0F, 0.0F);
@@ -38,7 +38,7 @@ public class LayerHeldItemWitch implements LayerRenderer<EntityWitch>
                 GlStateManager.scale(f, f, f);
             }
 
-            ((ModelWitch)this.witchRenderer.getMainModel()).villagerNose.postRender(0.0625F);
+            ((ModelWitch) witchRenderer.getMainModel()).villagerNose.postRender(0.0625F);
             GlStateManager.translate(-0.0625F, 0.53125F, 0.21875F);
             Item item = itemstack.getItem();
             Minecraft minecraft = Minecraft.getMinecraft();
@@ -68,7 +68,7 @@ public class LayerHeldItemWitch implements LayerRenderer<EntityWitch>
                     GlStateManager.translate(0.0F, -0.0625F, 0.0F);
                 }
 
-                this.witchRenderer.transformHeldFull3DItemLayer();
+                witchRenderer.transformHeldFull3DItemLayer();
                 GlStateManager.translate(0.0625F, -0.125F, 0.0F);
                 float f2 = 0.625F;
                 GlStateManager.scale(f2, -f2, f2);

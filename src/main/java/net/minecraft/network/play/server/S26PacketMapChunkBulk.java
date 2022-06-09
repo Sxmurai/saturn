@@ -21,18 +21,18 @@ public class S26PacketMapChunkBulk implements Packet<INetHandlerPlayClient>
     public S26PacketMapChunkBulk(List<Chunk> chunks)
     {
         int i = chunks.size();
-        this.xPositions = new int[i];
-        this.zPositions = new int[i];
-        this.chunksData = new S21PacketChunkData.Extracted[i];
-        this.isOverworld = !((Chunk)chunks.get(0)).getWorld().provider.getHasNoSky();
+        xPositions = new int[i];
+        zPositions = new int[i];
+        chunksData = new S21PacketChunkData.Extracted[i];
+        isOverworld = !chunks.get(0).getWorld().provider.getHasNoSky();
 
         for (int j = 0; j < i; ++j)
         {
-            Chunk chunk = (Chunk)chunks.get(j);
-            S21PacketChunkData.Extracted s21packetchunkdata$extracted = S21PacketChunkData.func_179756_a(chunk, true, this.isOverworld, 65535);
-            this.xPositions[j] = chunk.xPosition;
-            this.zPositions[j] = chunk.zPosition;
-            this.chunksData[j] = s21packetchunkdata$extracted;
+            Chunk chunk = chunks.get(j);
+            S21PacketChunkData.Extracted s21packetchunkdata$extracted = S21PacketChunkData.func_179756_a(chunk, true, isOverworld, 65535);
+            xPositions[j] = chunk.xPosition;
+            zPositions[j] = chunk.zPosition;
+            chunksData[j] = s21packetchunkdata$extracted;
         }
     }
 
@@ -41,24 +41,24 @@ public class S26PacketMapChunkBulk implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.isOverworld = buf.readBoolean();
+        isOverworld = buf.readBoolean();
         int i = buf.readVarIntFromBuffer();
-        this.xPositions = new int[i];
-        this.zPositions = new int[i];
-        this.chunksData = new S21PacketChunkData.Extracted[i];
+        xPositions = new int[i];
+        zPositions = new int[i];
+        chunksData = new S21PacketChunkData.Extracted[i];
 
         for (int j = 0; j < i; ++j)
         {
-            this.xPositions[j] = buf.readInt();
-            this.zPositions[j] = buf.readInt();
-            this.chunksData[j] = new S21PacketChunkData.Extracted();
-            this.chunksData[j].dataSize = buf.readShort() & 65535;
-            this.chunksData[j].data = new byte[S21PacketChunkData.func_180737_a(Integer.bitCount(this.chunksData[j].dataSize), this.isOverworld, true)];
+            xPositions[j] = buf.readInt();
+            zPositions[j] = buf.readInt();
+            chunksData[j] = new S21PacketChunkData.Extracted();
+            chunksData[j].dataSize = buf.readShort() & 65535;
+            chunksData[j].data = new byte[S21PacketChunkData.func_180737_a(Integer.bitCount(chunksData[j].dataSize), isOverworld, true)];
         }
 
         for (int k = 0; k < i; ++k)
         {
-            buf.readBytes(this.chunksData[k].data);
+            buf.readBytes(chunksData[k].data);
         }
     }
 
@@ -67,19 +67,19 @@ public class S26PacketMapChunkBulk implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeBoolean(this.isOverworld);
-        buf.writeVarIntToBuffer(this.chunksData.length);
+        buf.writeBoolean(isOverworld);
+        buf.writeVarIntToBuffer(chunksData.length);
 
-        for (int i = 0; i < this.xPositions.length; ++i)
+        for (int i = 0; i < xPositions.length; ++i)
         {
-            buf.writeInt(this.xPositions[i]);
-            buf.writeInt(this.zPositions[i]);
-            buf.writeShort((short)(this.chunksData[i].dataSize & 65535));
+            buf.writeInt(xPositions[i]);
+            buf.writeInt(zPositions[i]);
+            buf.writeShort((short)(chunksData[i].dataSize & 65535));
         }
 
-        for (int j = 0; j < this.xPositions.length; ++j)
+        for (int j = 0; j < xPositions.length; ++j)
         {
-            buf.writeBytes(this.chunksData[j].data);
+            buf.writeBytes(chunksData[j].data);
         }
     }
 
@@ -93,26 +93,26 @@ public class S26PacketMapChunkBulk implements Packet<INetHandlerPlayClient>
 
     public int getChunkX(int p_149255_1_)
     {
-        return this.xPositions[p_149255_1_];
+        return xPositions[p_149255_1_];
     }
 
     public int getChunkZ(int p_149253_1_)
     {
-        return this.zPositions[p_149253_1_];
+        return zPositions[p_149253_1_];
     }
 
     public int getChunkCount()
     {
-        return this.xPositions.length;
+        return xPositions.length;
     }
 
     public byte[] getChunkBytes(int p_149256_1_)
     {
-        return this.chunksData[p_149256_1_].data;
+        return chunksData[p_149256_1_].data;
     }
 
     public int getChunkSize(int p_179754_1_)
     {
-        return this.chunksData[p_179754_1_].dataSize;
+        return chunksData[p_179754_1_].dataSize;
     }
 }

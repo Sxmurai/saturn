@@ -25,7 +25,7 @@ public class EntityEnderEye extends Entity
     public EntityEnderEye(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.25F, 0.25F);
+        setSize(0.25F, 0.25F);
     }
 
     protected void entityInit()
@@ -38,7 +38,7 @@ public class EntityEnderEye extends Entity
      */
     public boolean isInRangeToRenderDist(double distance)
     {
-        double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
+        double d0 = getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
 
         if (Double.isNaN(d0))
         {
@@ -52,35 +52,35 @@ public class EntityEnderEye extends Entity
     public EntityEnderEye(World worldIn, double x, double y, double z)
     {
         super(worldIn);
-        this.despawnTimer = 0;
-        this.setSize(0.25F, 0.25F);
-        this.setPosition(x, y, z);
+        despawnTimer = 0;
+        setSize(0.25F, 0.25F);
+        setPosition(x, y, z);
     }
 
     public void moveTowards(BlockPos p_180465_1_)
     {
-        double d0 = (double)p_180465_1_.getX();
+        double d0 = p_180465_1_.getX();
         int i = p_180465_1_.getY();
-        double d1 = (double)p_180465_1_.getZ();
-        double d2 = d0 - this.posX;
-        double d3 = d1 - this.posZ;
+        double d1 = p_180465_1_.getZ();
+        double d2 = d0 - posX;
+        double d3 = d1 - posZ;
         float f = MathHelper.sqrt_double(d2 * d2 + d3 * d3);
 
         if (f > 12.0F)
         {
-            this.targetX = this.posX + d2 / (double)f * 12.0D;
-            this.targetZ = this.posZ + d3 / (double)f * 12.0D;
-            this.targetY = this.posY + 8.0D;
+            targetX = posX + d2 / (double)f * 12.0D;
+            targetZ = posZ + d3 / (double)f * 12.0D;
+            targetY = posY + 8.0D;
         }
         else
         {
-            this.targetX = d0;
-            this.targetY = (double)i;
-            this.targetZ = d1;
+            targetX = d0;
+            targetY = i;
+            targetZ = d1;
         }
 
-        this.despawnTimer = 0;
-        this.shatterOrDrop = this.rand.nextInt(5) > 0;
+        despawnTimer = 0;
+        shatterOrDrop = rand.nextInt(5) > 0;
     }
 
     /**
@@ -88,15 +88,15 @@ public class EntityEnderEye extends Entity
      */
     public void setVelocity(double x, double y, double z)
     {
-        this.motionX = x;
-        this.motionY = y;
-        this.motionZ = z;
+        motionX = x;
+        motionY = y;
+        motionZ = z;
 
-        if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
+        if (prevRotationPitch == 0.0F && prevRotationYaw == 0.0F)
         {
             float f = MathHelper.sqrt_double(x * x + z * z);
-            this.prevRotationYaw = this.rotationYaw = (float)(MathHelper.func_181159_b(x, z) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(MathHelper.func_181159_b(y, (double)f) * 180.0D / Math.PI);
+            prevRotationYaw = rotationYaw = (float)(MathHelper.func_181159_b(x, z) * 180.0D / Math.PI);
+            prevRotationPitch = rotationPitch = (float)(MathHelper.func_181159_b(y, f) * 180.0D / Math.PI);
         }
     }
 
@@ -105,43 +105,42 @@ public class EntityEnderEye extends Entity
      */
     public void onUpdate()
     {
-        this.lastTickPosX = this.posX;
-        this.lastTickPosY = this.posY;
-        this.lastTickPosZ = this.posZ;
+        lastTickPosX = posX;
+        lastTickPosY = posY;
+        lastTickPosZ = posZ;
         super.onUpdate();
-        this.posX += this.motionX;
-        this.posY += this.motionY;
-        this.posZ += this.motionZ;
-        float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        this.rotationYaw = (float)(MathHelper.func_181159_b(this.motionX, this.motionZ) * 180.0D / Math.PI);
+        posX += motionX;
+        posY += motionY;
+        posZ += motionZ;
+        float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+        rotationYaw = (float)(MathHelper.func_181159_b(motionX, motionZ) * 180.0D / Math.PI);
 
-        for (this.rotationPitch = (float)(MathHelper.func_181159_b(this.motionY, (double)f) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+        for (rotationPitch = (float)(MathHelper.func_181159_b(motionY, f) * 180.0D / Math.PI); rotationPitch - prevRotationPitch < -180.0F; prevRotationPitch -= 360.0F)
         {
-            ;
         }
 
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
+        while (rotationPitch - prevRotationPitch >= 180.0F)
         {
-            this.prevRotationPitch += 360.0F;
+            prevRotationPitch += 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw < -180.0F)
+        while (rotationYaw - prevRotationYaw < -180.0F)
         {
-            this.prevRotationYaw -= 360.0F;
+            prevRotationYaw -= 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
+        while (rotationYaw - prevRotationYaw >= 180.0F)
         {
-            this.prevRotationYaw += 360.0F;
+            prevRotationYaw += 360.0F;
         }
 
-        this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
-        this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
+        rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
+        rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
 
-        if (!this.worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
-            double d0 = this.targetX - this.posX;
-            double d1 = this.targetZ - this.posZ;
+            double d0 = targetX - posX;
+            double d1 = targetZ - posZ;
             float f1 = (float)Math.sqrt(d0 * d0 + d1 * d1);
             float f2 = (float)MathHelper.func_181159_b(d1, d0);
             double d2 = (double)f + (double)(f1 - f) * 0.0025D;
@@ -149,52 +148,52 @@ public class EntityEnderEye extends Entity
             if (f1 < 1.0F)
             {
                 d2 *= 0.8D;
-                this.motionY *= 0.8D;
+                motionY *= 0.8D;
             }
 
-            this.motionX = Math.cos((double)f2) * d2;
-            this.motionZ = Math.sin((double)f2) * d2;
+            motionX = Math.cos(f2) * d2;
+            motionZ = Math.sin(f2) * d2;
 
-            if (this.posY < this.targetY)
+            if (posY < targetY)
             {
-                this.motionY += (1.0D - this.motionY) * 0.014999999664723873D;
+                motionY += (1.0D - motionY) * 0.014999999664723873D;
             }
             else
             {
-                this.motionY += (-1.0D - this.motionY) * 0.014999999664723873D;
+                motionY += (-1.0D - motionY) * 0.014999999664723873D;
             }
         }
 
         float f3 = 0.25F;
 
-        if (this.isInWater())
+        if (isInWater())
         {
             for (int i = 0; i < 4; ++i)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double)f3, this.posY - this.motionY * (double)f3, this.posZ - this.motionZ * (double)f3, this.motionX, this.motionY, this.motionZ, new int[0]);
+                worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * (double)f3, posY - motionY * (double)f3, posZ - motionZ * (double)f3, motionX, motionY, motionZ);
             }
         }
         else
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.PORTAL, this.posX - this.motionX * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.posY - this.motionY * (double)f3 - 0.5D, this.posZ - this.motionZ * (double)f3 + this.rand.nextDouble() * 0.6D - 0.3D, this.motionX, this.motionY, this.motionZ, new int[0]);
+            worldObj.spawnParticle(EnumParticleTypes.PORTAL, posX - motionX * (double)f3 + rand.nextDouble() * 0.6D - 0.3D, posY - motionY * (double)f3 - 0.5D, posZ - motionZ * (double)f3 + rand.nextDouble() * 0.6D - 0.3D, motionX, motionY, motionZ);
         }
 
-        if (!this.worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
-            this.setPosition(this.posX, this.posY, this.posZ);
-            ++this.despawnTimer;
+            setPosition(posX, posY, posZ);
+            ++despawnTimer;
 
-            if (this.despawnTimer > 80 && !this.worldObj.isRemote)
+            if (despawnTimer > 80 && !worldObj.isRemote)
             {
-                this.setDead();
+                setDead();
 
-                if (this.shatterOrDrop)
+                if (shatterOrDrop)
                 {
-                    this.worldObj.spawnEntityInWorld(new EntityItem(this.worldObj, this.posX, this.posY, this.posZ, new ItemStack(Items.ender_eye)));
+                    worldObj.spawnEntityInWorld(new EntityItem(worldObj, posX, posY, posZ, new ItemStack(Items.ender_eye)));
                 }
                 else
                 {
-                    this.worldObj.playAuxSFX(2003, new BlockPos(this), 0);
+                    worldObj.playAuxSFX(2003, new BlockPos(this), 0);
                 }
             }
         }

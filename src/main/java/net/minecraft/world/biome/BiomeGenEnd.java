@@ -8,14 +8,14 @@ public class BiomeGenEnd extends BiomeGenBase
     public BiomeGenEnd(int p_i1990_1_)
     {
         super(p_i1990_1_);
-        this.spawnableMonsterList.clear();
-        this.spawnableCreatureList.clear();
-        this.spawnableWaterCreatureList.clear();
-        this.spawnableCaveCreatureList.clear();
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityEnderman.class, 10, 4, 4));
-        this.topBlock = Blocks.dirt.getDefaultState();
-        this.fillerBlock = Blocks.dirt.getDefaultState();
-        this.theBiomeDecorator = new BiomeEndDecorator();
+        spawnableMonsterList.clear();
+        spawnableCreatureList.clear();
+        spawnableWaterCreatureList.clear();
+        spawnableCaveCreatureList.clear();
+        spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityEnderman.class, 10, 4, 4));
+        topBlock = Blocks.dirt.getDefaultState();
+        fillerBlock = Blocks.dirt.getDefaultState();
+        theBiomeDecorator = new BiomeEndDecorator();
     }
 
     /**

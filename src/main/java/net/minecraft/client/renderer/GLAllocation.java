@@ -59,7 +59,7 @@ public class GLAllocation
      */
     public static IntBuffer createDirectIntBuffer(int capacity)
     {
-        return createDirectByteBuffer(capacity << 2).asIntBuffer();
+        return GLAllocation.createDirectByteBuffer(capacity << 2).asIntBuffer();
     }
 
     /**
@@ -68,6 +68,6 @@ public class GLAllocation
      */
     public static FloatBuffer createDirectFloatBuffer(int capacity)
     {
-        return createDirectByteBuffer(capacity << 2).asFloatBuffer();
+        return GLAllocation.createDirectByteBuffer(capacity << 2).asFloatBuffer();
     }
 }

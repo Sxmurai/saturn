@@ -18,7 +18,7 @@ public class BlockDropper extends BlockDispenser
 
     protected IBehaviorDispenseItem getBehavior(ItemStack stack)
     {
-        return this.dropBehavior;
+        return dropBehavior;
     }
 
     /**
@@ -32,7 +32,7 @@ public class BlockDropper extends BlockDispenser
     protected void dispense(World worldIn, BlockPos pos)
     {
         BlockSourceImpl blocksourceimpl = new BlockSourceImpl(worldIn, pos);
-        TileEntityDispenser tileentitydispenser = (TileEntityDispenser)blocksourceimpl.getBlockTileEntity();
+        TileEntityDispenser tileentitydispenser = blocksourceimpl.getBlockTileEntity();
 
         if (tileentitydispenser != null)
         {
@@ -48,14 +48,14 @@ public class BlockDropper extends BlockDispenser
 
                 if (itemstack != null)
                 {
-                    EnumFacing enumfacing = (EnumFacing)worldIn.getBlockState(pos).getValue(FACING);
+                    EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(BlockDispenser.FACING);
                     BlockPos blockpos = pos.offset(enumfacing);
-                    IInventory iinventory = TileEntityHopper.getInventoryAtPosition(worldIn, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
+                    IInventory iinventory = TileEntityHopper.getInventoryAtPosition(worldIn, blockpos.getX(), blockpos.getY(), blockpos.getZ());
                     ItemStack itemstack1;
 
                     if (iinventory == null)
                     {
-                        itemstack1 = this.dropBehavior.dispense(blocksourceimpl, itemstack);
+                        itemstack1 = dropBehavior.dispense(blocksourceimpl, itemstack);
 
                         if (itemstack1 != null && itemstack1.stackSize <= 0)
                         {

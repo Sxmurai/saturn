@@ -32,11 +32,11 @@ public class C0CPacketInput implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.strafeSpeed = buf.readFloat();
-        this.forwardSpeed = buf.readFloat();
+        strafeSpeed = buf.readFloat();
+        forwardSpeed = buf.readFloat();
         byte b0 = buf.readByte();
-        this.jumping = (b0 & 1) > 0;
-        this.sneaking = (b0 & 2) > 0;
+        jumping = (b0 & 1) > 0;
+        sneaking = (b0 & 2) > 0;
     }
 
     /**
@@ -44,16 +44,16 @@ public class C0CPacketInput implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeFloat(this.strafeSpeed);
-        buf.writeFloat(this.forwardSpeed);
+        buf.writeFloat(strafeSpeed);
+        buf.writeFloat(forwardSpeed);
         byte b0 = 0;
 
-        if (this.jumping)
+        if (jumping)
         {
             b0 = (byte)(b0 | 1);
         }
 
-        if (this.sneaking)
+        if (sneaking)
         {
             b0 = (byte)(b0 | 2);
         }
@@ -71,21 +71,21 @@ public class C0CPacketInput implements Packet<INetHandlerPlayServer>
 
     public float getStrafeSpeed()
     {
-        return this.strafeSpeed;
+        return strafeSpeed;
     }
 
     public float getForwardSpeed()
     {
-        return this.forwardSpeed;
+        return forwardSpeed;
     }
 
     public boolean isJumping()
     {
-        return this.jumping;
+        return jumping;
     }
 
     public boolean isSneaking()
     {
-        return this.sneaking;
+        return sneaking;
     }
 }

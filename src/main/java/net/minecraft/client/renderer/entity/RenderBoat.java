@@ -17,7 +17,7 @@ public class RenderBoat extends Render<EntityBoat>
     public RenderBoat(RenderManager renderManagerIn)
     {
         super(renderManagerIn);
-        this.shadowSize = 0.5F;
+        shadowSize = 0.5F;
     }
 
     /**
@@ -47,9 +47,9 @@ public class RenderBoat extends Render<EntityBoat>
         float f2 = 0.75F;
         GlStateManager.scale(f2, f2, f2);
         GlStateManager.scale(1.0F / f2, 1.0F / f2, 1.0F / f2);
-        this.bindEntityTexture(entity);
+        bindEntityTexture(entity);
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        this.modelBoat.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+        modelBoat.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
@@ -59,6 +59,6 @@ public class RenderBoat extends Render<EntityBoat>
      */
     protected ResourceLocation getEntityTexture(EntityBoat entity)
     {
-        return boatTextures;
+        return RenderBoat.boatTextures;
     }
 }

@@ -19,8 +19,8 @@ public class NetHandlerStatusServer implements INetHandlerStatusServer
 
     public NetHandlerStatusServer(MinecraftServer serverIn, NetworkManager netManager)
     {
-        this.server = serverIn;
-        this.networkManager = netManager;
+        server = serverIn;
+        networkManager = netManager;
     }
 
     /**
@@ -32,20 +32,20 @@ public class NetHandlerStatusServer implements INetHandlerStatusServer
 
     public void processServerQuery(C00PacketServerQuery packetIn)
     {
-        if (this.field_183008_d)
+        if (field_183008_d)
         {
-            this.networkManager.closeChannel(field_183007_a);
+            networkManager.closeChannel(NetHandlerStatusServer.field_183007_a);
         }
         else
         {
-            this.field_183008_d = true;
-            this.networkManager.sendPacket(new S00PacketServerInfo(this.server.getServerStatusResponse()));
+            field_183008_d = true;
+            networkManager.sendPacket(new S00PacketServerInfo(server.getServerStatusResponse()));
         }
     }
 
     public void processPing(C01PacketPing packetIn)
     {
-        this.networkManager.sendPacket(new S01PacketPong(packetIn.getClientTime()));
-        this.networkManager.closeChannel(field_183007_a);
+        networkManager.sendPacket(new S01PacketPong(packetIn.getClientTime()));
+        networkManager.closeChannel(NetHandlerStatusServer.field_183007_a);
     }
 }

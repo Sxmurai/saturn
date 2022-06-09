@@ -9,9 +9,9 @@ public class EntityBlockDustFX extends EntityDiggingFX
     protected EntityBlockDustFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, IBlockState state)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, state);
-        this.motionX = xSpeedIn;
-        this.motionY = ySpeedIn;
-        this.motionZ = zSpeedIn;
+        motionX = xSpeedIn;
+        motionY = ySpeedIn;
+        motionZ = zSpeedIn;
     }
 
     public static class Factory implements IParticleFactory

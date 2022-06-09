@@ -43,19 +43,19 @@ public class CommandGive extends CommandBase
     {
         if (args.length < 2)
         {
-            throw new WrongUsageException("commands.give.usage", new Object[0]);
+            throw new WrongUsageException("commands.give.usage");
         }
         else
         {
-            EntityPlayer entityplayer = getPlayer(sender, args[0]);
-            Item item = getItemByText(sender, args[1]);
-            int i = args.length >= 3 ? parseInt(args[2], 1, 64) : 1;
-            int j = args.length >= 4 ? parseInt(args[3]) : 0;
+            EntityPlayer entityplayer = CommandBase.getPlayer(sender, args[0]);
+            Item item = CommandBase.getItemByText(sender, args[1]);
+            int i = args.length >= 3 ? CommandBase.parseInt(args[2], 1, 64) : 1;
+            int j = args.length >= 4 ? CommandBase.parseInt(args[3]) : 0;
             ItemStack itemstack = new ItemStack(item, i, j);
 
             if (args.length >= 5)
             {
-                String s = getChatComponentFromNthArg(sender, args, 4).getUnformattedText();
+                String s = CommandBase.getChatComponentFromNthArg(sender, args, 4).getUnformattedText();
 
                 try
                 {
@@ -63,7 +63,7 @@ public class CommandGive extends CommandBase
                 }
                 catch (NBTException nbtexception)
                 {
-                    throw new CommandException("commands.give.tagError", new Object[] {nbtexception.getMessage()});
+                    throw new CommandException("commands.give.tagError", nbtexception.getMessage());
                 }
             }
 
@@ -98,13 +98,13 @@ public class CommandGive extends CommandBase
                 }
             }
 
-            notifyOperators(sender, this, "commands.give.success", new Object[] {itemstack.getChatComponent(), Integer.valueOf(i), entityplayer.getName()});
+            CommandBase.notifyOperators(sender, this, "commands.give.success", itemstack.getChatComponent(), Integer.valueOf(i), entityplayer.getName());
         }
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getPlayers()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys()) : null);
+        return args.length == 1 ? CommandBase.getListOfStringsMatchingLastWord(args, getPlayers()) : (args.length == 2 ? CommandBase.getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys()) : null);
     }
 
     protected String[] getPlayers()

@@ -9,7 +9,7 @@ public class ReportedException extends RuntimeException
 
     public ReportedException(CrashReport report)
     {
-        this.theReportedExceptionCrashReport = report;
+        theReportedExceptionCrashReport = report;
     }
 
     /**
@@ -17,16 +17,16 @@ public class ReportedException extends RuntimeException
      */
     public CrashReport getCrashReport()
     {
-        return this.theReportedExceptionCrashReport;
+        return theReportedExceptionCrashReport;
     }
 
     public Throwable getCause()
     {
-        return this.theReportedExceptionCrashReport.getCrashCause();
+        return theReportedExceptionCrashReport.getCrashCause();
     }
 
     public String getMessage()
     {
-        return this.theReportedExceptionCrashReport.getDescription();
+        return theReportedExceptionCrashReport.getDescription();
     }
 }

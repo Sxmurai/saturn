@@ -17,19 +17,19 @@ import shadersmod.client.GuiShaders;
 
 public class GuiVideoSettings extends GuiScreen
 {
-    private GuiScreen parentGuiScreen;
+    private final GuiScreen parentGuiScreen;
     protected String screenTitle = "Video Settings";
-    private GameSettings guiGameSettings;
+    private final GameSettings guiGameSettings;
 
     /** An array of all of GameSettings.Options's video options. */
-    private static GameSettings.Options[] videoOptions = new GameSettings.Options[] {GameSettings.Options.GRAPHICS, GameSettings.Options.RENDER_DISTANCE, GameSettings.Options.AMBIENT_OCCLUSION, GameSettings.Options.FRAMERATE_LIMIT, GameSettings.Options.AO_LEVEL, GameSettings.Options.VIEW_BOBBING, GameSettings.Options.GUI_SCALE, GameSettings.Options.USE_VBO, GameSettings.Options.GAMMA, GameSettings.Options.BLOCK_ALTERNATIVES, GameSettings.Options.FOG_FANCY, GameSettings.Options.FOG_START};
+    private static final GameSettings.Options[] videoOptions = new GameSettings.Options[] {GameSettings.Options.GRAPHICS, GameSettings.Options.RENDER_DISTANCE, GameSettings.Options.AMBIENT_OCCLUSION, GameSettings.Options.FRAMERATE_LIMIT, GameSettings.Options.AO_LEVEL, GameSettings.Options.VIEW_BOBBING, GameSettings.Options.GUI_SCALE, GameSettings.Options.USE_VBO, GameSettings.Options.GAMMA, GameSettings.Options.BLOCK_ALTERNATIVES, GameSettings.Options.FOG_FANCY, GameSettings.Options.FOG_START};
     private static final String __OBFID = "CL_00000718";
-    private TooltipManager tooltipManager = new TooltipManager(this);
+    private final TooltipManager tooltipManager = new TooltipManager(this);
 
     public GuiVideoSettings(GuiScreen parentScreenIn, GameSettings gameSettingsIn)
     {
-        this.parentGuiScreen = parentScreenIn;
-        this.guiGameSettings = gameSettingsIn;
+        parentGuiScreen = parentScreenIn;
+        guiGameSettings = gameSettingsIn;
     }
 
     /**
@@ -38,47 +38,47 @@ public class GuiVideoSettings extends GuiScreen
      */
     public void initGui()
     {
-        this.screenTitle = I18n.format("options.videoTitle", new Object[0]);
-        this.buttonList.clear();
+        screenTitle = I18n.format("options.videoTitle");
+        buttonList.clear();
 
-        for (int i = 0; i < videoOptions.length; ++i)
+        for (int i = 0; i < GuiVideoSettings.videoOptions.length; ++i)
         {
-            GameSettings.Options gamesettings$options = videoOptions[i];
+            GameSettings.Options gamesettings$options = GuiVideoSettings.videoOptions[i];
 
             if (gamesettings$options != null)
             {
-                int j = this.width / 2 - 155 + i % 2 * 160;
-                int k = this.height / 6 + 21 * (i / 2) - 12;
+                int j = width / 2 - 155 + i % 2 * 160;
+                int k = height / 6 + 21 * (i / 2) - 12;
 
                 if (gamesettings$options.getEnumFloat())
                 {
-                    this.buttonList.add(new GuiOptionSliderOF(gamesettings$options.returnEnumOrdinal(), j, k, gamesettings$options));
+                    buttonList.add(new GuiOptionSliderOF(gamesettings$options.returnEnumOrdinal(), j, k, gamesettings$options));
                 }
                 else
                 {
-                    this.buttonList.add(new GuiOptionButtonOF(gamesettings$options.returnEnumOrdinal(), j, k, gamesettings$options, this.guiGameSettings.getKeyBinding(gamesettings$options)));
+                    buttonList.add(new GuiOptionButtonOF(gamesettings$options.returnEnumOrdinal(), j, k, gamesettings$options, guiGameSettings.getKeyBinding(gamesettings$options)));
                 }
             }
         }
 
-        int l = this.height / 6 + 21 * (videoOptions.length / 2) - 12;
+        int l = height / 6 + 21 * (GuiVideoSettings.videoOptions.length / 2) - 12;
         int i1 = 0;
-        i1 = this.width / 2 - 155 + 0;
-        this.buttonList.add(new GuiOptionButton(231, i1, l, Lang.get("of.options.shaders")));
-        i1 = this.width / 2 - 155 + 160;
-        this.buttonList.add(new GuiOptionButton(202, i1, l, Lang.get("of.options.quality")));
+        i1 = width / 2 - 155 + 0;
+        buttonList.add(new GuiOptionButton(231, i1, l, Lang.get("of.options.shaders")));
+        i1 = width / 2 - 155 + 160;
+        buttonList.add(new GuiOptionButton(202, i1, l, Lang.get("of.options.quality")));
         l = l + 21;
-        i1 = this.width / 2 - 155 + 0;
-        this.buttonList.add(new GuiOptionButton(201, i1, l, Lang.get("of.options.details")));
-        i1 = this.width / 2 - 155 + 160;
-        this.buttonList.add(new GuiOptionButton(212, i1, l, Lang.get("of.options.performance")));
+        i1 = width / 2 - 155 + 0;
+        buttonList.add(new GuiOptionButton(201, i1, l, Lang.get("of.options.details")));
+        i1 = width / 2 - 155 + 160;
+        buttonList.add(new GuiOptionButton(212, i1, l, Lang.get("of.options.performance")));
         l = l + 21;
-        i1 = this.width / 2 - 155 + 0;
-        this.buttonList.add(new GuiOptionButton(211, i1, l, Lang.get("of.options.animations")));
-        i1 = this.width / 2 - 155 + 160;
-        this.buttonList.add(new GuiOptionButton(222, i1, l, Lang.get("of.options.other")));
+        i1 = width / 2 - 155 + 0;
+        buttonList.add(new GuiOptionButton(211, i1, l, Lang.get("of.options.animations")));
+        i1 = width / 2 - 155 + 160;
+        buttonList.add(new GuiOptionButton(222, i1, l, Lang.get("of.options.other")));
         l = l + 21;
-        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168 + 11, I18n.format("gui.done", new Object[0])));
+        buttonList.add(new GuiButton(200, width / 2 - 100, height / 6 + 168 + 11, I18n.format("gui.done")));
     }
 
     /**
@@ -88,61 +88,61 @@ public class GuiVideoSettings extends GuiScreen
     {
         if (button.enabled)
         {
-            int i = this.guiGameSettings.guiScale;
+            int i = guiGameSettings.guiScale;
 
             if (button.id < 200 && button instanceof GuiOptionButton)
             {
-                this.guiGameSettings.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
-                button.displayString = this.guiGameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
+                guiGameSettings.setOptionValue(((GuiOptionButton)button).returnEnumOptions(), 1);
+                button.displayString = guiGameSettings.getKeyBinding(GameSettings.Options.getEnumOptions(button.id));
             }
 
             if (button.id == 200)
             {
-                this.mc.gameSettings.saveOptions();
-                this.mc.displayGuiScreen(this.parentGuiScreen);
+                mc.gameSettings.saveOptions();
+                mc.displayGuiScreen(parentGuiScreen);
             }
 
-            if (this.guiGameSettings.guiScale != i)
+            if (guiGameSettings.guiScale != i)
             {
-                ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+                ScaledResolution scaledresolution = new ScaledResolution(mc);
                 int j = scaledresolution.getScaledWidth();
                 int k = scaledresolution.getScaledHeight();
-                this.setWorldAndResolution(this.mc, j, k);
+                setWorldAndResolution(mc, j, k);
             }
 
             if (button.id == 201)
             {
-                this.mc.gameSettings.saveOptions();
-                GuiDetailSettingsOF guidetailsettingsof = new GuiDetailSettingsOF(this, this.guiGameSettings);
-                this.mc.displayGuiScreen(guidetailsettingsof);
+                mc.gameSettings.saveOptions();
+                GuiDetailSettingsOF guidetailsettingsof = new GuiDetailSettingsOF(this, guiGameSettings);
+                mc.displayGuiScreen(guidetailsettingsof);
             }
 
             if (button.id == 202)
             {
-                this.mc.gameSettings.saveOptions();
-                GuiQualitySettingsOF guiqualitysettingsof = new GuiQualitySettingsOF(this, this.guiGameSettings);
-                this.mc.displayGuiScreen(guiqualitysettingsof);
+                mc.gameSettings.saveOptions();
+                GuiQualitySettingsOF guiqualitysettingsof = new GuiQualitySettingsOF(this, guiGameSettings);
+                mc.displayGuiScreen(guiqualitysettingsof);
             }
 
             if (button.id == 211)
             {
-                this.mc.gameSettings.saveOptions();
-                GuiAnimationSettingsOF guianimationsettingsof = new GuiAnimationSettingsOF(this, this.guiGameSettings);
-                this.mc.displayGuiScreen(guianimationsettingsof);
+                mc.gameSettings.saveOptions();
+                GuiAnimationSettingsOF guianimationsettingsof = new GuiAnimationSettingsOF(this, guiGameSettings);
+                mc.displayGuiScreen(guianimationsettingsof);
             }
 
             if (button.id == 212)
             {
-                this.mc.gameSettings.saveOptions();
-                GuiPerformanceSettingsOF guiperformancesettingsof = new GuiPerformanceSettingsOF(this, this.guiGameSettings);
-                this.mc.displayGuiScreen(guiperformancesettingsof);
+                mc.gameSettings.saveOptions();
+                GuiPerformanceSettingsOF guiperformancesettingsof = new GuiPerformanceSettingsOF(this, guiGameSettings);
+                mc.displayGuiScreen(guiperformancesettingsof);
             }
 
             if (button.id == 222)
             {
-                this.mc.gameSettings.saveOptions();
-                GuiOtherSettingsOF guiothersettingsof = new GuiOtherSettingsOF(this, this.guiGameSettings);
-                this.mc.displayGuiScreen(guiothersettingsof);
+                mc.gameSettings.saveOptions();
+                GuiOtherSettingsOF guiothersettingsof = new GuiOtherSettingsOF(this, guiGameSettings);
+                mc.displayGuiScreen(guiothersettingsof);
             }
 
             if (button.id == 231)
@@ -165,9 +165,9 @@ public class GuiVideoSettings extends GuiScreen
                     return;
                 }
 
-                this.mc.gameSettings.saveOptions();
-                GuiShaders guishaders = new GuiShaders(this, this.guiGameSettings);
-                this.mc.displayGuiScreen(guishaders);
+                mc.gameSettings.saveOptions();
+                GuiShaders guishaders = new GuiShaders(this, guiGameSettings);
+                mc.displayGuiScreen(guishaders);
             }
         }
     }
@@ -177,8 +177,8 @@ public class GuiVideoSettings extends GuiScreen
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 15, 16777215);
+        drawDefaultBackground();
+        drawCenteredString(fontRendererObj, screenTitle, width / 2, 15, 16777215);
         String s = Config.getVersion();
         String s1 = "HD_U";
 
@@ -197,12 +197,12 @@ public class GuiVideoSettings extends GuiScreen
             s = "OptiFine H8 Light";
         }
 
-        this.drawString(this.fontRendererObj, s, 2, this.height - 10, 8421504);
+        drawString(fontRendererObj, s, 2, height - 10, 8421504);
         String s2 = "Minecraft 1.8.8";
-        int i = this.fontRendererObj.getStringWidth(s2);
-        this.drawString(this.fontRendererObj, s2, this.width - i - 2, this.height - 10, 8421504);
+        int i = fontRendererObj.getStringWidth(s2);
+        drawString(fontRendererObj, s2, width - i - 2, height - 10, 8421504);
         super.drawScreen(mouseX, mouseY, partialTicks);
-        this.tooltipManager.drawTooltips(mouseX, mouseY, this.buttonList);
+        tooltipManager.drawTooltips(mouseX, mouseY, buttonList);
     }
 
     public static int getButtonWidth(GuiButton p_getButtonWidth_0_)

@@ -18,13 +18,13 @@ import net.minecraft.world.World;
 
 public class BlockStainedGlass extends BlockBreakable
 {
-    public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.<EnumDyeColor>create("color", EnumDyeColor.class);
+    public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
 
     public BlockStainedGlass(Material materialIn)
     {
         super(materialIn, false);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setDefaultState(blockState.getBaseState().withProperty(BlockStainedGlass.COLOR, EnumDyeColor.WHITE));
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**
@@ -33,7 +33,7 @@ public class BlockStainedGlass extends BlockBreakable
      */
     public int damageDropped(IBlockState state)
     {
-        return ((EnumDyeColor)state.getValue(COLOR)).getMetadata();
+        return state.getValue(BlockStainedGlass.COLOR).getMetadata();
     }
 
     /**
@@ -52,7 +52,7 @@ public class BlockStainedGlass extends BlockBreakable
      */
     public MapColor getMapColor(IBlockState state)
     {
-        return ((EnumDyeColor)state.getValue(COLOR)).getMapColor();
+        return state.getValue(BlockStainedGlass.COLOR).getMapColor();
     }
 
     public EnumWorldBlockLayer getBlockLayer()
@@ -83,7 +83,7 @@ public class BlockStainedGlass extends BlockBreakable
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
+        return getDefaultState().withProperty(BlockStainedGlass.COLOR, EnumDyeColor.byMetadata(meta));
     }
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
@@ -107,11 +107,11 @@ public class BlockStainedGlass extends BlockBreakable
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((EnumDyeColor)state.getValue(COLOR)).getMetadata();
+        return state.getValue(BlockStainedGlass.COLOR).getMetadata();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {COLOR});
+        return new BlockState(this, BlockStainedGlass.COLOR);
     }
 }

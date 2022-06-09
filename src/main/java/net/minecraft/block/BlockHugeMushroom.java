@@ -16,14 +16,14 @@ import net.minecraft.world.World;
 
 public class BlockHugeMushroom extends Block
 {
-    public static final PropertyEnum<BlockHugeMushroom.EnumType> VARIANT = PropertyEnum.<BlockHugeMushroom.EnumType>create("variant", BlockHugeMushroom.EnumType.class);
+    public static final PropertyEnum<BlockHugeMushroom.EnumType> VARIANT = PropertyEnum.create("variant", BlockHugeMushroom.EnumType.class);
     private final Block smallBlock;
 
     public BlockHugeMushroom(Material p_i46392_1_, MapColor p_i46392_2_, Block p_i46392_3_)
     {
         super(p_i46392_1_, p_i46392_2_);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockHugeMushroom.EnumType.ALL_OUTSIDE));
-        this.smallBlock = p_i46392_3_;
+        setDefaultState(blockState.getBaseState().withProperty(BlockHugeMushroom.VARIANT, BlockHugeMushroom.EnumType.ALL_OUTSIDE));
+        smallBlock = p_i46392_3_;
     }
 
     /**
@@ -39,7 +39,7 @@ public class BlockHugeMushroom extends Block
      */
     public MapColor getMapColor(IBlockState state)
     {
-        switch ((BlockHugeMushroom.EnumType)state.getValue(VARIANT))
+        switch (state.getValue(BlockHugeMushroom.VARIANT))
         {
             case ALL_STEM:
                 return MapColor.clothColor;
@@ -60,12 +60,12 @@ public class BlockHugeMushroom extends Block
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        return Item.getItemFromBlock(this.smallBlock);
+        return Item.getItemFromBlock(smallBlock);
     }
 
     public Item getItem(World worldIn, BlockPos pos)
     {
-        return Item.getItemFromBlock(this.smallBlock);
+        return Item.getItemFromBlock(smallBlock);
     }
 
     /**
@@ -74,7 +74,7 @@ public class BlockHugeMushroom extends Block
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        return this.getDefaultState();
+        return getDefaultState();
     }
 
     /**
@@ -82,7 +82,7 @@ public class BlockHugeMushroom extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(VARIANT, BlockHugeMushroom.EnumType.byMetadata(meta));
+        return getDefaultState().withProperty(BlockHugeMushroom.VARIANT, BlockHugeMushroom.EnumType.byMetadata(meta));
     }
 
     /**
@@ -90,12 +90,12 @@ public class BlockHugeMushroom extends Block
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((BlockHugeMushroom.EnumType)state.getValue(VARIANT)).getMetadata();
+        return state.getValue(BlockHugeMushroom.VARIANT).getMetadata();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {VARIANT});
+        return new BlockState(this, BlockHugeMushroom.VARIANT);
     }
 
     public static enum EnumType implements IStringSerializable
@@ -126,34 +126,34 @@ public class BlockHugeMushroom extends Block
 
         public int getMetadata()
         {
-            return this.meta;
+            return meta;
         }
 
         public String toString()
         {
-            return this.name;
+            return name;
         }
 
         public static BlockHugeMushroom.EnumType byMetadata(int meta)
         {
-            if (meta < 0 || meta >= META_LOOKUP.length)
+            if (meta < 0 || meta >= EnumType.META_LOOKUP.length)
             {
                 meta = 0;
             }
 
-            BlockHugeMushroom.EnumType blockhugemushroom$enumtype = META_LOOKUP[meta];
-            return blockhugemushroom$enumtype == null ? META_LOOKUP[0] : blockhugemushroom$enumtype;
+            BlockHugeMushroom.EnumType blockhugemushroom$enumtype = EnumType.META_LOOKUP[meta];
+            return blockhugemushroom$enumtype == null ? EnumType.META_LOOKUP[0] : blockhugemushroom$enumtype;
         }
 
         public String getName()
         {
-            return this.name;
+            return name;
         }
 
         static {
-            for (BlockHugeMushroom.EnumType blockhugemushroom$enumtype : values())
+            for (BlockHugeMushroom.EnumType blockhugemushroom$enumtype : EnumType.values())
             {
-                META_LOOKUP[blockhugemushroom$enumtype.getMetadata()] = blockhugemushroom$enumtype;
+                EnumType.META_LOOKUP[blockhugemushroom$enumtype.getMetadata()] = blockhugemushroom$enumtype;
             }
         }
     }

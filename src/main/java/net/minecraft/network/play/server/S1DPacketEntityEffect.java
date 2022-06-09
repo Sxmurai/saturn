@@ -20,20 +20,20 @@ public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient>
 
     public S1DPacketEntityEffect(int entityIdIn, PotionEffect effect)
     {
-        this.entityId = entityIdIn;
-        this.effectId = (byte)(effect.getPotionID() & 255);
-        this.amplifier = (byte)(effect.getAmplifier() & 255);
+        entityId = entityIdIn;
+        effectId = (byte)(effect.getPotionID() & 255);
+        amplifier = (byte)(effect.getAmplifier() & 255);
 
         if (effect.getDuration() > 32767)
         {
-            this.duration = 32767;
+            duration = 32767;
         }
         else
         {
-            this.duration = effect.getDuration();
+            duration = effect.getDuration();
         }
 
-        this.hideParticles = (byte)(effect.getIsShowParticles() ? 1 : 0);
+        hideParticles = (byte)(effect.getIsShowParticles() ? 1 : 0);
     }
 
     /**
@@ -41,11 +41,11 @@ public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
-        this.effectId = buf.readByte();
-        this.amplifier = buf.readByte();
-        this.duration = buf.readVarIntFromBuffer();
-        this.hideParticles = buf.readByte();
+        entityId = buf.readVarIntFromBuffer();
+        effectId = buf.readByte();
+        amplifier = buf.readByte();
+        duration = buf.readVarIntFromBuffer();
+        hideParticles = buf.readByte();
     }
 
     /**
@@ -53,16 +53,16 @@ public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        buf.writeByte(this.effectId);
-        buf.writeByte(this.amplifier);
-        buf.writeVarIntToBuffer(this.duration);
-        buf.writeByte(this.hideParticles);
+        buf.writeVarIntToBuffer(entityId);
+        buf.writeByte(effectId);
+        buf.writeByte(amplifier);
+        buf.writeVarIntToBuffer(duration);
+        buf.writeByte(hideParticles);
     }
 
     public boolean func_149429_c()
     {
-        return this.duration == 32767;
+        return duration == 32767;
     }
 
     /**
@@ -75,26 +75,26 @@ public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient>
 
     public int getEntityId()
     {
-        return this.entityId;
+        return entityId;
     }
 
     public byte getEffectId()
     {
-        return this.effectId;
+        return effectId;
     }
 
     public byte getAmplifier()
     {
-        return this.amplifier;
+        return amplifier;
     }
 
     public int getDuration()
     {
-        return this.duration;
+        return duration;
     }
 
     public boolean func_179707_f()
     {
-        return this.hideParticles != 0;
+        return hideParticles != 0;
     }
 }

@@ -21,8 +21,8 @@ public class C19PacketResourcePackStatus implements Packet<INetHandlerPlayServer
             hashIn = hashIn.substring(0, 40);
         }
 
-        this.hash = hashIn;
-        this.status = statusIn;
+        hash = hashIn;
+        status = statusIn;
     }
 
     /**
@@ -30,8 +30,8 @@ public class C19PacketResourcePackStatus implements Packet<INetHandlerPlayServer
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.hash = buf.readStringFromBuffer(40);
-        this.status = (C19PacketResourcePackStatus.Action)buf.readEnumValue(C19PacketResourcePackStatus.Action.class);
+        hash = buf.readStringFromBuffer(40);
+        status = buf.readEnumValue(Action.class);
     }
 
     /**
@@ -39,8 +39,8 @@ public class C19PacketResourcePackStatus implements Packet<INetHandlerPlayServer
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeString(this.hash);
-        buf.writeEnumValue(this.status);
+        buf.writeString(hash);
+        buf.writeEnumValue(status);
     }
 
     /**
@@ -56,6 +56,6 @@ public class C19PacketResourcePackStatus implements Packet<INetHandlerPlayServer
         SUCCESSFULLY_LOADED,
         DECLINED,
         FAILED_DOWNLOAD,
-        ACCEPTED;
+        ACCEPTED
     }
 }

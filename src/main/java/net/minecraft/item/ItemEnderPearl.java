@@ -10,8 +10,8 @@ public class ItemEnderPearl extends Item
 {
     public ItemEnderPearl()
     {
-        this.maxStackSize = 16;
-        this.setCreativeTab(CreativeTabs.tabMisc);
+        maxStackSize = 16;
+        setCreativeTab(CreativeTabs.tabMisc);
     }
 
     /**
@@ -26,7 +26,7 @@ public class ItemEnderPearl extends Item
         else
         {
             --itemStackIn.stackSize;
-            worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (Item.itemRand.nextFloat() * 0.4F + 0.8F));
 
             if (!worldIn.isRemote)
             {

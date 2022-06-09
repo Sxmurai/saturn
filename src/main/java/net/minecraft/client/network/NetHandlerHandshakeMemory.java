@@ -14,8 +14,8 @@ public class NetHandlerHandshakeMemory implements INetHandlerHandshakeServer
 
     public NetHandlerHandshakeMemory(MinecraftServer p_i45287_1_, NetworkManager p_i45287_2_)
     {
-        this.mcServer = p_i45287_1_;
-        this.networkManager = p_i45287_2_;
+        mcServer = p_i45287_1_;
+        networkManager = p_i45287_2_;
     }
 
     /**
@@ -25,8 +25,8 @@ public class NetHandlerHandshakeMemory implements INetHandlerHandshakeServer
      */
     public void processHandshake(C00Handshake packetIn)
     {
-        this.networkManager.setConnectionState(packetIn.getRequestedState());
-        this.networkManager.setNetHandler(new NetHandlerLoginServer(this.mcServer, this.networkManager));
+        networkManager.setConnectionState(packetIn.getRequestedState());
+        networkManager.setNetHandler(new NetHandlerLoginServer(mcServer, networkManager));
     }
 
     /**

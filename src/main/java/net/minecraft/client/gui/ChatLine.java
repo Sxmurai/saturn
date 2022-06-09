@@ -15,23 +15,23 @@ public class ChatLine
 
     public ChatLine(int p_i45000_1_, IChatComponent p_i45000_2_, int p_i45000_3_)
     {
-        this.lineString = p_i45000_2_;
-        this.updateCounterCreated = p_i45000_1_;
-        this.chatLineID = p_i45000_3_;
+        lineString = p_i45000_2_;
+        updateCounterCreated = p_i45000_1_;
+        chatLineID = p_i45000_3_;
     }
 
     public IChatComponent getChatComponent()
     {
-        return this.lineString;
+        return lineString;
     }
 
     public int getUpdatedCounter()
     {
-        return this.updateCounterCreated;
+        return updateCounterCreated;
     }
 
     public int getChatLineID()
     {
-        return this.chatLineID;
+        return chatLineID;
     }
 }

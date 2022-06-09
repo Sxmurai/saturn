@@ -18,8 +18,8 @@ import org.apache.logging.log4j.Logger;
 public abstract class TileEntity
 {
     private static final Logger logger = LogManager.getLogger();
-    private static Map < String, Class <? extends TileEntity >> nameToClassMap = Maps. < String, Class <? extends TileEntity >> newHashMap();
-    private static Map < Class <? extends TileEntity > , String > classToNameMap = Maps. < Class <? extends TileEntity > , String > newHashMap();
+    private static final Map < String, Class <? extends TileEntity >> nameToClassMap = Maps.newHashMap();
+    private static final Map < Class <? extends TileEntity > , String > classToNameMap = Maps.newHashMap();
 
     /** the instance of the world the tile entity is in. */
     protected World worldObj;
@@ -35,14 +35,14 @@ public abstract class TileEntity
      */
     private static void addMapping(Class <? extends TileEntity > cl, String id)
     {
-        if (nameToClassMap.containsKey(id))
+        if (TileEntity.nameToClassMap.containsKey(id))
         {
             throw new IllegalArgumentException("Duplicate id: " + id);
         }
         else
         {
-            nameToClassMap.put(id, cl);
-            classToNameMap.put(cl, id);
+            TileEntity.nameToClassMap.put(id, cl);
+            TileEntity.classToNameMap.put(cl, id);
         }
     }
 
@@ -51,7 +51,7 @@ public abstract class TileEntity
      */
     public World getWorld()
     {
-        return this.worldObj;
+        return worldObj;
     }
 
     /**
@@ -59,7 +59,7 @@ public abstract class TileEntity
      */
     public void setWorldObj(World worldIn)
     {
-        this.worldObj = worldIn;
+        worldObj = worldIn;
     }
 
     /**
@@ -67,28 +67,28 @@ public abstract class TileEntity
      */
     public boolean hasWorldObj()
     {
-        return this.worldObj != null;
+        return worldObj != null;
     }
 
     public void readFromNBT(NBTTagCompound compound)
     {
-        this.pos = new BlockPos(compound.getInteger("x"), compound.getInteger("y"), compound.getInteger("z"));
+        pos = new BlockPos(compound.getInteger("x"), compound.getInteger("y"), compound.getInteger("z"));
     }
 
     public void writeToNBT(NBTTagCompound compound)
     {
-        String s = (String)classToNameMap.get(this.getClass());
+        String s = TileEntity.classToNameMap.get(getClass());
 
         if (s == null)
         {
-            throw new RuntimeException(this.getClass() + " is missing a mapping! This is a bug!");
+            throw new RuntimeException(getClass() + " is missing a mapping! This is a bug!");
         }
         else
         {
             compound.setString("id", s);
-            compound.setInteger("x", this.pos.getX());
-            compound.setInteger("y", this.pos.getY());
-            compound.setInteger("z", this.pos.getZ());
+            compound.setInteger("x", pos.getX());
+            compound.setInteger("y", pos.getY());
+            compound.setInteger("z", pos.getZ());
         }
     }
 
@@ -101,11 +101,11 @@ public abstract class TileEntity
 
         try
         {
-            Class <? extends TileEntity > oclass = (Class)nameToClassMap.get(nbt.getString("id"));
+            Class <? extends TileEntity > oclass = TileEntity.nameToClassMap.get(nbt.getString("id"));
 
             if (oclass != null)
             {
-                tileentity = (TileEntity)oclass.newInstance();
+                tileentity = oclass.newInstance();
             }
         }
         catch (Exception exception)
@@ -119,7 +119,7 @@ public abstract class TileEntity
         }
         else
         {
-            logger.warn("Skipping BlockEntity with id " + nbt.getString("id"));
+            TileEntity.logger.warn("Skipping BlockEntity with id " + nbt.getString("id"));
         }
 
         return tileentity;
@@ -127,13 +127,13 @@ public abstract class TileEntity
 
     public int getBlockMetadata()
     {
-        if (this.blockMetadata == -1)
+        if (blockMetadata == -1)
         {
-            IBlockState iblockstate = this.worldObj.getBlockState(this.pos);
-            this.blockMetadata = iblockstate.getBlock().getMetaFromState(iblockstate);
+            IBlockState iblockstate = worldObj.getBlockState(pos);
+            blockMetadata = iblockstate.getBlock().getMetaFromState(iblockstate);
         }
 
-        return this.blockMetadata;
+        return blockMetadata;
     }
 
     /**
@@ -142,15 +142,15 @@ public abstract class TileEntity
      */
     public void markDirty()
     {
-        if (this.worldObj != null)
+        if (worldObj != null)
         {
-            IBlockState iblockstate = this.worldObj.getBlockState(this.pos);
-            this.blockMetadata = iblockstate.getBlock().getMetaFromState(iblockstate);
-            this.worldObj.markChunkDirty(this.pos, this);
+            IBlockState iblockstate = worldObj.getBlockState(pos);
+            blockMetadata = iblockstate.getBlock().getMetaFromState(iblockstate);
+            worldObj.markChunkDirty(pos, this);
 
-            if (this.getBlockType() != Blocks.air)
+            if (getBlockType() != Blocks.air)
             {
-                this.worldObj.updateComparatorOutputLevel(this.pos, this.getBlockType());
+                worldObj.updateComparatorOutputLevel(pos, getBlockType());
             }
         }
     }
@@ -160,9 +160,9 @@ public abstract class TileEntity
      */
     public double getDistanceSq(double x, double y, double z)
     {
-        double d0 = (double)this.pos.getX() + 0.5D - x;
-        double d1 = (double)this.pos.getY() + 0.5D - y;
-        double d2 = (double)this.pos.getZ() + 0.5D - z;
+        double d0 = (double) pos.getX() + 0.5D - x;
+        double d1 = (double) pos.getY() + 0.5D - y;
+        double d2 = (double) pos.getZ() + 0.5D - z;
         return d0 * d0 + d1 * d1 + d2 * d2;
     }
 
@@ -173,7 +173,7 @@ public abstract class TileEntity
 
     public BlockPos getPos()
     {
-        return this.pos;
+        return pos;
     }
 
     /**
@@ -181,12 +181,12 @@ public abstract class TileEntity
      */
     public Block getBlockType()
     {
-        if (this.blockType == null)
+        if (blockType == null)
         {
-            this.blockType = this.worldObj.getBlockState(this.pos).getBlock();
+            blockType = worldObj.getBlockState(pos).getBlock();
         }
 
-        return this.blockType;
+        return blockType;
     }
 
     /**
@@ -200,7 +200,7 @@ public abstract class TileEntity
 
     public boolean isInvalid()
     {
-        return this.tileEntityInvalid;
+        return tileEntityInvalid;
     }
 
     /**
@@ -208,7 +208,7 @@ public abstract class TileEntity
      */
     public void invalidate()
     {
-        this.tileEntityInvalid = true;
+        tileEntityInvalid = true;
     }
 
     /**
@@ -216,7 +216,7 @@ public abstract class TileEntity
      */
     public void validate()
     {
-        this.tileEntityInvalid = false;
+        tileEntityInvalid = false;
     }
 
     public boolean receiveClientEvent(int id, int type)
@@ -226,8 +226,8 @@ public abstract class TileEntity
 
     public void updateContainingBlockInfo()
     {
-        this.blockType = null;
-        this.blockMetadata = -1;
+        blockType = null;
+        blockMetadata = -1;
     }
 
     public void addInfoToCrashReport(CrashReportCategory reportCategory)
@@ -236,22 +236,22 @@ public abstract class TileEntity
         {
             public String call() throws Exception
             {
-                return (String)TileEntity.classToNameMap.get(TileEntity.this.getClass()) + " // " + TileEntity.this.getClass().getCanonicalName();
+                return TileEntity.classToNameMap.get(TileEntity.this.getClass()) + " // " + TileEntity.this.getClass().getCanonicalName();
             }
         });
 
-        if (this.worldObj != null)
+        if (worldObj != null)
         {
-            CrashReportCategory.addBlockInfo(reportCategory, this.pos, this.getBlockType(), this.getBlockMetadata());
+            CrashReportCategory.addBlockInfo(reportCategory, pos, getBlockType(), getBlockMetadata());
             reportCategory.addCrashSectionCallable("Actual block type", new Callable<String>()
             {
                 public String call() throws Exception
                 {
-                    int i = Block.getIdFromBlock(TileEntity.this.worldObj.getBlockState(TileEntity.this.pos).getBlock());
+                    int i = Block.getIdFromBlock(worldObj.getBlockState(pos).getBlock());
 
                     try
                     {
-                        return String.format("ID #%d (%s // %s)", new Object[] {Integer.valueOf(i), Block.getBlockById(i).getUnlocalizedName(), Block.getBlockById(i).getClass().getCanonicalName()});
+                        return String.format("ID #%d (%s // %s)", Integer.valueOf(i), Block.getBlockById(i).getUnlocalizedName(), Block.getBlockById(i).getClass().getCanonicalName());
                     }
                     catch (Throwable var3)
                     {
@@ -263,7 +263,7 @@ public abstract class TileEntity
             {
                 public String call() throws Exception
                 {
-                    IBlockState iblockstate = TileEntity.this.worldObj.getBlockState(TileEntity.this.pos);
+                    IBlockState iblockstate = worldObj.getBlockState(pos);
                     int i = iblockstate.getBlock().getMetaFromState(iblockstate);
 
                     if (i < 0)
@@ -273,7 +273,7 @@ public abstract class TileEntity
                     else
                     {
                         String s = String.format("%4s", new Object[] {Integer.toBinaryString(i)}).replace(" ", "0");
-                        return String.format("%1$d / 0x%1$X / 0b%2$s", new Object[] {Integer.valueOf(i), s});
+                        return String.format("%1$d / 0x%1$X / 0b%2$s", Integer.valueOf(i), s);
                     }
                 }
             });
@@ -282,7 +282,7 @@ public abstract class TileEntity
 
     public void setPos(BlockPos posIn)
     {
-        this.pos = posIn;
+        pos = posIn;
     }
 
     public boolean func_183000_F()
@@ -292,26 +292,26 @@ public abstract class TileEntity
 
     static
     {
-        addMapping(TileEntityFurnace.class, "Furnace");
-        addMapping(TileEntityChest.class, "Chest");
-        addMapping(TileEntityEnderChest.class, "EnderChest");
-        addMapping(BlockJukebox.TileEntityJukebox.class, "RecordPlayer");
-        addMapping(TileEntityDispenser.class, "Trap");
-        addMapping(TileEntityDropper.class, "Dropper");
-        addMapping(TileEntitySign.class, "Sign");
-        addMapping(TileEntityMobSpawner.class, "MobSpawner");
-        addMapping(TileEntityNote.class, "Music");
-        addMapping(TileEntityPiston.class, "Piston");
-        addMapping(TileEntityBrewingStand.class, "Cauldron");
-        addMapping(TileEntityEnchantmentTable.class, "EnchantTable");
-        addMapping(TileEntityEndPortal.class, "Airportal");
-        addMapping(TileEntityCommandBlock.class, "Control");
-        addMapping(TileEntityBeacon.class, "Beacon");
-        addMapping(TileEntitySkull.class, "Skull");
-        addMapping(TileEntityDaylightDetector.class, "DLDetector");
-        addMapping(TileEntityHopper.class, "Hopper");
-        addMapping(TileEntityComparator.class, "Comparator");
-        addMapping(TileEntityFlowerPot.class, "FlowerPot");
-        addMapping(TileEntityBanner.class, "Banner");
+        TileEntity.addMapping(TileEntityFurnace.class, "Furnace");
+        TileEntity.addMapping(TileEntityChest.class, "Chest");
+        TileEntity.addMapping(TileEntityEnderChest.class, "EnderChest");
+        TileEntity.addMapping(BlockJukebox.TileEntityJukebox.class, "RecordPlayer");
+        TileEntity.addMapping(TileEntityDispenser.class, "Trap");
+        TileEntity.addMapping(TileEntityDropper.class, "Dropper");
+        TileEntity.addMapping(TileEntitySign.class, "Sign");
+        TileEntity.addMapping(TileEntityMobSpawner.class, "MobSpawner");
+        TileEntity.addMapping(TileEntityNote.class, "Music");
+        TileEntity.addMapping(TileEntityPiston.class, "Piston");
+        TileEntity.addMapping(TileEntityBrewingStand.class, "Cauldron");
+        TileEntity.addMapping(TileEntityEnchantmentTable.class, "EnchantTable");
+        TileEntity.addMapping(TileEntityEndPortal.class, "Airportal");
+        TileEntity.addMapping(TileEntityCommandBlock.class, "Control");
+        TileEntity.addMapping(TileEntityBeacon.class, "Beacon");
+        TileEntity.addMapping(TileEntitySkull.class, "Skull");
+        TileEntity.addMapping(TileEntityDaylightDetector.class, "DLDetector");
+        TileEntity.addMapping(TileEntityHopper.class, "Hopper");
+        TileEntity.addMapping(TileEntityComparator.class, "Comparator");
+        TileEntity.addMapping(TileEntityFlowerPot.class, "FlowerPot");
+        TileEntity.addMapping(TileEntityBanner.class, "Banner");
     }
 }

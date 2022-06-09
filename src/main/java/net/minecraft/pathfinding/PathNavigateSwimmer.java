@@ -23,37 +23,37 @@ public class PathNavigateSwimmer extends PathNavigate
      */
     protected boolean canNavigate()
     {
-        return this.isInLiquid();
+        return isInLiquid();
     }
 
     protected Vec3 getEntityPosition()
     {
-        return new Vec3(this.theEntity.posX, this.theEntity.posY + (double)this.theEntity.height * 0.5D, this.theEntity.posZ);
+        return new Vec3(theEntity.posX, theEntity.posY + (double) theEntity.height * 0.5D, theEntity.posZ);
     }
 
     protected void pathFollow()
     {
-        Vec3 vec3 = this.getEntityPosition();
-        float f = this.theEntity.width * this.theEntity.width;
+        Vec3 vec3 = getEntityPosition();
+        float f = theEntity.width * theEntity.width;
         int i = 6;
 
-        if (vec3.squareDistanceTo(this.currentPath.getVectorFromIndex(this.theEntity, this.currentPath.getCurrentPathIndex())) < (double)f)
+        if (vec3.squareDistanceTo(currentPath.getVectorFromIndex(theEntity, currentPath.getCurrentPathIndex())) < (double)f)
         {
-            this.currentPath.incrementPathIndex();
+            currentPath.incrementPathIndex();
         }
 
-        for (int j = Math.min(this.currentPath.getCurrentPathIndex() + i, this.currentPath.getCurrentPathLength() - 1); j > this.currentPath.getCurrentPathIndex(); --j)
+        for (int j = Math.min(currentPath.getCurrentPathIndex() + i, currentPath.getCurrentPathLength() - 1); j > currentPath.getCurrentPathIndex(); --j)
         {
-            Vec3 vec31 = this.currentPath.getVectorFromIndex(this.theEntity, j);
+            Vec3 vec31 = currentPath.getVectorFromIndex(theEntity, j);
 
-            if (vec31.squareDistanceTo(vec3) <= 36.0D && this.isDirectPathBetweenPoints(vec3, vec31, 0, 0, 0))
+            if (vec31.squareDistanceTo(vec3) <= 36.0D && isDirectPathBetweenPoints(vec3, vec31, 0, 0, 0))
             {
-                this.currentPath.setCurrentPathIndex(j);
+                currentPath.setCurrentPathIndex(j);
                 break;
             }
         }
 
-        this.checkForStuck(vec3);
+        checkForStuck(vec3);
     }
 
     /**
@@ -70,7 +70,7 @@ public class PathNavigateSwimmer extends PathNavigate
      */
     protected boolean isDirectPathBetweenPoints(Vec3 posVec31, Vec3 posVec32, int sizeX, int sizeY, int sizeZ)
     {
-        MovingObjectPosition movingobjectposition = this.worldObj.rayTraceBlocks(posVec31, new Vec3(posVec32.xCoord, posVec32.yCoord + (double)this.theEntity.height * 0.5D, posVec32.zCoord), false, true, false);
+        MovingObjectPosition movingobjectposition = worldObj.rayTraceBlocks(posVec31, new Vec3(posVec32.xCoord, posVec32.yCoord + (double) theEntity.height * 0.5D, posVec32.zCoord), false, true, false);
         return movingobjectposition == null || movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.MISS;
     }
 }

@@ -21,7 +21,7 @@ public class ItemEditableBook extends Item
 {
     public ItemEditableBook()
     {
-        this.setMaxStackSize(1);
+        setMaxStackSize(1);
     }
 
     public static boolean validBookTagContents(NBTTagCompound nbt)
@@ -37,7 +37,7 @@ public class ItemEditableBook extends Item
         else
         {
             String s = nbt.getString("title");
-            return s != null && s.length() <= 32 ? nbt.hasKey("author", 8) : false;
+            return s != null && s.length() <= 32 && nbt.hasKey("author", 8);
         }
     }
 
@@ -91,7 +91,7 @@ public class ItemEditableBook extends Item
     {
         if (!worldIn.isRemote)
         {
-            this.resolveContents(itemStackIn, playerIn);
+            resolveContents(itemStackIn, playerIn);
         }
 
         playerIn.displayGUIBook(itemStackIn);
@@ -109,7 +109,7 @@ public class ItemEditableBook extends Item
             {
                 nbttagcompound.setBoolean("resolved", true);
 
-                if (validBookTagContents(nbttagcompound))
+                if (ItemEditableBook.validBookTagContents(nbttagcompound))
                 {
                     NBTTagList nbttaglist = nbttagcompound.getTagList("pages", 8);
 

@@ -15,9 +15,9 @@ public class ItemBow extends Item
 
     public ItemBow()
     {
-        this.maxStackSize = 1;
-        this.setMaxDamage(384);
-        this.setCreativeTab(CreativeTabs.tabCombat);
+        maxStackSize = 1;
+        setMaxDamage(384);
+        setCreativeTab(CreativeTabs.tabCombat);
     }
 
     /**
@@ -29,7 +29,7 @@ public class ItemBow extends Item
 
         if (flag || playerIn.inventory.hasItem(Items.arrow))
         {
-            int i = this.getMaxItemUseDuration(stack) - timeLeft;
+            int i = getMaxItemUseDuration(stack) - timeLeft;
             float f = (float)i / 20.0F;
             f = (f * f + f * 2.0F) / 3.0F;
 
@@ -70,7 +70,7 @@ public class ItemBow extends Item
             }
 
             stack.damageItem(1, playerIn);
-            worldIn.playSoundAtEntity(playerIn, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+            worldIn.playSoundAtEntity(playerIn, "random.bow", 1.0F, 1.0F / (Item.itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
             if (flag)
             {
@@ -122,7 +122,7 @@ public class ItemBow extends Item
     {
         if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(Items.arrow))
         {
-            playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
+            playerIn.setItemInUse(itemStackIn, getMaxItemUseDuration(itemStackIn));
         }
 
         return itemStackIn;

@@ -21,25 +21,25 @@ public class DynamicTexture extends AbstractTexture
     public DynamicTexture(BufferedImage bufferedImage)
     {
         this(bufferedImage.getWidth(), bufferedImage.getHeight());
-        bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), this.dynamicTextureData, 0, bufferedImage.getWidth());
-        this.updateDynamicTexture();
+        bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), dynamicTextureData, 0, bufferedImage.getWidth());
+        updateDynamicTexture();
     }
 
     public DynamicTexture(int textureWidth, int textureHeight)
     {
-        this.shadersInitialized = false;
-        this.width = textureWidth;
-        this.height = textureHeight;
-        this.dynamicTextureData = new int[textureWidth * textureHeight * 3];
+        shadersInitialized = false;
+        width = textureWidth;
+        height = textureHeight;
+        dynamicTextureData = new int[textureWidth * textureHeight * 3];
 
         if (Config.isShaders())
         {
-            ShadersTex.initDynamicTexture(this.getGlTextureId(), textureWidth, textureHeight, this);
-            this.shadersInitialized = true;
+            ShadersTex.initDynamicTexture(getGlTextureId(), textureWidth, textureHeight, this);
+            shadersInitialized = true;
         }
         else
         {
-            TextureUtil.allocateTexture(this.getGlTextureId(), textureWidth, textureHeight);
+            TextureUtil.allocateTexture(getGlTextureId(), textureWidth, textureHeight);
         }
     }
 
@@ -51,22 +51,22 @@ public class DynamicTexture extends AbstractTexture
     {
         if (Config.isShaders())
         {
-            if (!this.shadersInitialized)
+            if (!shadersInitialized)
             {
-                ShadersTex.initDynamicTexture(this.getGlTextureId(), this.width, this.height, this);
-                this.shadersInitialized = true;
+                ShadersTex.initDynamicTexture(getGlTextureId(), width, height, this);
+                shadersInitialized = true;
             }
 
-            ShadersTex.updateDynamicTexture(this.getGlTextureId(), this.dynamicTextureData, this.width, this.height, this);
+            ShadersTex.updateDynamicTexture(getGlTextureId(), dynamicTextureData, width, height, this);
         }
         else
         {
-            TextureUtil.uploadTexture(this.getGlTextureId(), this.dynamicTextureData, this.width, this.height);
+            TextureUtil.uploadTexture(getGlTextureId(), dynamicTextureData, width, height);
         }
     }
 
     public int[] getTextureData()
     {
-        return this.dynamicTextureData;
+        return dynamicTextureData;
     }
 }

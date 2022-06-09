@@ -6,12 +6,12 @@ import net.minecraft.inventory.Container;
 
 public class EntityAITradePlayer extends EntityAIBase
 {
-    private EntityVillager villager;
+    private final EntityVillager villager;
 
     public EntityAITradePlayer(EntityVillager villagerIn)
     {
-        this.villager = villagerIn;
-        this.setMutexBits(5);
+        villager = villagerIn;
+        setMutexBits(5);
     }
 
     /**
@@ -19,26 +19,26 @@ public class EntityAITradePlayer extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        if (!this.villager.isEntityAlive())
+        if (!villager.isEntityAlive())
         {
             return false;
         }
-        else if (this.villager.isInWater())
+        else if (villager.isInWater())
         {
             return false;
         }
-        else if (!this.villager.onGround)
+        else if (!villager.onGround)
         {
             return false;
         }
-        else if (this.villager.velocityChanged)
+        else if (villager.velocityChanged)
         {
             return false;
         }
         else
         {
-            EntityPlayer entityplayer = this.villager.getCustomer();
-            return entityplayer == null ? false : (this.villager.getDistanceSqToEntity(entityplayer) > 16.0D ? false : entityplayer.openContainer instanceof Container);
+            EntityPlayer entityplayer = villager.getCustomer();
+            return entityplayer != null && (!(this.villager.getDistanceSqToEntity(entityplayer) > 16.0D) && entityplayer.openContainer instanceof Container);
         }
     }
 
@@ -47,7 +47,7 @@ public class EntityAITradePlayer extends EntityAIBase
      */
     public void startExecuting()
     {
-        this.villager.getNavigator().clearPathEntity();
+        villager.getNavigator().clearPathEntity();
     }
 
     /**
@@ -55,6 +55,6 @@ public class EntityAITradePlayer extends EntityAIBase
      */
     public void resetTask()
     {
-        this.villager.setCustomer((EntityPlayer)null);
+        villager.setCustomer(null);
     }
 }

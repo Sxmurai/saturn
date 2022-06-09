@@ -14,7 +14,7 @@ public class RenderTNTPrimed extends Render<EntityTNTPrimed>
     public RenderTNTPrimed(RenderManager renderManagerIn)
     {
         super(renderManagerIn);
-        this.shadowSize = 0.5F;
+        shadowSize = 0.5F;
     }
 
     /**
@@ -40,7 +40,7 @@ public class RenderTNTPrimed extends Render<EntityTNTPrimed>
         }
 
         float f2 = (1.0F - ((float)entity.fuse - partialTicks + 1.0F) / 100.0F) * 0.8F;
-        this.bindEntityTexture(entity);
+        bindEntityTexture(entity);
         GlStateManager.translate(-0.5F, -0.5F, 0.5F);
         blockrendererdispatcher.renderBlockBrightness(Blocks.tnt.getDefaultState(), entity.getBrightness(partialTicks));
         GlStateManager.translate(0.0F, 0.0F, 1.0F);

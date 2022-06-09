@@ -24,13 +24,13 @@ public class ItemFishFood extends ItemFood
     public int getHealAmount(ItemStack stack)
     {
         ItemFishFood.FishType itemfishfood$fishtype = ItemFishFood.FishType.byItemStack(stack);
-        return this.cooked && itemfishfood$fishtype.canCook() ? itemfishfood$fishtype.getCookedHealAmount() : itemfishfood$fishtype.getUncookedHealAmount();
+        return cooked && itemfishfood$fishtype.canCook() ? itemfishfood$fishtype.getCookedHealAmount() : itemfishfood$fishtype.getUncookedHealAmount();
     }
 
     public float getSaturationModifier(ItemStack stack)
     {
         ItemFishFood.FishType itemfishfood$fishtype = ItemFishFood.FishType.byItemStack(stack);
-        return this.cooked && itemfishfood$fishtype.canCook() ? itemfishfood$fishtype.getCookedSaturationModifier() : itemfishfood$fishtype.getUncookedSaturationModifier();
+        return cooked && itemfishfood$fishtype.canCook() ? itemfishfood$fishtype.getCookedSaturationModifier() : itemfishfood$fishtype.getUncookedSaturationModifier();
     }
 
     public String getPotionEffect(ItemStack stack)
@@ -59,7 +59,7 @@ public class ItemFishFood extends ItemFood
     {
         for (ItemFishFood.FishType itemfishfood$fishtype : ItemFishFood.FishType.values())
         {
-            if (!this.cooked || itemfishfood$fishtype.canCook())
+            if (!cooked || itemfishfood$fishtype.canCook())
             {
                 subItems.add(new ItemStack(this, 1, itemfishfood$fishtype.getMetadata()));
             }
@@ -73,7 +73,7 @@ public class ItemFishFood extends ItemFood
     public String getUnlocalizedName(ItemStack stack)
     {
         ItemFishFood.FishType itemfishfood$fishtype = ItemFishFood.FishType.byItemStack(stack);
-        return this.getUnlocalizedName() + "." + itemfishfood$fishtype.getUnlocalizedName() + "." + (this.cooked && itemfishfood$fishtype.canCook() ? "cooked" : "raw");
+        return getUnlocalizedName() + "." + itemfishfood$fishtype.getUnlocalizedName() + "." + (cooked && itemfishfood$fishtype.canCook() ? "cooked" : "raw");
     }
 
     public static enum FishType
@@ -83,7 +83,7 @@ public class ItemFishFood extends ItemFood
         CLOWNFISH(2, "clownfish", 1, 0.1F),
         PUFFERFISH(3, "pufferfish", 1, 0.1F);
 
-        private static final Map<Integer, ItemFishFood.FishType> META_LOOKUP = Maps.<Integer, ItemFishFood.FishType>newHashMap();
+        private static final Map<Integer, ItemFishFood.FishType> META_LOOKUP = Maps.newHashMap();
         private final int meta;
         private final String unlocalizedName;
         private final int uncookedHealAmount;
@@ -96,74 +96,74 @@ public class ItemFishFood extends ItemFood
         {
             this.meta = meta;
             this.unlocalizedName = unlocalizedName;
-            this.uncookedHealAmount = uncookedHeal;
-            this.uncookedSaturationModifier = uncookedSaturation;
-            this.cookedHealAmount = cookedHeal;
-            this.cookedSaturationModifier = cookedSaturation;
-            this.cookable = true;
+            uncookedHealAmount = uncookedHeal;
+            uncookedSaturationModifier = uncookedSaturation;
+            cookedHealAmount = cookedHeal;
+            cookedSaturationModifier = cookedSaturation;
+            cookable = true;
         }
 
         private FishType(int meta, String unlocalizedName, int uncookedHeal, float uncookedSaturation)
         {
             this.meta = meta;
             this.unlocalizedName = unlocalizedName;
-            this.uncookedHealAmount = uncookedHeal;
-            this.uncookedSaturationModifier = uncookedSaturation;
-            this.cookedHealAmount = 0;
-            this.cookedSaturationModifier = 0.0F;
-            this.cookable = false;
+            uncookedHealAmount = uncookedHeal;
+            uncookedSaturationModifier = uncookedSaturation;
+            cookedHealAmount = 0;
+            cookedSaturationModifier = 0.0F;
+            cookable = false;
         }
 
         public int getMetadata()
         {
-            return this.meta;
+            return meta;
         }
 
         public String getUnlocalizedName()
         {
-            return this.unlocalizedName;
+            return unlocalizedName;
         }
 
         public int getUncookedHealAmount()
         {
-            return this.uncookedHealAmount;
+            return uncookedHealAmount;
         }
 
         public float getUncookedSaturationModifier()
         {
-            return this.uncookedSaturationModifier;
+            return uncookedSaturationModifier;
         }
 
         public int getCookedHealAmount()
         {
-            return this.cookedHealAmount;
+            return cookedHealAmount;
         }
 
         public float getCookedSaturationModifier()
         {
-            return this.cookedSaturationModifier;
+            return cookedSaturationModifier;
         }
 
         public boolean canCook()
         {
-            return this.cookable;
+            return cookable;
         }
 
         public static ItemFishFood.FishType byMetadata(int meta)
         {
-            ItemFishFood.FishType itemfishfood$fishtype = (ItemFishFood.FishType)META_LOOKUP.get(Integer.valueOf(meta));
-            return itemfishfood$fishtype == null ? COD : itemfishfood$fishtype;
+            ItemFishFood.FishType itemfishfood$fishtype = FishType.META_LOOKUP.get(Integer.valueOf(meta));
+            return itemfishfood$fishtype == null ? FishType.COD : itemfishfood$fishtype;
         }
 
         public static ItemFishFood.FishType byItemStack(ItemStack stack)
         {
-            return stack.getItem() instanceof ItemFishFood ? byMetadata(stack.getMetadata()) : COD;
+            return stack.getItem() instanceof ItemFishFood ? FishType.byMetadata(stack.getMetadata()) : FishType.COD;
         }
 
         static {
-            for (ItemFishFood.FishType itemfishfood$fishtype : values())
+            for (ItemFishFood.FishType itemfishfood$fishtype : FishType.values())
             {
-                META_LOOKUP.put(Integer.valueOf(itemfishfood$fishtype.getMetadata()), itemfishfood$fishtype);
+                FishType.META_LOOKUP.put(Integer.valueOf(itemfishfood$fishtype.getMetadata()), itemfishfood$fishtype);
             }
         }
     }

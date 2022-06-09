@@ -18,9 +18,9 @@ public class S1BPacketEntityAttach implements Packet<INetHandlerPlayClient>
 
     public S1BPacketEntityAttach(int leashIn, Entity entityIn, Entity vehicle)
     {
-        this.leash = leashIn;
-        this.entityId = entityIn.getEntityId();
-        this.vehicleEntityId = vehicle != null ? vehicle.getEntityId() : -1;
+        leash = leashIn;
+        entityId = entityIn.getEntityId();
+        vehicleEntityId = vehicle != null ? vehicle.getEntityId() : -1;
     }
 
     /**
@@ -28,9 +28,9 @@ public class S1BPacketEntityAttach implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readInt();
-        this.vehicleEntityId = buf.readInt();
-        this.leash = buf.readUnsignedByte();
+        entityId = buf.readInt();
+        vehicleEntityId = buf.readInt();
+        leash = buf.readUnsignedByte();
     }
 
     /**
@@ -38,9 +38,9 @@ public class S1BPacketEntityAttach implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeInt(this.entityId);
-        buf.writeInt(this.vehicleEntityId);
-        buf.writeByte(this.leash);
+        buf.writeInt(entityId);
+        buf.writeInt(vehicleEntityId);
+        buf.writeByte(leash);
     }
 
     /**
@@ -53,16 +53,16 @@ public class S1BPacketEntityAttach implements Packet<INetHandlerPlayClient>
 
     public int getLeash()
     {
-        return this.leash;
+        return leash;
     }
 
     public int getEntityId()
     {
-        return this.entityId;
+        return entityId;
     }
 
     public int getVehicleEntityId()
     {
-        return this.vehicleEntityId;
+        return vehicleEntityId;
     }
 }

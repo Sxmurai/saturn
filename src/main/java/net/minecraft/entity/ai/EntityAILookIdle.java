@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityLiving;
 public class EntityAILookIdle extends EntityAIBase
 {
     /** The entity that is looking idle. */
-    private EntityLiving idleEntity;
+    private final EntityLiving idleEntity;
 
     /** X offset to look at */
     private double lookX;
@@ -20,8 +20,8 @@ public class EntityAILookIdle extends EntityAIBase
 
     public EntityAILookIdle(EntityLiving entitylivingIn)
     {
-        this.idleEntity = entitylivingIn;
-        this.setMutexBits(3);
+        idleEntity = entitylivingIn;
+        setMutexBits(3);
     }
 
     /**
@@ -29,7 +29,7 @@ public class EntityAILookIdle extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        return this.idleEntity.getRNG().nextFloat() < 0.02F;
+        return idleEntity.getRNG().nextFloat() < 0.02F;
     }
 
     /**
@@ -37,7 +37,7 @@ public class EntityAILookIdle extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return this.idleTime >= 0;
+        return idleTime >= 0;
     }
 
     /**
@@ -45,10 +45,10 @@ public class EntityAILookIdle extends EntityAIBase
      */
     public void startExecuting()
     {
-        double d0 = (Math.PI * 2D) * this.idleEntity.getRNG().nextDouble();
-        this.lookX = Math.cos(d0);
-        this.lookZ = Math.sin(d0);
-        this.idleTime = 20 + this.idleEntity.getRNG().nextInt(20);
+        double d0 = (Math.PI * 2D) * idleEntity.getRNG().nextDouble();
+        lookX = Math.cos(d0);
+        lookZ = Math.sin(d0);
+        idleTime = 20 + idleEntity.getRNG().nextInt(20);
     }
 
     /**
@@ -56,7 +56,7 @@ public class EntityAILookIdle extends EntityAIBase
      */
     public void updateTask()
     {
-        --this.idleTime;
-        this.idleEntity.getLookHelper().setLookPosition(this.idleEntity.posX + this.lookX, this.idleEntity.posY + (double)this.idleEntity.getEyeHeight(), this.idleEntity.posZ + this.lookZ, 10.0F, (float)this.idleEntity.getVerticalFaceSpeed());
+        --idleTime;
+        idleEntity.getLookHelper().setLookPosition(idleEntity.posX + lookX, idleEntity.posY + (double) idleEntity.getEyeHeight(), idleEntity.posZ + lookZ, 10.0F, (float) idleEntity.getVerticalFaceSpeed());
     }
 }

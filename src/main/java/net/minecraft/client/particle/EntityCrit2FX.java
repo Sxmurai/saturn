@@ -17,21 +17,21 @@ public class EntityCrit2FX extends EntityFX
     protected EntityCrit2FX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double p_i46285_8_, double p_i46285_10_, double p_i46285_12_, float p_i46285_14_)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0D, 0.0D, 0.0D);
-        this.motionX *= 0.10000000149011612D;
-        this.motionY *= 0.10000000149011612D;
-        this.motionZ *= 0.10000000149011612D;
-        this.motionX += p_i46285_8_ * 0.4D;
-        this.motionY += p_i46285_10_ * 0.4D;
-        this.motionZ += p_i46285_12_ * 0.4D;
-        this.particleRed = this.particleGreen = this.particleBlue = (float)(Math.random() * 0.30000001192092896D + 0.6000000238418579D);
-        this.particleScale *= 0.75F;
-        this.particleScale *= p_i46285_14_;
-        this.field_174839_a = this.particleScale;
-        this.particleMaxAge = (int)(6.0D / (Math.random() * 0.8D + 0.6D));
-        this.particleMaxAge = (int)((float)this.particleMaxAge * p_i46285_14_);
-        this.noClip = false;
-        this.setParticleTextureIndex(65);
-        this.onUpdate();
+        motionX *= 0.10000000149011612D;
+        motionY *= 0.10000000149011612D;
+        motionZ *= 0.10000000149011612D;
+        motionX += p_i46285_8_ * 0.4D;
+        motionY += p_i46285_10_ * 0.4D;
+        motionZ += p_i46285_12_ * 0.4D;
+        particleRed = particleGreen = particleBlue = (float)(Math.random() * 0.30000001192092896D + 0.6000000238418579D);
+        particleScale *= 0.75F;
+        particleScale *= p_i46285_14_;
+        field_174839_a = particleScale;
+        particleMaxAge = (int)(6.0D / (Math.random() * 0.8D + 0.6D));
+        particleMaxAge = (int)((float) particleMaxAge * p_i46285_14_);
+        noClip = false;
+        setParticleTextureIndex(65);
+        onUpdate();
     }
 
     /**
@@ -39,9 +39,9 @@ public class EntityCrit2FX extends EntityFX
      */
     public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
     {
-        float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge * 32.0F;
+        float f = ((float) particleAge + partialTicks) / (float) particleMaxAge * 32.0F;
         f = MathHelper.clamp_float(f, 0.0F, 1.0F);
-        this.particleScale = this.field_174839_a * f;
+        particleScale = field_174839_a * f;
         super.renderParticle(worldRendererIn, entityIn, partialTicks, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);
     }
 
@@ -50,27 +50,27 @@ public class EntityCrit2FX extends EntityFX
      */
     public void onUpdate()
     {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
 
-        if (this.particleAge++ >= this.particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
-            this.setDead();
+            setDead();
         }
 
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.particleGreen = (float)((double)this.particleGreen * 0.96D);
-        this.particleBlue = (float)((double)this.particleBlue * 0.9D);
-        this.motionX *= 0.699999988079071D;
-        this.motionY *= 0.699999988079071D;
-        this.motionZ *= 0.699999988079071D;
-        this.motionY -= 0.019999999552965164D;
+        moveEntity(motionX, motionY, motionZ);
+        particleGreen = (float)((double) particleGreen * 0.96D);
+        particleBlue = (float)((double) particleBlue * 0.9D);
+        motionX *= 0.699999988079071D;
+        motionY *= 0.699999988079071D;
+        motionZ *= 0.699999988079071D;
+        motionY -= 0.019999999552965164D;
 
-        if (this.onGround)
+        if (onGround)
         {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
+            motionX *= 0.699999988079071D;
+            motionZ *= 0.699999988079071D;
         }
     }
 

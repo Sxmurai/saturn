@@ -33,7 +33,7 @@ public class BlockBrewingStand extends BlockContainer
     public BlockBrewingStand()
     {
         super(Material.iron);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_BOTTLE[0], Boolean.valueOf(false)).withProperty(HAS_BOTTLE[1], Boolean.valueOf(false)).withProperty(HAS_BOTTLE[2], Boolean.valueOf(false)));
+        setDefaultState(blockState.getBaseState().withProperty(BlockBrewingStand.HAS_BOTTLE[0], Boolean.valueOf(false)).withProperty(BlockBrewingStand.HAS_BOTTLE[1], Boolean.valueOf(false)).withProperty(BlockBrewingStand.HAS_BOTTLE[2], Boolean.valueOf(false)));
     }
 
     /**
@@ -78,9 +78,9 @@ public class BlockBrewingStand extends BlockContainer
      */
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
     {
-        this.setBlockBounds(0.4375F, 0.0F, 0.4375F, 0.5625F, 0.875F, 0.5625F);
+        setBlockBounds(0.4375F, 0.0F, 0.4375F, 0.5625F, 0.875F, 0.5625F);
         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
-        this.setBlockBoundsForItemRender();
+        setBlockBoundsForItemRender();
         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
     }
 
@@ -89,7 +89,7 @@ public class BlockBrewingStand extends BlockContainer
      */
     public void setBlockBoundsForItemRender()
     {
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.125F, 1.0F);
     }
 
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
@@ -130,10 +130,10 @@ public class BlockBrewingStand extends BlockContainer
 
     public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        double d0 = (double)((float)pos.getX() + 0.4F + rand.nextFloat() * 0.2F);
-        double d1 = (double)((float)pos.getY() + 0.7F + rand.nextFloat() * 0.3F);
-        double d2 = (double)((float)pos.getZ() + 0.4F + rand.nextFloat() * 0.2F);
-        worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+        double d0 = (float)pos.getX() + 0.4F + rand.nextFloat() * 0.2F;
+        double d1 = (float)pos.getY() + 0.7F + rand.nextFloat() * 0.3F;
+        double d2 = (float)pos.getZ() + 0.4F + rand.nextFloat() * 0.2F;
+        worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }
 
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
@@ -181,11 +181,11 @@ public class BlockBrewingStand extends BlockContainer
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        IBlockState iblockstate = this.getDefaultState();
+        IBlockState iblockstate = getDefaultState();
 
         for (int i = 0; i < 3; ++i)
         {
-            iblockstate = iblockstate.withProperty(HAS_BOTTLE[i], Boolean.valueOf((meta & 1 << i) > 0));
+            iblockstate = iblockstate.withProperty(BlockBrewingStand.HAS_BOTTLE[i], Boolean.valueOf((meta & 1 << i) > 0));
         }
 
         return iblockstate;
@@ -200,7 +200,7 @@ public class BlockBrewingStand extends BlockContainer
 
         for (int j = 0; j < 3; ++j)
         {
-            if (((Boolean)state.getValue(HAS_BOTTLE[j])).booleanValue())
+            if (state.getValue(BlockBrewingStand.HAS_BOTTLE[j]).booleanValue())
             {
                 i |= 1 << j;
             }
@@ -211,6 +211,6 @@ public class BlockBrewingStand extends BlockContainer
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {HAS_BOTTLE[0], HAS_BOTTLE[1], HAS_BOTTLE[2]});
+        return new BlockState(this, BlockBrewingStand.HAS_BOTTLE[0], BlockBrewingStand.HAS_BOTTLE[1], BlockBrewingStand.HAS_BOTTLE[2]);
     }
 }

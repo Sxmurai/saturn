@@ -13,19 +13,19 @@ public class EntitySmallFireball extends EntityFireball
     public EntitySmallFireball(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.3125F, 0.3125F);
+        setSize(0.3125F, 0.3125F);
     }
 
     public EntitySmallFireball(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ)
     {
         super(worldIn, shooter, accelX, accelY, accelZ);
-        this.setSize(0.3125F, 0.3125F);
+        setSize(0.3125F, 0.3125F);
     }
 
     public EntitySmallFireball(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ)
     {
         super(worldIn, x, y, z, accelX, accelY, accelZ);
-        this.setSize(0.3125F, 0.3125F);
+        setSize(0.3125F, 0.3125F);
     }
 
     /**
@@ -33,15 +33,15 @@ public class EntitySmallFireball extends EntityFireball
      */
     protected void onImpact(MovingObjectPosition movingObject)
     {
-        if (!this.worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
             if (movingObject.entityHit != null)
             {
-                boolean flag = movingObject.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 5.0F);
+                boolean flag = movingObject.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, shootingEntity), 5.0F);
 
                 if (flag)
                 {
-                    this.applyEnchantments(this.shootingEntity, movingObject.entityHit);
+                    applyEnchantments(shootingEntity, movingObject.entityHit);
 
                     if (!movingObject.entityHit.isImmuneToFire())
                     {
@@ -53,23 +53,23 @@ public class EntitySmallFireball extends EntityFireball
             {
                 boolean flag1 = true;
 
-                if (this.shootingEntity != null && this.shootingEntity instanceof EntityLiving)
+                if (shootingEntity != null && shootingEntity instanceof EntityLiving)
                 {
-                    flag1 = this.worldObj.getGameRules().getBoolean("mobGriefing");
+                    flag1 = worldObj.getGameRules().getBoolean("mobGriefing");
                 }
 
                 if (flag1)
                 {
                     BlockPos blockpos = movingObject.getBlockPos().offset(movingObject.sideHit);
 
-                    if (this.worldObj.isAirBlock(blockpos))
+                    if (worldObj.isAirBlock(blockpos))
                     {
-                        this.worldObj.setBlockState(blockpos, Blocks.fire.getDefaultState());
+                        worldObj.setBlockState(blockpos, Blocks.fire.getDefaultState());
                     }
                 }
             }
 
-            this.setDead();
+            setDead();
         }
     }
 

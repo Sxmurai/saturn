@@ -17,8 +17,8 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
     private static final ResourceLocation textureTrapped = new ResourceLocation("textures/entity/chest/trapped.png");
     private static final ResourceLocation textureChristmas = new ResourceLocation("textures/entity/chest/christmas.png");
     private static final ResourceLocation textureNormal = new ResourceLocation("textures/entity/chest/normal.png");
-    private ModelChest simpleChest = new ModelChest();
-    private ModelChest largeChest = new ModelLargeChest();
+    private final ModelChest simpleChest = new ModelChest();
+    private final ModelChest largeChest = new ModelLargeChest();
     private boolean isChristams;
 
     public TileEntityChestRenderer()
@@ -27,7 +27,7 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
 
         if (calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26)
         {
-            this.isChristams = true;
+            isChristams = true;
         }
     }
 
@@ -62,11 +62,11 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
 
             if (te.adjacentChestXPos == null && te.adjacentChestZPos == null)
             {
-                modelchest = this.simpleChest;
+                modelchest = simpleChest;
 
                 if (destroyStage >= 0)
                 {
-                    this.bindTexture(DESTROY_STAGES[destroyStage]);
+                    bindTexture(TileEntitySpecialRenderer.DESTROY_STAGES[destroyStage]);
                     GlStateManager.matrixMode(5890);
                     GlStateManager.pushMatrix();
                     GlStateManager.scale(4.0F, 4.0F, 1.0F);
@@ -75,24 +75,24 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
                 }
                 else if (te.getChestType() == 1)
                 {
-                    this.bindTexture(textureTrapped);
+                    bindTexture(TileEntityChestRenderer.textureTrapped);
                 }
-                else if (this.isChristams)
+                else if (isChristams)
                 {
-                    this.bindTexture(textureChristmas);
+                    bindTexture(TileEntityChestRenderer.textureChristmas);
                 }
                 else
                 {
-                    this.bindTexture(textureNormal);
+                    bindTexture(TileEntityChestRenderer.textureNormal);
                 }
             }
             else
             {
-                modelchest = this.largeChest;
+                modelchest = largeChest;
 
                 if (destroyStage >= 0)
                 {
-                    this.bindTexture(DESTROY_STAGES[destroyStage]);
+                    bindTexture(TileEntitySpecialRenderer.DESTROY_STAGES[destroyStage]);
                     GlStateManager.matrixMode(5890);
                     GlStateManager.pushMatrix();
                     GlStateManager.scale(8.0F, 4.0F, 1.0F);
@@ -101,15 +101,15 @@ public class TileEntityChestRenderer extends TileEntitySpecialRenderer<TileEntit
                 }
                 else if (te.getChestType() == 1)
                 {
-                    this.bindTexture(textureTrappedDouble);
+                    bindTexture(TileEntityChestRenderer.textureTrappedDouble);
                 }
-                else if (this.isChristams)
+                else if (isChristams)
                 {
-                    this.bindTexture(textureChristmasDouble);
+                    bindTexture(TileEntityChestRenderer.textureChristmasDouble);
                 }
                 else
                 {
-                    this.bindTexture(textureNormalDouble);
+                    bindTexture(TileEntityChestRenderer.textureNormalDouble);
                 }
             }
 

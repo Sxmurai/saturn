@@ -9,9 +9,9 @@ public abstract class BaseAttribute implements IAttribute
 
     protected BaseAttribute(IAttribute p_i45892_1_, String unlocalizedNameIn, double defaultValueIn)
     {
-        this.field_180373_a = p_i45892_1_;
-        this.unlocalizedName = unlocalizedNameIn;
-        this.defaultValue = defaultValueIn;
+        field_180373_a = p_i45892_1_;
+        unlocalizedName = unlocalizedNameIn;
+        defaultValue = defaultValueIn;
 
         if (unlocalizedNameIn == null)
         {
@@ -21,37 +21,37 @@ public abstract class BaseAttribute implements IAttribute
 
     public String getAttributeUnlocalizedName()
     {
-        return this.unlocalizedName;
+        return unlocalizedName;
     }
 
     public double getDefaultValue()
     {
-        return this.defaultValue;
+        return defaultValue;
     }
 
     public boolean getShouldWatch()
     {
-        return this.shouldWatch;
+        return shouldWatch;
     }
 
     public BaseAttribute setShouldWatch(boolean shouldWatchIn)
     {
-        this.shouldWatch = shouldWatchIn;
+        shouldWatch = shouldWatchIn;
         return this;
     }
 
     public IAttribute func_180372_d()
     {
-        return this.field_180373_a;
+        return field_180373_a;
     }
 
     public int hashCode()
     {
-        return this.unlocalizedName.hashCode();
+        return unlocalizedName.hashCode();
     }
 
     public boolean equals(Object p_equals_1_)
     {
-        return p_equals_1_ instanceof IAttribute && this.unlocalizedName.equals(((IAttribute)p_equals_1_).getAttributeUnlocalizedName());
+        return p_equals_1_ instanceof IAttribute && unlocalizedName.equals(((IAttribute)p_equals_1_).getAttributeUnlocalizedName());
     }
 }

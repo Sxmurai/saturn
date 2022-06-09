@@ -10,9 +10,9 @@ public class ModelSign extends ModelBase
 
     public ModelSign()
     {
-        this.signBoard.addBox(-12.0F, -14.0F, -1.0F, 24, 12, 2, 0.0F);
-        this.signStick = new ModelRenderer(this, 0, 14);
-        this.signStick.addBox(-1.0F, -2.0F, -1.0F, 2, 14, 2, 0.0F);
+        signBoard.addBox(-12.0F, -14.0F, -1.0F, 24, 12, 2, 0.0F);
+        signStick = new ModelRenderer(this, 0, 14);
+        signStick.addBox(-1.0F, -2.0F, -1.0F, 2, 14, 2, 0.0F);
     }
 
     /**
@@ -20,7 +20,7 @@ public class ModelSign extends ModelBase
      */
     public void renderSign()
     {
-        this.signBoard.render(0.0625F);
-        this.signStick.render(0.0625F);
+        signBoard.render(0.0625F);
+        signStick.render(0.0625F);
     }
 }

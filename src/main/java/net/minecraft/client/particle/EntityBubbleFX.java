@@ -9,16 +9,16 @@ public class EntityBubbleFX extends EntityFX
     protected EntityBubbleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-        this.particleRed = 1.0F;
-        this.particleGreen = 1.0F;
-        this.particleBlue = 1.0F;
-        this.setParticleTextureIndex(32);
-        this.setSize(0.02F, 0.02F);
-        this.particleScale *= this.rand.nextFloat() * 0.6F + 0.2F;
-        this.motionX = xSpeedIn * 0.20000000298023224D + (Math.random() * 2.0D - 1.0D) * 0.019999999552965164D;
-        this.motionY = ySpeedIn * 0.20000000298023224D + (Math.random() * 2.0D - 1.0D) * 0.019999999552965164D;
-        this.motionZ = zSpeedIn * 0.20000000298023224D + (Math.random() * 2.0D - 1.0D) * 0.019999999552965164D;
-        this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
+        particleRed = 1.0F;
+        particleGreen = 1.0F;
+        particleBlue = 1.0F;
+        setParticleTextureIndex(32);
+        setSize(0.02F, 0.02F);
+        particleScale *= rand.nextFloat() * 0.6F + 0.2F;
+        motionX = xSpeedIn * 0.20000000298023224D + (Math.random() * 2.0D - 1.0D) * 0.019999999552965164D;
+        motionY = ySpeedIn * 0.20000000298023224D + (Math.random() * 2.0D - 1.0D) * 0.019999999552965164D;
+        motionZ = zSpeedIn * 0.20000000298023224D + (Math.random() * 2.0D - 1.0D) * 0.019999999552965164D;
+        particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
     }
 
     /**
@@ -26,23 +26,23 @@ public class EntityBubbleFX extends EntityFX
      */
     public void onUpdate()
     {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        this.motionY += 0.002D;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.8500000238418579D;
-        this.motionY *= 0.8500000238418579D;
-        this.motionZ *= 0.8500000238418579D;
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
+        motionY += 0.002D;
+        moveEntity(motionX, motionY, motionZ);
+        motionX *= 0.8500000238418579D;
+        motionY *= 0.8500000238418579D;
+        motionZ *= 0.8500000238418579D;
 
-        if (this.worldObj.getBlockState(new BlockPos(this)).getBlock().getMaterial() != Material.water)
+        if (worldObj.getBlockState(new BlockPos(this)).getBlock().getMaterial() != Material.water)
         {
-            this.setDead();
+            setDead();
         }
 
-        if (this.particleMaxAge-- <= 0)
+        if (particleMaxAge-- <= 0)
         {
-            this.setDead();
+            setDead();
         }
     }
 

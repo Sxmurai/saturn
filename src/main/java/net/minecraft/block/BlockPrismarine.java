@@ -15,7 +15,7 @@ import net.minecraft.util.StatCollector;
 
 public class BlockPrismarine extends Block
 {
-    public static final PropertyEnum<BlockPrismarine.EnumType> VARIANT = PropertyEnum.<BlockPrismarine.EnumType>create("variant", BlockPrismarine.EnumType.class);
+    public static final PropertyEnum<BlockPrismarine.EnumType> VARIANT = PropertyEnum.create("variant", BlockPrismarine.EnumType.class);
     public static final int ROUGH_META = BlockPrismarine.EnumType.ROUGH.getMetadata();
     public static final int BRICKS_META = BlockPrismarine.EnumType.BRICKS.getMetadata();
     public static final int DARK_META = BlockPrismarine.EnumType.DARK.getMetadata();
@@ -23,8 +23,8 @@ public class BlockPrismarine extends Block
     public BlockPrismarine()
     {
         super(Material.rock);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockPrismarine.EnumType.ROUGH));
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setDefaultState(blockState.getBaseState().withProperty(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.ROUGH));
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**
@@ -32,7 +32,7 @@ public class BlockPrismarine extends Block
      */
     public String getLocalizedName()
     {
-        return StatCollector.translateToLocal(this.getUnlocalizedName() + "." + BlockPrismarine.EnumType.ROUGH.getUnlocalizedName() + ".name");
+        return StatCollector.translateToLocal(getUnlocalizedName() + "." + BlockPrismarine.EnumType.ROUGH.getUnlocalizedName() + ".name");
     }
 
     /**
@@ -40,7 +40,7 @@ public class BlockPrismarine extends Block
      */
     public MapColor getMapColor(IBlockState state)
     {
-        return state.getValue(VARIANT) == BlockPrismarine.EnumType.ROUGH ? MapColor.cyanColor : MapColor.diamondColor;
+        return state.getValue(BlockPrismarine.VARIANT) == BlockPrismarine.EnumType.ROUGH ? MapColor.cyanColor : MapColor.diamondColor;
     }
 
     /**
@@ -49,7 +49,7 @@ public class BlockPrismarine extends Block
      */
     public int damageDropped(IBlockState state)
     {
-        return ((BlockPrismarine.EnumType)state.getValue(VARIANT)).getMetadata();
+        return state.getValue(BlockPrismarine.VARIANT).getMetadata();
     }
 
     /**
@@ -57,12 +57,12 @@ public class BlockPrismarine extends Block
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((BlockPrismarine.EnumType)state.getValue(VARIANT)).getMetadata();
+        return state.getValue(BlockPrismarine.VARIANT).getMetadata();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {VARIANT});
+        return new BlockState(this, BlockPrismarine.VARIANT);
     }
 
     /**
@@ -70,7 +70,7 @@ public class BlockPrismarine extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(VARIANT, BlockPrismarine.EnumType.byMetadata(meta));
+        return getDefaultState().withProperty(BlockPrismarine.VARIANT, BlockPrismarine.EnumType.byMetadata(meta));
     }
 
     /**
@@ -78,9 +78,9 @@ public class BlockPrismarine extends Block
      */
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list)
     {
-        list.add(new ItemStack(itemIn, 1, ROUGH_META));
-        list.add(new ItemStack(itemIn, 1, BRICKS_META));
-        list.add(new ItemStack(itemIn, 1, DARK_META));
+        list.add(new ItemStack(itemIn, 1, BlockPrismarine.ROUGH_META));
+        list.add(new ItemStack(itemIn, 1, BlockPrismarine.BRICKS_META));
+        list.add(new ItemStack(itemIn, 1, BlockPrismarine.DARK_META));
     }
 
     public static enum EnumType implements IStringSerializable
@@ -89,7 +89,7 @@ public class BlockPrismarine extends Block
         BRICKS(1, "prismarine_bricks", "bricks"),
         DARK(2, "dark_prismarine", "dark");
 
-        private static final BlockPrismarine.EnumType[] META_LOOKUP = new BlockPrismarine.EnumType[values().length];
+        private static final BlockPrismarine.EnumType[] META_LOOKUP = new BlockPrismarine.EnumType[EnumType.values().length];
         private final int meta;
         private final String name;
         private final String unlocalizedName;
@@ -103,38 +103,38 @@ public class BlockPrismarine extends Block
 
         public int getMetadata()
         {
-            return this.meta;
+            return meta;
         }
 
         public String toString()
         {
-            return this.name;
+            return name;
         }
 
         public static BlockPrismarine.EnumType byMetadata(int meta)
         {
-            if (meta < 0 || meta >= META_LOOKUP.length)
+            if (meta < 0 || meta >= EnumType.META_LOOKUP.length)
             {
                 meta = 0;
             }
 
-            return META_LOOKUP[meta];
+            return EnumType.META_LOOKUP[meta];
         }
 
         public String getName()
         {
-            return this.name;
+            return name;
         }
 
         public String getUnlocalizedName()
         {
-            return this.unlocalizedName;
+            return unlocalizedName;
         }
 
         static {
-            for (BlockPrismarine.EnumType blockprismarine$enumtype : values())
+            for (BlockPrismarine.EnumType blockprismarine$enumtype : EnumType.values())
             {
-                META_LOOKUP[blockprismarine$enumtype.getMetadata()] = blockprismarine$enumtype;
+                EnumType.META_LOOKUP[blockprismarine$enumtype.getMetadata()] = blockprismarine$enumtype;
             }
         }
     }

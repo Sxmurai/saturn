@@ -85,35 +85,35 @@ public class IngestServerTester
         }
         public void startCallback(ErrorCode p_startCallback_1_)
         {
-            IngestServerTester.this.field_176008_y = false;
+            field_176008_y = false;
 
             if (ErrorCode.succeeded(p_startCallback_1_))
             {
-                IngestServerTester.this.field_176009_x = true;
-                IngestServerTester.this.field_153054_l = System.currentTimeMillis();
-                IngestServerTester.this.func_153034_a(IngestServerTester.IngestTestState.ConnectingToServer);
+                field_176009_x = true;
+                field_153054_l = System.currentTimeMillis();
+                func_153034_a(IngestServerTester.IngestTestState.ConnectingToServer);
             }
             else
             {
-                IngestServerTester.this.field_153056_n = false;
-                IngestServerTester.this.func_153034_a(IngestServerTester.IngestTestState.DoneTestingServer);
+                field_153056_n = false;
+                func_153034_a(IngestServerTester.IngestTestState.DoneTestingServer);
             }
         }
         public void stopCallback(ErrorCode p_stopCallback_1_)
         {
             if (ErrorCode.failed(p_stopCallback_1_))
             {
-                System.out.println("IngestTester.stopCallback failed to stop - " + IngestServerTester.this.field_153059_q.serverName + ": " + p_stopCallback_1_.toString());
+                System.out.println("IngestTester.stopCallback failed to stop - " + field_153059_q.serverName + ": " + p_stopCallback_1_);
             }
 
-            IngestServerTester.this.field_176007_z = false;
-            IngestServerTester.this.field_176009_x = false;
-            IngestServerTester.this.func_153034_a(IngestServerTester.IngestTestState.DoneTestingServer);
-            IngestServerTester.this.field_153059_q = null;
+            field_176007_z = false;
+            field_176009_x = false;
+            func_153034_a(IngestServerTester.IngestTestState.DoneTestingServer);
+            field_153059_q = null;
 
-            if (IngestServerTester.this.field_153060_r)
+            if (field_153060_r)
             {
-                IngestServerTester.this.func_153034_a(IngestServerTester.IngestTestState.Cancelling);
+                func_153034_a(IngestServerTester.IngestTestState.Cancelling);
             }
         }
         public void sendActionMetaDataCallback(ErrorCode p_sendActionMetaDataCallback_1_)
@@ -133,137 +133,137 @@ public class IngestServerTester
             switch (p_statCallback_1_)
             {
                 case TTV_ST_RTMPSTATE:
-                    IngestServerTester.this.field_153051_i = RTMPState.lookupValue((int)p_statCallback_2_);
+                    field_153051_i = RTMPState.lookupValue((int)p_statCallback_2_);
                     break;
 
                 case TTV_ST_RTMPDATASENT:
-                    IngestServerTester.this.field_153050_h = p_statCallback_2_;
+                    field_153050_h = p_statCallback_2_;
             }
         }
     };
 
     public void func_153042_a(IngestServerTester.IngestTestListener p_153042_1_)
     {
-        this.field_153044_b = p_153042_1_;
+        field_153044_b = p_153042_1_;
     }
 
     public IngestServer func_153040_c()
     {
-        return this.field_153059_q;
+        return field_153059_q;
     }
 
     public int func_153028_p()
     {
-        return this.field_153062_t;
+        return field_153062_t;
     }
 
     public boolean func_153032_e()
     {
-        return this.field_153047_e == IngestServerTester.IngestTestState.Finished || this.field_153047_e == IngestServerTester.IngestTestState.Cancelled || this.field_153047_e == IngestServerTester.IngestTestState.Failed;
+        return field_153047_e == IngestServerTester.IngestTestState.Finished || field_153047_e == IngestServerTester.IngestTestState.Cancelled || field_153047_e == IngestServerTester.IngestTestState.Failed;
     }
 
     public float func_153030_h()
     {
-        return this.field_153066_x;
+        return field_153066_x;
     }
 
     public IngestServerTester(Stream p_i1019_1_, IngestList p_i1019_2_)
     {
-        this.field_153045_c = p_i1019_1_;
-        this.field_153046_d = p_i1019_2_;
+        field_153045_c = p_i1019_1_;
+        field_153046_d = p_i1019_2_;
     }
 
     public void func_176004_j()
     {
-        if (this.field_153047_e == IngestServerTester.IngestTestState.Uninitalized)
+        if (field_153047_e == IngestServerTester.IngestTestState.Uninitalized)
         {
-            this.field_153062_t = 0;
-            this.field_153060_r = false;
-            this.field_153061_s = false;
-            this.field_176009_x = false;
-            this.field_176008_y = false;
-            this.field_176007_z = false;
-            this.field_153058_p = this.field_153045_c.getStatCallbacks();
-            this.field_153045_c.setStatCallbacks(this.field_176006_B);
-            this.field_153057_o = this.field_153045_c.getStreamCallbacks();
-            this.field_153045_c.setStreamCallbacks(this.field_176005_A);
-            this.field_153052_j = new VideoParams();
-            this.field_153052_j.targetFps = 60;
-            this.field_153052_j.maxKbps = 3500;
-            this.field_153052_j.outputWidth = 1280;
-            this.field_153052_j.outputHeight = 720;
-            this.field_153052_j.pixelFormat = PixelFormat.TTV_PF_BGRA;
-            this.field_153052_j.encodingCpuUsage = EncodingCpuUsage.TTV_ECU_HIGH;
-            this.field_153052_j.disableAdaptiveBitrate = true;
-            this.field_153052_j.verticalFlip = false;
-            this.field_153045_c.getDefaultParams(this.field_153052_j);
-            this.audioParameters = new AudioParams();
-            this.audioParameters.audioEnabled = false;
-            this.audioParameters.enableMicCapture = false;
-            this.audioParameters.enablePlaybackCapture = false;
-            this.audioParameters.enablePassthroughAudio = false;
-            this.field_153055_m = Lists.<FrameBuffer>newArrayList();
+            field_153062_t = 0;
+            field_153060_r = false;
+            field_153061_s = false;
+            field_176009_x = false;
+            field_176008_y = false;
+            field_176007_z = false;
+            field_153058_p = field_153045_c.getStatCallbacks();
+            field_153045_c.setStatCallbacks(field_176006_B);
+            field_153057_o = field_153045_c.getStreamCallbacks();
+            field_153045_c.setStreamCallbacks(field_176005_A);
+            field_153052_j = new VideoParams();
+            field_153052_j.targetFps = 60;
+            field_153052_j.maxKbps = 3500;
+            field_153052_j.outputWidth = 1280;
+            field_153052_j.outputHeight = 720;
+            field_153052_j.pixelFormat = PixelFormat.TTV_PF_BGRA;
+            field_153052_j.encodingCpuUsage = EncodingCpuUsage.TTV_ECU_HIGH;
+            field_153052_j.disableAdaptiveBitrate = true;
+            field_153052_j.verticalFlip = false;
+            field_153045_c.getDefaultParams(field_153052_j);
+            audioParameters = new AudioParams();
+            audioParameters.audioEnabled = false;
+            audioParameters.enableMicCapture = false;
+            audioParameters.enablePlaybackCapture = false;
+            audioParameters.enablePassthroughAudio = false;
+            field_153055_m = Lists.newArrayList();
             int i = 3;
 
             for (int j = 0; j < i; ++j)
             {
-                FrameBuffer framebuffer = this.field_153045_c.allocateFrameBuffer(this.field_153052_j.outputWidth * this.field_153052_j.outputHeight * 4);
+                FrameBuffer framebuffer = field_153045_c.allocateFrameBuffer(field_153052_j.outputWidth * field_153052_j.outputHeight * 4);
 
                 if (!framebuffer.getIsValid())
                 {
-                    this.func_153031_o();
-                    this.func_153034_a(IngestServerTester.IngestTestState.Failed);
+                    func_153031_o();
+                    func_153034_a(IngestServerTester.IngestTestState.Failed);
                     return;
                 }
 
-                this.field_153055_m.add(framebuffer);
-                this.field_153045_c.randomizeFrameBuffer(framebuffer);
+                field_153055_m.add(framebuffer);
+                field_153045_c.randomizeFrameBuffer(framebuffer);
             }
 
-            this.func_153034_a(IngestServerTester.IngestTestState.Starting);
-            this.field_153054_l = System.currentTimeMillis();
+            func_153034_a(IngestServerTester.IngestTestState.Starting);
+            field_153054_l = System.currentTimeMillis();
         }
     }
 
     @SuppressWarnings("incomplete-switch")
     public void func_153041_j()
     {
-        if (!this.func_153032_e() && this.field_153047_e != IngestServerTester.IngestTestState.Uninitalized)
+        if (!func_153032_e() && field_153047_e != IngestServerTester.IngestTestState.Uninitalized)
         {
-            if (!this.field_176008_y && !this.field_176007_z)
+            if (!field_176008_y && !field_176007_z)
             {
-                switch (this.field_153047_e)
+                switch (field_153047_e)
                 {
                     case Starting:
                     case DoneTestingServer:
-                        if (this.field_153059_q != null)
+                        if (field_153059_q != null)
                         {
-                            if (this.field_153061_s || !this.field_153056_n)
+                            if (field_153061_s || !field_153056_n)
                             {
-                                this.field_153059_q.bitrateKbps = 0.0F;
+                                field_153059_q.bitrateKbps = 0.0F;
                             }
 
-                            this.func_153035_b(this.field_153059_q);
+                            func_153035_b(field_153059_q);
                         }
                         else
                         {
-                            this.field_153054_l = 0L;
-                            this.field_153061_s = false;
-                            this.field_153056_n = true;
+                            field_153054_l = 0L;
+                            field_153061_s = false;
+                            field_153056_n = true;
 
-                            if (this.field_153047_e != IngestServerTester.IngestTestState.Starting)
+                            if (field_153047_e != IngestServerTester.IngestTestState.Starting)
                             {
-                                ++this.field_153062_t;
+                                ++field_153062_t;
                             }
 
-                            if (this.field_153062_t < this.field_153046_d.getServers().length)
+                            if (field_153062_t < field_153046_d.getServers().length)
                             {
-                                this.field_153059_q = this.field_153046_d.getServers()[this.field_153062_t];
-                                this.func_153036_a(this.field_153059_q);
+                                field_153059_q = field_153046_d.getServers()[field_153062_t];
+                                func_153036_a(field_153059_q);
                             }
                             else
                             {
-                                this.func_153034_a(IngestServerTester.IngestTestState.Finished);
+                                func_153034_a(IngestServerTester.IngestTestState.Finished);
                             }
                         }
 
@@ -271,18 +271,18 @@ public class IngestServerTester
 
                     case ConnectingToServer:
                     case TestingServer:
-                        this.func_153029_c(this.field_153059_q);
+                        func_153029_c(field_153059_q);
                         break;
 
                     case Cancelling:
-                        this.func_153034_a(IngestServerTester.IngestTestState.Cancelled);
+                        func_153034_a(IngestServerTester.IngestTestState.Cancelled);
                 }
 
-                this.func_153038_n();
+                func_153038_n();
 
-                if (this.field_153047_e == IngestServerTester.IngestTestState.Cancelled || this.field_153047_e == IngestServerTester.IngestTestState.Finished)
+                if (field_153047_e == IngestServerTester.IngestTestState.Cancelled || field_153047_e == IngestServerTester.IngestTestState.Finished)
                 {
-                    this.func_153031_o();
+                    func_153031_o();
                 }
             }
         }
@@ -290,78 +290,78 @@ public class IngestServerTester
 
     public void func_153039_l()
     {
-        if (!this.func_153032_e() && !this.field_153060_r)
+        if (!func_153032_e() && !field_153060_r)
         {
-            this.field_153060_r = true;
+            field_153060_r = true;
 
-            if (this.field_153059_q != null)
+            if (field_153059_q != null)
             {
-                this.field_153059_q.bitrateKbps = 0.0F;
+                field_153059_q.bitrateKbps = 0.0F;
             }
         }
     }
 
     protected boolean func_153036_a(IngestServer p_153036_1_)
     {
-        this.field_153056_n = true;
-        this.field_153050_h = 0L;
-        this.field_153051_i = RTMPState.Idle;
-        this.field_153059_q = p_153036_1_;
-        this.field_176008_y = true;
-        this.func_153034_a(IngestServerTester.IngestTestState.ConnectingToServer);
-        ErrorCode errorcode = this.field_153045_c.start(this.field_153052_j, this.audioParameters, p_153036_1_, StartFlags.TTV_Start_BandwidthTest, true);
+        field_153056_n = true;
+        field_153050_h = 0L;
+        field_153051_i = RTMPState.Idle;
+        field_153059_q = p_153036_1_;
+        field_176008_y = true;
+        func_153034_a(IngestServerTester.IngestTestState.ConnectingToServer);
+        ErrorCode errorcode = field_153045_c.start(field_153052_j, audioParameters, p_153036_1_, StartFlags.TTV_Start_BandwidthTest, true);
 
         if (ErrorCode.failed(errorcode))
         {
-            this.field_176008_y = false;
-            this.field_153056_n = false;
-            this.func_153034_a(IngestServerTester.IngestTestState.DoneTestingServer);
+            field_176008_y = false;
+            field_153056_n = false;
+            func_153034_a(IngestServerTester.IngestTestState.DoneTestingServer);
             return false;
         }
         else
         {
-            this.field_153064_v = this.field_153050_h;
+            field_153064_v = field_153050_h;
             p_153036_1_.bitrateKbps = 0.0F;
-            this.field_153063_u = 0;
+            field_153063_u = 0;
             return true;
         }
     }
 
     protected void func_153035_b(IngestServer p_153035_1_)
     {
-        if (this.field_176008_y)
+        if (field_176008_y)
         {
-            this.field_153061_s = true;
+            field_153061_s = true;
         }
-        else if (this.field_176009_x)
+        else if (field_176009_x)
         {
-            this.field_176007_z = true;
-            ErrorCode errorcode = this.field_153045_c.stop(true);
+            field_176007_z = true;
+            ErrorCode errorcode = field_153045_c.stop(true);
 
             if (ErrorCode.failed(errorcode))
             {
-                this.field_176005_A.stopCallback(ErrorCode.TTV_EC_SUCCESS);
-                System.out.println("Stop failed: " + errorcode.toString());
+                field_176005_A.stopCallback(ErrorCode.TTV_EC_SUCCESS);
+                System.out.println("Stop failed: " + errorcode);
             }
 
-            this.field_153045_c.pollStats();
+            field_153045_c.pollStats();
         }
         else
         {
-            this.field_176005_A.stopCallback(ErrorCode.TTV_EC_SUCCESS);
+            field_176005_A.stopCallback(ErrorCode.TTV_EC_SUCCESS);
         }
     }
 
     protected long func_153037_m()
     {
-        return System.currentTimeMillis() - this.field_153054_l;
+        return System.currentTimeMillis() - field_153054_l;
     }
 
     protected void func_153038_n()
     {
-        float f = (float)this.func_153037_m();
+        float f = (float) func_153037_m();
 
-        switch (this.field_153047_e)
+        switch (field_153047_e)
         {
             case Starting:
             case ConnectingToServer:
@@ -369,61 +369,61 @@ public class IngestServerTester
             case Finished:
             case Cancelled:
             case Failed:
-                this.field_153066_x = 0.0F;
+                field_153066_x = 0.0F;
                 break;
 
             case DoneTestingServer:
-                this.field_153066_x = 1.0F;
+                field_153066_x = 1.0F;
                 break;
 
             case TestingServer:
             case Cancelling:
             default:
-                this.field_153066_x = f / (float)this.field_153048_f;
+                field_153066_x = f / (float) field_153048_f;
         }
 
-        switch (this.field_153047_e)
+        switch (field_153047_e)
         {
             case Finished:
             case Cancelled:
             case Failed:
-                this.field_153065_w = 1.0F;
+                field_153065_w = 1.0F;
                 break;
 
             default:
-                this.field_153065_w = (float)this.field_153062_t / (float)this.field_153046_d.getServers().length;
-                this.field_153065_w += this.field_153066_x / (float)this.field_153046_d.getServers().length;
+                field_153065_w = (float) field_153062_t / (float) field_153046_d.getServers().length;
+                field_153065_w += field_153066_x / (float) field_153046_d.getServers().length;
         }
     }
 
     protected boolean func_153029_c(IngestServer p_153029_1_)
     {
-        if (!this.field_153061_s && !this.field_153060_r && this.func_153037_m() < this.field_153048_f)
+        if (!field_153061_s && !field_153060_r && func_153037_m() < field_153048_f)
         {
-            if (!this.field_176008_y && !this.field_176007_z)
+            if (!field_176008_y && !field_176007_z)
             {
-                ErrorCode errorcode = this.field_153045_c.submitVideoFrame((FrameBuffer)this.field_153055_m.get(this.field_153063_u));
+                ErrorCode errorcode = field_153045_c.submitVideoFrame(field_153055_m.get(field_153063_u));
 
                 if (ErrorCode.failed(errorcode))
                 {
-                    this.field_153056_n = false;
-                    this.func_153034_a(IngestServerTester.IngestTestState.DoneTestingServer);
+                    field_153056_n = false;
+                    func_153034_a(IngestServerTester.IngestTestState.DoneTestingServer);
                     return false;
                 }
                 else
                 {
-                    this.field_153063_u = (this.field_153063_u + 1) % this.field_153055_m.size();
-                    this.field_153045_c.pollStats();
+                    field_153063_u = (field_153063_u + 1) % field_153055_m.size();
+                    field_153045_c.pollStats();
 
-                    if (this.field_153051_i == RTMPState.SendVideo)
+                    if (field_153051_i == RTMPState.SendVideo)
                     {
-                        this.func_153034_a(IngestServerTester.IngestTestState.TestingServer);
-                        long i = this.func_153037_m();
+                        func_153034_a(IngestServerTester.IngestTestState.TestingServer);
+                        long i = func_153037_m();
 
-                        if (i > 0L && this.field_153050_h > this.field_153064_v)
+                        if (i > 0L && field_153050_h > field_153064_v)
                         {
-                            p_153029_1_.bitrateKbps = (float)(this.field_153050_h * 8L) / (float)this.func_153037_m();
-                            this.field_153064_v = this.field_153050_h;
+                            p_153029_1_.bitrateKbps = (float)(field_153050_h * 8L) / (float) func_153037_m();
+                            field_153064_v = field_153050_h;
                         }
                     }
 
@@ -437,47 +437,47 @@ public class IngestServerTester
         }
         else
         {
-            this.func_153034_a(IngestServerTester.IngestTestState.DoneTestingServer);
+            func_153034_a(IngestServerTester.IngestTestState.DoneTestingServer);
             return true;
         }
     }
 
     protected void func_153031_o()
     {
-        this.field_153059_q = null;
+        field_153059_q = null;
 
-        if (this.field_153055_m != null)
+        if (field_153055_m != null)
         {
-            for (int i = 0; i < this.field_153055_m.size(); ++i)
+            for (int i = 0; i < field_153055_m.size(); ++i)
             {
-                ((FrameBuffer)this.field_153055_m.get(i)).free();
+                field_153055_m.get(i).free();
             }
 
-            this.field_153055_m = null;
+            field_153055_m = null;
         }
 
-        if (this.field_153045_c.getStatCallbacks() == this.field_176006_B)
+        if (field_153045_c.getStatCallbacks() == field_176006_B)
         {
-            this.field_153045_c.setStatCallbacks(this.field_153058_p);
-            this.field_153058_p = null;
+            field_153045_c.setStatCallbacks(field_153058_p);
+            field_153058_p = null;
         }
 
-        if (this.field_153045_c.getStreamCallbacks() == this.field_176005_A)
+        if (field_153045_c.getStreamCallbacks() == field_176005_A)
         {
-            this.field_153045_c.setStreamCallbacks(this.field_153057_o);
-            this.field_153057_o = null;
+            field_153045_c.setStreamCallbacks(field_153057_o);
+            field_153057_o = null;
         }
     }
 
     protected void func_153034_a(IngestServerTester.IngestTestState p_153034_1_)
     {
-        if (p_153034_1_ != this.field_153047_e)
+        if (p_153034_1_ != field_153047_e)
         {
-            this.field_153047_e = p_153034_1_;
+            field_153047_e = p_153034_1_;
 
-            if (this.field_153044_b != null)
+            if (field_153044_b != null)
             {
-                this.field_153044_b.func_152907_a(this, p_153034_1_);
+                field_153044_b.func_152907_a(this, p_153034_1_);
             }
         }
     }
@@ -497,6 +497,6 @@ public class IngestServerTester
         Finished,
         Cancelling,
         Cancelled,
-        Failed;
+        Failed
     }
 }

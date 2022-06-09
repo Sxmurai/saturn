@@ -25,16 +25,16 @@ public class S2DPacketOpenWindow implements Packet<INetHandlerPlayClient>
 
     public S2DPacketOpenWindow(int windowIdIn, String guiId, IChatComponent windowTitleIn, int slotCountIn)
     {
-        this.windowId = windowIdIn;
-        this.inventoryType = guiId;
-        this.windowTitle = windowTitleIn;
-        this.slotCount = slotCountIn;
+        windowId = windowIdIn;
+        inventoryType = guiId;
+        windowTitle = windowTitleIn;
+        slotCount = slotCountIn;
     }
 
     public S2DPacketOpenWindow(int windowIdIn, String guiId, IChatComponent windowTitleIn, int slotCountIn, int incomingEntityId)
     {
         this(windowIdIn, guiId, windowTitleIn, slotCountIn);
-        this.entityId = incomingEntityId;
+        entityId = incomingEntityId;
     }
 
     /**
@@ -50,14 +50,14 @@ public class S2DPacketOpenWindow implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.windowId = buf.readUnsignedByte();
-        this.inventoryType = buf.readStringFromBuffer(32);
-        this.windowTitle = buf.readChatComponent();
-        this.slotCount = buf.readUnsignedByte();
+        windowId = buf.readUnsignedByte();
+        inventoryType = buf.readStringFromBuffer(32);
+        windowTitle = buf.readChatComponent();
+        slotCount = buf.readUnsignedByte();
 
-        if (this.inventoryType.equals("EntityHorse"))
+        if (inventoryType.equals("EntityHorse"))
         {
-            this.entityId = buf.readInt();
+            entityId = buf.readInt();
         }
     }
 
@@ -66,44 +66,44 @@ public class S2DPacketOpenWindow implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeByte(this.windowId);
-        buf.writeString(this.inventoryType);
-        buf.writeChatComponent(this.windowTitle);
-        buf.writeByte(this.slotCount);
+        buf.writeByte(windowId);
+        buf.writeString(inventoryType);
+        buf.writeChatComponent(windowTitle);
+        buf.writeByte(slotCount);
 
-        if (this.inventoryType.equals("EntityHorse"))
+        if (inventoryType.equals("EntityHorse"))
         {
-            buf.writeInt(this.entityId);
+            buf.writeInt(entityId);
         }
     }
 
     public int getWindowId()
     {
-        return this.windowId;
+        return windowId;
     }
 
     public String getGuiId()
     {
-        return this.inventoryType;
+        return inventoryType;
     }
 
     public IChatComponent getWindowTitle()
     {
-        return this.windowTitle;
+        return windowTitle;
     }
 
     public int getSlotCount()
     {
-        return this.slotCount;
+        return slotCount;
     }
 
     public int getEntityId()
     {
-        return this.entityId;
+        return entityId;
     }
 
     public boolean hasSlots()
     {
-        return this.slotCount > 0;
+        return slotCount > 0;
     }
 }

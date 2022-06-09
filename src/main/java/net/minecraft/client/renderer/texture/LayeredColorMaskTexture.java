@@ -26,19 +26,19 @@ public class LayeredColorMaskTexture extends AbstractTexture
 
     public LayeredColorMaskTexture(ResourceLocation textureLocationIn, List<String> p_i46101_2_, List<EnumDyeColor> p_i46101_3_)
     {
-        this.textureLocation = textureLocationIn;
-        this.field_174949_h = p_i46101_2_;
-        this.field_174950_i = p_i46101_3_;
+        textureLocation = textureLocationIn;
+        field_174949_h = p_i46101_2_;
+        field_174950_i = p_i46101_3_;
     }
 
     public void loadTexture(IResourceManager resourceManager) throws IOException
     {
-        this.deleteGlTexture();
+        deleteGlTexture();
         BufferedImage bufferedimage;
 
         try
         {
-            BufferedImage bufferedimage1 = TextureUtil.readBufferedImage(resourceManager.getResource(this.textureLocation).getInputStream());
+            BufferedImage bufferedimage1 = TextureUtil.readBufferedImage(resourceManager.getResource(textureLocation).getInputStream());
             int i = bufferedimage1.getType();
 
             if (i == 0)
@@ -48,12 +48,12 @@ public class LayeredColorMaskTexture extends AbstractTexture
 
             bufferedimage = new BufferedImage(bufferedimage1.getWidth(), bufferedimage1.getHeight(), i);
             Graphics graphics = bufferedimage.getGraphics();
-            graphics.drawImage(bufferedimage1, 0, 0, (ImageObserver)null);
+            graphics.drawImage(bufferedimage1, 0, 0, null);
 
-            for (int j = 0; j < 17 && j < this.field_174949_h.size() && j < this.field_174950_i.size(); ++j)
+            for (int j = 0; j < 17 && j < field_174949_h.size() && j < field_174950_i.size(); ++j)
             {
-                String s = (String)this.field_174949_h.get(j);
-                MapColor mapcolor = ((EnumDyeColor)this.field_174950_i.get(j)).getMapColor();
+                String s = field_174949_h.get(j);
+                MapColor mapcolor = field_174950_i.get(j).getMapColor();
 
                 if (s != null)
                 {
@@ -78,17 +78,17 @@ public class LayeredColorMaskTexture extends AbstractTexture
                             }
                         }
 
-                        bufferedimage.getGraphics().drawImage(bufferedimage2, 0, 0, (ImageObserver)null);
+                        bufferedimage.getGraphics().drawImage(bufferedimage2, 0, 0, null);
                     }
                 }
             }
         }
         catch (IOException ioexception)
         {
-            LOG.error((String)"Couldn\'t load layered image", (Throwable)ioexception);
+            LayeredColorMaskTexture.LOG.error("Couldn't load layered image", ioexception);
             return;
         }
 
-        TextureUtil.uploadTextureImage(this.getGlTextureId(), bufferedimage);
+        TextureUtil.uploadTextureImage(getGlTextureId(), bufferedimage);
     }
 }

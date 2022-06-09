@@ -21,10 +21,10 @@ public class S10PacketSpawnPainting implements Packet<INetHandlerPlayClient>
 
     public S10PacketSpawnPainting(EntityPainting painting)
     {
-        this.entityID = painting.getEntityId();
-        this.position = painting.getHangingPosition();
-        this.facing = painting.facingDirection;
-        this.title = painting.art.title;
+        entityID = painting.getEntityId();
+        position = painting.getHangingPosition();
+        facing = painting.facingDirection;
+        title = painting.art.title;
     }
 
     /**
@@ -32,10 +32,10 @@ public class S10PacketSpawnPainting implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityID = buf.readVarIntFromBuffer();
-        this.title = buf.readStringFromBuffer(EntityPainting.EnumArt.field_180001_A);
-        this.position = buf.readBlockPos();
-        this.facing = EnumFacing.getHorizontal(buf.readUnsignedByte());
+        entityID = buf.readVarIntFromBuffer();
+        title = buf.readStringFromBuffer(EntityPainting.EnumArt.field_180001_A);
+        position = buf.readBlockPos();
+        facing = EnumFacing.getHorizontal(buf.readUnsignedByte());
     }
 
     /**
@@ -43,10 +43,10 @@ public class S10PacketSpawnPainting implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityID);
-        buf.writeString(this.title);
-        buf.writeBlockPos(this.position);
-        buf.writeByte(this.facing.getHorizontalIndex());
+        buf.writeVarIntToBuffer(entityID);
+        buf.writeString(title);
+        buf.writeBlockPos(position);
+        buf.writeByte(facing.getHorizontalIndex());
     }
 
     /**
@@ -59,21 +59,21 @@ public class S10PacketSpawnPainting implements Packet<INetHandlerPlayClient>
 
     public int getEntityID()
     {
-        return this.entityID;
+        return entityID;
     }
 
     public BlockPos getPosition()
     {
-        return this.position;
+        return position;
     }
 
     public EnumFacing getFacing()
     {
-        return this.facing;
+        return facing;
     }
 
     public String getTitle()
     {
-        return this.title;
+        return title;
     }
 }

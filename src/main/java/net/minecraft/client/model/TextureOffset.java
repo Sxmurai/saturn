@@ -10,7 +10,7 @@ public class TextureOffset
 
     public TextureOffset(int textureOffsetXIn, int textureOffsetYIn)
     {
-        this.textureOffsetX = textureOffsetXIn;
-        this.textureOffsetY = textureOffsetYIn;
+        textureOffsetX = textureOffsetXIn;
+        textureOffsetY = textureOffsetYIn;
     }
 }

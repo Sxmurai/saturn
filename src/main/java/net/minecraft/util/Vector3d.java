@@ -8,6 +8,6 @@ public class Vector3d
 
     public Vector3d()
     {
-        this.field_181059_a = this.field_181060_b = this.field_181061_c = 0.0D;
+        field_181059_a = field_181060_b = field_181061_c = 0.0D;
     }
 }

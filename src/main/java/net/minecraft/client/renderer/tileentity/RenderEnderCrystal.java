@@ -12,12 +12,12 @@ import net.minecraft.util.ResourceLocation;
 public class RenderEnderCrystal extends Render<EntityEnderCrystal>
 {
     private static final ResourceLocation enderCrystalTextures = new ResourceLocation("textures/entity/endercrystal/endercrystal.png");
-    private ModelBase modelEnderCrystal = new ModelEnderCrystal(0.0F, true);
+    private final ModelBase modelEnderCrystal = new ModelEnderCrystal(0.0F, true);
 
     public RenderEnderCrystal(RenderManager renderManagerIn)
     {
         super(renderManagerIn);
-        this.shadowSize = 0.5F;
+        shadowSize = 0.5F;
     }
 
     /**
@@ -31,10 +31,10 @@ public class RenderEnderCrystal extends Render<EntityEnderCrystal>
         float f = (float)entity.innerRotation + partialTicks;
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)x, (float)y, (float)z);
-        this.bindTexture(enderCrystalTextures);
+        bindTexture(RenderEnderCrystal.enderCrystalTextures);
         float f1 = MathHelper.sin(f * 0.2F) / 2.0F + 0.5F;
         f1 = f1 * f1 + f1;
-        this.modelEnderCrystal.render(entity, 0.0F, f * 3.0F, f1 * 0.2F, 0.0F, 0.0F, 0.0625F);
+        modelEnderCrystal.render(entity, 0.0F, f * 3.0F, f1 * 0.2F, 0.0F, 0.0F, 0.0625F);
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
@@ -44,6 +44,6 @@ public class RenderEnderCrystal extends Render<EntityEnderCrystal>
      */
     protected ResourceLocation getEntityTexture(EntityEnderCrystal entity)
     {
-        return enderCrystalTextures;
+        return RenderEnderCrystal.enderCrystalTextures;
     }
 }

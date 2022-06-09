@@ -29,12 +29,12 @@ public final class WorldSettings
 
     public WorldSettings(long seedIn, WorldSettings.GameType gameType, boolean enableMapFeatures, boolean hardcoreMode, WorldType worldTypeIn)
     {
-        this.worldName = "";
-        this.seed = seedIn;
-        this.theGameType = gameType;
-        this.mapFeaturesEnabled = enableMapFeatures;
-        this.hardcoreEnabled = hardcoreMode;
-        this.terrainType = worldTypeIn;
+        worldName = "";
+        seed = seedIn;
+        theGameType = gameType;
+        mapFeaturesEnabled = enableMapFeatures;
+        hardcoreEnabled = hardcoreMode;
+        terrainType = worldTypeIn;
     }
 
     public WorldSettings(WorldInfo info)
@@ -47,7 +47,7 @@ public final class WorldSettings
      */
     public WorldSettings enableBonusChest()
     {
-        this.bonusChestEnabled = true;
+        bonusChestEnabled = true;
         return this;
     }
 
@@ -56,13 +56,13 @@ public final class WorldSettings
      */
     public WorldSettings enableCommands()
     {
-        this.commandsAllowed = true;
+        commandsAllowed = true;
         return this;
     }
 
     public WorldSettings setWorldName(String name)
     {
-        this.worldName = name;
+        worldName = name;
         return this;
     }
 
@@ -71,7 +71,7 @@ public final class WorldSettings
      */
     public boolean isBonusChestEnabled()
     {
-        return this.bonusChestEnabled;
+        return bonusChestEnabled;
     }
 
     /**
@@ -79,7 +79,7 @@ public final class WorldSettings
      */
     public long getSeed()
     {
-        return this.seed;
+        return seed;
     }
 
     /**
@@ -87,7 +87,7 @@ public final class WorldSettings
      */
     public WorldSettings.GameType getGameType()
     {
-        return this.theGameType;
+        return theGameType;
     }
 
     /**
@@ -95,7 +95,7 @@ public final class WorldSettings
      */
     public boolean getHardcoreEnabled()
     {
-        return this.hardcoreEnabled;
+        return hardcoreEnabled;
     }
 
     /**
@@ -103,12 +103,12 @@ public final class WorldSettings
      */
     public boolean isMapFeaturesEnabled()
     {
-        return this.mapFeaturesEnabled;
+        return mapFeaturesEnabled;
     }
 
     public WorldType getTerrainType()
     {
-        return this.terrainType;
+        return terrainType;
     }
 
     /**
@@ -116,7 +116,7 @@ public final class WorldSettings
      */
     public boolean areCommandsAllowed()
     {
-        return this.commandsAllowed;
+        return commandsAllowed;
     }
 
     /**
@@ -129,7 +129,7 @@ public final class WorldSettings
 
     public String getWorldName()
     {
-        return this.worldName;
+        return worldName;
     }
 
     public static enum GameType
@@ -145,29 +145,29 @@ public final class WorldSettings
 
         private GameType(int typeId, String nameIn)
         {
-            this.id = typeId;
-            this.name = nameIn;
+            id = typeId;
+            name = nameIn;
         }
 
         public int getID()
         {
-            return this.id;
+            return id;
         }
 
         public String getName()
         {
-            return this.name;
+            return name;
         }
 
         public void configurePlayerCapabilities(PlayerCapabilities capabilities)
         {
-            if (this == CREATIVE)
+            if (this == GameType.CREATIVE)
             {
                 capabilities.allowFlying = true;
                 capabilities.isCreativeMode = true;
                 capabilities.disableDamage = true;
             }
-            else if (this == SPECTATOR)
+            else if (this == GameType.SPECTATOR)
             {
                 capabilities.allowFlying = true;
                 capabilities.isCreativeMode = false;
@@ -182,27 +182,27 @@ public final class WorldSettings
                 capabilities.isFlying = false;
             }
 
-            capabilities.allowEdit = !this.isAdventure();
+            capabilities.allowEdit = !isAdventure();
         }
 
         public boolean isAdventure()
         {
-            return this == ADVENTURE || this == SPECTATOR;
+            return this == GameType.ADVENTURE || this == GameType.SPECTATOR;
         }
 
         public boolean isCreative()
         {
-            return this == CREATIVE;
+            return this == GameType.CREATIVE;
         }
 
         public boolean isSurvivalOrAdventure()
         {
-            return this == SURVIVAL || this == ADVENTURE;
+            return this == GameType.SURVIVAL || this == GameType.ADVENTURE;
         }
 
         public static WorldSettings.GameType getByID(int idIn)
         {
-            for (WorldSettings.GameType worldsettings$gametype : values())
+            for (WorldSettings.GameType worldsettings$gametype : GameType.values())
             {
                 if (worldsettings$gametype.id == idIn)
                 {
@@ -210,12 +210,12 @@ public final class WorldSettings
                 }
             }
 
-            return SURVIVAL;
+            return GameType.SURVIVAL;
         }
 
         public static WorldSettings.GameType getByName(String p_77142_0_)
         {
-            for (WorldSettings.GameType worldsettings$gametype : values())
+            for (WorldSettings.GameType worldsettings$gametype : GameType.values())
             {
                 if (worldsettings$gametype.name.equals(p_77142_0_))
                 {
@@ -223,7 +223,7 @@ public final class WorldSettings
                 }
             }
 
-            return SURVIVAL;
+            return GameType.SURVIVAL;
         }
     }
 }

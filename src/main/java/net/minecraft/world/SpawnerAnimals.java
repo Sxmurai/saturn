@@ -20,7 +20,7 @@ import net.minecraft.world.chunk.Chunk;
 public final class SpawnerAnimals
 {
     private static final int MOB_COUNT_DIV = (int)Math.pow(17.0D, 2.0D);
-    private final Set<ChunkCoordIntPair> eligibleChunksForSpawning = Sets.<ChunkCoordIntPair>newHashSet();
+    private final Set<ChunkCoordIntPair> eligibleChunksForSpawning = Sets.newHashSet();
 
     /**
      * adds all chunks within the spawn radius of the players to eligibleChunksForSpawning. pars: the world,
@@ -34,7 +34,7 @@ public final class SpawnerAnimals
         }
         else
         {
-            this.eligibleChunksForSpawning.clear();
+            eligibleChunksForSpawning.clear();
             int i = 0;
 
             for (EntityPlayer entityplayer : p_77192_1_.playerEntities)
@@ -52,13 +52,13 @@ public final class SpawnerAnimals
                             boolean flag = i1 == -l || i1 == l || j1 == -l || j1 == l;
                             ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(i1 + j, j1 + k);
 
-                            if (!this.eligibleChunksForSpawning.contains(chunkcoordintpair))
+                            if (!eligibleChunksForSpawning.contains(chunkcoordintpair))
                             {
                                 ++i;
 
                                 if (!flag && p_77192_1_.getWorldBorder().contains(chunkcoordintpair))
                                 {
-                                    this.eligibleChunksForSpawning.add(chunkcoordintpair);
+                                    eligibleChunksForSpawning.add(chunkcoordintpair);
                                 }
                             }
                         }
@@ -74,15 +74,15 @@ public final class SpawnerAnimals
                 if ((!enumcreaturetype.getPeacefulCreature() || spawnPeacefulMobs) && (enumcreaturetype.getPeacefulCreature() || spawnHostileMobs) && (!enumcreaturetype.getAnimal() || p_77192_4_))
                 {
                     int j4 = p_77192_1_.countEntities(enumcreaturetype.getCreatureClass());
-                    int k4 = enumcreaturetype.getMaxNumberOfCreature() * i / MOB_COUNT_DIV;
+                    int k4 = enumcreaturetype.getMaxNumberOfCreature() * i / SpawnerAnimals.MOB_COUNT_DIV;
 
                     if (j4 <= k4)
                     {
                         label374:
 
-                        for (ChunkCoordIntPair chunkcoordintpair1 : this.eligibleChunksForSpawning)
+                        for (ChunkCoordIntPair chunkcoordintpair1 : eligibleChunksForSpawning)
                         {
-                            BlockPos blockpos = getRandomChunkPosition(p_77192_1_, chunkcoordintpair1.chunkXPos, chunkcoordintpair1.chunkZPos);
+                            BlockPos blockpos = SpawnerAnimals.getRandomChunkPosition(p_77192_1_, chunkcoordintpair1.chunkXPos, chunkcoordintpair1.chunkZPos);
                             int k1 = blockpos.getX();
                             int l1 = blockpos.getY();
                             int i2 = blockpos.getZ();
@@ -110,7 +110,7 @@ public final class SpawnerAnimals
                                         float f = (float)l2 + 0.5F;
                                         float f1 = (float)j3 + 0.5F;
 
-                                        if (!p_77192_1_.isAnyPlayerWithinRangeAt((double)f, (double)i3, (double)f1, 24.0D) && blockpos2.distanceSq((double)f, (double)i3, (double)f1) >= 576.0D)
+                                        if (!p_77192_1_.isAnyPlayerWithinRangeAt(f, i3, f1, 24.0D) && blockpos2.distanceSq(f, i3, f1) >= 576.0D)
                                         {
                                             if (biomegenbase$spawnlistentry == null)
                                             {
@@ -122,13 +122,13 @@ public final class SpawnerAnimals
                                                 }
                                             }
 
-                                            if (p_77192_1_.canCreatureTypeSpawnHere(enumcreaturetype, biomegenbase$spawnlistentry, blockpos1) && canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.getPlacementForEntity(biomegenbase$spawnlistentry.entityClass), p_77192_1_, blockpos1))
+                                            if (p_77192_1_.canCreatureTypeSpawnHere(enumcreaturetype, biomegenbase$spawnlistentry, blockpos1) && SpawnerAnimals.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.getPlacementForEntity(biomegenbase$spawnlistentry.entityClass), p_77192_1_, blockpos1))
                                             {
                                                 EntityLiving entityliving;
 
                                                 try
                                                 {
-                                                    entityliving = (EntityLiving)biomegenbase$spawnlistentry.entityClass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {p_77192_1_});
+                                                    entityliving = biomegenbase$spawnlistentry.entityClass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {p_77192_1_});
                                                 }
                                                 catch (Exception exception)
                                                 {
@@ -136,7 +136,7 @@ public final class SpawnerAnimals
                                                     return i4;
                                                 }
 
-                                                entityliving.setLocationAndAngles((double)f, (double)i3, (double)f1, p_77192_1_.rand.nextFloat() * 360.0F, 0.0F);
+                                                entityliving.setLocationAndAngles(f, i3, f1, p_77192_1_.rand.nextFloat() * 360.0F, 0.0F);
 
                                                 if (entityliving.getCanSpawnHere() && entityliving.isNotColliding())
                                                 {
@@ -222,7 +222,7 @@ public final class SpawnerAnimals
         {
             while (p_77191_6_.nextFloat() < p_77191_1_.getSpawningChance())
             {
-                BiomeGenBase.SpawnListEntry biomegenbase$spawnlistentry = (BiomeGenBase.SpawnListEntry)WeightedRandom.getRandomItem(worldIn.rand, list);
+                BiomeGenBase.SpawnListEntry biomegenbase$spawnlistentry = WeightedRandom.getRandomItem(worldIn.rand, list);
                 int i = biomegenbase$spawnlistentry.minGroupCount + p_77191_6_.nextInt(1 + biomegenbase$spawnlistentry.maxGroupCount - biomegenbase$spawnlistentry.minGroupCount);
                 IEntityLivingData ientitylivingdata = null;
                 int j = p_77191_2_ + p_77191_6_.nextInt(p_77191_4_);
@@ -238,13 +238,13 @@ public final class SpawnerAnimals
                     {
                         BlockPos blockpos = worldIn.getTopSolidOrLiquidBlock(new BlockPos(j, 0, k));
 
-                        if (canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType.ON_GROUND, worldIn, blockpos))
+                        if (SpawnerAnimals.canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType.ON_GROUND, worldIn, blockpos))
                         {
                             EntityLiving entityliving;
 
                             try
                             {
-                                entityliving = (EntityLiving)biomegenbase$spawnlistentry.entityClass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {worldIn});
+                                entityliving = biomegenbase$spawnlistentry.entityClass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {worldIn});
                             }
                             catch (Exception exception)
                             {
@@ -252,7 +252,7 @@ public final class SpawnerAnimals
                                 continue;
                             }
 
-                            entityliving.setLocationAndAngles((double)((float)j + 0.5F), (double)blockpos.getY(), (double)((float)k + 0.5F), p_77191_6_.nextFloat() * 360.0F, 0.0F);
+                            entityliving.setLocationAndAngles((float)j + 0.5F, blockpos.getY(), (float)k + 0.5F, p_77191_6_.nextFloat() * 360.0F, 0.0F);
                             worldIn.spawnEntityInWorld(entityliving);
                             ientitylivingdata = entityliving.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityliving)), ientitylivingdata);
                             flag = true;

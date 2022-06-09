@@ -9,7 +9,7 @@ public class ChatComponentSelector extends ChatComponentStyle
 
     public ChatComponentSelector(String selectorIn)
     {
-        this.selector = selectorIn;
+        selector = selectorIn;
     }
 
     /**
@@ -17,7 +17,7 @@ public class ChatComponentSelector extends ChatComponentStyle
      */
     public String getSelector()
     {
-        return this.selector;
+        return selector;
     }
 
     /**
@@ -26,7 +26,7 @@ public class ChatComponentSelector extends ChatComponentStyle
      */
     public String getUnformattedTextForChat()
     {
-        return this.selector;
+        return selector;
     }
 
     /**
@@ -34,10 +34,10 @@ public class ChatComponentSelector extends ChatComponentStyle
      */
     public ChatComponentSelector createCopy()
     {
-        ChatComponentSelector chatcomponentselector = new ChatComponentSelector(this.selector);
-        chatcomponentselector.setChatStyle(this.getChatStyle().createShallowCopy());
+        ChatComponentSelector chatcomponentselector = new ChatComponentSelector(selector);
+        chatcomponentselector.setChatStyle(getChatStyle().createShallowCopy());
 
-        for (IChatComponent ichatcomponent : this.getSiblings())
+        for (IChatComponent ichatcomponent : getSiblings())
         {
             chatcomponentselector.appendSibling(ichatcomponent.createCopy());
         }
@@ -58,12 +58,12 @@ public class ChatComponentSelector extends ChatComponentStyle
         else
         {
             ChatComponentSelector chatcomponentselector = (ChatComponentSelector)p_equals_1_;
-            return this.selector.equals(chatcomponentselector.selector) && super.equals(p_equals_1_);
+            return selector.equals(chatcomponentselector.selector) && super.equals(p_equals_1_);
         }
     }
 
     public String toString()
     {
-        return "SelectorComponent{pattern=\'" + this.selector + '\'' + ", siblings=" + this.siblings + ", style=" + this.getChatStyle() + '}';
+        return "SelectorComponent{pattern='" + selector + '\'' + ", siblings=" + siblings + ", style=" + getChatStyle() + '}';
     }
 }

@@ -16,7 +16,7 @@ import net.minecraft.world.WorldSettings;
 public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
 {
     private S38PacketPlayerListItem.Action action;
-    private final List<S38PacketPlayerListItem.AddPlayerData> players = Lists.<S38PacketPlayerListItem.AddPlayerData>newArrayList();
+    private final List<S38PacketPlayerListItem.AddPlayerData> players = Lists.newArrayList();
 
     public S38PacketPlayerListItem()
     {
@@ -24,7 +24,7 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
 
     public S38PacketPlayerListItem(S38PacketPlayerListItem.Action actionIn, EntityPlayerMP... players)
     {
-        this.action = actionIn;
+        action = actionIn;
 
         for (EntityPlayerMP entityplayermp : players)
         {
@@ -34,7 +34,7 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
 
     public S38PacketPlayerListItem(S38PacketPlayerListItem.Action actionIn, Iterable<EntityPlayerMP> players)
     {
-        this.action = actionIn;
+        action = actionIn;
 
         for (EntityPlayerMP entityplayermp : players)
         {
@@ -47,7 +47,7 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.action = (S38PacketPlayerListItem.Action)buf.readEnumValue(S38PacketPlayerListItem.Action.class);
+        action = buf.readEnumValue(Action.class);
         int i = buf.readVarIntFromBuffer();
 
         for (int j = 0; j < i; ++j)
@@ -57,7 +57,7 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
             WorldSettings.GameType worldsettings$gametype = null;
             IChatComponent ichatcomponent = null;
 
-            switch (this.action)
+            switch (action)
             {
                 case ADD_PLAYER:
                     gameprofile = new GameProfile(buf.readUuid(), buf.readStringFromBuffer(16));
@@ -90,17 +90,17 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
                     break;
 
                 case UPDATE_GAME_MODE:
-                    gameprofile = new GameProfile(buf.readUuid(), (String)null);
+                    gameprofile = new GameProfile(buf.readUuid(), null);
                     worldsettings$gametype = WorldSettings.GameType.getByID(buf.readVarIntFromBuffer());
                     break;
 
                 case UPDATE_LATENCY:
-                    gameprofile = new GameProfile(buf.readUuid(), (String)null);
+                    gameprofile = new GameProfile(buf.readUuid(), null);
                     k = buf.readVarIntFromBuffer();
                     break;
 
                 case UPDATE_DISPLAY_NAME:
-                    gameprofile = new GameProfile(buf.readUuid(), (String)null);
+                    gameprofile = new GameProfile(buf.readUuid(), null);
 
                     if (buf.readBoolean())
                     {
@@ -110,10 +110,10 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
                     break;
 
                 case REMOVE_PLAYER:
-                    gameprofile = new GameProfile(buf.readUuid(), (String)null);
+                    gameprofile = new GameProfile(buf.readUuid(), null);
             }
 
-            this.players.add(new S38PacketPlayerListItem.AddPlayerData(gameprofile, k, worldsettings$gametype, ichatcomponent));
+            players.add(new S38PacketPlayerListItem.AddPlayerData(gameprofile, k, worldsettings$gametype, ichatcomponent));
         }
     }
 
@@ -122,12 +122,12 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeEnumValue(this.action);
-        buf.writeVarIntToBuffer(this.players.size());
+        buf.writeEnumValue(action);
+        buf.writeVarIntToBuffer(players.size());
 
-        for (S38PacketPlayerListItem.AddPlayerData s38packetplayerlistitem$addplayerdata : this.players)
+        for (S38PacketPlayerListItem.AddPlayerData s38packetplayerlistitem$addplayerdata : players)
         {
-            switch (this.action)
+            switch (action)
             {
                 case ADD_PLAYER:
                     buf.writeUuid(s38packetplayerlistitem$addplayerdata.getProfile().getId());
@@ -206,17 +206,17 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
 
     public List<S38PacketPlayerListItem.AddPlayerData> func_179767_a()
     {
-        return this.players;
+        return players;
     }
 
     public S38PacketPlayerListItem.Action func_179768_b()
     {
-        return this.action;
+        return action;
     }
 
     public String toString()
     {
-        return Objects.toStringHelper(this).add("action", this.action).add("entries", this.players).toString();
+        return Objects.toStringHelper(this).add("action", action).add("entries", players).toString();
     }
 
     public static enum Action
@@ -225,7 +225,7 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
         UPDATE_GAME_MODE,
         UPDATE_LATENCY,
         UPDATE_DISPLAY_NAME,
-        REMOVE_PLAYER;
+        REMOVE_PLAYER
     }
 
     public class AddPlayerData
@@ -238,34 +238,34 @@ public class S38PacketPlayerListItem implements Packet<INetHandlerPlayClient>
         public AddPlayerData(GameProfile profile, int pingIn, WorldSettings.GameType gamemodeIn, IChatComponent displayNameIn)
         {
             this.profile = profile;
-            this.ping = pingIn;
-            this.gamemode = gamemodeIn;
-            this.displayName = displayNameIn;
+            ping = pingIn;
+            gamemode = gamemodeIn;
+            displayName = displayNameIn;
         }
 
         public GameProfile getProfile()
         {
-            return this.profile;
+            return profile;
         }
 
         public int getPing()
         {
-            return this.ping;
+            return ping;
         }
 
         public WorldSettings.GameType getGameMode()
         {
-            return this.gamemode;
+            return gamemode;
         }
 
         public IChatComponent getDisplayName()
         {
-            return this.displayName;
+            return displayName;
         }
 
         public String toString()
         {
-            return Objects.toStringHelper(this).add("latency", this.ping).add("gameMode", this.gamemode).add("profile", this.profile).add("displayName", this.displayName == null ? null : IChatComponent.Serializer.componentToJson(this.displayName)).toString();
+            return Objects.toStringHelper(this).add("latency", ping).add("gameMode", gamemode).add("profile", profile).add("displayName", displayName == null ? null : IChatComponent.Serializer.componentToJson(displayName)).toString();
         }
     }
 }

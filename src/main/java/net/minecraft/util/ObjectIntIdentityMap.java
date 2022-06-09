@@ -15,34 +15,34 @@ public class ObjectIntIdentityMap implements IObjectIntIterable
 
     public void put(Object key, int value)
     {
-        this.identityMap.put(key, Integer.valueOf(value));
+        identityMap.put(key, Integer.valueOf(value));
 
-        while (this.objectList.size() <= value)
+        while (objectList.size() <= value)
         {
-            this.objectList.add((Object)null);
+            objectList.add(null);
         }
 
-        this.objectList.set(value, key);
+        objectList.set(value, key);
     }
 
     public int get(Object key)
     {
-        Integer integer = (Integer)this.identityMap.get(key);
+        Integer integer = (Integer) identityMap.get(key);
         return integer == null ? -1 : integer.intValue();
     }
 
     public final Object getByValue(int value)
     {
-        return value >= 0 && value < this.objectList.size() ? this.objectList.get(value) : null;
+        return value >= 0 && value < objectList.size() ? objectList.get(value) : null;
     }
 
     public Iterator iterator()
     {
-        return Iterators.filter(this.objectList.iterator(), Predicates.notNull());
+        return Iterators.filter(objectList.iterator(), Predicates.notNull());
     }
 
     public List getObjectList()
     {
-        return this.objectList;
+        return objectList;
     }
 }

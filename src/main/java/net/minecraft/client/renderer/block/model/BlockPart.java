@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 import java.util.Map;
-import java.util.Map.Entry;
+
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.MathHelper;
@@ -25,17 +25,17 @@ public class BlockPart
 
     public BlockPart(Vector3f positionFromIn, Vector3f positionToIn, Map<EnumFacing, BlockPartFace> mapFacesIn, BlockPartRotation partRotationIn, boolean shadeIn)
     {
-        this.positionFrom = positionFromIn;
-        this.positionTo = positionToIn;
-        this.mapFaces = mapFacesIn;
-        this.partRotation = partRotationIn;
-        this.shade = shadeIn;
-        this.setDefaultUvs();
+        positionFrom = positionFromIn;
+        positionTo = positionToIn;
+        mapFaces = mapFacesIn;
+        partRotation = partRotationIn;
+        shade = shadeIn;
+        setDefaultUvs();
     }
 
     private void setDefaultUvs()
     {
-        for (Entry<EnumFacing, BlockPartFace> entry : this.mapFaces.entrySet())
+        for (Map.Entry<EnumFacing, BlockPartFace> entry : this.mapFaces.entrySet())
         {
             float[] afloat = this.getFaceUvs((EnumFacing)entry.getKey());
             ((BlockPartFace)entry.getValue()).blockFaceUV.setUvs(afloat);
@@ -154,10 +154,10 @@ public class BlockPart
             Map<EnumFacing, BlockPartFace> map = Maps.newEnumMap(EnumFacing.class);
             JsonObject jsonobject = JsonUtils.getJsonObject(p_178253_2_, "faces");
 
-            for (Entry<String, JsonElement> entry : jsonobject.entrySet())
+            for (Map.Entry<String, JsonElement> entry : jsonobject.entrySet())
             {
-                EnumFacing enumfacing = this.parseEnumFacing((String)entry.getKey());
-                map.put(enumfacing, (BlockPartFace)p_178253_1_.deserialize((JsonElement)entry.getValue(), BlockPartFace.class));
+                EnumFacing enumfacing = parseEnumFacing(entry.getKey());
+                map.put(enumfacing, p_178253_1_.deserialize(entry.getValue(), BlockPartFace.class));
             }
 
             return map;
@@ -179,7 +179,7 @@ public class BlockPart
 
         private Vector3f parsePositionTo(JsonObject p_178247_1_)
         {
-            Vector3f vector3f = this.parsePosition(p_178247_1_, "to");
+            Vector3f vector3f = parsePosition(p_178247_1_, "to");
 
             if (vector3f.x >= -16.0F && vector3f.y >= -16.0F && vector3f.z >= -16.0F && vector3f.x <= 32.0F && vector3f.y <= 32.0F && vector3f.z <= 32.0F)
             {
@@ -187,13 +187,13 @@ public class BlockPart
             }
             else
             {
-                throw new JsonParseException("\'to\' specifier exceeds the allowed boundaries: " + vector3f);
+                throw new JsonParseException("'to' specifier exceeds the allowed boundaries: " + vector3f);
             }
         }
 
         private Vector3f parsePositionFrom(JsonObject p_178249_1_)
         {
-            Vector3f vector3f = this.parsePosition(p_178249_1_, "from");
+            Vector3f vector3f = parsePosition(p_178249_1_, "from");
 
             if (vector3f.x >= -16.0F && vector3f.y >= -16.0F && vector3f.z >= -16.0F && vector3f.x <= 32.0F && vector3f.y <= 32.0F && vector3f.z <= 32.0F)
             {
@@ -201,7 +201,7 @@ public class BlockPart
             }
             else
             {
-                throw new JsonParseException("\'from\' specifier exceeds the allowed boundaries: " + vector3f);
+                throw new JsonParseException("'from' specifier exceeds the allowed boundaries: " + vector3f);
             }
         }
 

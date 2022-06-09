@@ -17,12 +17,12 @@ public class LayerEndermanEyes implements LayerRenderer
 
     public LayerEndermanEyes(RenderEnderman endermanRendererIn)
     {
-        this.endermanRenderer = endermanRendererIn;
+        endermanRenderer = endermanRendererIn;
     }
 
     public void doRenderLayer(EntityEnderman entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
-        this.endermanRenderer.bindTexture(field_177203_a);
+        endermanRenderer.bindTexture(LayerEndermanEyes.field_177203_a);
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
         GlStateManager.blendFunc(1, 1);
@@ -40,8 +40,8 @@ public class LayerEndermanEyes implements LayerRenderer
             Shaders.beginSpiderEyes();
         }
 
-        this.endermanRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
-        this.endermanRenderer.func_177105_a(entitylivingbaseIn, partialTicks);
+        endermanRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+        endermanRenderer.func_177105_a(entitylivingbaseIn, partialTicks);
         GlStateManager.depthMask(true);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
@@ -54,6 +54,6 @@ public class LayerEndermanEyes implements LayerRenderer
 
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
-        this.doRenderLayer((EntityEnderman)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+        doRenderLayer((EntityEnderman)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
     }
 }

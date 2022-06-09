@@ -14,8 +14,8 @@ public class WorldGenBlockBlob extends WorldGenerator
     public WorldGenBlockBlob(Block p_i45450_1_, int p_i45450_2_)
     {
         super(false);
-        this.field_150545_a = p_i45450_1_;
-        this.field_150544_b = p_i45450_2_;
+        field_150545_a = p_i45450_1_;
+        field_150544_b = p_i45450_2_;
     }
 
     public boolean generate(World worldIn, Random rand, BlockPos position)
@@ -44,7 +44,7 @@ public class WorldGenBlockBlob extends WorldGenerator
                     return false;
                 }
 
-                int i1 = this.field_150544_b;
+                int i1 = field_150544_b;
 
                 for (int i = 0; i1 >= 0 && i < 3; ++i)
                 {
@@ -57,7 +57,7 @@ public class WorldGenBlockBlob extends WorldGenerator
                     {
                         if (blockpos.distanceSq(position) <= (double)(f * f))
                         {
-                            worldIn.setBlockState(blockpos, this.field_150545_a.getDefaultState(), 4);
+                            worldIn.setBlockState(blockpos, field_150545_a.getDefaultState(), 4);
                         }
                     }
 

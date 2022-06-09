@@ -18,14 +18,14 @@ public class TextureClock extends TextureAtlasSprite
 
     public void updateAnimation()
     {
-        if (!this.framesTextureData.isEmpty())
+        if (!framesTextureData.isEmpty())
         {
             Minecraft minecraft = Minecraft.getMinecraft();
             double d0 = 0.0D;
 
             if (minecraft.theWorld != null && minecraft.thePlayer != null)
             {
-                d0 = (double)minecraft.theWorld.getCelestialAngle(1.0F);
+                d0 = minecraft.theWorld.getCelestialAngle(1.0F);
 
                 if (!minecraft.theWorld.provider.isSurfaceWorld())
                 {
@@ -35,9 +35,8 @@ public class TextureClock extends TextureAtlasSprite
 
             double d1;
 
-            for (d1 = d0 - this.field_94239_h; d1 < -0.5D; ++d1)
+            for (d1 = d0 - field_94239_h; d1 < -0.5D; ++d1)
             {
-                ;
             }
 
             while (d1 >= 0.5D)
@@ -46,27 +45,26 @@ public class TextureClock extends TextureAtlasSprite
             }
 
             d1 = MathHelper.clamp_double(d1, -1.0D, 1.0D);
-            this.field_94240_i += d1 * 0.1D;
-            this.field_94240_i *= 0.8D;
-            this.field_94239_h += this.field_94240_i;
+            field_94240_i += d1 * 0.1D;
+            field_94240_i *= 0.8D;
+            field_94239_h += field_94240_i;
             int i;
 
-            for (i = (int)((this.field_94239_h + 1.0D) * (double)this.framesTextureData.size()) % this.framesTextureData.size(); i < 0; i = (i + this.framesTextureData.size()) % this.framesTextureData.size())
+            for (i = (int)((field_94239_h + 1.0D) * (double) framesTextureData.size()) % framesTextureData.size(); i < 0; i = (i + framesTextureData.size()) % framesTextureData.size())
             {
-                ;
             }
 
-            if (i != this.frameCounter)
+            if (i != frameCounter)
             {
-                this.frameCounter = i;
+                frameCounter = i;
 
                 if (Config.isShaders())
                 {
-                    ShadersTex.uploadTexSub((int[][])((int[][])this.framesTextureData.get(this.frameCounter)), this.width, this.height, this.originX, this.originY, false, false);
+                    ShadersTex.uploadTexSub((int[][]) framesTextureData.get(frameCounter), width, height, originX, originY, false, false);
                 }
                 else
                 {
-                    TextureUtil.uploadTextureMipmap((int[][])((int[][])this.framesTextureData.get(this.frameCounter)), this.width, this.height, this.originX, this.originY, false, false);
+                    TextureUtil.uploadTextureMipmap((int[][]) framesTextureData.get(frameCounter), width, height, originX, originY, false, false);
                 }
             }
         }

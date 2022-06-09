@@ -17,8 +17,8 @@ public abstract class AbstractTexture implements ITextureObject
 
     public void setBlurMipmapDirect(boolean p_174937_1_, boolean p_174937_2_)
     {
-        this.blur = p_174937_1_;
-        this.mipmap = p_174937_2_;
+        blur = p_174937_1_;
+        mipmap = p_174937_2_;
         boolean flag = true;
         boolean flag1 = true;
         int i;
@@ -35,41 +35,41 @@ public abstract class AbstractTexture implements ITextureObject
             short1 = 9728;
         }
 
-        GlStateManager.bindTexture(this.getGlTextureId());
+        GlStateManager.bindTexture(getGlTextureId());
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, i);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, short1);
     }
 
     public void setBlurMipmap(boolean p_174936_1_, boolean p_174936_2_)
     {
-        this.blurLast = this.blur;
-        this.mipmapLast = this.mipmap;
-        this.setBlurMipmapDirect(p_174936_1_, p_174936_2_);
+        blurLast = blur;
+        mipmapLast = mipmap;
+        setBlurMipmapDirect(p_174936_1_, p_174936_2_);
     }
 
     public void restoreLastBlurMipmap()
     {
-        this.setBlurMipmapDirect(this.blurLast, this.mipmapLast);
+        setBlurMipmapDirect(blurLast, mipmapLast);
     }
 
     public int getGlTextureId()
     {
-        if (this.glTextureId == -1)
+        if (glTextureId == -1)
         {
-            this.glTextureId = TextureUtil.glGenTextures();
+            glTextureId = TextureUtil.glGenTextures();
         }
 
-        return this.glTextureId;
+        return glTextureId;
     }
 
     public void deleteGlTexture()
     {
-        ShadersTex.deleteTextures(this, this.glTextureId);
+        ShadersTex.deleteTextures(this, glTextureId);
 
-        if (this.glTextureId != -1)
+        if (glTextureId != -1)
         {
-            TextureUtil.deleteTexture(this.glTextureId);
-            this.glTextureId = -1;
+            TextureUtil.deleteTexture(glTextureId);
+            glTextureId = -1;
         }
     }
 

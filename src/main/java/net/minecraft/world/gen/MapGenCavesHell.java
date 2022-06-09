@@ -11,20 +11,20 @@ public class MapGenCavesHell extends MapGenBase
 {
     protected void func_180705_a(long p_180705_1_, int p_180705_3_, int p_180705_4_, ChunkPrimer p_180705_5_, double p_180705_6_, double p_180705_8_, double p_180705_10_)
     {
-        this.func_180704_a(p_180705_1_, p_180705_3_, p_180705_4_, p_180705_5_, p_180705_6_, p_180705_8_, p_180705_10_, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D);
+        func_180704_a(p_180705_1_, p_180705_3_, p_180705_4_, p_180705_5_, p_180705_6_, p_180705_8_, p_180705_10_, 1.0F + rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D);
     }
 
     protected void func_180704_a(long p_180704_1_, int p_180704_3_, int p_180704_4_, ChunkPrimer p_180704_5_, double p_180704_6_, double p_180704_8_, double p_180704_10_, float p_180704_12_, float p_180704_13_, float p_180704_14_, int p_180704_15_, int p_180704_16_, double p_180704_17_)
     {
-        double d0 = (double)(p_180704_3_ * 16 + 8);
-        double d1 = (double)(p_180704_4_ * 16 + 8);
+        double d0 = p_180704_3_ * 16 + 8;
+        double d1 = p_180704_4_ * 16 + 8;
         float f = 0.0F;
         float f1 = 0.0F;
         Random random = new Random(p_180704_1_);
 
         if (p_180704_16_ <= 0)
         {
-            int i = this.range * 16 - 16;
+            int i = range * 16 - 16;
             p_180704_16_ = i - random.nextInt(i / 4);
         }
 
@@ -44,9 +44,9 @@ public class MapGenCavesHell extends MapGenBase
             double d3 = d2 * p_180704_17_;
             float f2 = MathHelper.cos(p_180704_14_);
             float f3 = MathHelper.sin(p_180704_14_);
-            p_180704_6_ += (double)(MathHelper.cos(p_180704_13_) * f2);
-            p_180704_8_ += (double)f3;
-            p_180704_10_ += (double)(MathHelper.sin(p_180704_13_) * f2);
+            p_180704_6_ += MathHelper.cos(p_180704_13_) * f2;
+            p_180704_8_ += f3;
+            p_180704_10_ += MathHelper.sin(p_180704_13_) * f2;
 
             if (flag)
             {
@@ -66,8 +66,8 @@ public class MapGenCavesHell extends MapGenBase
 
             if (!flag1 && p_180704_15_ == j && p_180704_12_ > 1.0F)
             {
-                this.func_180704_a(random.nextLong(), p_180704_3_, p_180704_4_, p_180704_5_, p_180704_6_, p_180704_8_, p_180704_10_, random.nextFloat() * 0.5F + 0.5F, p_180704_13_ - ((float)Math.PI / 2F), p_180704_14_ / 3.0F, p_180704_15_, p_180704_16_, 1.0D);
-                this.func_180704_a(random.nextLong(), p_180704_3_, p_180704_4_, p_180704_5_, p_180704_6_, p_180704_8_, p_180704_10_, random.nextFloat() * 0.5F + 0.5F, p_180704_13_ + ((float)Math.PI / 2F), p_180704_14_ / 3.0F, p_180704_15_, p_180704_16_, 1.0D);
+                func_180704_a(random.nextLong(), p_180704_3_, p_180704_4_, p_180704_5_, p_180704_6_, p_180704_8_, p_180704_10_, random.nextFloat() * 0.5F + 0.5F, p_180704_13_ - ((float)Math.PI / 2F), p_180704_14_ / 3.0F, p_180704_15_, p_180704_16_, 1.0D);
+                func_180704_a(random.nextLong(), p_180704_3_, p_180704_4_, p_180704_5_, p_180704_6_, p_180704_8_, p_180704_10_, random.nextFloat() * 0.5F + 0.5F, p_180704_13_ + ((float)Math.PI / 2F), p_180704_14_ / 3.0F, p_180704_15_, p_180704_16_, 1.0D);
                 return;
             }
 
@@ -75,8 +75,8 @@ public class MapGenCavesHell extends MapGenBase
             {
                 double d4 = p_180704_6_ - d0;
                 double d5 = p_180704_10_ - d1;
-                double d6 = (double)(p_180704_16_ - p_180704_15_);
-                double d7 = (double)(p_180704_12_ + 2.0F + 16.0F);
+                double d6 = p_180704_16_ - p_180704_15_;
+                double d7 = p_180704_12_ + 2.0F + 16.0F;
 
                 if (d4 * d4 + d5 * d5 - d6 * d6 > d7 * d7)
                 {
@@ -190,32 +190,32 @@ public class MapGenCavesHell extends MapGenBase
      */
     protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_, ChunkPrimer chunkPrimerIn)
     {
-        int i = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(10) + 1) + 1);
+        int i = rand.nextInt(rand.nextInt(rand.nextInt(10) + 1) + 1);
 
-        if (this.rand.nextInt(5) != 0)
+        if (rand.nextInt(5) != 0)
         {
             i = 0;
         }
 
         for (int j = 0; j < i; ++j)
         {
-            double d0 = (double)(chunkX * 16 + this.rand.nextInt(16));
-            double d1 = (double)this.rand.nextInt(128);
-            double d2 = (double)(chunkZ * 16 + this.rand.nextInt(16));
+            double d0 = chunkX * 16 + rand.nextInt(16);
+            double d1 = rand.nextInt(128);
+            double d2 = chunkZ * 16 + rand.nextInt(16);
             int k = 1;
 
-            if (this.rand.nextInt(4) == 0)
+            if (rand.nextInt(4) == 0)
             {
-                this.func_180705_a(this.rand.nextLong(), p_180701_4_, p_180701_5_, chunkPrimerIn, d0, d1, d2);
-                k += this.rand.nextInt(4);
+                func_180705_a(rand.nextLong(), p_180701_4_, p_180701_5_, chunkPrimerIn, d0, d1, d2);
+                k += rand.nextInt(4);
             }
 
             for (int l = 0; l < k; ++l)
             {
-                float f = this.rand.nextFloat() * (float)Math.PI * 2.0F;
-                float f1 = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
-                float f2 = this.rand.nextFloat() * 2.0F + this.rand.nextFloat();
-                this.func_180704_a(this.rand.nextLong(), p_180701_4_, p_180701_5_, chunkPrimerIn, d0, d1, d2, f2 * 2.0F, f, f1, 0, 0, 0.5D);
+                float f = rand.nextFloat() * (float)Math.PI * 2.0F;
+                float f1 = (rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
+                float f2 = rand.nextFloat() * 2.0F + rand.nextFloat();
+                func_180704_a(rand.nextLong(), p_180701_4_, p_180701_5_, chunkPrimerIn, d0, d1, d2, f2 * 2.0F, f, f1, 0, 0, 0.5D);
             }
         }
     }

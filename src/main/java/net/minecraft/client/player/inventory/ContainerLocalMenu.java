@@ -12,28 +12,28 @@ import net.minecraft.world.LockCode;
 
 public class ContainerLocalMenu extends InventoryBasic implements ILockableContainer
 {
-    private String guiID;
-    private Map<Integer, Integer> field_174895_b = Maps.<Integer, Integer>newHashMap();
+    private final String guiID;
+    private final Map<Integer, Integer> field_174895_b = Maps.newHashMap();
 
     public ContainerLocalMenu(String id, IChatComponent title, int slotCount)
     {
         super(title, slotCount);
-        this.guiID = id;
+        guiID = id;
     }
 
     public int getField(int id)
     {
-        return this.field_174895_b.containsKey(Integer.valueOf(id)) ? ((Integer)this.field_174895_b.get(Integer.valueOf(id))).intValue() : 0;
+        return field_174895_b.containsKey(Integer.valueOf(id)) ? field_174895_b.get(Integer.valueOf(id)).intValue() : 0;
     }
 
     public void setField(int id, int value)
     {
-        this.field_174895_b.put(Integer.valueOf(id), Integer.valueOf(value));
+        field_174895_b.put(Integer.valueOf(id), Integer.valueOf(value));
     }
 
     public int getFieldCount()
     {
-        return this.field_174895_b.size();
+        return field_174895_b.size();
     }
 
     public boolean isLocked()
@@ -52,7 +52,7 @@ public class ContainerLocalMenu extends InventoryBasic implements ILockableConta
 
     public String getGuiID()
     {
-        return this.guiID;
+        return guiID;
     }
 
     public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)

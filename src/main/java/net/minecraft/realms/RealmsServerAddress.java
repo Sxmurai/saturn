@@ -9,18 +9,18 @@ public class RealmsServerAddress
 
     protected RealmsServerAddress(String p_i1121_1_, int p_i1121_2_)
     {
-        this.host = p_i1121_1_;
-        this.port = p_i1121_2_;
+        host = p_i1121_1_;
+        port = p_i1121_2_;
     }
 
     public String getHost()
     {
-        return this.host;
+        return host;
     }
 
     public int getPort()
     {
-        return this.port;
+        return port;
     }
 
     public static RealmsServerAddress parseString(String p_parseString_0_)

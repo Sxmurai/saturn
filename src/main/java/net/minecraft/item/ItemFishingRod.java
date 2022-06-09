@@ -10,9 +10,9 @@ public class ItemFishingRod extends Item
 {
     public ItemFishingRod()
     {
-        this.setMaxDamage(64);
-        this.setMaxStackSize(1);
-        this.setCreativeTab(CreativeTabs.tabTools);
+        setMaxDamage(64);
+        setMaxStackSize(1);
+        setCreativeTab(CreativeTabs.tabTools);
     }
 
     /**
@@ -45,7 +45,7 @@ public class ItemFishingRod extends Item
         }
         else
         {
-            worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+            worldIn.playSoundAtEntity(playerIn, "random.bow", 0.5F, 0.4F / (Item.itemRand.nextFloat() * 0.4F + 0.8F));
 
             if (!worldIn.isRemote)
             {

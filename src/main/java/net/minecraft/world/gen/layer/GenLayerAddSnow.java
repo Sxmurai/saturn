@@ -5,7 +5,7 @@ public class GenLayerAddSnow extends GenLayer
     public GenLayerAddSnow(long p_i2121_1_, GenLayer p_i2121_3_)
     {
         super(p_i2121_1_);
-        this.parent = p_i2121_3_;
+        parent = p_i2121_3_;
     }
 
     /**
@@ -18,7 +18,7 @@ public class GenLayerAddSnow extends GenLayer
         int j = areaY - 1;
         int k = areaWidth + 2;
         int l = areaHeight + 2;
-        int[] aint = this.parent.getInts(i, j, k, l);
+        int[] aint = parent.getInts(i, j, k, l);
         int[] aint1 = IntCache.getIntCache(areaWidth * areaHeight);
 
         for (int i1 = 0; i1 < areaHeight; ++i1)
@@ -26,7 +26,7 @@ public class GenLayerAddSnow extends GenLayer
             for (int j1 = 0; j1 < areaWidth; ++j1)
             {
                 int k1 = aint[j1 + 1 + (i1 + 1) * k];
-                this.initChunkSeed((long)(j1 + areaX), (long)(i1 + areaY));
+                initChunkSeed(j1 + areaX, i1 + areaY);
 
                 if (k1 == 0)
                 {
@@ -34,7 +34,7 @@ public class GenLayerAddSnow extends GenLayer
                 }
                 else
                 {
-                    int l1 = this.nextInt(6);
+                    int l1 = nextInt(6);
 
                     if (l1 == 0)
                     {

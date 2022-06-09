@@ -22,11 +22,11 @@ public class BlockNetherWart extends BlockBush
     protected BlockNetherWart()
     {
         super(Material.plants, MapColor.redColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));
-        this.setTickRandomly(true);
+        setDefaultState(blockState.getBaseState().withProperty(BlockNetherWart.AGE, Integer.valueOf(0)));
+        setTickRandomly(true);
         float f = 0.5F;
-        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
-        this.setCreativeTab((CreativeTabs)null);
+        setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
+        setCreativeTab(null);
     }
 
     /**
@@ -39,16 +39,16 @@ public class BlockNetherWart extends BlockBush
 
     public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state)
     {
-        return this.canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock());
+        return canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock());
     }
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        int i = ((Integer)state.getValue(AGE)).intValue();
+        int i = state.getValue(BlockNetherWart.AGE).intValue();
 
         if (i < 3 && rand.nextInt(10) == 0)
         {
-            state = state.withProperty(AGE, Integer.valueOf(i + 1));
+            state = state.withProperty(BlockNetherWart.AGE, Integer.valueOf(i + 1));
             worldIn.setBlockState(pos, state, 2);
         }
 
@@ -64,7 +64,7 @@ public class BlockNetherWart extends BlockBush
         {
             int i = 1;
 
-            if (((Integer)state.getValue(AGE)).intValue() >= 3)
+            if (state.getValue(BlockNetherWart.AGE).intValue() >= 3)
             {
                 i = 2 + worldIn.rand.nextInt(3);
 
@@ -76,7 +76,7 @@ public class BlockNetherWart extends BlockBush
 
             for (int j = 0; j < i; ++j)
             {
-                spawnAsEntity(worldIn, pos, new ItemStack(Items.nether_wart));
+                Block.spawnAsEntity(worldIn, pos, new ItemStack(Items.nether_wart));
             }
         }
     }
@@ -107,7 +107,7 @@ public class BlockNetherWart extends BlockBush
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
+        return getDefaultState().withProperty(BlockNetherWart.AGE, Integer.valueOf(meta));
     }
 
     /**
@@ -115,11 +115,11 @@ public class BlockNetherWart extends BlockBush
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(AGE)).intValue();
+        return state.getValue(BlockNetherWart.AGE).intValue();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {AGE});
+        return new BlockState(this, BlockNetherWart.AGE);
     }
 }

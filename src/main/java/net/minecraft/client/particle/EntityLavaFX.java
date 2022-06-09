@@ -8,26 +8,26 @@ import net.minecraft.world.World;
 
 public class EntityLavaFX extends EntityFX
 {
-    private float lavaParticleScale;
+    private final float lavaParticleScale;
 
     protected EntityLavaFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0D, 0.0D, 0.0D);
-        this.motionX *= 0.800000011920929D;
-        this.motionY *= 0.800000011920929D;
-        this.motionZ *= 0.800000011920929D;
-        this.motionY = (double)(this.rand.nextFloat() * 0.4F + 0.05F);
-        this.particleRed = this.particleGreen = this.particleBlue = 1.0F;
-        this.particleScale *= this.rand.nextFloat() * 2.0F + 0.2F;
-        this.lavaParticleScale = this.particleScale;
-        this.particleMaxAge = (int)(16.0D / (Math.random() * 0.8D + 0.2D));
-        this.noClip = false;
-        this.setParticleTextureIndex(49);
+        motionX *= 0.800000011920929D;
+        motionY *= 0.800000011920929D;
+        motionZ *= 0.800000011920929D;
+        motionY = rand.nextFloat() * 0.4F + 0.05F;
+        particleRed = particleGreen = particleBlue = 1.0F;
+        particleScale *= rand.nextFloat() * 2.0F + 0.2F;
+        lavaParticleScale = particleScale;
+        particleMaxAge = (int)(16.0D / (Math.random() * 0.8D + 0.2D));
+        noClip = false;
+        setParticleTextureIndex(49);
     }
 
     public int getBrightnessForRender(float partialTicks)
     {
-        float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge;
+        float f = ((float) particleAge + partialTicks) / (float) particleMaxAge;
         f = MathHelper.clamp_float(f, 0.0F, 1.0F);
         int i = super.getBrightnessForRender(partialTicks);
         int j = 240;
@@ -48,8 +48,8 @@ public class EntityLavaFX extends EntityFX
      */
     public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
     {
-        float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge;
-        this.particleScale = this.lavaParticleScale * (1.0F - f * f);
+        float f = ((float) particleAge + partialTicks) / (float) particleMaxAge;
+        particleScale = lavaParticleScale * (1.0F - f * f);
         super.renderParticle(worldRendererIn, entityIn, partialTicks, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);
     }
 
@@ -58,32 +58,32 @@ public class EntityLavaFX extends EntityFX
      */
     public void onUpdate()
     {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
 
-        if (this.particleAge++ >= this.particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
-            this.setDead();
+            setDead();
         }
 
-        float f = (float)this.particleAge / (float)this.particleMaxAge;
+        float f = (float) particleAge / (float) particleMaxAge;
 
-        if (this.rand.nextFloat() > f)
+        if (rand.nextFloat() > f)
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, new int[0]);
+            worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY, posZ, motionX, motionY, motionZ);
         }
 
-        this.motionY -= 0.03D;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.9990000128746033D;
-        this.motionY *= 0.9990000128746033D;
-        this.motionZ *= 0.9990000128746033D;
+        motionY -= 0.03D;
+        moveEntity(motionX, motionY, motionZ);
+        motionX *= 0.9990000128746033D;
+        motionY *= 0.9990000128746033D;
+        motionZ *= 0.9990000128746033D;
 
-        if (this.onGround)
+        if (onGround)
         {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
+            motionX *= 0.699999988079071D;
+            motionZ *= 0.699999988079071D;
         }
     }
 

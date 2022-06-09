@@ -12,12 +12,12 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot
     public GuiClickableScrolledSelectionListProxy(RealmsClickableScrolledSelectionList selectionList, int p_i45526_2_, int p_i45526_3_, int p_i45526_4_, int p_i45526_5_, int p_i45526_6_)
     {
         super(Minecraft.getMinecraft(), p_i45526_2_, p_i45526_3_, p_i45526_4_, p_i45526_5_, p_i45526_6_);
-        this.field_178046_u = selectionList;
+        field_178046_u = selectionList;
     }
 
     protected int getSize()
     {
-        return this.field_178046_u.getItemCount();
+        return field_178046_u.getItemCount();
     }
 
     /**
@@ -25,7 +25,7 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot
      */
     protected void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY)
     {
-        this.field_178046_u.selectItem(slotIndex, isDoubleClick, mouseX, mouseY);
+        field_178046_u.selectItem(slotIndex, isDoubleClick, mouseX, mouseY);
     }
 
     /**
@@ -33,17 +33,17 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot
      */
     protected boolean isSelected(int slotIndex)
     {
-        return this.field_178046_u.isSelectedItem(slotIndex);
+        return field_178046_u.isSelectedItem(slotIndex);
     }
 
     protected void drawBackground()
     {
-        this.field_178046_u.renderBackground();
+        field_178046_u.renderBackground();
     }
 
     protected void drawSlot(int entryID, int p_180791_2_, int p_180791_3_, int p_180791_4_, int mouseXIn, int mouseYIn)
     {
-        this.field_178046_u.renderItem(entryID, p_180791_2_, p_180791_3_, p_180791_4_, mouseXIn, mouseYIn);
+        field_178046_u.renderItem(entryID, p_180791_2_, p_180791_3_, p_180791_4_, mouseXIn, mouseYIn);
     }
 
     public int func_178044_e()
@@ -66,27 +66,27 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot
      */
     protected int getContentHeight()
     {
-        return this.field_178046_u.getMaxPosition();
+        return field_178046_u.getMaxPosition();
     }
 
     protected int getScrollBarX()
     {
-        return this.field_178046_u.getScrollbarPosition();
+        return field_178046_u.getScrollbarPosition();
     }
 
     public void handleMouseInput()
     {
         super.handleMouseInput();
 
-        if (this.scrollMultiplier > 0.0F && Mouse.getEventButtonState())
+        if (scrollMultiplier > 0.0F && Mouse.getEventButtonState())
         {
-            this.field_178046_u.customMouseEvent(this.top, this.bottom, this.headerPadding, this.amountScrolled, this.slotHeight);
+            field_178046_u.customMouseEvent(top, bottom, headerPadding, amountScrolled, slotHeight);
         }
     }
 
     public void func_178043_a(int p_178043_1_, int p_178043_2_, int p_178043_3_, Tezzelator p_178043_4_)
     {
-        this.field_178046_u.renderSelected(p_178043_1_, p_178043_2_, p_178043_3_, p_178043_4_);
+        field_178046_u.renderSelected(p_178043_1_, p_178043_2_, p_178043_3_, p_178043_4_);
     }
 
     /**
@@ -94,24 +94,24 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot
      */
     protected void drawSelectionBox(int p_148120_1_, int p_148120_2_, int mouseXIn, int mouseYIn)
     {
-        int i = this.getSize();
+        int i = getSize();
 
         for (int j = 0; j < i; ++j)
         {
-            int k = p_148120_2_ + j * this.slotHeight + this.headerPadding;
-            int l = this.slotHeight - 4;
+            int k = p_148120_2_ + j * slotHeight + headerPadding;
+            int l = slotHeight - 4;
 
-            if (k > this.bottom || k + l < this.top)
+            if (k > bottom || k + l < top)
             {
-                this.func_178040_a(j, p_148120_1_, k);
+                func_178040_a(j, p_148120_1_, k);
             }
 
-            if (this.showSelectionBox && this.isSelected(j))
+            if (showSelectionBox && isSelected(j))
             {
-                this.func_178043_a(this.width, k, l, Tezzelator.instance);
+                func_178043_a(width, k, l, Tezzelator.instance);
             }
 
-            this.drawSlot(j, p_148120_1_, k, l, mouseXIn, mouseYIn);
+            drawSlot(j, p_148120_1_, k, l, mouseXIn, mouseYIn);
         }
     }
 }

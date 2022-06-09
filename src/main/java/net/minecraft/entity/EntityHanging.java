@@ -22,13 +22,13 @@ public abstract class EntityHanging extends Entity
     public EntityHanging(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.5F, 0.5F);
+        setSize(0.5F, 0.5F);
     }
 
     public EntityHanging(World worldIn, BlockPos hangingPositionIn)
     {
         this(worldIn);
-        this.hangingPosition = hangingPositionIn;
+        hangingPosition = hangingPositionIn;
     }
 
     protected void entityInit()
@@ -42,9 +42,9 @@ public abstract class EntityHanging extends Entity
     {
         Validate.notNull(facingDirectionIn);
         Validate.isTrue(facingDirectionIn.getAxis().isHorizontal());
-        this.facingDirection = facingDirectionIn;
-        this.prevRotationYaw = this.rotationYaw = (float)(this.facingDirection.getHorizontalIndex() * 90);
-        this.updateBoundingBox();
+        facingDirection = facingDirectionIn;
+        prevRotationYaw = rotationYaw = (float)(facingDirection.getHorizontalIndex() * 90);
+        updateBoundingBox();
     }
 
     /**
@@ -52,28 +52,28 @@ public abstract class EntityHanging extends Entity
      */
     private void updateBoundingBox()
     {
-        if (this.facingDirection != null)
+        if (facingDirection != null)
         {
-            double d0 = (double)this.hangingPosition.getX() + 0.5D;
-            double d1 = (double)this.hangingPosition.getY() + 0.5D;
-            double d2 = (double)this.hangingPosition.getZ() + 0.5D;
+            double d0 = (double) hangingPosition.getX() + 0.5D;
+            double d1 = (double) hangingPosition.getY() + 0.5D;
+            double d2 = (double) hangingPosition.getZ() + 0.5D;
             double d3 = 0.46875D;
-            double d4 = this.func_174858_a(this.getWidthPixels());
-            double d5 = this.func_174858_a(this.getHeightPixels());
-            d0 = d0 - (double)this.facingDirection.getFrontOffsetX() * 0.46875D;
-            d2 = d2 - (double)this.facingDirection.getFrontOffsetZ() * 0.46875D;
+            double d4 = func_174858_a(getWidthPixels());
+            double d5 = func_174858_a(getHeightPixels());
+            d0 = d0 - (double) facingDirection.getFrontOffsetX() * 0.46875D;
+            d2 = d2 - (double) facingDirection.getFrontOffsetZ() * 0.46875D;
             d1 = d1 + d5;
-            EnumFacing enumfacing = this.facingDirection.rotateYCCW();
+            EnumFacing enumfacing = facingDirection.rotateYCCW();
             d0 = d0 + d4 * (double)enumfacing.getFrontOffsetX();
             d2 = d2 + d4 * (double)enumfacing.getFrontOffsetZ();
-            this.posX = d0;
-            this.posY = d1;
-            this.posZ = d2;
-            double d6 = (double)this.getWidthPixels();
-            double d7 = (double)this.getHeightPixels();
-            double d8 = (double)this.getWidthPixels();
+            posX = d0;
+            posY = d1;
+            posZ = d2;
+            double d6 = getWidthPixels();
+            double d7 = getHeightPixels();
+            double d8 = getWidthPixels();
 
-            if (this.facingDirection.getAxis() == EnumFacing.Axis.Z)
+            if (facingDirection.getAxis() == EnumFacing.Axis.Z)
             {
                 d8 = 1.0D;
             }
@@ -85,7 +85,7 @@ public abstract class EntityHanging extends Entity
             d6 = d6 / 32.0D;
             d7 = d7 / 32.0D;
             d8 = d8 / 32.0D;
-            this.setEntityBoundingBox(new AxisAlignedBB(d0 - d6, d1 - d7, d2 - d8, d0 + d6, d1 + d7, d2 + d8));
+            setEntityBoundingBox(new AxisAlignedBB(d0 - d6, d1 - d7, d2 - d8, d0 + d6, d1 + d7, d2 + d8));
         }
     }
 
@@ -99,18 +99,18 @@ public abstract class EntityHanging extends Entity
      */
     public void onUpdate()
     {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
 
-        if (this.tickCounter1++ == 100 && !this.worldObj.isRemote)
+        if (tickCounter1++ == 100 && !worldObj.isRemote)
         {
-            this.tickCounter1 = 0;
+            tickCounter1 = 0;
 
-            if (!this.isDead && !this.onValidSurface())
+            if (!isDead && !onValidSurface())
             {
-                this.setDead();
-                this.onBroken((Entity)null);
+                setDead();
+                onBroken(null);
             }
         }
     }
@@ -120,23 +120,23 @@ public abstract class EntityHanging extends Entity
      */
     public boolean onValidSurface()
     {
-        if (!this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox()).isEmpty())
+        if (!worldObj.getCollidingBoundingBoxes(this, getEntityBoundingBox()).isEmpty())
         {
             return false;
         }
         else
         {
-            int i = Math.max(1, this.getWidthPixels() / 16);
-            int j = Math.max(1, this.getHeightPixels() / 16);
-            BlockPos blockpos = this.hangingPosition.offset(this.facingDirection.getOpposite());
-            EnumFacing enumfacing = this.facingDirection.rotateYCCW();
+            int i = Math.max(1, getWidthPixels() / 16);
+            int j = Math.max(1, getHeightPixels() / 16);
+            BlockPos blockpos = hangingPosition.offset(facingDirection.getOpposite());
+            EnumFacing enumfacing = facingDirection.rotateYCCW();
 
             for (int k = 0; k < i; ++k)
             {
                 for (int l = 0; l < j; ++l)
                 {
                     BlockPos blockpos1 = blockpos.offset(enumfacing, k).up(l);
-                    Block block = this.worldObj.getBlockState(blockpos1).getBlock();
+                    Block block = worldObj.getBlockState(blockpos1).getBlock();
 
                     if (!block.getMaterial().isSolid() && !BlockRedstoneDiode.isRedstoneRepeaterBlockID(block))
                     {
@@ -145,7 +145,7 @@ public abstract class EntityHanging extends Entity
                 }
             }
 
-            for (Entity entity : this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox()))
+            for (Entity entity : worldObj.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox()))
             {
                 if (entity instanceof EntityHanging)
                 {
@@ -170,12 +170,12 @@ public abstract class EntityHanging extends Entity
      */
     public boolean hitByEntity(Entity entityIn)
     {
-        return entityIn instanceof EntityPlayer ? this.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer)entityIn), 0.0F) : false;
+        return entityIn instanceof EntityPlayer && attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) entityIn), 0.0F);
     }
 
     public EnumFacing getHorizontalFacing()
     {
-        return this.facingDirection;
+        return facingDirection;
     }
 
     /**
@@ -183,17 +183,17 @@ public abstract class EntityHanging extends Entity
      */
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-        if (this.isEntityInvulnerable(source))
+        if (isEntityInvulnerable(source))
         {
             return false;
         }
         else
         {
-            if (!this.isDead && !this.worldObj.isRemote)
+            if (!isDead && !worldObj.isRemote)
             {
-                this.setDead();
-                this.setBeenAttacked();
-                this.onBroken(source.getEntity());
+                setDead();
+                setBeenAttacked();
+                onBroken(source.getEntity());
             }
 
             return true;
@@ -205,10 +205,10 @@ public abstract class EntityHanging extends Entity
      */
     public void moveEntity(double x, double y, double z)
     {
-        if (!this.worldObj.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D)
+        if (!worldObj.isRemote && !isDead && x * x + y * y + z * z > 0.0D)
         {
-            this.setDead();
-            this.onBroken((Entity)null);
+            setDead();
+            onBroken(null);
         }
     }
 
@@ -217,10 +217,10 @@ public abstract class EntityHanging extends Entity
      */
     public void addVelocity(double x, double y, double z)
     {
-        if (!this.worldObj.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D)
+        if (!worldObj.isRemote && !isDead && x * x + y * y + z * z > 0.0D)
         {
-            this.setDead();
-            this.onBroken((Entity)null);
+            setDead();
+            onBroken(null);
         }
     }
 
@@ -229,10 +229,10 @@ public abstract class EntityHanging extends Entity
      */
     public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
-        tagCompound.setByte("Facing", (byte)this.facingDirection.getHorizontalIndex());
-        tagCompound.setInteger("TileX", this.getHangingPosition().getX());
-        tagCompound.setInteger("TileY", this.getHangingPosition().getY());
-        tagCompound.setInteger("TileZ", this.getHangingPosition().getZ());
+        tagCompound.setByte("Facing", (byte) facingDirection.getHorizontalIndex());
+        tagCompound.setInteger("TileX", getHangingPosition().getX());
+        tagCompound.setInteger("TileY", getHangingPosition().getY());
+        tagCompound.setInteger("TileZ", getHangingPosition().getZ());
     }
 
     /**
@@ -240,13 +240,13 @@ public abstract class EntityHanging extends Entity
      */
     public void readEntityFromNBT(NBTTagCompound tagCompund)
     {
-        this.hangingPosition = new BlockPos(tagCompund.getInteger("TileX"), tagCompund.getInteger("TileY"), tagCompund.getInteger("TileZ"));
+        hangingPosition = new BlockPos(tagCompund.getInteger("TileX"), tagCompund.getInteger("TileY"), tagCompund.getInteger("TileZ"));
         EnumFacing enumfacing;
 
         if (tagCompund.hasKey("Direction", 99))
         {
             enumfacing = EnumFacing.getHorizontal(tagCompund.getByte("Direction"));
-            this.hangingPosition = this.hangingPosition.offset(enumfacing);
+            hangingPosition = hangingPosition.offset(enumfacing);
         }
         else if (tagCompund.hasKey("Facing", 99))
         {
@@ -257,7 +257,7 @@ public abstract class EntityHanging extends Entity
             enumfacing = EnumFacing.getHorizontal(tagCompund.getByte("Dir"));
         }
 
-        this.updateFacingWithBoundingBox(enumfacing);
+        updateFacingWithBoundingBox(enumfacing);
     }
 
     public abstract int getWidthPixels();
@@ -279,21 +279,21 @@ public abstract class EntityHanging extends Entity
      */
     public void setPosition(double x, double y, double z)
     {
-        this.posX = x;
-        this.posY = y;
-        this.posZ = z;
-        BlockPos blockpos = this.hangingPosition;
-        this.hangingPosition = new BlockPos(x, y, z);
+        posX = x;
+        posY = y;
+        posZ = z;
+        BlockPos blockpos = hangingPosition;
+        hangingPosition = new BlockPos(x, y, z);
 
-        if (!this.hangingPosition.equals(blockpos))
+        if (!hangingPosition.equals(blockpos))
         {
-            this.updateBoundingBox();
-            this.isAirBorne = true;
+            updateBoundingBox();
+            isAirBorne = true;
         }
     }
 
     public BlockPos getHangingPosition()
     {
-        return this.hangingPosition;
+        return hangingPosition;
     }
 }

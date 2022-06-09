@@ -5,11 +5,11 @@ import net.minecraft.pathfinding.PathNavigateGround;
 
 public class EntityAIRestrictSun extends EntityAIBase
 {
-    private EntityCreature theEntity;
+    private final EntityCreature theEntity;
 
     public EntityAIRestrictSun(EntityCreature p_i1652_1_)
     {
-        this.theEntity = p_i1652_1_;
+        theEntity = p_i1652_1_;
     }
 
     /**
@@ -17,7 +17,7 @@ public class EntityAIRestrictSun extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        return this.theEntity.worldObj.isDaytime();
+        return theEntity.worldObj.isDaytime();
     }
 
     /**
@@ -25,7 +25,7 @@ public class EntityAIRestrictSun extends EntityAIBase
      */
     public void startExecuting()
     {
-        ((PathNavigateGround)this.theEntity.getNavigator()).setAvoidSun(true);
+        ((PathNavigateGround) theEntity.getNavigator()).setAvoidSun(true);
     }
 
     /**
@@ -33,6 +33,6 @@ public class EntityAIRestrictSun extends EntityAIBase
      */
     public void resetTask()
     {
-        ((PathNavigateGround)this.theEntity.getNavigator()).setAvoidSun(false);
+        ((PathNavigateGround) theEntity.getNavigator()).setAvoidSun(false);
     }
 }

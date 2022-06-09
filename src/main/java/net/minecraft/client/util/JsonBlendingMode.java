@@ -18,13 +18,13 @@ public class JsonBlendingMode
 
     private JsonBlendingMode(boolean p_i45084_1_, boolean p_i45084_2_, int p_i45084_3_, int p_i45084_4_, int p_i45084_5_, int p_i45084_6_, int p_i45084_7_)
     {
-        this.field_148113_g = p_i45084_1_;
-        this.field_148116_b = p_i45084_3_;
-        this.field_148114_d = p_i45084_4_;
-        this.field_148117_c = p_i45084_5_;
-        this.field_148115_e = p_i45084_6_;
-        this.field_148119_h = p_i45084_2_;
-        this.field_148112_f = p_i45084_7_;
+        field_148113_g = p_i45084_1_;
+        field_148116_b = p_i45084_3_;
+        field_148114_d = p_i45084_4_;
+        field_148117_c = p_i45084_5_;
+        field_148115_e = p_i45084_6_;
+        field_148119_h = p_i45084_2_;
+        field_148112_f = p_i45084_7_;
     }
 
     public JsonBlendingMode()
@@ -44,13 +44,13 @@ public class JsonBlendingMode
 
     public void func_148109_a()
     {
-        if (!this.equals(field_148118_a))
+        if (!equals(JsonBlendingMode.field_148118_a))
         {
-            if (field_148118_a == null || this.field_148119_h != field_148118_a.func_148111_b())
+            if (JsonBlendingMode.field_148118_a == null || field_148119_h != JsonBlendingMode.field_148118_a.func_148111_b())
             {
-                field_148118_a = this;
+                JsonBlendingMode.field_148118_a = this;
 
-                if (this.field_148119_h)
+                if (field_148119_h)
                 {
                     GlStateManager.disableBlend();
                     return;
@@ -59,15 +59,15 @@ public class JsonBlendingMode
                 GlStateManager.enableBlend();
             }
 
-            GL14.glBlendEquation(this.field_148112_f);
+            GL14.glBlendEquation(field_148112_f);
 
-            if (this.field_148113_g)
+            if (field_148113_g)
             {
-                GlStateManager.tryBlendFuncSeparate(this.field_148116_b, this.field_148114_d, this.field_148117_c, this.field_148115_e);
+                GlStateManager.tryBlendFuncSeparate(field_148116_b, field_148114_d, field_148117_c, field_148115_e);
             }
             else
             {
-                GlStateManager.blendFunc(this.field_148116_b, this.field_148114_d);
+                GlStateManager.blendFunc(field_148116_b, field_148114_d);
             }
         }
     }
@@ -85,25 +85,25 @@ public class JsonBlendingMode
         else
         {
             JsonBlendingMode jsonblendingmode = (JsonBlendingMode)p_equals_1_;
-            return this.field_148112_f != jsonblendingmode.field_148112_f ? false : (this.field_148115_e != jsonblendingmode.field_148115_e ? false : (this.field_148114_d != jsonblendingmode.field_148114_d ? false : (this.field_148119_h != jsonblendingmode.field_148119_h ? false : (this.field_148113_g != jsonblendingmode.field_148113_g ? false : (this.field_148117_c != jsonblendingmode.field_148117_c ? false : this.field_148116_b == jsonblendingmode.field_148116_b)))));
+            return field_148112_f == jsonblendingmode.field_148112_f && (field_148115_e == jsonblendingmode.field_148115_e && (field_148114_d == jsonblendingmode.field_148114_d && (field_148119_h == jsonblendingmode.field_148119_h && (field_148113_g == jsonblendingmode.field_148113_g && (field_148117_c == jsonblendingmode.field_148117_c && field_148116_b == jsonblendingmode.field_148116_b)))));
         }
     }
 
     public int hashCode()
     {
-        int i = this.field_148116_b;
-        i = 31 * i + this.field_148117_c;
-        i = 31 * i + this.field_148114_d;
-        i = 31 * i + this.field_148115_e;
-        i = 31 * i + this.field_148112_f;
-        i = 31 * i + (this.field_148113_g ? 1 : 0);
-        i = 31 * i + (this.field_148119_h ? 1 : 0);
+        int i = field_148116_b;
+        i = 31 * i + field_148117_c;
+        i = 31 * i + field_148114_d;
+        i = 31 * i + field_148115_e;
+        i = 31 * i + field_148112_f;
+        i = 31 * i + (field_148113_g ? 1 : 0);
+        i = 31 * i + (field_148119_h ? 1 : 0);
         return i;
     }
 
     public boolean func_148111_b()
     {
-        return this.field_148119_h;
+        return field_148119_h;
     }
 
     public static JsonBlendingMode func_148110_a(JsonObject p_148110_0_)
@@ -124,7 +124,7 @@ public class JsonBlendingMode
 
             if (JsonUtils.isString(p_148110_0_, "func"))
             {
-                i = func_148108_a(p_148110_0_.get("func").getAsString());
+                i = JsonBlendingMode.func_148108_a(p_148110_0_.get("func").getAsString());
 
                 if (i != 32774)
                 {
@@ -134,7 +134,7 @@ public class JsonBlendingMode
 
             if (JsonUtils.isString(p_148110_0_, "srcrgb"))
             {
-                j = func_148107_b(p_148110_0_.get("srcrgb").getAsString());
+                j = JsonBlendingMode.func_148107_b(p_148110_0_.get("srcrgb").getAsString());
 
                 if (j != 1)
                 {
@@ -144,7 +144,7 @@ public class JsonBlendingMode
 
             if (JsonUtils.isString(p_148110_0_, "dstrgb"))
             {
-                k = func_148107_b(p_148110_0_.get("dstrgb").getAsString());
+                k = JsonBlendingMode.func_148107_b(p_148110_0_.get("dstrgb").getAsString());
 
                 if (k != 0)
                 {
@@ -154,7 +154,7 @@ public class JsonBlendingMode
 
             if (JsonUtils.isString(p_148110_0_, "srcalpha"))
             {
-                l = func_148107_b(p_148110_0_.get("srcalpha").getAsString());
+                l = JsonBlendingMode.func_148107_b(p_148110_0_.get("srcalpha").getAsString());
 
                 if (l != 1)
                 {
@@ -166,7 +166,7 @@ public class JsonBlendingMode
 
             if (JsonUtils.isString(p_148110_0_, "dstalpha"))
             {
-                i1 = func_148107_b(p_148110_0_.get("dstalpha").getAsString());
+                i1 = JsonBlendingMode.func_148107_b(p_148110_0_.get("dstalpha").getAsString());
 
                 if (i1 != 0)
                 {

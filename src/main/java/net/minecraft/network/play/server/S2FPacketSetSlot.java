@@ -18,9 +18,9 @@ public class S2FPacketSetSlot implements Packet<INetHandlerPlayClient>
 
     public S2FPacketSetSlot(int windowIdIn, int slotIn, ItemStack itemIn)
     {
-        this.windowId = windowIdIn;
-        this.slot = slotIn;
-        this.item = itemIn == null ? null : itemIn.copy();
+        windowId = windowIdIn;
+        slot = slotIn;
+        item = itemIn == null ? null : itemIn.copy();
     }
 
     /**
@@ -36,9 +36,9 @@ public class S2FPacketSetSlot implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.windowId = buf.readByte();
-        this.slot = buf.readShort();
-        this.item = buf.readItemStackFromBuffer();
+        windowId = buf.readByte();
+        slot = buf.readShort();
+        item = buf.readItemStackFromBuffer();
     }
 
     /**
@@ -46,23 +46,23 @@ public class S2FPacketSetSlot implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeByte(this.windowId);
-        buf.writeShort(this.slot);
-        buf.writeItemStackToBuffer(this.item);
+        buf.writeByte(windowId);
+        buf.writeShort(slot);
+        buf.writeItemStackToBuffer(item);
     }
 
     public int func_149175_c()
     {
-        return this.windowId;
+        return windowId;
     }
 
     public int func_149173_d()
     {
-        return this.slot;
+        return slot;
     }
 
     public ItemStack func_149174_e()
     {
-        return this.item;
+        return item;
     }
 }

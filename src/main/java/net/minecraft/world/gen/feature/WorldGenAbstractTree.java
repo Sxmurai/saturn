@@ -28,7 +28,7 @@ public abstract class WorldGenAbstractTree extends WorldGenerator
     {
         if (worldIn.getBlockState(p_175921_2_).getBlock() != Blocks.dirt)
         {
-            this.setBlockAndNotifyAdequately(worldIn, p_175921_2_, Blocks.dirt.getDefaultState());
+            setBlockAndNotifyAdequately(worldIn, p_175921_2_, Blocks.dirt.getDefaultState());
         }
     }
 }

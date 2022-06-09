@@ -30,7 +30,7 @@ public class CompressedStreamTools
 
         try
         {
-            nbttagcompound = read(datainputstream, NBTSizeTracker.INFINITE);
+            nbttagcompound = CompressedStreamTools.read(datainputstream, NBTSizeTracker.INFINITE);
         }
         finally
         {
@@ -49,7 +49,7 @@ public class CompressedStreamTools
 
         try
         {
-            write(p_74799_0_, dataoutputstream);
+            CompressedStreamTools.write(p_74799_0_, dataoutputstream);
         }
         finally
         {
@@ -66,7 +66,7 @@ public class CompressedStreamTools
             file1.delete();
         }
 
-        write(p_74793_0_, file1);
+        CompressedStreamTools.write(p_74793_0_, file1);
 
         if (p_74793_1_.exists())
         {
@@ -89,7 +89,7 @@ public class CompressedStreamTools
 
         try
         {
-            write(p_74795_0_, dataoutputstream);
+            CompressedStreamTools.write(p_74795_0_, dataoutputstream);
         }
         finally
         {
@@ -110,7 +110,7 @@ public class CompressedStreamTools
 
             try
             {
-                nbttagcompound = read(datainputstream, NBTSizeTracker.INFINITE);
+                nbttagcompound = CompressedStreamTools.read(datainputstream, NBTSizeTracker.INFINITE);
             }
             finally
             {
@@ -126,7 +126,7 @@ public class CompressedStreamTools
      */
     public static NBTTagCompound read(DataInputStream inputStream) throws IOException
     {
-        return read(inputStream, NBTSizeTracker.INFINITE);
+        return CompressedStreamTools.read(inputStream, NBTSizeTracker.INFINITE);
     }
 
     /**
@@ -134,7 +134,7 @@ public class CompressedStreamTools
      */
     public static NBTTagCompound read(DataInput p_152456_0_, NBTSizeTracker p_152456_1_) throws IOException
     {
-        NBTBase nbtbase = func_152455_a(p_152456_0_, 0, p_152456_1_);
+        NBTBase nbtbase = CompressedStreamTools.func_152455_a(p_152456_0_, 0, p_152456_1_);
 
         if (nbtbase instanceof NBTTagCompound)
         {
@@ -148,7 +148,7 @@ public class CompressedStreamTools
 
     public static void write(NBTTagCompound p_74800_0_, DataOutput p_74800_1_) throws IOException
     {
-        writeTag(p_74800_0_, p_74800_1_);
+        CompressedStreamTools.writeTag(p_74800_0_, p_74800_1_);
     }
 
     private static void writeTag(NBTBase p_150663_0_, DataOutput p_150663_1_) throws IOException

@@ -14,15 +14,15 @@ public class RenderEnderman extends RenderLiving<EntityEnderman>
     private static final ResourceLocation endermanTextures = new ResourceLocation("textures/entity/enderman/enderman.png");
 
     /** The model of the enderman */
-    private ModelEnderman endermanModel;
-    private Random rnd = new Random();
+    private final ModelEnderman endermanModel;
+    private final Random rnd = new Random();
 
     public RenderEnderman(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelEnderman(0.0F), 0.5F);
-        this.endermanModel = (ModelEnderman)super.mainModel;
-        this.addLayer(new LayerEndermanEyes(this));
-        this.addLayer(new LayerHeldBlock(this));
+        endermanModel = (ModelEnderman)super.mainModel;
+        addLayer(new LayerEndermanEyes(this));
+        addLayer(new LayerHeldBlock(this));
     }
 
     /**
@@ -33,14 +33,14 @@ public class RenderEnderman extends RenderLiving<EntityEnderman>
      */
     public void doRender(EntityEnderman entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        this.endermanModel.isCarrying = entity.getHeldBlockState().getBlock().getMaterial() != Material.air;
-        this.endermanModel.isAttacking = entity.isScreaming();
+        endermanModel.isCarrying = entity.getHeldBlockState().getBlock().getMaterial() != Material.air;
+        endermanModel.isAttacking = entity.isScreaming();
 
         if (entity.isScreaming())
         {
             double d0 = 0.02D;
-            x += this.rnd.nextGaussian() * d0;
-            z += this.rnd.nextGaussian() * d0;
+            x += rnd.nextGaussian() * d0;
+            z += rnd.nextGaussian() * d0;
         }
 
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
@@ -51,6 +51,6 @@ public class RenderEnderman extends RenderLiving<EntityEnderman>
      */
     protected ResourceLocation getEntityTexture(EntityEnderman entity)
     {
-        return endermanTextures;
+        return RenderEnderman.endermanTextures;
     }
 }

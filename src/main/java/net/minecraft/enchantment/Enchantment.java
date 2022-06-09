@@ -17,7 +17,7 @@ public abstract class Enchantment
 {
     private static final Enchantment[] enchantmentsList = new Enchantment[256];
     public static final Enchantment[] enchantmentsBookList;
-    private static final Map<ResourceLocation, Enchantment> locationEnchantments = Maps.<ResourceLocation, Enchantment>newHashMap();
+    private static final Map<ResourceLocation, Enchantment> locationEnchantments = Maps.newHashMap();
     public static final Enchantment protection = new EnchantmentProtection(0, new ResourceLocation("protection"), 10, 0);
 
     /** Protection against fire */
@@ -95,23 +95,23 @@ public abstract class Enchantment
      */
     public static Enchantment getEnchantmentById(int enchID)
     {
-        return enchID >= 0 && enchID < enchantmentsList.length ? enchantmentsList[enchID] : null;
+        return enchID >= 0 && enchID < Enchantment.enchantmentsList.length ? Enchantment.enchantmentsList[enchID] : null;
     }
 
     protected Enchantment(int enchID, ResourceLocation enchName, int enchWeight, EnumEnchantmentType enchType)
     {
-        this.effectId = enchID;
-        this.weight = enchWeight;
-        this.type = enchType;
+        effectId = enchID;
+        weight = enchWeight;
+        type = enchType;
 
-        if (enchantmentsList[enchID] != null)
+        if (Enchantment.enchantmentsList[enchID] != null)
         {
             throw new IllegalArgumentException("Duplicate enchantment id!");
         }
         else
         {
-            enchantmentsList[enchID] = this;
-            locationEnchantments.put(enchName, this);
+            Enchantment.enchantmentsList[enchID] = this;
+            Enchantment.locationEnchantments.put(enchName, this);
         }
     }
 
@@ -120,12 +120,12 @@ public abstract class Enchantment
      */
     public static Enchantment getEnchantmentByLocation(String location)
     {
-        return (Enchantment)locationEnchantments.get(new ResourceLocation(location));
+        return Enchantment.locationEnchantments.get(new ResourceLocation(location));
     }
 
     public static Set<ResourceLocation> func_181077_c()
     {
-        return locationEnchantments.keySet();
+        return Enchantment.locationEnchantments.keySet();
     }
 
     /**
@@ -134,7 +134,7 @@ public abstract class Enchantment
      */
     public int getWeight()
     {
-        return this.weight;
+        return weight;
     }
 
     /**
@@ -166,7 +166,7 @@ public abstract class Enchantment
      */
     public int getMaxEnchantability(int enchantmentLevel)
     {
-        return this.getMinEnchantability(enchantmentLevel) + 5;
+        return getMinEnchantability(enchantmentLevel) + 5;
     }
 
     /**
@@ -199,7 +199,7 @@ public abstract class Enchantment
      */
     public Enchantment setName(String enchName)
     {
-        this.name = enchName;
+        name = enchName;
         return this;
     }
 
@@ -208,7 +208,7 @@ public abstract class Enchantment
      */
     public String getName()
     {
-        return "enchantment." + this.name;
+        return "enchantment." + name;
     }
 
     /**
@@ -216,7 +216,7 @@ public abstract class Enchantment
      */
     public String getTranslatedName(int level)
     {
-        String s = StatCollector.translateToLocal(this.getName());
+        String s = StatCollector.translateToLocal(getName());
         return s + " " + StatCollector.translateToLocal("enchantment.level." + level);
     }
 
@@ -225,7 +225,7 @@ public abstract class Enchantment
      */
     public boolean canApply(ItemStack stack)
     {
-        return this.type.canEnchantItem(stack.getItem());
+        return type.canEnchantItem(stack.getItem());
     }
 
     /**
@@ -245,9 +245,9 @@ public abstract class Enchantment
 
     static
     {
-        List<Enchantment> list = Lists.<Enchantment>newArrayList();
+        List<Enchantment> list = Lists.newArrayList();
 
-        for (Enchantment enchantment : enchantmentsList)
+        for (Enchantment enchantment : Enchantment.enchantmentsList)
         {
             if (enchantment != null)
             {
@@ -255,6 +255,6 @@ public abstract class Enchantment
             }
         }
 
-        enchantmentsBookList = (Enchantment[])list.toArray(new Enchantment[list.size()]);
+        enchantmentsBookList = list.toArray(new Enchantment[list.size()]);
     }
 }

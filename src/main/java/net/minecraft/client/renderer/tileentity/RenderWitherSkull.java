@@ -26,7 +26,6 @@ public class RenderWitherSkull extends Render<EntityWitherSkull>
 
         for (f = p_82400_2_ - p_82400_1_; f < -180.0F; f += 360.0F)
         {
-            ;
         }
 
         while (f >= 180.0F)
@@ -47,15 +46,15 @@ public class RenderWitherSkull extends Render<EntityWitherSkull>
     {
         GlStateManager.pushMatrix();
         GlStateManager.disableCull();
-        float f = this.func_82400_a(entity.prevRotationYaw, entity.rotationYaw, partialTicks);
+        float f = func_82400_a(entity.prevRotationYaw, entity.rotationYaw, partialTicks);
         float f1 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
         GlStateManager.translate((float)x, (float)y, (float)z);
         float f2 = 0.0625F;
         GlStateManager.enableRescaleNormal();
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
         GlStateManager.enableAlpha();
-        this.bindEntityTexture(entity);
-        this.skeletonHeadModel.render(entity, 0.0F, 0.0F, 0.0F, f, f1, f2);
+        bindEntityTexture(entity);
+        skeletonHeadModel.render(entity, 0.0F, 0.0F, 0.0F, f, f1, f2);
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
@@ -65,6 +64,6 @@ public class RenderWitherSkull extends Render<EntityWitherSkull>
      */
     protected ResourceLocation getEntityTexture(EntityWitherSkull entity)
     {
-        return entity.isInvulnerable() ? invulnerableWitherTextures : witherTextures;
+        return entity.isInvulnerable() ? RenderWitherSkull.invulnerableWitherTextures : RenderWitherSkull.witherTextures;
     }
 }

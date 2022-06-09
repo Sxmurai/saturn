@@ -9,7 +9,7 @@ public class EnchantmentDigging extends Enchantment
     protected EnchantmentDigging(int enchID, ResourceLocation enchName, int enchWeight)
     {
         super(enchID, enchName, enchWeight, EnumEnchantmentType.DIGGER);
-        this.setName("digging");
+        setName("digging");
     }
 
     /**
@@ -41,6 +41,6 @@ public class EnchantmentDigging extends Enchantment
      */
     public boolean canApply(ItemStack stack)
     {
-        return stack.getItem() == Items.shears ? true : super.canApply(stack);
+        return stack.getItem() == Items.shears || super.canApply(stack);
     }
 }

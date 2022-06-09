@@ -10,17 +10,17 @@ public class DifficultyInstance
     public DifficultyInstance(EnumDifficulty worldDifficulty, long worldTime, long chunkInhabitedTime, float moonPhaseFactor)
     {
         this.worldDifficulty = worldDifficulty;
-        this.additionalDifficulty = this.calculateAdditionalDifficulty(worldDifficulty, worldTime, chunkInhabitedTime, moonPhaseFactor);
+        additionalDifficulty = calculateAdditionalDifficulty(worldDifficulty, worldTime, chunkInhabitedTime, moonPhaseFactor);
     }
 
     public float getAdditionalDifficulty()
     {
-        return this.additionalDifficulty;
+        return additionalDifficulty;
     }
 
     public float getClampedAdditionalDifficulty()
     {
-        return this.additionalDifficulty < 2.0F ? 0.0F : (this.additionalDifficulty > 4.0F ? 1.0F : (this.additionalDifficulty - 2.0F) / 2.0F);
+        return additionalDifficulty < 2.0F ? 0.0F : (additionalDifficulty > 4.0F ? 1.0F : (additionalDifficulty - 2.0F) / 2.0F);
     }
 
     private float calculateAdditionalDifficulty(EnumDifficulty difficulty, long worldTime, long chunkInhabitedTime, float moonPhaseFactor)

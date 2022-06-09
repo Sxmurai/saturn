@@ -22,7 +22,7 @@ import net.minecraft.util.ResourceLocation;
 public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
 {
     /** this field is used to indicate the 3-pixel wide arms */
-    private boolean smallArms;
+    private final boolean smallArms;
 
     public RenderPlayer(RenderManager renderManager)
     {
@@ -32,13 +32,13 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
     public RenderPlayer(RenderManager renderManager, boolean useSmallArms)
     {
         super(renderManager, new ModelPlayer(0.0F, useSmallArms), 0.5F);
-        this.smallArms = useSmallArms;
-        this.addLayer(new LayerBipedArmor(this));
-        this.addLayer(new LayerHeldItem(this));
-        this.addLayer(new LayerArrow(this));
-        this.addLayer(new LayerDeadmau5Head(this));
-        this.addLayer(new LayerCape(this));
-        this.addLayer(new LayerCustomHead(this.getMainModel().bipedHead));
+        smallArms = useSmallArms;
+        addLayer(new LayerBipedArmor(this));
+        addLayer(new LayerHeldItem(this));
+        addLayer(new LayerArrow(this));
+        addLayer(new LayerDeadmau5Head(this));
+        addLayer(new LayerCape(this));
+        addLayer(new LayerCustomHead(getMainModel().bipedHead));
     }
 
     public ModelPlayer getMainModel()
@@ -54,7 +54,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
      */
     public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        if (!entity.isUser() || this.renderManager.livingPlayer == entity)
+        if (!entity.isUser() || renderManager.livingPlayer == entity)
         {
             double d0 = y;
 
@@ -63,14 +63,14 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
                 d0 = y - 0.125D;
             }
 
-            this.setModelVisibilities(entity);
+            setModelVisibilities(entity);
             super.doRender(entity, x, d0, z, entityYaw, partialTicks);
         }
     }
 
     private void setModelVisibilities(AbstractClientPlayer clientPlayer)
     {
-        ModelPlayer modelplayer = this.getMainModel();
+        ModelPlayer modelplayer = getMainModel();
 
         if (clientPlayer.isSpectator())
         {
@@ -150,8 +150,8 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
             if (scoreobjective != null)
             {
                 Score score = scoreboard.getValueFromObjective(entityIn.getName(), scoreobjective);
-                this.renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
-                y += (double)((float)this.getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_);
+                renderLivingLabel(entityIn, score.getScorePoints() + " " + scoreobjective.getDisplayName(), x, y, z, 64);
+                y += (float) getFontRendererFromRenderManager().FONT_HEIGHT * 1.15F * p_177069_9_;
             }
         }
 
@@ -162,8 +162,8 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
     {
         float f = 1.0F;
         GlStateManager.color(f, f, f);
-        ModelPlayer modelplayer = this.getMainModel();
-        this.setModelVisibilities(clientPlayer);
+        ModelPlayer modelplayer = getMainModel();
+        setModelVisibilities(clientPlayer);
         modelplayer.swingProgress = 0.0F;
         modelplayer.isSneak = false;
         modelplayer.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, clientPlayer);
@@ -174,8 +174,8 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
     {
         float f = 1.0F;
         GlStateManager.color(f, f, f);
-        ModelPlayer modelplayer = this.getMainModel();
-        this.setModelVisibilities(clientPlayer);
+        ModelPlayer modelplayer = getMainModel();
+        setModelVisibilities(clientPlayer);
         modelplayer.isSneak = false;
         modelplayer.swingProgress = 0.0F;
         modelplayer.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, clientPlayer);
@@ -202,7 +202,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
         if (bat.isEntityAlive() && bat.isPlayerSleeping())
         {
             GlStateManager.rotate(bat.getBedOrientationInDegrees(), 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate(this.getDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
+            GlStateManager.rotate(getDeathMaxRotation(bat), 0.0F, 0.0F, 1.0F);
             GlStateManager.rotate(270.0F, 0.0F, 1.0F, 0.0F);
         }
         else

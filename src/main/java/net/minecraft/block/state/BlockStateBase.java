@@ -6,7 +6,8 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.util.ResourceLocation;
@@ -17,7 +18,7 @@ public abstract class BlockStateBase implements IBlockState
     private static final Function MAP_ENTRY_TO_STRING = new Function()
     {
         private static final String __OBFID = "CL_00002031";
-        public String apply(Entry p_apply_1_)
+        public String apply(Map.Entry p_apply_1_)
         {
             if (p_apply_1_ == null)
             {
@@ -31,7 +32,7 @@ public abstract class BlockStateBase implements IBlockState
         }
         public Object apply(Object p_apply_1_)
         {
-            return this.apply((Entry)p_apply_1_);
+            return apply((Map.Entry)p_apply_1_);
         }
     };
     private static final String __OBFID = "CL_00002032";
@@ -42,42 +43,42 @@ public abstract class BlockStateBase implements IBlockState
 
     public int getBlockId()
     {
-        if (this.blockId < 0)
+        if (blockId < 0)
         {
-            this.blockId = Block.getIdFromBlock(this.getBlock());
+            blockId = Block.getIdFromBlock(getBlock());
         }
 
-        return this.blockId;
+        return blockId;
     }
 
     public int getBlockStateId()
     {
-        if (this.blockStateId < 0)
+        if (blockStateId < 0)
         {
-            this.blockStateId = Block.getStateId(this);
+            blockStateId = Block.getStateId(this);
         }
 
-        return this.blockStateId;
+        return blockStateId;
     }
 
     public int getMetadata()
     {
-        if (this.metadata < 0)
+        if (metadata < 0)
         {
-            this.metadata = this.getBlock().getMetaFromState(this);
+            metadata = getBlock().getMetaFromState(this);
         }
 
-        return this.metadata;
+        return metadata;
     }
 
     public ResourceLocation getBlockLocation()
     {
-        if (this.blockLocation == null)
+        if (blockLocation == null)
         {
-            this.blockLocation = (ResourceLocation)Block.blockRegistry.getNameForObject(this.getBlock());
+            blockLocation = Block.blockRegistry.getNameForObject(getBlock());
         }
 
-        return this.blockLocation;
+        return blockLocation;
     }
 
     /**
@@ -86,7 +87,7 @@ public abstract class BlockStateBase implements IBlockState
      */
     public IBlockState cycleProperty(IProperty property)
     {
-        return this.withProperty(property, (Comparable)cyclePropertyValue(property.getAllowedValues(), this.getValue(property)));
+        return withProperty(property, (Comparable) BlockStateBase.cyclePropertyValue(property.getAllowedValues(), getValue(property)));
     }
 
     /**
@@ -115,12 +116,12 @@ public abstract class BlockStateBase implements IBlockState
     public String toString()
     {
         StringBuilder stringbuilder = new StringBuilder();
-        stringbuilder.append(Block.blockRegistry.getNameForObject(this.getBlock()));
+        stringbuilder.append(Block.blockRegistry.getNameForObject(getBlock()));
 
-        if (!this.getProperties().isEmpty())
+        if (!getProperties().isEmpty())
         {
             stringbuilder.append("[");
-            COMMA_JOINER.appendTo(stringbuilder, Iterables.transform(this.getProperties().entrySet(), MAP_ENTRY_TO_STRING));
+            BlockStateBase.COMMA_JOINER.appendTo(stringbuilder, Iterables.transform(getProperties().entrySet(), BlockStateBase.MAP_ENTRY_TO_STRING));
             stringbuilder.append("]");
         }
 

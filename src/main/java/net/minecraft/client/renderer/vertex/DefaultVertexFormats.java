@@ -8,8 +8,8 @@ public class DefaultVertexFormats
 {
     public static VertexFormat BLOCK = new VertexFormat();
     public static VertexFormat ITEM = new VertexFormat();
-    private static final VertexFormat BLOCK_VANILLA = BLOCK;
-    private static final VertexFormat ITEM_VANILLA = ITEM;
+    private static final VertexFormat BLOCK_VANILLA = DefaultVertexFormats.BLOCK;
+    private static final VertexFormat ITEM_VANILLA = DefaultVertexFormats.ITEM;
     public static final VertexFormat OLDMODEL_POSITION_TEX_NORMAL = new VertexFormat();
     public static final VertexFormat PARTICLE_POSITION_TEX_COLOR_LMAP = new VertexFormat();
     public static final VertexFormat POSITION = new VertexFormat();
@@ -32,18 +32,18 @@ public class DefaultVertexFormats
     {
         if (Config.isShaders())
         {
-            BLOCK = SVertexFormat.makeDefVertexFormatBlock();
-            ITEM = SVertexFormat.makeDefVertexFormatItem();
+            DefaultVertexFormats.BLOCK = SVertexFormat.makeDefVertexFormatBlock();
+            DefaultVertexFormats.ITEM = SVertexFormat.makeDefVertexFormatItem();
         }
         else
         {
-            BLOCK = BLOCK_VANILLA;
-            ITEM = ITEM_VANILLA;
+            DefaultVertexFormats.BLOCK = DefaultVertexFormats.BLOCK_VANILLA;
+            DefaultVertexFormats.ITEM = DefaultVertexFormats.ITEM_VANILLA;
         }
 
         if (Reflector.Attributes_DEFAULT_BAKED_FORMAT.exists())
         {
-            VertexFormat vertexformat = ITEM;
+            VertexFormat vertexformat = DefaultVertexFormats.ITEM;
             VertexFormat vertexformat1 = (VertexFormat)Reflector.getFieldValue(Reflector.Attributes_DEFAULT_BAKED_FORMAT);
             vertexformat1.clear();
 
@@ -56,46 +56,46 @@ public class DefaultVertexFormats
 
     static
     {
-        BLOCK.func_181721_a(POSITION_3F);
-        BLOCK.func_181721_a(COLOR_4UB);
-        BLOCK.func_181721_a(TEX_2F);
-        BLOCK.func_181721_a(TEX_2S);
-        ITEM.func_181721_a(POSITION_3F);
-        ITEM.func_181721_a(COLOR_4UB);
-        ITEM.func_181721_a(TEX_2F);
-        ITEM.func_181721_a(NORMAL_3B);
-        ITEM.func_181721_a(PADDING_1B);
-        OLDMODEL_POSITION_TEX_NORMAL.func_181721_a(POSITION_3F);
-        OLDMODEL_POSITION_TEX_NORMAL.func_181721_a(TEX_2F);
-        OLDMODEL_POSITION_TEX_NORMAL.func_181721_a(NORMAL_3B);
-        OLDMODEL_POSITION_TEX_NORMAL.func_181721_a(PADDING_1B);
-        PARTICLE_POSITION_TEX_COLOR_LMAP.func_181721_a(POSITION_3F);
-        PARTICLE_POSITION_TEX_COLOR_LMAP.func_181721_a(TEX_2F);
-        PARTICLE_POSITION_TEX_COLOR_LMAP.func_181721_a(COLOR_4UB);
-        PARTICLE_POSITION_TEX_COLOR_LMAP.func_181721_a(TEX_2S);
-        POSITION.func_181721_a(POSITION_3F);
-        POSITION_COLOR.func_181721_a(POSITION_3F);
-        POSITION_COLOR.func_181721_a(COLOR_4UB);
-        POSITION_TEX.func_181721_a(POSITION_3F);
-        POSITION_TEX.func_181721_a(TEX_2F);
-        POSITION_NORMAL.func_181721_a(POSITION_3F);
-        POSITION_NORMAL.func_181721_a(NORMAL_3B);
-        POSITION_NORMAL.func_181721_a(PADDING_1B);
-        POSITION_TEX_COLOR.func_181721_a(POSITION_3F);
-        POSITION_TEX_COLOR.func_181721_a(TEX_2F);
-        POSITION_TEX_COLOR.func_181721_a(COLOR_4UB);
-        POSITION_TEX_NORMAL.func_181721_a(POSITION_3F);
-        POSITION_TEX_NORMAL.func_181721_a(TEX_2F);
-        POSITION_TEX_NORMAL.func_181721_a(NORMAL_3B);
-        POSITION_TEX_NORMAL.func_181721_a(PADDING_1B);
-        POSITION_TEX_LMAP_COLOR.func_181721_a(POSITION_3F);
-        POSITION_TEX_LMAP_COLOR.func_181721_a(TEX_2F);
-        POSITION_TEX_LMAP_COLOR.func_181721_a(TEX_2S);
-        POSITION_TEX_LMAP_COLOR.func_181721_a(COLOR_4UB);
-        POSITION_TEX_COLOR_NORMAL.func_181721_a(POSITION_3F);
-        POSITION_TEX_COLOR_NORMAL.func_181721_a(TEX_2F);
-        POSITION_TEX_COLOR_NORMAL.func_181721_a(COLOR_4UB);
-        POSITION_TEX_COLOR_NORMAL.func_181721_a(NORMAL_3B);
-        POSITION_TEX_COLOR_NORMAL.func_181721_a(PADDING_1B);
+        DefaultVertexFormats.BLOCK.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.BLOCK.func_181721_a(DefaultVertexFormats.COLOR_4UB);
+        DefaultVertexFormats.BLOCK.func_181721_a(DefaultVertexFormats.TEX_2F);
+        DefaultVertexFormats.BLOCK.func_181721_a(DefaultVertexFormats.TEX_2S);
+        DefaultVertexFormats.ITEM.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.ITEM.func_181721_a(DefaultVertexFormats.COLOR_4UB);
+        DefaultVertexFormats.ITEM.func_181721_a(DefaultVertexFormats.TEX_2F);
+        DefaultVertexFormats.ITEM.func_181721_a(DefaultVertexFormats.NORMAL_3B);
+        DefaultVertexFormats.ITEM.func_181721_a(DefaultVertexFormats.PADDING_1B);
+        DefaultVertexFormats.OLDMODEL_POSITION_TEX_NORMAL.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.OLDMODEL_POSITION_TEX_NORMAL.func_181721_a(DefaultVertexFormats.TEX_2F);
+        DefaultVertexFormats.OLDMODEL_POSITION_TEX_NORMAL.func_181721_a(DefaultVertexFormats.NORMAL_3B);
+        DefaultVertexFormats.OLDMODEL_POSITION_TEX_NORMAL.func_181721_a(DefaultVertexFormats.PADDING_1B);
+        DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP.func_181721_a(DefaultVertexFormats.TEX_2F);
+        DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP.func_181721_a(DefaultVertexFormats.COLOR_4UB);
+        DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP.func_181721_a(DefaultVertexFormats.TEX_2S);
+        DefaultVertexFormats.POSITION.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.POSITION_COLOR.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.POSITION_COLOR.func_181721_a(DefaultVertexFormats.COLOR_4UB);
+        DefaultVertexFormats.POSITION_TEX.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.POSITION_TEX.func_181721_a(DefaultVertexFormats.TEX_2F);
+        DefaultVertexFormats.POSITION_NORMAL.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.POSITION_NORMAL.func_181721_a(DefaultVertexFormats.NORMAL_3B);
+        DefaultVertexFormats.POSITION_NORMAL.func_181721_a(DefaultVertexFormats.PADDING_1B);
+        DefaultVertexFormats.POSITION_TEX_COLOR.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.POSITION_TEX_COLOR.func_181721_a(DefaultVertexFormats.TEX_2F);
+        DefaultVertexFormats.POSITION_TEX_COLOR.func_181721_a(DefaultVertexFormats.COLOR_4UB);
+        DefaultVertexFormats.POSITION_TEX_NORMAL.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.POSITION_TEX_NORMAL.func_181721_a(DefaultVertexFormats.TEX_2F);
+        DefaultVertexFormats.POSITION_TEX_NORMAL.func_181721_a(DefaultVertexFormats.NORMAL_3B);
+        DefaultVertexFormats.POSITION_TEX_NORMAL.func_181721_a(DefaultVertexFormats.PADDING_1B);
+        DefaultVertexFormats.POSITION_TEX_LMAP_COLOR.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.POSITION_TEX_LMAP_COLOR.func_181721_a(DefaultVertexFormats.TEX_2F);
+        DefaultVertexFormats.POSITION_TEX_LMAP_COLOR.func_181721_a(DefaultVertexFormats.TEX_2S);
+        DefaultVertexFormats.POSITION_TEX_LMAP_COLOR.func_181721_a(DefaultVertexFormats.COLOR_4UB);
+        DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL.func_181721_a(DefaultVertexFormats.POSITION_3F);
+        DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL.func_181721_a(DefaultVertexFormats.TEX_2F);
+        DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL.func_181721_a(DefaultVertexFormats.COLOR_4UB);
+        DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL.func_181721_a(DefaultVertexFormats.NORMAL_3B);
+        DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL.func_181721_a(DefaultVertexFormats.PADDING_1B);
     }
 }

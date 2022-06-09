@@ -5,7 +5,7 @@ public class MaterialLogic extends Material
     public MaterialLogic(MapColor color)
     {
         super(color);
-        this.setAdventureModeExempt();
+        setAdventureModeExempt();
     }
 
     /**

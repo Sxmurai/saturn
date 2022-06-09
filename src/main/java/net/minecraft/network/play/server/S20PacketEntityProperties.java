@@ -14,7 +14,7 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient>
 {
     private int entityId;
-    private final List<S20PacketEntityProperties.Snapshot> field_149444_b = Lists.<S20PacketEntityProperties.Snapshot>newArrayList();
+    private final List<S20PacketEntityProperties.Snapshot> field_149444_b = Lists.newArrayList();
 
     public S20PacketEntityProperties()
     {
@@ -22,11 +22,11 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient>
 
     public S20PacketEntityProperties(int entityIdIn, Collection<IAttributeInstance> p_i45236_2_)
     {
-        this.entityId = entityIdIn;
+        entityId = entityIdIn;
 
         for (IAttributeInstance iattributeinstance : p_i45236_2_)
         {
-            this.field_149444_b.add(new S20PacketEntityProperties.Snapshot(iattributeinstance.getAttribute().getAttributeUnlocalizedName(), iattributeinstance.getBaseValue(), iattributeinstance.func_111122_c()));
+            field_149444_b.add(new S20PacketEntityProperties.Snapshot(iattributeinstance.getAttribute().getAttributeUnlocalizedName(), iattributeinstance.getBaseValue(), iattributeinstance.func_111122_c()));
         }
     }
 
@@ -35,14 +35,14 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
+        entityId = buf.readVarIntFromBuffer();
         int i = buf.readInt();
 
         for (int j = 0; j < i; ++j)
         {
             String s = buf.readStringFromBuffer(64);
             double d0 = buf.readDouble();
-            List<AttributeModifier> list = Lists.<AttributeModifier>newArrayList();
+            List<AttributeModifier> list = Lists.newArrayList();
             int k = buf.readVarIntFromBuffer();
 
             for (int l = 0; l < k; ++l)
@@ -51,7 +51,7 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient>
                 list.add(new AttributeModifier(uuid, "Unknown synced attribute modifier", buf.readDouble(), buf.readByte()));
             }
 
-            this.field_149444_b.add(new S20PacketEntityProperties.Snapshot(s, d0, list));
+            field_149444_b.add(new S20PacketEntityProperties.Snapshot(s, d0, list));
         }
     }
 
@@ -60,10 +60,10 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        buf.writeInt(this.field_149444_b.size());
+        buf.writeVarIntToBuffer(entityId);
+        buf.writeInt(field_149444_b.size());
 
-        for (S20PacketEntityProperties.Snapshot s20packetentityproperties$snapshot : this.field_149444_b)
+        for (S20PacketEntityProperties.Snapshot s20packetentityproperties$snapshot : field_149444_b)
         {
             buf.writeString(s20packetentityproperties$snapshot.func_151409_a());
             buf.writeDouble(s20packetentityproperties$snapshot.func_151410_b());
@@ -88,12 +88,12 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient>
 
     public int getEntityId()
     {
-        return this.entityId;
+        return entityId;
     }
 
     public List<S20PacketEntityProperties.Snapshot> func_149441_d()
     {
-        return this.field_149444_b;
+        return field_149444_b;
     }
 
     public class Snapshot
@@ -104,24 +104,24 @@ public class S20PacketEntityProperties implements Packet<INetHandlerPlayClient>
 
         public Snapshot(String p_i45235_2_, double p_i45235_3_, Collection<AttributeModifier> p_i45235_5_)
         {
-            this.field_151412_b = p_i45235_2_;
-            this.field_151413_c = p_i45235_3_;
-            this.field_151411_d = p_i45235_5_;
+            field_151412_b = p_i45235_2_;
+            field_151413_c = p_i45235_3_;
+            field_151411_d = p_i45235_5_;
         }
 
         public String func_151409_a()
         {
-            return this.field_151412_b;
+            return field_151412_b;
         }
 
         public double func_151410_b()
         {
-            return this.field_151413_c;
+            return field_151413_c;
         }
 
         public Collection<AttributeModifier> func_151408_c()
         {
-            return this.field_151411_d;
+            return field_151411_d;
         }
     }
 }

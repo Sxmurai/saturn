@@ -20,11 +20,11 @@ public class EntityLeashKnot extends EntityHanging
     public EntityLeashKnot(World worldIn, BlockPos hangingPositionIn)
     {
         super(worldIn, hangingPositionIn);
-        this.setPosition((double)hangingPositionIn.getX() + 0.5D, (double)hangingPositionIn.getY() + 0.5D, (double)hangingPositionIn.getZ() + 0.5D);
+        setPosition((double)hangingPositionIn.getX() + 0.5D, (double)hangingPositionIn.getY() + 0.5D, (double)hangingPositionIn.getZ() + 0.5D);
         float f = 0.125F;
         float f1 = 0.1875F;
         float f2 = 0.25F;
-        this.setEntityBoundingBox(new AxisAlignedBB(this.posX - 0.1875D, this.posY - 0.25D + 0.125D, this.posZ - 0.1875D, this.posX + 0.1875D, this.posY + 0.25D + 0.125D, this.posZ + 0.1875D));
+        setEntityBoundingBox(new AxisAlignedBB(posX - 0.1875D, posY - 0.25D + 0.125D, posZ - 0.1875D, posX + 0.1875D, posY + 0.25D + 0.125D, posZ + 0.1875D));
     }
 
     protected void entityInit()
@@ -102,11 +102,11 @@ public class EntityLeashKnot extends EntityHanging
         ItemStack itemstack = playerIn.getHeldItem();
         boolean flag = false;
 
-        if (itemstack != null && itemstack.getItem() == Items.lead && !this.worldObj.isRemote)
+        if (itemstack != null && itemstack.getItem() == Items.lead && !worldObj.isRemote)
         {
             double d0 = 7.0D;
 
-            for (EntityLiving entityliving : this.worldObj.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(this.posX - d0, this.posY - d0, this.posZ - d0, this.posX + d0, this.posY + d0, this.posZ + d0)))
+            for (EntityLiving entityliving : worldObj.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(posX - d0, posY - d0, posZ - d0, posX + d0, posY + d0, posZ + d0)))
             {
                 if (entityliving.getLeashed() && entityliving.getLeashedToEntity() == playerIn)
                 {
@@ -116,15 +116,15 @@ public class EntityLeashKnot extends EntityHanging
             }
         }
 
-        if (!this.worldObj.isRemote && !flag)
+        if (!worldObj.isRemote && !flag)
         {
-            this.setDead();
+            setDead();
 
             if (playerIn.capabilities.isCreativeMode)
             {
                 double d1 = 7.0D;
 
-                for (EntityLiving entityliving1 : this.worldObj.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(this.posX - d1, this.posY - d1, this.posZ - d1, this.posX + d1, this.posY + d1, this.posZ + d1)))
+                for (EntityLiving entityliving1 : worldObj.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB(posX - d1, posY - d1, posZ - d1, posX + d1, posY + d1, posZ + d1)))
                 {
                     if (entityliving1.getLeashed() && entityliving1.getLeashedToEntity() == this)
                     {
@@ -142,7 +142,7 @@ public class EntityLeashKnot extends EntityHanging
      */
     public boolean onValidSurface()
     {
-        return this.worldObj.getBlockState(this.hangingPosition).getBlock() instanceof BlockFence;
+        return worldObj.getBlockState(hangingPosition).getBlock() instanceof BlockFence;
     }
 
     public static EntityLeashKnot createKnot(World worldIn, BlockPos fence)

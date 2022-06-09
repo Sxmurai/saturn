@@ -6,16 +6,16 @@ public class IntegerCache
 
     public static Integer func_181756_a(int p_181756_0_)
     {
-        return p_181756_0_ > 0 && p_181756_0_ < field_181757_a.length ? field_181757_a[p_181756_0_] : Integer.valueOf(p_181756_0_);
+        return p_181756_0_ > 0 && p_181756_0_ < IntegerCache.field_181757_a.length ? IntegerCache.field_181757_a[p_181756_0_] : Integer.valueOf(p_181756_0_);
     }
 
     static
     {
         int i = 0;
 
-        for (int j = field_181757_a.length; i < j; ++i)
+        for (int j = IntegerCache.field_181757_a.length; i < j; ++i)
         {
-            field_181757_a[i] = Integer.valueOf(i);
+            IntegerCache.field_181757_a[i] = Integer.valueOf(i);
         }
     }
 }

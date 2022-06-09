@@ -8,11 +8,11 @@ import net.minecraft.util.EnumFacing;
 
 public class BuiltInModel implements IBakedModel
 {
-    private ItemCameraTransforms cameraTransforms;
+    private final ItemCameraTransforms cameraTransforms;
 
     public BuiltInModel(ItemCameraTransforms p_i46086_1_)
     {
-        this.cameraTransforms = p_i46086_1_;
+        cameraTransforms = p_i46086_1_;
     }
 
     public List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_)
@@ -47,6 +47,6 @@ public class BuiltInModel implements IBakedModel
 
     public ItemCameraTransforms getItemCameraTransforms()
     {
-        return this.cameraTransforms;
+        return cameraTransforms;
     }
 }

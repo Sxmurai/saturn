@@ -14,7 +14,7 @@ public class S46PacketSetCompressionLevel implements Packet<INetHandlerPlayClien
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.field_179761_a = buf.readVarIntFromBuffer();
+        field_179761_a = buf.readVarIntFromBuffer();
     }
 
     /**
@@ -22,7 +22,7 @@ public class S46PacketSetCompressionLevel implements Packet<INetHandlerPlayClien
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.field_179761_a);
+        buf.writeVarIntToBuffer(field_179761_a);
     }
 
     /**
@@ -35,6 +35,6 @@ public class S46PacketSetCompressionLevel implements Packet<INetHandlerPlayClien
 
     public int func_179760_a()
     {
-        return this.field_179761_a;
+        return field_179761_a;
     }
 }

@@ -37,7 +37,7 @@ public class Block
 {
     /** ResourceLocation for the Air block */
     private static final ResourceLocation AIR_ID = new ResourceLocation("air");
-    public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey(AIR_ID);
+    public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> blockRegistry = new RegistryNamespacedDefaultedByKey(Block.AIR_ID);
     public static final ObjectIntIdentityMap BLOCK_STATE_IDS = new ObjectIntIdentityMap();
     private CreativeTabs displayOnCreativeTab;
     public static final Block.SoundType soundTypeStone = new Block.SoundType("stone", 1.0F, 1.0F);
@@ -149,7 +149,7 @@ public class Block
 
     public static int getIdFromBlock(Block blockIn)
     {
-        return blockRegistry.getIDForObject(blockIn);
+        return Block.blockRegistry.getIDForObject(blockIn);
     }
 
     /**
@@ -158,12 +158,12 @@ public class Block
     public static int getStateId(IBlockState state)
     {
         Block block = state.getBlock();
-        return getIdFromBlock(block) + (block.getMetaFromState(state) << 12);
+        return Block.getIdFromBlock(block) + (block.getMetaFromState(state) << 12);
     }
 
     public static Block getBlockById(int id)
     {
-        return (Block)blockRegistry.getObjectById(id);
+        return Block.blockRegistry.getObjectById(id);
     }
 
     /**
@@ -173,7 +173,7 @@ public class Block
     {
         int i = id & 4095;
         int j = id >> 12 & 15;
-        return getBlockById(i).getStateFromMeta(j);
+        return Block.getBlockById(i).getStateFromMeta(j);
     }
 
     public static Block getBlockFromItem(Item itemIn)
@@ -185,15 +185,15 @@ public class Block
     {
         ResourceLocation resourcelocation = new ResourceLocation(name);
 
-        if (blockRegistry.containsKey(resourcelocation))
+        if (Block.blockRegistry.containsKey(resourcelocation))
         {
-            return (Block)blockRegistry.getObject(resourcelocation);
+            return Block.blockRegistry.getObject(resourcelocation);
         }
         else
         {
             try
             {
-                return (Block)blockRegistry.getObjectById(Integer.parseInt(name));
+                return Block.blockRegistry.getObjectById(Integer.parseInt(name));
             }
             catch (NumberFormatException var3)
             {
@@ -204,12 +204,12 @@ public class Block
 
     public boolean isFullBlock()
     {
-        return this.fullBlock;
+        return fullBlock;
     }
 
     public int getLightOpacity()
     {
-        return this.lightOpacity;
+        return lightOpacity;
     }
 
     /**
@@ -217,12 +217,12 @@ public class Block
      */
     public boolean isTranslucent()
     {
-        return this.translucent;
+        return translucent;
     }
 
     public int getLightValue()
     {
-        return this.lightValue;
+        return lightValue;
     }
 
     /**
@@ -230,7 +230,7 @@ public class Block
      */
     public boolean getUseNeighborBrightness()
     {
-        return this.useNeighborBrightness;
+        return useNeighborBrightness;
     }
 
     /**
@@ -238,7 +238,7 @@ public class Block
      */
     public Material getMaterial()
     {
-        return this.blockMaterial;
+        return blockMaterial;
     }
 
     /**
@@ -246,7 +246,7 @@ public class Block
      */
     public MapColor getMapColor(IBlockState state)
     {
-        return this.field_181083_K;
+        return field_181083_K;
     }
 
     /**
@@ -254,7 +254,7 @@ public class Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState();
+        return getDefaultState();
     }
 
     /**
@@ -264,7 +264,7 @@ public class Block
     {
         if (state != null && !state.getPropertyNames().isEmpty())
         {
-            throw new IllegalArgumentException("Don\'t know how to convert " + state + " back into data...");
+            throw new IllegalArgumentException("Don't know how to convert " + state + " back into data...");
         }
         else
         {
@@ -283,18 +283,18 @@ public class Block
 
     public Block(Material p_i46399_1_, MapColor p_i46399_2_)
     {
-        this.enableStats = true;
-        this.stepSound = soundTypeStone;
-        this.blockParticleGravity = 1.0F;
-        this.slipperiness = 0.6F;
-        this.blockMaterial = p_i46399_1_;
-        this.field_181083_K = p_i46399_2_;
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-        this.fullBlock = this.isOpaqueCube();
-        this.lightOpacity = this.isOpaqueCube() ? 255 : 0;
-        this.translucent = !p_i46399_1_.blocksLight();
-        this.blockState = this.createBlockState();
-        this.setDefaultState(this.blockState.getBaseState());
+        enableStats = true;
+        stepSound = Block.soundTypeStone;
+        blockParticleGravity = 1.0F;
+        slipperiness = 0.6F;
+        blockMaterial = p_i46399_1_;
+        field_181083_K = p_i46399_2_;
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        fullBlock = isOpaqueCube();
+        lightOpacity = isOpaqueCube() ? 255 : 0;
+        translucent = !p_i46399_1_.blocksLight();
+        blockState = createBlockState();
+        setDefaultState(blockState.getBaseState());
     }
 
     protected Block(Material materialIn)
@@ -307,7 +307,7 @@ public class Block
      */
     protected Block setStepSound(Block.SoundType sound)
     {
-        this.stepSound = sound;
+        stepSound = sound;
         return this;
     }
 
@@ -316,7 +316,7 @@ public class Block
      */
     protected Block setLightOpacity(int opacity)
     {
-        this.lightOpacity = opacity;
+        lightOpacity = opacity;
         return this;
     }
 
@@ -326,7 +326,7 @@ public class Block
      */
     protected Block setLightLevel(float value)
     {
-        this.lightValue = (int)(15.0F * value);
+        lightValue = (int)(15.0F * value);
         return this;
     }
 
@@ -335,7 +335,7 @@ public class Block
      */
     protected Block setResistance(float resistance)
     {
-        this.blockResistance = resistance * 3.0F;
+        blockResistance = resistance * 3.0F;
         return this;
     }
 
@@ -344,7 +344,7 @@ public class Block
      */
     public boolean isBlockNormalCube()
     {
-        return this.blockMaterial.blocksMovement() && this.isFullCube();
+        return blockMaterial.blocksMovement() && isFullCube();
     }
 
     /**
@@ -353,12 +353,12 @@ public class Block
      */
     public boolean isNormalCube()
     {
-        return this.blockMaterial.isOpaque() && this.isFullCube() && !this.canProvidePower();
+        return blockMaterial.isOpaque() && isFullCube() && !canProvidePower();
     }
 
     public boolean isVisuallyOpaque()
     {
-        return this.blockMaterial.blocksMovement() && this.isFullCube();
+        return blockMaterial.blocksMovement() && isFullCube();
     }
 
     public boolean isFullCube()
@@ -368,7 +368,7 @@ public class Block
 
     public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
     {
-        return !this.blockMaterial.blocksMovement();
+        return !blockMaterial.blocksMovement();
     }
 
     /**
@@ -392,11 +392,11 @@ public class Block
      */
     protected Block setHardness(float hardness)
     {
-        this.blockHardness = hardness;
+        blockHardness = hardness;
 
-        if (this.blockResistance < hardness * 5.0F)
+        if (blockResistance < hardness * 5.0F)
         {
-            this.blockResistance = hardness * 5.0F;
+            blockResistance = hardness * 5.0F;
         }
 
         return this;
@@ -404,13 +404,13 @@ public class Block
 
     protected Block setBlockUnbreakable()
     {
-        this.setHardness(-1.0F);
+        setHardness(-1.0F);
         return this;
     }
 
     public float getBlockHardness(World worldIn, BlockPos pos)
     {
-        return this.blockHardness;
+        return blockHardness;
     }
 
     /**
@@ -418,7 +418,7 @@ public class Block
      */
     protected Block setTickRandomly(boolean shouldTick)
     {
-        this.needsRandomTick = shouldTick;
+        needsRandomTick = shouldTick;
         return this;
     }
 
@@ -428,22 +428,22 @@ public class Block
      */
     public boolean getTickRandomly()
     {
-        return this.needsRandomTick;
+        return needsRandomTick;
     }
 
     public boolean hasTileEntity()
     {
-        return this.isBlockContainer;
+        return isBlockContainer;
     }
 
     protected final void setBlockBounds(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
     {
-        this.minX = (double)minX;
-        this.minY = (double)minY;
-        this.minZ = (double)minZ;
-        this.maxX = (double)maxX;
-        this.maxY = (double)maxY;
-        this.maxZ = (double)maxZ;
+        this.minX = minX;
+        this.minY = minY;
+        this.minZ = minZ;
+        this.maxX = maxX;
+        this.maxY = maxY;
+        this.maxZ = maxZ;
     }
 
     public int getMixedBrightnessForBlock(IBlockAccess worldIn, BlockPos pos)
@@ -465,7 +465,7 @@ public class Block
 
     public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
-        return side == EnumFacing.DOWN && this.minY > 0.0D ? true : (side == EnumFacing.UP && this.maxY < 1.0D ? true : (side == EnumFacing.NORTH && this.minZ > 0.0D ? true : (side == EnumFacing.SOUTH && this.maxZ < 1.0D ? true : (side == EnumFacing.WEST && this.minX > 0.0D ? true : (side == EnumFacing.EAST && this.maxX < 1.0D ? true : !worldIn.getBlockState(pos).getBlock().isOpaqueCube())))));
+        return side == EnumFacing.DOWN && minY > 0.0D || (side == EnumFacing.UP && maxY < 1.0D || (side == EnumFacing.NORTH && minZ > 0.0D || (side == EnumFacing.SOUTH && maxZ < 1.0D || (side == EnumFacing.WEST && minX > 0.0D || (side == EnumFacing.EAST && maxX < 1.0D || !worldIn.getBlockState(pos).getBlock().isOpaqueCube())))));
     }
 
     /**
@@ -478,7 +478,7 @@ public class Block
 
     public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos)
     {
-        return new AxisAlignedBB((double)pos.getX() + this.minX, (double)pos.getY() + this.minY, (double)pos.getZ() + this.minZ, (double)pos.getX() + this.maxX, (double)pos.getY() + this.maxY, (double)pos.getZ() + this.maxZ);
+        return new AxisAlignedBB((double)pos.getX() + minX, (double)pos.getY() + minY, (double)pos.getZ() + minZ, (double)pos.getX() + maxX, (double)pos.getY() + maxY, (double)pos.getZ() + maxZ);
     }
 
     /**
@@ -486,7 +486,7 @@ public class Block
      */
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
     {
-        AxisAlignedBB axisalignedbb = this.getCollisionBoundingBox(worldIn, pos, state);
+        AxisAlignedBB axisalignedbb = getCollisionBoundingBox(worldIn, pos, state);
 
         if (axisalignedbb != null && mask.intersectsWith(axisalignedbb))
         {
@@ -496,7 +496,7 @@ public class Block
 
     public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
     {
-        return new AxisAlignedBB((double)pos.getX() + this.minX, (double)pos.getY() + this.minY, (double)pos.getZ() + this.minZ, (double)pos.getX() + this.maxX, (double)pos.getY() + this.maxY, (double)pos.getZ() + this.maxZ);
+        return new AxisAlignedBB((double)pos.getX() + minX, (double)pos.getY() + minY, (double)pos.getZ() + minZ, (double)pos.getX() + maxX, (double)pos.getY() + maxY, (double)pos.getZ() + maxZ);
     }
 
     /**
@@ -509,7 +509,7 @@ public class Block
 
     public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid)
     {
-        return this.isCollidable();
+        return isCollidable();
     }
 
     /**
@@ -525,7 +525,7 @@ public class Block
      */
     public void randomTick(World worldIn, BlockPos pos, IBlockState state, Random random)
     {
-        this.updateTick(worldIn, pos, state, random);
+        updateTick(worldIn, pos, state, random);
     }
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
@@ -587,7 +587,7 @@ public class Block
      */
     public float getPlayerRelativeBlockHardness(EntityPlayer playerIn, World worldIn, BlockPos pos)
     {
-        float f = this.getBlockHardness(worldIn, pos);
+        float f = getBlockHardness(worldIn, pos);
         return f < 0.0F ? 0.0F : (!playerIn.canHarvestBlock(this) ? playerIn.getToolDigEfficiency(this) / f / 100.0F : playerIn.getToolDigEfficiency(this) / f / 30.0F);
     }
 
@@ -596,7 +596,7 @@ public class Block
      */
     public final void dropBlockAsItem(World worldIn, BlockPos pos, IBlockState state, int forture)
     {
-        this.dropBlockAsItemWithChance(worldIn, pos, state, 1.0F, forture);
+        dropBlockAsItemWithChance(worldIn, pos, state, 1.0F, forture);
     }
 
     /**
@@ -606,17 +606,17 @@ public class Block
     {
         if (!worldIn.isRemote)
         {
-            int i = this.quantityDroppedWithBonus(fortune, worldIn.rand);
+            int i = quantityDroppedWithBonus(fortune, worldIn.rand);
 
             for (int j = 0; j < i; ++j)
             {
                 if (worldIn.rand.nextFloat() <= chance)
                 {
-                    Item item = this.getItemDropped(state, worldIn.rand, fortune);
+                    Item item = getItemDropped(state, worldIn.rand, fortune);
 
                     if (item != null)
                     {
-                        spawnAsEntity(worldIn, pos, new ItemStack(item, 1, this.damageDropped(state)));
+                        Block.spawnAsEntity(worldIn, pos, new ItemStack(item, 1, damageDropped(state)));
                     }
                 }
             }
@@ -670,7 +670,7 @@ public class Block
      */
     public float getExplosionResistance(Entity exploder)
     {
-        return this.blockResistance / 5.0F;
+        return blockResistance / 5.0F;
     }
 
     /**
@@ -678,42 +678,42 @@ public class Block
      */
     public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3 start, Vec3 end)
     {
-        this.setBlockBoundsBasedOnState(worldIn, pos);
-        start = start.addVector((double)(-pos.getX()), (double)(-pos.getY()), (double)(-pos.getZ()));
-        end = end.addVector((double)(-pos.getX()), (double)(-pos.getY()), (double)(-pos.getZ()));
-        Vec3 vec3 = start.getIntermediateWithXValue(end, this.minX);
-        Vec3 vec31 = start.getIntermediateWithXValue(end, this.maxX);
-        Vec3 vec32 = start.getIntermediateWithYValue(end, this.minY);
-        Vec3 vec33 = start.getIntermediateWithYValue(end, this.maxY);
-        Vec3 vec34 = start.getIntermediateWithZValue(end, this.minZ);
-        Vec3 vec35 = start.getIntermediateWithZValue(end, this.maxZ);
+        setBlockBoundsBasedOnState(worldIn, pos);
+        start = start.addVector(-pos.getX(), -pos.getY(), -pos.getZ());
+        end = end.addVector(-pos.getX(), -pos.getY(), -pos.getZ());
+        Vec3 vec3 = start.getIntermediateWithXValue(end, minX);
+        Vec3 vec31 = start.getIntermediateWithXValue(end, maxX);
+        Vec3 vec32 = start.getIntermediateWithYValue(end, minY);
+        Vec3 vec33 = start.getIntermediateWithYValue(end, maxY);
+        Vec3 vec34 = start.getIntermediateWithZValue(end, minZ);
+        Vec3 vec35 = start.getIntermediateWithZValue(end, maxZ);
 
-        if (!this.isVecInsideYZBounds(vec3))
+        if (!isVecInsideYZBounds(vec3))
         {
             vec3 = null;
         }
 
-        if (!this.isVecInsideYZBounds(vec31))
+        if (!isVecInsideYZBounds(vec31))
         {
             vec31 = null;
         }
 
-        if (!this.isVecInsideXZBounds(vec32))
+        if (!isVecInsideXZBounds(vec32))
         {
             vec32 = null;
         }
 
-        if (!this.isVecInsideXZBounds(vec33))
+        if (!isVecInsideXZBounds(vec33))
         {
             vec33 = null;
         }
 
-        if (!this.isVecInsideXYBounds(vec34))
+        if (!isVecInsideXYBounds(vec34))
         {
             vec34 = null;
         }
 
-        if (!this.isVecInsideXYBounds(vec35))
+        if (!isVecInsideXYBounds(vec35))
         {
             vec35 = null;
         }
@@ -788,7 +788,7 @@ public class Block
                 enumfacing = EnumFacing.SOUTH;
             }
 
-            return new MovingObjectPosition(vec36.addVector((double)pos.getX(), (double)pos.getY(), (double)pos.getZ()), enumfacing, pos);
+            return new MovingObjectPosition(vec36.addVector(pos.getX(), pos.getY(), pos.getZ()), enumfacing, pos);
         }
     }
 
@@ -797,7 +797,7 @@ public class Block
      */
     private boolean isVecInsideYZBounds(Vec3 point)
     {
-        return point == null ? false : point.yCoord >= this.minY && point.yCoord <= this.maxY && point.zCoord >= this.minZ && point.zCoord <= this.maxZ;
+        return point != null && point.yCoord >= minY && point.yCoord <= maxY && point.zCoord >= minZ && point.zCoord <= maxZ;
     }
 
     /**
@@ -805,7 +805,7 @@ public class Block
      */
     private boolean isVecInsideXZBounds(Vec3 point)
     {
-        return point == null ? false : point.xCoord >= this.minX && point.xCoord <= this.maxX && point.zCoord >= this.minZ && point.zCoord <= this.maxZ;
+        return point != null && point.xCoord >= minX && point.xCoord <= maxX && point.zCoord >= minZ && point.zCoord <= maxZ;
     }
 
     /**
@@ -813,7 +813,7 @@ public class Block
      */
     private boolean isVecInsideXYBounds(Vec3 point)
     {
-        return point == null ? false : point.xCoord >= this.minX && point.xCoord <= this.maxX && point.yCoord >= this.minY && point.yCoord <= this.maxY;
+        return point != null && point.xCoord >= minX && point.xCoord <= maxX && point.yCoord >= minY && point.yCoord <= maxY;
     }
 
     /**
@@ -830,7 +830,7 @@ public class Block
 
     public boolean canReplace(World worldIn, BlockPos pos, EnumFacing side, ItemStack stack)
     {
-        return this.canPlaceBlockOnSide(worldIn, pos, side);
+        return canPlaceBlockOnSide(worldIn, pos, side);
     }
 
     /**
@@ -838,7 +838,7 @@ public class Block
      */
     public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side)
     {
-        return this.canPlaceBlockAt(worldIn, pos);
+        return canPlaceBlockAt(worldIn, pos);
     }
 
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
@@ -864,7 +864,7 @@ public class Block
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        return this.getStateFromMeta(meta);
+        return getStateFromMeta(meta);
     }
 
     public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn)
@@ -885,7 +885,7 @@ public class Block
      */
     public final double getBlockBoundsMinX()
     {
-        return this.minX;
+        return minX;
     }
 
     /**
@@ -893,7 +893,7 @@ public class Block
      */
     public final double getBlockBoundsMaxX()
     {
-        return this.maxX;
+        return maxX;
     }
 
     /**
@@ -901,7 +901,7 @@ public class Block
      */
     public final double getBlockBoundsMinY()
     {
-        return this.minY;
+        return minY;
     }
 
     /**
@@ -909,7 +909,7 @@ public class Block
      */
     public final double getBlockBoundsMaxY()
     {
-        return this.maxY;
+        return maxY;
     }
 
     /**
@@ -917,7 +917,7 @@ public class Block
      */
     public final double getBlockBoundsMinZ()
     {
-        return this.minZ;
+        return minZ;
     }
 
     /**
@@ -925,7 +925,7 @@ public class Block
      */
     public final double getBlockBoundsMaxZ()
     {
-        return this.maxZ;
+        return maxZ;
     }
 
     public int getBlockColor()
@@ -945,7 +945,7 @@ public class Block
 
     public final int colorMultiplier(IBlockAccess worldIn, BlockPos pos)
     {
-        return this.colorMultiplier(worldIn, pos, 0);
+        return colorMultiplier(worldIn, pos, 0);
     }
 
     public int getWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side)
@@ -982,28 +982,28 @@ public class Block
 
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te)
     {
-        player.triggerAchievement(StatList.mineBlockStatArray[getIdFromBlock(this)]);
+        player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
         player.addExhaustion(0.025F);
 
-        if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(player))
+        if (canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(player))
         {
-            ItemStack itemstack = this.createStackedBlock(state);
+            ItemStack itemstack = createStackedBlock(state);
 
             if (itemstack != null)
             {
-                spawnAsEntity(worldIn, pos, itemstack);
+                Block.spawnAsEntity(worldIn, pos, itemstack);
             }
         }
         else
         {
             int i = EnchantmentHelper.getFortuneModifier(player);
-            this.dropBlockAsItem(worldIn, pos, state, i);
+            dropBlockAsItem(worldIn, pos, state, i);
         }
     }
 
     protected boolean canSilkHarvest()
     {
-        return this.isFullCube() && !this.isBlockContainer;
+        return isFullCube() && !isBlockContainer;
     }
 
     protected ItemStack createStackedBlock(IBlockState state)
@@ -1013,7 +1013,7 @@ public class Block
 
         if (item != null && item.getHasSubtypes())
         {
-            i = this.getMetaFromState(state);
+            i = getMetaFromState(state);
         }
 
         return new ItemStack(item, 1, i);
@@ -1024,7 +1024,7 @@ public class Block
      */
     public int quantityDroppedWithBonus(int fortune, Random random)
     {
-        return this.quantityDropped(random);
+        return quantityDropped(random);
     }
 
     /**
@@ -1036,12 +1036,12 @@ public class Block
 
     public boolean func_181623_g()
     {
-        return !this.blockMaterial.isSolid() && !this.blockMaterial.isLiquid();
+        return !blockMaterial.isSolid() && !blockMaterial.isLiquid();
     }
 
     public Block setUnlocalizedName(String name)
     {
-        this.unlocalizedName = name;
+        unlocalizedName = name;
         return this;
     }
 
@@ -1050,7 +1050,7 @@ public class Block
      */
     public String getLocalizedName()
     {
-        return StatCollector.translateToLocal(this.getUnlocalizedName() + ".name");
+        return StatCollector.translateToLocal(getUnlocalizedName() + ".name");
     }
 
     /**
@@ -1058,7 +1058,7 @@ public class Block
      */
     public String getUnlocalizedName()
     {
-        return "tile." + this.unlocalizedName;
+        return "tile." + unlocalizedName;
     }
 
     /**
@@ -1074,18 +1074,18 @@ public class Block
      */
     public boolean getEnableStats()
     {
-        return this.enableStats;
+        return enableStats;
     }
 
     protected Block disableStats()
     {
-        this.enableStats = false;
+        enableStats = false;
         return this;
     }
 
     public int getMobilityFlag()
     {
-        return this.blockMaterial.getMaterialMobility();
+        return blockMaterial.getMaterialMobility();
     }
 
     /**
@@ -1093,7 +1093,7 @@ public class Block
      */
     public float getAmbientOcclusionLightValue()
     {
-        return this.isBlockNormalCube() ? 0.2F : 1.0F;
+        return isBlockNormalCube() ? 0.2F : 1.0F;
     }
 
     /**
@@ -1120,7 +1120,7 @@ public class Block
 
     public int getDamageValue(World worldIn, BlockPos pos)
     {
-        return this.damageDropped(worldIn.getBlockState(pos));
+        return damageDropped(worldIn.getBlockState(pos));
     }
 
     /**
@@ -1136,12 +1136,12 @@ public class Block
      */
     public CreativeTabs getCreativeTabToDisplayOn()
     {
-        return this.displayOnCreativeTab;
+        return displayOnCreativeTab;
     }
 
     public Block setCreativeTab(CreativeTabs tab)
     {
-        this.displayOnCreativeTab = tab;
+        displayOnCreativeTab = tab;
         return this;
     }
 
@@ -1184,7 +1184,7 @@ public class Block
 
     public static boolean isEqualTo(Block blockIn, Block other)
     {
-        return blockIn != null && other != null ? (blockIn == other ? true : blockIn.isAssociatedBlock(other)) : false;
+        return blockIn != null && other != null && (blockIn == other || blockIn.isAssociatedBlock(other));
     }
 
     public boolean hasComparatorInputOverride()
@@ -1207,22 +1207,22 @@ public class Block
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[0]);
+        return new BlockState(this);
     }
 
     public BlockState getBlockState()
     {
-        return this.blockState;
+        return blockState;
     }
 
     protected final void setDefaultState(IBlockState state)
     {
-        this.defaultBlockState = state;
+        defaultBlockState = state;
     }
 
     public final IBlockState getDefaultState()
     {
-        return this.defaultBlockState;
+        return defaultBlockState;
     }
 
     /**
@@ -1235,225 +1235,225 @@ public class Block
 
     public String toString()
     {
-        return "Block{" + blockRegistry.getNameForObject(this) + "}";
+        return "Block{" + Block.blockRegistry.getNameForObject(this) + "}";
     }
 
     public static void registerBlocks()
     {
-        registerBlock(0, AIR_ID, (new BlockAir()).setUnlocalizedName("air"));
-        registerBlock(1, "stone", (new BlockStone()).setHardness(1.5F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stone"));
-        registerBlock(2, "grass", (new BlockGrass()).setHardness(0.6F).setStepSound(soundTypeGrass).setUnlocalizedName("grass"));
-        registerBlock(3, "dirt", (new BlockDirt()).setHardness(0.5F).setStepSound(soundTypeGravel).setUnlocalizedName("dirt"));
-        Block block = (new Block(Material.rock)).setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stonebrick").setCreativeTab(CreativeTabs.tabBlock);
-        registerBlock(4, "cobblestone", block);
-        Block block1 = (new BlockPlanks()).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("wood");
-        registerBlock(5, "planks", block1);
-        registerBlock(6, "sapling", (new BlockSapling()).setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("sapling"));
-        registerBlock(7, "bedrock", (new Block(Material.rock)).setBlockUnbreakable().setResistance(6000000.0F).setStepSound(soundTypePiston).setUnlocalizedName("bedrock").disableStats().setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(8, "flowing_water", (new BlockDynamicLiquid(Material.water)).setHardness(100.0F).setLightOpacity(3).setUnlocalizedName("water").disableStats());
-        registerBlock(9, "water", (new BlockStaticLiquid(Material.water)).setHardness(100.0F).setLightOpacity(3).setUnlocalizedName("water").disableStats());
-        registerBlock(10, "flowing_lava", (new BlockDynamicLiquid(Material.lava)).setHardness(100.0F).setLightLevel(1.0F).setUnlocalizedName("lava").disableStats());
-        registerBlock(11, "lava", (new BlockStaticLiquid(Material.lava)).setHardness(100.0F).setLightLevel(1.0F).setUnlocalizedName("lava").disableStats());
-        registerBlock(12, "sand", (new BlockSand()).setHardness(0.5F).setStepSound(soundTypeSand).setUnlocalizedName("sand"));
-        registerBlock(13, "gravel", (new BlockGravel()).setHardness(0.6F).setStepSound(soundTypeGravel).setUnlocalizedName("gravel"));
-        registerBlock(14, "gold_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("oreGold"));
-        registerBlock(15, "iron_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("oreIron"));
-        registerBlock(16, "coal_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("oreCoal"));
-        registerBlock(17, "log", (new BlockOldLog()).setUnlocalizedName("log"));
-        registerBlock(18, "leaves", (new BlockOldLeaf()).setUnlocalizedName("leaves"));
-        registerBlock(19, "sponge", (new BlockSponge()).setHardness(0.6F).setStepSound(soundTypeGrass).setUnlocalizedName("sponge"));
-        registerBlock(20, "glass", (new BlockGlass(Material.glass, false)).setHardness(0.3F).setStepSound(soundTypeGlass).setUnlocalizedName("glass"));
-        registerBlock(21, "lapis_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("oreLapis"));
-        registerBlock(22, "lapis_block", (new Block(Material.iron, MapColor.lapisColor)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("blockLapis").setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(23, "dispenser", (new BlockDispenser()).setHardness(3.5F).setStepSound(soundTypePiston).setUnlocalizedName("dispenser"));
-        Block block2 = (new BlockSandStone()).setStepSound(soundTypePiston).setHardness(0.8F).setUnlocalizedName("sandStone");
-        registerBlock(24, "sandstone", block2);
-        registerBlock(25, "noteblock", (new BlockNote()).setHardness(0.8F).setUnlocalizedName("musicBlock"));
-        registerBlock(26, "bed", (new BlockBed()).setStepSound(soundTypeWood).setHardness(0.2F).setUnlocalizedName("bed").disableStats());
-        registerBlock(27, "golden_rail", (new BlockRailPowered()).setHardness(0.7F).setStepSound(soundTypeMetal).setUnlocalizedName("goldenRail"));
-        registerBlock(28, "detector_rail", (new BlockRailDetector()).setHardness(0.7F).setStepSound(soundTypeMetal).setUnlocalizedName("detectorRail"));
-        registerBlock(29, "sticky_piston", (new BlockPistonBase(true)).setUnlocalizedName("pistonStickyBase"));
-        registerBlock(30, "web", (new BlockWeb()).setLightOpacity(1).setHardness(4.0F).setUnlocalizedName("web"));
-        registerBlock(31, "tallgrass", (new BlockTallGrass()).setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("tallgrass"));
-        registerBlock(32, "deadbush", (new BlockDeadBush()).setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("deadbush"));
-        registerBlock(33, "piston", (new BlockPistonBase(false)).setUnlocalizedName("pistonBase"));
-        registerBlock(34, "piston_head", (new BlockPistonExtension()).setUnlocalizedName("pistonBase"));
-        registerBlock(35, "wool", (new BlockColored(Material.cloth)).setHardness(0.8F).setStepSound(soundTypeCloth).setUnlocalizedName("cloth"));
-        registerBlock(36, "piston_extension", new BlockPistonMoving());
-        registerBlock(37, "yellow_flower", (new BlockYellowFlower()).setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("flower1"));
-        registerBlock(38, "red_flower", (new BlockRedFlower()).setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("flower2"));
-        Block block3 = (new BlockMushroom()).setHardness(0.0F).setStepSound(soundTypeGrass).setLightLevel(0.125F).setUnlocalizedName("mushroom");
-        registerBlock(39, "brown_mushroom", block3);
-        Block block4 = (new BlockMushroom()).setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("mushroom");
-        registerBlock(40, "red_mushroom", block4);
-        registerBlock(41, "gold_block", (new Block(Material.iron, MapColor.goldColor)).setHardness(3.0F).setResistance(10.0F).setStepSound(soundTypeMetal).setUnlocalizedName("blockGold").setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(42, "iron_block", (new Block(Material.iron, MapColor.ironColor)).setHardness(5.0F).setResistance(10.0F).setStepSound(soundTypeMetal).setUnlocalizedName("blockIron").setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(43, "double_stone_slab", (new BlockDoubleStoneSlab()).setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stoneSlab"));
-        registerBlock(44, "stone_slab", (new BlockHalfStoneSlab()).setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stoneSlab"));
-        Block block5 = (new Block(Material.rock, MapColor.redColor)).setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("brick").setCreativeTab(CreativeTabs.tabBlock);
-        registerBlock(45, "brick_block", block5);
-        registerBlock(46, "tnt", (new BlockTNT()).setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("tnt"));
-        registerBlock(47, "bookshelf", (new BlockBookshelf()).setHardness(1.5F).setStepSound(soundTypeWood).setUnlocalizedName("bookshelf"));
-        registerBlock(48, "mossy_cobblestone", (new Block(Material.rock)).setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stoneMoss").setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(49, "obsidian", (new BlockObsidian()).setHardness(50.0F).setResistance(2000.0F).setStepSound(soundTypePiston).setUnlocalizedName("obsidian"));
-        registerBlock(50, "torch", (new BlockTorch()).setHardness(0.0F).setLightLevel(0.9375F).setStepSound(soundTypeWood).setUnlocalizedName("torch"));
-        registerBlock(51, "fire", (new BlockFire()).setHardness(0.0F).setLightLevel(1.0F).setStepSound(soundTypeCloth).setUnlocalizedName("fire").disableStats());
-        registerBlock(52, "mob_spawner", (new BlockMobSpawner()).setHardness(5.0F).setStepSound(soundTypeMetal).setUnlocalizedName("mobSpawner").disableStats());
-        registerBlock(53, "oak_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK))).setUnlocalizedName("stairsWood"));
-        registerBlock(54, "chest", (new BlockChest(0)).setHardness(2.5F).setStepSound(soundTypeWood).setUnlocalizedName("chest"));
-        registerBlock(55, "redstone_wire", (new BlockRedstoneWire()).setHardness(0.0F).setStepSound(soundTypeStone).setUnlocalizedName("redstoneDust").disableStats());
-        registerBlock(56, "diamond_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("oreDiamond"));
-        registerBlock(57, "diamond_block", (new Block(Material.iron, MapColor.diamondColor)).setHardness(5.0F).setResistance(10.0F).setStepSound(soundTypeMetal).setUnlocalizedName("blockDiamond").setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(58, "crafting_table", (new BlockWorkbench()).setHardness(2.5F).setStepSound(soundTypeWood).setUnlocalizedName("workbench"));
-        registerBlock(59, "wheat", (new BlockCrops()).setUnlocalizedName("crops"));
-        Block block6 = (new BlockFarmland()).setHardness(0.6F).setStepSound(soundTypeGravel).setUnlocalizedName("farmland");
-        registerBlock(60, "farmland", block6);
-        registerBlock(61, "furnace", (new BlockFurnace(false)).setHardness(3.5F).setStepSound(soundTypePiston).setUnlocalizedName("furnace").setCreativeTab(CreativeTabs.tabDecorations));
-        registerBlock(62, "lit_furnace", (new BlockFurnace(true)).setHardness(3.5F).setStepSound(soundTypePiston).setLightLevel(0.875F).setUnlocalizedName("furnace"));
-        registerBlock(63, "standing_sign", (new BlockStandingSign()).setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("sign").disableStats());
-        registerBlock(64, "wooden_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("doorOak").disableStats());
-        registerBlock(65, "ladder", (new BlockLadder()).setHardness(0.4F).setStepSound(soundTypeLadder).setUnlocalizedName("ladder"));
-        registerBlock(66, "rail", (new BlockRail()).setHardness(0.7F).setStepSound(soundTypeMetal).setUnlocalizedName("rail"));
-        registerBlock(67, "stone_stairs", (new BlockStairs(block.getDefaultState())).setUnlocalizedName("stairsStone"));
-        registerBlock(68, "wall_sign", (new BlockWallSign()).setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("sign").disableStats());
-        registerBlock(69, "lever", (new BlockLever()).setHardness(0.5F).setStepSound(soundTypeWood).setUnlocalizedName("lever"));
-        registerBlock(70, "stone_pressure_plate", (new BlockPressurePlate(Material.rock, BlockPressurePlate.Sensitivity.MOBS)).setHardness(0.5F).setStepSound(soundTypePiston).setUnlocalizedName("pressurePlateStone"));
-        registerBlock(71, "iron_door", (new BlockDoor(Material.iron)).setHardness(5.0F).setStepSound(soundTypeMetal).setUnlocalizedName("doorIron").disableStats());
-        registerBlock(72, "wooden_pressure_plate", (new BlockPressurePlate(Material.wood, BlockPressurePlate.Sensitivity.EVERYTHING)).setHardness(0.5F).setStepSound(soundTypeWood).setUnlocalizedName("pressurePlateWood"));
-        registerBlock(73, "redstone_ore", (new BlockRedstoneOre(false)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("oreRedstone").setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(74, "lit_redstone_ore", (new BlockRedstoneOre(true)).setLightLevel(0.625F).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("oreRedstone"));
-        registerBlock(75, "unlit_redstone_torch", (new BlockRedstoneTorch(false)).setHardness(0.0F).setStepSound(soundTypeWood).setUnlocalizedName("notGate"));
-        registerBlock(76, "redstone_torch", (new BlockRedstoneTorch(true)).setHardness(0.0F).setLightLevel(0.5F).setStepSound(soundTypeWood).setUnlocalizedName("notGate").setCreativeTab(CreativeTabs.tabRedstone));
-        registerBlock(77, "stone_button", (new BlockButtonStone()).setHardness(0.5F).setStepSound(soundTypePiston).setUnlocalizedName("button"));
-        registerBlock(78, "snow_layer", (new BlockSnow()).setHardness(0.1F).setStepSound(soundTypeSnow).setUnlocalizedName("snow").setLightOpacity(0));
-        registerBlock(79, "ice", (new BlockIce()).setHardness(0.5F).setLightOpacity(3).setStepSound(soundTypeGlass).setUnlocalizedName("ice"));
-        registerBlock(80, "snow", (new BlockSnowBlock()).setHardness(0.2F).setStepSound(soundTypeSnow).setUnlocalizedName("snow"));
-        registerBlock(81, "cactus", (new BlockCactus()).setHardness(0.4F).setStepSound(soundTypeCloth).setUnlocalizedName("cactus"));
-        registerBlock(82, "clay", (new BlockClay()).setHardness(0.6F).setStepSound(soundTypeGravel).setUnlocalizedName("clay"));
-        registerBlock(83, "reeds", (new BlockReed()).setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("reeds").disableStats());
-        registerBlock(84, "jukebox", (new BlockJukebox()).setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("jukebox"));
-        registerBlock(85, "fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.OAK.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("fence"));
-        Block block7 = (new BlockPumpkin()).setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("pumpkin");
-        registerBlock(86, "pumpkin", block7);
-        registerBlock(87, "netherrack", (new BlockNetherrack()).setHardness(0.4F).setStepSound(soundTypePiston).setUnlocalizedName("hellrock"));
-        registerBlock(88, "soul_sand", (new BlockSoulSand()).setHardness(0.5F).setStepSound(soundTypeSand).setUnlocalizedName("hellsand"));
-        registerBlock(89, "glowstone", (new BlockGlowstone(Material.glass)).setHardness(0.3F).setStepSound(soundTypeGlass).setLightLevel(1.0F).setUnlocalizedName("lightgem"));
-        registerBlock(90, "portal", (new BlockPortal()).setHardness(-1.0F).setStepSound(soundTypeGlass).setLightLevel(0.75F).setUnlocalizedName("portal"));
-        registerBlock(91, "lit_pumpkin", (new BlockPumpkin()).setHardness(1.0F).setStepSound(soundTypeWood).setLightLevel(1.0F).setUnlocalizedName("litpumpkin"));
-        registerBlock(92, "cake", (new BlockCake()).setHardness(0.5F).setStepSound(soundTypeCloth).setUnlocalizedName("cake").disableStats());
-        registerBlock(93, "unpowered_repeater", (new BlockRedstoneRepeater(false)).setHardness(0.0F).setStepSound(soundTypeWood).setUnlocalizedName("diode").disableStats());
-        registerBlock(94, "powered_repeater", (new BlockRedstoneRepeater(true)).setHardness(0.0F).setStepSound(soundTypeWood).setUnlocalizedName("diode").disableStats());
-        registerBlock(95, "stained_glass", (new BlockStainedGlass(Material.glass)).setHardness(0.3F).setStepSound(soundTypeGlass).setUnlocalizedName("stainedGlass"));
-        registerBlock(96, "trapdoor", (new BlockTrapDoor(Material.wood)).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("trapdoor").disableStats());
-        registerBlock(97, "monster_egg", (new BlockSilverfish()).setHardness(0.75F).setUnlocalizedName("monsterStoneEgg"));
-        Block block8 = (new BlockStoneBrick()).setHardness(1.5F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stonebricksmooth");
-        registerBlock(98, "stonebrick", block8);
-        registerBlock(99, "brown_mushroom_block", (new BlockHugeMushroom(Material.wood, MapColor.dirtColor, block3)).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
-        registerBlock(100, "red_mushroom_block", (new BlockHugeMushroom(Material.wood, MapColor.redColor, block4)).setHardness(0.2F).setStepSound(soundTypeWood).setUnlocalizedName("mushroom"));
-        registerBlock(101, "iron_bars", (new BlockPane(Material.iron, true)).setHardness(5.0F).setResistance(10.0F).setStepSound(soundTypeMetal).setUnlocalizedName("fenceIron"));
-        registerBlock(102, "glass_pane", (new BlockPane(Material.glass, false)).setHardness(0.3F).setStepSound(soundTypeGlass).setUnlocalizedName("thinGlass"));
-        Block block9 = (new BlockMelon()).setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("melon");
-        registerBlock(103, "melon_block", block9);
-        registerBlock(104, "pumpkin_stem", (new BlockStem(block7)).setHardness(0.0F).setStepSound(soundTypeWood).setUnlocalizedName("pumpkinStem"));
-        registerBlock(105, "melon_stem", (new BlockStem(block9)).setHardness(0.0F).setStepSound(soundTypeWood).setUnlocalizedName("pumpkinStem"));
-        registerBlock(106, "vine", (new BlockVine()).setHardness(0.2F).setStepSound(soundTypeGrass).setUnlocalizedName("vine"));
-        registerBlock(107, "fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.OAK)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("fenceGate"));
-        registerBlock(108, "brick_stairs", (new BlockStairs(block5.getDefaultState())).setUnlocalizedName("stairsBrick"));
-        registerBlock(109, "stone_brick_stairs", (new BlockStairs(block8.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.DEFAULT))).setUnlocalizedName("stairsStoneBrickSmooth"));
-        registerBlock(110, "mycelium", (new BlockMycelium()).setHardness(0.6F).setStepSound(soundTypeGrass).setUnlocalizedName("mycel"));
-        registerBlock(111, "waterlily", (new BlockLilyPad()).setHardness(0.0F).setStepSound(soundTypeGrass).setUnlocalizedName("waterlily"));
-        Block block10 = (new BlockNetherBrick()).setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("netherBrick").setCreativeTab(CreativeTabs.tabBlock);
-        registerBlock(112, "nether_brick", block10);
-        registerBlock(113, "nether_brick_fence", (new BlockFence(Material.rock, MapColor.netherrackColor)).setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("netherFence"));
-        registerBlock(114, "nether_brick_stairs", (new BlockStairs(block10.getDefaultState())).setUnlocalizedName("stairsNetherBrick"));
-        registerBlock(115, "nether_wart", (new BlockNetherWart()).setUnlocalizedName("netherStalk"));
-        registerBlock(116, "enchanting_table", (new BlockEnchantmentTable()).setHardness(5.0F).setResistance(2000.0F).setUnlocalizedName("enchantmentTable"));
-        registerBlock(117, "brewing_stand", (new BlockBrewingStand()).setHardness(0.5F).setLightLevel(0.125F).setUnlocalizedName("brewingStand"));
-        registerBlock(118, "cauldron", (new BlockCauldron()).setHardness(2.0F).setUnlocalizedName("cauldron"));
-        registerBlock(119, "end_portal", (new BlockEndPortal(Material.portal)).setHardness(-1.0F).setResistance(6000000.0F));
-        registerBlock(120, "end_portal_frame", (new BlockEndPortalFrame()).setStepSound(soundTypeGlass).setLightLevel(0.125F).setHardness(-1.0F).setUnlocalizedName("endPortalFrame").setResistance(6000000.0F).setCreativeTab(CreativeTabs.tabDecorations));
-        registerBlock(121, "end_stone", (new Block(Material.rock, MapColor.sandColor)).setHardness(3.0F).setResistance(15.0F).setStepSound(soundTypePiston).setUnlocalizedName("whiteStone").setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(122, "dragon_egg", (new BlockDragonEgg()).setHardness(3.0F).setResistance(15.0F).setStepSound(soundTypePiston).setLightLevel(0.125F).setUnlocalizedName("dragonEgg"));
-        registerBlock(123, "redstone_lamp", (new BlockRedstoneLight(false)).setHardness(0.3F).setStepSound(soundTypeGlass).setUnlocalizedName("redstoneLight").setCreativeTab(CreativeTabs.tabRedstone));
-        registerBlock(124, "lit_redstone_lamp", (new BlockRedstoneLight(true)).setHardness(0.3F).setStepSound(soundTypeGlass).setUnlocalizedName("redstoneLight"));
-        registerBlock(125, "double_wooden_slab", (new BlockDoubleWoodSlab()).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("woodSlab"));
-        registerBlock(126, "wooden_slab", (new BlockHalfWoodSlab()).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("woodSlab"));
-        registerBlock(127, "cocoa", (new BlockCocoa()).setHardness(0.2F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("cocoa"));
-        registerBlock(128, "sandstone_stairs", (new BlockStairs(block2.getDefaultState().withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.SMOOTH))).setUnlocalizedName("stairsSandStone"));
-        registerBlock(129, "emerald_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("oreEmerald"));
-        registerBlock(130, "ender_chest", (new BlockEnderChest()).setHardness(22.5F).setResistance(1000.0F).setStepSound(soundTypePiston).setUnlocalizedName("enderChest").setLightLevel(0.5F));
-        registerBlock(131, "tripwire_hook", (new BlockTripWireHook()).setUnlocalizedName("tripWireSource"));
-        registerBlock(132, "tripwire", (new BlockTripWire()).setUnlocalizedName("tripWire"));
-        registerBlock(133, "emerald_block", (new Block(Material.iron, MapColor.emeraldColor)).setHardness(5.0F).setResistance(10.0F).setStepSound(soundTypeMetal).setUnlocalizedName("blockEmerald").setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(134, "spruce_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE))).setUnlocalizedName("stairsWoodSpruce"));
-        registerBlock(135, "birch_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH))).setUnlocalizedName("stairsWoodBirch"));
-        registerBlock(136, "jungle_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE))).setUnlocalizedName("stairsWoodJungle"));
-        registerBlock(137, "command_block", (new BlockCommandBlock()).setBlockUnbreakable().setResistance(6000000.0F).setUnlocalizedName("commandBlock"));
-        registerBlock(138, "beacon", (new BlockBeacon()).setUnlocalizedName("beacon").setLightLevel(1.0F));
-        registerBlock(139, "cobblestone_wall", (new BlockWall(block)).setUnlocalizedName("cobbleWall"));
-        registerBlock(140, "flower_pot", (new BlockFlowerPot()).setHardness(0.0F).setStepSound(soundTypeStone).setUnlocalizedName("flowerPot"));
-        registerBlock(141, "carrots", (new BlockCarrot()).setUnlocalizedName("carrots"));
-        registerBlock(142, "potatoes", (new BlockPotato()).setUnlocalizedName("potatoes"));
-        registerBlock(143, "wooden_button", (new BlockButtonWood()).setHardness(0.5F).setStepSound(soundTypeWood).setUnlocalizedName("button"));
-        registerBlock(144, "skull", (new BlockSkull()).setHardness(1.0F).setStepSound(soundTypePiston).setUnlocalizedName("skull"));
-        registerBlock(145, "anvil", (new BlockAnvil()).setHardness(5.0F).setStepSound(soundTypeAnvil).setResistance(2000.0F).setUnlocalizedName("anvil"));
-        registerBlock(146, "trapped_chest", (new BlockChest(1)).setHardness(2.5F).setStepSound(soundTypeWood).setUnlocalizedName("chestTrap"));
-        registerBlock(147, "light_weighted_pressure_plate", (new BlockPressurePlateWeighted(Material.iron, 15, MapColor.goldColor)).setHardness(0.5F).setStepSound(soundTypeWood).setUnlocalizedName("weightedPlate_light"));
-        registerBlock(148, "heavy_weighted_pressure_plate", (new BlockPressurePlateWeighted(Material.iron, 150)).setHardness(0.5F).setStepSound(soundTypeWood).setUnlocalizedName("weightedPlate_heavy"));
-        registerBlock(149, "unpowered_comparator", (new BlockRedstoneComparator(false)).setHardness(0.0F).setStepSound(soundTypeWood).setUnlocalizedName("comparator").disableStats());
-        registerBlock(150, "powered_comparator", (new BlockRedstoneComparator(true)).setHardness(0.0F).setLightLevel(0.625F).setStepSound(soundTypeWood).setUnlocalizedName("comparator").disableStats());
-        registerBlock(151, "daylight_detector", new BlockDaylightDetector(false));
-        registerBlock(152, "redstone_block", (new BlockCompressedPowered(Material.iron, MapColor.tntColor)).setHardness(5.0F).setResistance(10.0F).setStepSound(soundTypeMetal).setUnlocalizedName("blockRedstone").setCreativeTab(CreativeTabs.tabRedstone));
-        registerBlock(153, "quartz_ore", (new BlockOre(MapColor.netherrackColor)).setHardness(3.0F).setResistance(5.0F).setStepSound(soundTypePiston).setUnlocalizedName("netherquartz"));
-        registerBlock(154, "hopper", (new BlockHopper()).setHardness(3.0F).setResistance(8.0F).setStepSound(soundTypeMetal).setUnlocalizedName("hopper"));
-        Block block11 = (new BlockQuartz()).setStepSound(soundTypePiston).setHardness(0.8F).setUnlocalizedName("quartzBlock");
-        registerBlock(155, "quartz_block", block11);
-        registerBlock(156, "quartz_stairs", (new BlockStairs(block11.getDefaultState().withProperty(BlockQuartz.VARIANT, BlockQuartz.EnumType.DEFAULT))).setUnlocalizedName("stairsQuartz"));
-        registerBlock(157, "activator_rail", (new BlockRailPowered()).setHardness(0.7F).setStepSound(soundTypeMetal).setUnlocalizedName("activatorRail"));
-        registerBlock(158, "dropper", (new BlockDropper()).setHardness(3.5F).setStepSound(soundTypePiston).setUnlocalizedName("dropper"));
-        registerBlock(159, "stained_hardened_clay", (new BlockColored(Material.rock)).setHardness(1.25F).setResistance(7.0F).setStepSound(soundTypePiston).setUnlocalizedName("clayHardenedStained"));
-        registerBlock(160, "stained_glass_pane", (new BlockStainedGlassPane()).setHardness(0.3F).setStepSound(soundTypeGlass).setUnlocalizedName("thinStainedGlass"));
-        registerBlock(161, "leaves2", (new BlockNewLeaf()).setUnlocalizedName("leaves"));
-        registerBlock(162, "log2", (new BlockNewLog()).setUnlocalizedName("log"));
-        registerBlock(163, "acacia_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA))).setUnlocalizedName("stairsWoodAcacia"));
-        registerBlock(164, "dark_oak_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK))).setUnlocalizedName("stairsWoodDarkOak"));
-        registerBlock(165, "slime", (new BlockSlime()).setUnlocalizedName("slime").setStepSound(SLIME_SOUND));
-        registerBlock(166, "barrier", (new BlockBarrier()).setUnlocalizedName("barrier"));
-        registerBlock(167, "iron_trapdoor", (new BlockTrapDoor(Material.iron)).setHardness(5.0F).setStepSound(soundTypeMetal).setUnlocalizedName("ironTrapdoor").disableStats());
-        registerBlock(168, "prismarine", (new BlockPrismarine()).setHardness(1.5F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("prismarine"));
-        registerBlock(169, "sea_lantern", (new BlockSeaLantern(Material.glass)).setHardness(0.3F).setStepSound(soundTypeGlass).setLightLevel(1.0F).setUnlocalizedName("seaLantern"));
-        registerBlock(170, "hay_block", (new BlockHay()).setHardness(0.5F).setStepSound(soundTypeGrass).setUnlocalizedName("hayBlock").setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(171, "carpet", (new BlockCarpet()).setHardness(0.1F).setStepSound(soundTypeCloth).setUnlocalizedName("woolCarpet").setLightOpacity(0));
-        registerBlock(172, "hardened_clay", (new BlockHardenedClay()).setHardness(1.25F).setResistance(7.0F).setStepSound(soundTypePiston).setUnlocalizedName("clayHardened"));
-        registerBlock(173, "coal_block", (new Block(Material.rock, MapColor.blackColor)).setHardness(5.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("blockCoal").setCreativeTab(CreativeTabs.tabBlock));
-        registerBlock(174, "packed_ice", (new BlockPackedIce()).setHardness(0.5F).setStepSound(soundTypeGlass).setUnlocalizedName("icePacked"));
-        registerBlock(175, "double_plant", new BlockDoublePlant());
-        registerBlock(176, "standing_banner", (new BlockBanner.BlockBannerStanding()).setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("banner").disableStats());
-        registerBlock(177, "wall_banner", (new BlockBanner.BlockBannerHanging()).setHardness(1.0F).setStepSound(soundTypeWood).setUnlocalizedName("banner").disableStats());
-        registerBlock(178, "daylight_detector_inverted", new BlockDaylightDetector(true));
-        Block block12 = (new BlockRedSandstone()).setStepSound(soundTypePiston).setHardness(0.8F).setUnlocalizedName("redSandStone");
-        registerBlock(179, "red_sandstone", block12);
-        registerBlock(180, "red_sandstone_stairs", (new BlockStairs(block12.getDefaultState().withProperty(BlockRedSandstone.TYPE, BlockRedSandstone.EnumType.SMOOTH))).setUnlocalizedName("stairsRedSandStone"));
-        registerBlock(181, "double_stone_slab2", (new BlockDoubleStoneSlabNew()).setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stoneSlab2"));
-        registerBlock(182, "stone_slab2", (new BlockHalfStoneSlabNew()).setHardness(2.0F).setResistance(10.0F).setStepSound(soundTypePiston).setUnlocalizedName("stoneSlab2"));
-        registerBlock(183, "spruce_fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.SPRUCE)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("spruceFenceGate"));
-        registerBlock(184, "birch_fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.BIRCH)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("birchFenceGate"));
-        registerBlock(185, "jungle_fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.JUNGLE)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("jungleFenceGate"));
-        registerBlock(186, "dark_oak_fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.DARK_OAK)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("darkOakFenceGate"));
-        registerBlock(187, "acacia_fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.ACACIA)).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("acaciaFenceGate"));
-        registerBlock(188, "spruce_fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.SPRUCE.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("spruceFence"));
-        registerBlock(189, "birch_fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.BIRCH.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("birchFence"));
-        registerBlock(190, "jungle_fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.JUNGLE.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("jungleFence"));
-        registerBlock(191, "dark_oak_fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.DARK_OAK.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("darkOakFence"));
-        registerBlock(192, "acacia_fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.ACACIA.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(soundTypeWood).setUnlocalizedName("acaciaFence"));
-        registerBlock(193, "spruce_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("doorSpruce").disableStats());
-        registerBlock(194, "birch_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("doorBirch").disableStats());
-        registerBlock(195, "jungle_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("doorJungle").disableStats());
-        registerBlock(196, "acacia_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("doorAcacia").disableStats());
-        registerBlock(197, "dark_oak_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(soundTypeWood).setUnlocalizedName("doorDarkOak").disableStats());
-        blockRegistry.validateKey();
+        Block.registerBlock(0, Block.AIR_ID, (new BlockAir()).setUnlocalizedName("air"));
+        Block.registerBlock(1, "stone", (new BlockStone()).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("stone"));
+        Block.registerBlock(2, "grass", (new BlockGrass()).setHardness(0.6F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("grass"));
+        Block.registerBlock(3, "dirt", (new BlockDirt()).setHardness(0.5F).setStepSound(Block.soundTypeGravel).setUnlocalizedName("dirt"));
+        Block block = (new Block(Material.rock)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("stonebrick").setCreativeTab(CreativeTabs.tabBlock);
+        Block.registerBlock(4, "cobblestone", block);
+        Block block1 = (new BlockPlanks()).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("wood");
+        Block.registerBlock(5, "planks", block1);
+        Block.registerBlock(6, "sapling", (new BlockSapling()).setHardness(0.0F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("sapling"));
+        Block.registerBlock(7, "bedrock", (new Block(Material.rock)).setBlockUnbreakable().setResistance(6000000.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("bedrock").disableStats().setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(8, "flowing_water", (new BlockDynamicLiquid(Material.water)).setHardness(100.0F).setLightOpacity(3).setUnlocalizedName("water").disableStats());
+        Block.registerBlock(9, "water", (new BlockStaticLiquid(Material.water)).setHardness(100.0F).setLightOpacity(3).setUnlocalizedName("water").disableStats());
+        Block.registerBlock(10, "flowing_lava", (new BlockDynamicLiquid(Material.lava)).setHardness(100.0F).setLightLevel(1.0F).setUnlocalizedName("lava").disableStats());
+        Block.registerBlock(11, "lava", (new BlockStaticLiquid(Material.lava)).setHardness(100.0F).setLightLevel(1.0F).setUnlocalizedName("lava").disableStats());
+        Block.registerBlock(12, "sand", (new BlockSand()).setHardness(0.5F).setStepSound(Block.soundTypeSand).setUnlocalizedName("sand"));
+        Block.registerBlock(13, "gravel", (new BlockGravel()).setHardness(0.6F).setStepSound(Block.soundTypeGravel).setUnlocalizedName("gravel"));
+        Block.registerBlock(14, "gold_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("oreGold"));
+        Block.registerBlock(15, "iron_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("oreIron"));
+        Block.registerBlock(16, "coal_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("oreCoal"));
+        Block.registerBlock(17, "log", (new BlockOldLog()).setUnlocalizedName("log"));
+        Block.registerBlock(18, "leaves", (new BlockOldLeaf()).setUnlocalizedName("leaves"));
+        Block.registerBlock(19, "sponge", (new BlockSponge()).setHardness(0.6F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("sponge"));
+        Block.registerBlock(20, "glass", (new BlockGlass(Material.glass, false)).setHardness(0.3F).setStepSound(Block.soundTypeGlass).setUnlocalizedName("glass"));
+        Block.registerBlock(21, "lapis_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("oreLapis"));
+        Block.registerBlock(22, "lapis_block", (new Block(Material.iron, MapColor.lapisColor)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("blockLapis").setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(23, "dispenser", (new BlockDispenser()).setHardness(3.5F).setStepSound(Block.soundTypePiston).setUnlocalizedName("dispenser"));
+        Block block2 = (new BlockSandStone()).setStepSound(Block.soundTypePiston).setHardness(0.8F).setUnlocalizedName("sandStone");
+        Block.registerBlock(24, "sandstone", block2);
+        Block.registerBlock(25, "noteblock", (new BlockNote()).setHardness(0.8F).setUnlocalizedName("musicBlock"));
+        Block.registerBlock(26, "bed", (new BlockBed()).setStepSound(Block.soundTypeWood).setHardness(0.2F).setUnlocalizedName("bed").disableStats());
+        Block.registerBlock(27, "golden_rail", (new BlockRailPowered()).setHardness(0.7F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("goldenRail"));
+        Block.registerBlock(28, "detector_rail", (new BlockRailDetector()).setHardness(0.7F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("detectorRail"));
+        Block.registerBlock(29, "sticky_piston", (new BlockPistonBase(true)).setUnlocalizedName("pistonStickyBase"));
+        Block.registerBlock(30, "web", (new BlockWeb()).setLightOpacity(1).setHardness(4.0F).setUnlocalizedName("web"));
+        Block.registerBlock(31, "tallgrass", (new BlockTallGrass()).setHardness(0.0F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("tallgrass"));
+        Block.registerBlock(32, "deadbush", (new BlockDeadBush()).setHardness(0.0F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("deadbush"));
+        Block.registerBlock(33, "piston", (new BlockPistonBase(false)).setUnlocalizedName("pistonBase"));
+        Block.registerBlock(34, "piston_head", (new BlockPistonExtension()).setUnlocalizedName("pistonBase"));
+        Block.registerBlock(35, "wool", (new BlockColored(Material.cloth)).setHardness(0.8F).setStepSound(Block.soundTypeCloth).setUnlocalizedName("cloth"));
+        Block.registerBlock(36, "piston_extension", new BlockPistonMoving());
+        Block.registerBlock(37, "yellow_flower", (new BlockYellowFlower()).setHardness(0.0F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("flower1"));
+        Block.registerBlock(38, "red_flower", (new BlockRedFlower()).setHardness(0.0F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("flower2"));
+        Block block3 = (new BlockMushroom()).setHardness(0.0F).setStepSound(Block.soundTypeGrass).setLightLevel(0.125F).setUnlocalizedName("mushroom");
+        Block.registerBlock(39, "brown_mushroom", block3);
+        Block block4 = (new BlockMushroom()).setHardness(0.0F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("mushroom");
+        Block.registerBlock(40, "red_mushroom", block4);
+        Block.registerBlock(41, "gold_block", (new Block(Material.iron, MapColor.goldColor)).setHardness(3.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("blockGold").setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(42, "iron_block", (new Block(Material.iron, MapColor.ironColor)).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("blockIron").setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(43, "double_stone_slab", (new BlockDoubleStoneSlab()).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("stoneSlab"));
+        Block.registerBlock(44, "stone_slab", (new BlockHalfStoneSlab()).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("stoneSlab"));
+        Block block5 = (new Block(Material.rock, MapColor.redColor)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("brick").setCreativeTab(CreativeTabs.tabBlock);
+        Block.registerBlock(45, "brick_block", block5);
+        Block.registerBlock(46, "tnt", (new BlockTNT()).setHardness(0.0F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("tnt"));
+        Block.registerBlock(47, "bookshelf", (new BlockBookshelf()).setHardness(1.5F).setStepSound(Block.soundTypeWood).setUnlocalizedName("bookshelf"));
+        Block.registerBlock(48, "mossy_cobblestone", (new Block(Material.rock)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("stoneMoss").setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(49, "obsidian", (new BlockObsidian()).setHardness(50.0F).setResistance(2000.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("obsidian"));
+        Block.registerBlock(50, "torch", (new BlockTorch()).setHardness(0.0F).setLightLevel(0.9375F).setStepSound(Block.soundTypeWood).setUnlocalizedName("torch"));
+        Block.registerBlock(51, "fire", (new BlockFire()).setHardness(0.0F).setLightLevel(1.0F).setStepSound(Block.soundTypeCloth).setUnlocalizedName("fire").disableStats());
+        Block.registerBlock(52, "mob_spawner", (new BlockMobSpawner()).setHardness(5.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("mobSpawner").disableStats());
+        Block.registerBlock(53, "oak_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.OAK))).setUnlocalizedName("stairsWood"));
+        Block.registerBlock(54, "chest", (new BlockChest(0)).setHardness(2.5F).setStepSound(Block.soundTypeWood).setUnlocalizedName("chest"));
+        Block.registerBlock(55, "redstone_wire", (new BlockRedstoneWire()).setHardness(0.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("redstoneDust").disableStats());
+        Block.registerBlock(56, "diamond_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("oreDiamond"));
+        Block.registerBlock(57, "diamond_block", (new Block(Material.iron, MapColor.diamondColor)).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("blockDiamond").setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(58, "crafting_table", (new BlockWorkbench()).setHardness(2.5F).setStepSound(Block.soundTypeWood).setUnlocalizedName("workbench"));
+        Block.registerBlock(59, "wheat", (new BlockCrops()).setUnlocalizedName("crops"));
+        Block block6 = (new BlockFarmland()).setHardness(0.6F).setStepSound(Block.soundTypeGravel).setUnlocalizedName("farmland");
+        Block.registerBlock(60, "farmland", block6);
+        Block.registerBlock(61, "furnace", (new BlockFurnace(false)).setHardness(3.5F).setStepSound(Block.soundTypePiston).setUnlocalizedName("furnace").setCreativeTab(CreativeTabs.tabDecorations));
+        Block.registerBlock(62, "lit_furnace", (new BlockFurnace(true)).setHardness(3.5F).setStepSound(Block.soundTypePiston).setLightLevel(0.875F).setUnlocalizedName("furnace"));
+        Block.registerBlock(63, "standing_sign", (new BlockStandingSign()).setHardness(1.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("sign").disableStats());
+        Block.registerBlock(64, "wooden_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("doorOak").disableStats());
+        Block.registerBlock(65, "ladder", (new BlockLadder()).setHardness(0.4F).setStepSound(Block.soundTypeLadder).setUnlocalizedName("ladder"));
+        Block.registerBlock(66, "rail", (new BlockRail()).setHardness(0.7F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("rail"));
+        Block.registerBlock(67, "stone_stairs", (new BlockStairs(block.getDefaultState())).setUnlocalizedName("stairsStone"));
+        Block.registerBlock(68, "wall_sign", (new BlockWallSign()).setHardness(1.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("sign").disableStats());
+        Block.registerBlock(69, "lever", (new BlockLever()).setHardness(0.5F).setStepSound(Block.soundTypeWood).setUnlocalizedName("lever"));
+        Block.registerBlock(70, "stone_pressure_plate", (new BlockPressurePlate(Material.rock, BlockPressurePlate.Sensitivity.MOBS)).setHardness(0.5F).setStepSound(Block.soundTypePiston).setUnlocalizedName("pressurePlateStone"));
+        Block.registerBlock(71, "iron_door", (new BlockDoor(Material.iron)).setHardness(5.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("doorIron").disableStats());
+        Block.registerBlock(72, "wooden_pressure_plate", (new BlockPressurePlate(Material.wood, BlockPressurePlate.Sensitivity.EVERYTHING)).setHardness(0.5F).setStepSound(Block.soundTypeWood).setUnlocalizedName("pressurePlateWood"));
+        Block.registerBlock(73, "redstone_ore", (new BlockRedstoneOre(false)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("oreRedstone").setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(74, "lit_redstone_ore", (new BlockRedstoneOre(true)).setLightLevel(0.625F).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("oreRedstone"));
+        Block.registerBlock(75, "unlit_redstone_torch", (new BlockRedstoneTorch(false)).setHardness(0.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("notGate"));
+        Block.registerBlock(76, "redstone_torch", (new BlockRedstoneTorch(true)).setHardness(0.0F).setLightLevel(0.5F).setStepSound(Block.soundTypeWood).setUnlocalizedName("notGate").setCreativeTab(CreativeTabs.tabRedstone));
+        Block.registerBlock(77, "stone_button", (new BlockButtonStone()).setHardness(0.5F).setStepSound(Block.soundTypePiston).setUnlocalizedName("button"));
+        Block.registerBlock(78, "snow_layer", (new BlockSnow()).setHardness(0.1F).setStepSound(Block.soundTypeSnow).setUnlocalizedName("snow").setLightOpacity(0));
+        Block.registerBlock(79, "ice", (new BlockIce()).setHardness(0.5F).setLightOpacity(3).setStepSound(Block.soundTypeGlass).setUnlocalizedName("ice"));
+        Block.registerBlock(80, "snow", (new BlockSnowBlock()).setHardness(0.2F).setStepSound(Block.soundTypeSnow).setUnlocalizedName("snow"));
+        Block.registerBlock(81, "cactus", (new BlockCactus()).setHardness(0.4F).setStepSound(Block.soundTypeCloth).setUnlocalizedName("cactus"));
+        Block.registerBlock(82, "clay", (new BlockClay()).setHardness(0.6F).setStepSound(Block.soundTypeGravel).setUnlocalizedName("clay"));
+        Block.registerBlock(83, "reeds", (new BlockReed()).setHardness(0.0F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("reeds").disableStats());
+        Block.registerBlock(84, "jukebox", (new BlockJukebox()).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("jukebox"));
+        Block.registerBlock(85, "fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.OAK.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("fence"));
+        Block block7 = (new BlockPumpkin()).setHardness(1.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("pumpkin");
+        Block.registerBlock(86, "pumpkin", block7);
+        Block.registerBlock(87, "netherrack", (new BlockNetherrack()).setHardness(0.4F).setStepSound(Block.soundTypePiston).setUnlocalizedName("hellrock"));
+        Block.registerBlock(88, "soul_sand", (new BlockSoulSand()).setHardness(0.5F).setStepSound(Block.soundTypeSand).setUnlocalizedName("hellsand"));
+        Block.registerBlock(89, "glowstone", (new BlockGlowstone(Material.glass)).setHardness(0.3F).setStepSound(Block.soundTypeGlass).setLightLevel(1.0F).setUnlocalizedName("lightgem"));
+        Block.registerBlock(90, "portal", (new BlockPortal()).setHardness(-1.0F).setStepSound(Block.soundTypeGlass).setLightLevel(0.75F).setUnlocalizedName("portal"));
+        Block.registerBlock(91, "lit_pumpkin", (new BlockPumpkin()).setHardness(1.0F).setStepSound(Block.soundTypeWood).setLightLevel(1.0F).setUnlocalizedName("litpumpkin"));
+        Block.registerBlock(92, "cake", (new BlockCake()).setHardness(0.5F).setStepSound(Block.soundTypeCloth).setUnlocalizedName("cake").disableStats());
+        Block.registerBlock(93, "unpowered_repeater", (new BlockRedstoneRepeater(false)).setHardness(0.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("diode").disableStats());
+        Block.registerBlock(94, "powered_repeater", (new BlockRedstoneRepeater(true)).setHardness(0.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("diode").disableStats());
+        Block.registerBlock(95, "stained_glass", (new BlockStainedGlass(Material.glass)).setHardness(0.3F).setStepSound(Block.soundTypeGlass).setUnlocalizedName("stainedGlass"));
+        Block.registerBlock(96, "trapdoor", (new BlockTrapDoor(Material.wood)).setHardness(3.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("trapdoor").disableStats());
+        Block.registerBlock(97, "monster_egg", (new BlockSilverfish()).setHardness(0.75F).setUnlocalizedName("monsterStoneEgg"));
+        Block block8 = (new BlockStoneBrick()).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("stonebricksmooth");
+        Block.registerBlock(98, "stonebrick", block8);
+        Block.registerBlock(99, "brown_mushroom_block", (new BlockHugeMushroom(Material.wood, MapColor.dirtColor, block3)).setHardness(0.2F).setStepSound(Block.soundTypeWood).setUnlocalizedName("mushroom"));
+        Block.registerBlock(100, "red_mushroom_block", (new BlockHugeMushroom(Material.wood, MapColor.redColor, block4)).setHardness(0.2F).setStepSound(Block.soundTypeWood).setUnlocalizedName("mushroom"));
+        Block.registerBlock(101, "iron_bars", (new BlockPane(Material.iron, true)).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("fenceIron"));
+        Block.registerBlock(102, "glass_pane", (new BlockPane(Material.glass, false)).setHardness(0.3F).setStepSound(Block.soundTypeGlass).setUnlocalizedName("thinGlass"));
+        Block block9 = (new BlockMelon()).setHardness(1.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("melon");
+        Block.registerBlock(103, "melon_block", block9);
+        Block.registerBlock(104, "pumpkin_stem", (new BlockStem(block7)).setHardness(0.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("pumpkinStem"));
+        Block.registerBlock(105, "melon_stem", (new BlockStem(block9)).setHardness(0.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("pumpkinStem"));
+        Block.registerBlock(106, "vine", (new BlockVine()).setHardness(0.2F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("vine"));
+        Block.registerBlock(107, "fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.OAK)).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("fenceGate"));
+        Block.registerBlock(108, "brick_stairs", (new BlockStairs(block5.getDefaultState())).setUnlocalizedName("stairsBrick"));
+        Block.registerBlock(109, "stone_brick_stairs", (new BlockStairs(block8.getDefaultState().withProperty(BlockStoneBrick.VARIANT, BlockStoneBrick.EnumType.DEFAULT))).setUnlocalizedName("stairsStoneBrickSmooth"));
+        Block.registerBlock(110, "mycelium", (new BlockMycelium()).setHardness(0.6F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("mycel"));
+        Block.registerBlock(111, "waterlily", (new BlockLilyPad()).setHardness(0.0F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("waterlily"));
+        Block block10 = (new BlockNetherBrick()).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("netherBrick").setCreativeTab(CreativeTabs.tabBlock);
+        Block.registerBlock(112, "nether_brick", block10);
+        Block.registerBlock(113, "nether_brick_fence", (new BlockFence(Material.rock, MapColor.netherrackColor)).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("netherFence"));
+        Block.registerBlock(114, "nether_brick_stairs", (new BlockStairs(block10.getDefaultState())).setUnlocalizedName("stairsNetherBrick"));
+        Block.registerBlock(115, "nether_wart", (new BlockNetherWart()).setUnlocalizedName("netherStalk"));
+        Block.registerBlock(116, "enchanting_table", (new BlockEnchantmentTable()).setHardness(5.0F).setResistance(2000.0F).setUnlocalizedName("enchantmentTable"));
+        Block.registerBlock(117, "brewing_stand", (new BlockBrewingStand()).setHardness(0.5F).setLightLevel(0.125F).setUnlocalizedName("brewingStand"));
+        Block.registerBlock(118, "cauldron", (new BlockCauldron()).setHardness(2.0F).setUnlocalizedName("cauldron"));
+        Block.registerBlock(119, "end_portal", (new BlockEndPortal(Material.portal)).setHardness(-1.0F).setResistance(6000000.0F));
+        Block.registerBlock(120, "end_portal_frame", (new BlockEndPortalFrame()).setStepSound(Block.soundTypeGlass).setLightLevel(0.125F).setHardness(-1.0F).setUnlocalizedName("endPortalFrame").setResistance(6000000.0F).setCreativeTab(CreativeTabs.tabDecorations));
+        Block.registerBlock(121, "end_stone", (new Block(Material.rock, MapColor.sandColor)).setHardness(3.0F).setResistance(15.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("whiteStone").setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(122, "dragon_egg", (new BlockDragonEgg()).setHardness(3.0F).setResistance(15.0F).setStepSound(Block.soundTypePiston).setLightLevel(0.125F).setUnlocalizedName("dragonEgg"));
+        Block.registerBlock(123, "redstone_lamp", (new BlockRedstoneLight(false)).setHardness(0.3F).setStepSound(Block.soundTypeGlass).setUnlocalizedName("redstoneLight").setCreativeTab(CreativeTabs.tabRedstone));
+        Block.registerBlock(124, "lit_redstone_lamp", (new BlockRedstoneLight(true)).setHardness(0.3F).setStepSound(Block.soundTypeGlass).setUnlocalizedName("redstoneLight"));
+        Block.registerBlock(125, "double_wooden_slab", (new BlockDoubleWoodSlab()).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("woodSlab"));
+        Block.registerBlock(126, "wooden_slab", (new BlockHalfWoodSlab()).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("woodSlab"));
+        Block.registerBlock(127, "cocoa", (new BlockCocoa()).setHardness(0.2F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("cocoa"));
+        Block.registerBlock(128, "sandstone_stairs", (new BlockStairs(block2.getDefaultState().withProperty(BlockSandStone.TYPE, BlockSandStone.EnumType.SMOOTH))).setUnlocalizedName("stairsSandStone"));
+        Block.registerBlock(129, "emerald_ore", (new BlockOre()).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("oreEmerald"));
+        Block.registerBlock(130, "ender_chest", (new BlockEnderChest()).setHardness(22.5F).setResistance(1000.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("enderChest").setLightLevel(0.5F));
+        Block.registerBlock(131, "tripwire_hook", (new BlockTripWireHook()).setUnlocalizedName("tripWireSource"));
+        Block.registerBlock(132, "tripwire", (new BlockTripWire()).setUnlocalizedName("tripWire"));
+        Block.registerBlock(133, "emerald_block", (new Block(Material.iron, MapColor.emeraldColor)).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("blockEmerald").setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(134, "spruce_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.SPRUCE))).setUnlocalizedName("stairsWoodSpruce"));
+        Block.registerBlock(135, "birch_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.BIRCH))).setUnlocalizedName("stairsWoodBirch"));
+        Block.registerBlock(136, "jungle_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.JUNGLE))).setUnlocalizedName("stairsWoodJungle"));
+        Block.registerBlock(137, "command_block", (new BlockCommandBlock()).setBlockUnbreakable().setResistance(6000000.0F).setUnlocalizedName("commandBlock"));
+        Block.registerBlock(138, "beacon", (new BlockBeacon()).setUnlocalizedName("beacon").setLightLevel(1.0F));
+        Block.registerBlock(139, "cobblestone_wall", (new BlockWall(block)).setUnlocalizedName("cobbleWall"));
+        Block.registerBlock(140, "flower_pot", (new BlockFlowerPot()).setHardness(0.0F).setStepSound(Block.soundTypeStone).setUnlocalizedName("flowerPot"));
+        Block.registerBlock(141, "carrots", (new BlockCarrot()).setUnlocalizedName("carrots"));
+        Block.registerBlock(142, "potatoes", (new BlockPotato()).setUnlocalizedName("potatoes"));
+        Block.registerBlock(143, "wooden_button", (new BlockButtonWood()).setHardness(0.5F).setStepSound(Block.soundTypeWood).setUnlocalizedName("button"));
+        Block.registerBlock(144, "skull", (new BlockSkull()).setHardness(1.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("skull"));
+        Block.registerBlock(145, "anvil", (new BlockAnvil()).setHardness(5.0F).setStepSound(Block.soundTypeAnvil).setResistance(2000.0F).setUnlocalizedName("anvil"));
+        Block.registerBlock(146, "trapped_chest", (new BlockChest(1)).setHardness(2.5F).setStepSound(Block.soundTypeWood).setUnlocalizedName("chestTrap"));
+        Block.registerBlock(147, "light_weighted_pressure_plate", (new BlockPressurePlateWeighted(Material.iron, 15, MapColor.goldColor)).setHardness(0.5F).setStepSound(Block.soundTypeWood).setUnlocalizedName("weightedPlate_light"));
+        Block.registerBlock(148, "heavy_weighted_pressure_plate", (new BlockPressurePlateWeighted(Material.iron, 150)).setHardness(0.5F).setStepSound(Block.soundTypeWood).setUnlocalizedName("weightedPlate_heavy"));
+        Block.registerBlock(149, "unpowered_comparator", (new BlockRedstoneComparator(false)).setHardness(0.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("comparator").disableStats());
+        Block.registerBlock(150, "powered_comparator", (new BlockRedstoneComparator(true)).setHardness(0.0F).setLightLevel(0.625F).setStepSound(Block.soundTypeWood).setUnlocalizedName("comparator").disableStats());
+        Block.registerBlock(151, "daylight_detector", new BlockDaylightDetector(false));
+        Block.registerBlock(152, "redstone_block", (new BlockCompressedPowered(Material.iron, MapColor.tntColor)).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("blockRedstone").setCreativeTab(CreativeTabs.tabRedstone));
+        Block.registerBlock(153, "quartz_ore", (new BlockOre(MapColor.netherrackColor)).setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("netherquartz"));
+        Block.registerBlock(154, "hopper", (new BlockHopper()).setHardness(3.0F).setResistance(8.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("hopper"));
+        Block block11 = (new BlockQuartz()).setStepSound(Block.soundTypePiston).setHardness(0.8F).setUnlocalizedName("quartzBlock");
+        Block.registerBlock(155, "quartz_block", block11);
+        Block.registerBlock(156, "quartz_stairs", (new BlockStairs(block11.getDefaultState().withProperty(BlockQuartz.VARIANT, BlockQuartz.EnumType.DEFAULT))).setUnlocalizedName("stairsQuartz"));
+        Block.registerBlock(157, "activator_rail", (new BlockRailPowered()).setHardness(0.7F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("activatorRail"));
+        Block.registerBlock(158, "dropper", (new BlockDropper()).setHardness(3.5F).setStepSound(Block.soundTypePiston).setUnlocalizedName("dropper"));
+        Block.registerBlock(159, "stained_hardened_clay", (new BlockColored(Material.rock)).setHardness(1.25F).setResistance(7.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("clayHardenedStained"));
+        Block.registerBlock(160, "stained_glass_pane", (new BlockStainedGlassPane()).setHardness(0.3F).setStepSound(Block.soundTypeGlass).setUnlocalizedName("thinStainedGlass"));
+        Block.registerBlock(161, "leaves2", (new BlockNewLeaf()).setUnlocalizedName("leaves"));
+        Block.registerBlock(162, "log2", (new BlockNewLog()).setUnlocalizedName("log"));
+        Block.registerBlock(163, "acacia_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.ACACIA))).setUnlocalizedName("stairsWoodAcacia"));
+        Block.registerBlock(164, "dark_oak_stairs", (new BlockStairs(block1.getDefaultState().withProperty(BlockPlanks.VARIANT, BlockPlanks.EnumType.DARK_OAK))).setUnlocalizedName("stairsWoodDarkOak"));
+        Block.registerBlock(165, "slime", (new BlockSlime()).setUnlocalizedName("slime").setStepSound(Block.SLIME_SOUND));
+        Block.registerBlock(166, "barrier", (new BlockBarrier()).setUnlocalizedName("barrier"));
+        Block.registerBlock(167, "iron_trapdoor", (new BlockTrapDoor(Material.iron)).setHardness(5.0F).setStepSound(Block.soundTypeMetal).setUnlocalizedName("ironTrapdoor").disableStats());
+        Block.registerBlock(168, "prismarine", (new BlockPrismarine()).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("prismarine"));
+        Block.registerBlock(169, "sea_lantern", (new BlockSeaLantern(Material.glass)).setHardness(0.3F).setStepSound(Block.soundTypeGlass).setLightLevel(1.0F).setUnlocalizedName("seaLantern"));
+        Block.registerBlock(170, "hay_block", (new BlockHay()).setHardness(0.5F).setStepSound(Block.soundTypeGrass).setUnlocalizedName("hayBlock").setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(171, "carpet", (new BlockCarpet()).setHardness(0.1F).setStepSound(Block.soundTypeCloth).setUnlocalizedName("woolCarpet").setLightOpacity(0));
+        Block.registerBlock(172, "hardened_clay", (new BlockHardenedClay()).setHardness(1.25F).setResistance(7.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("clayHardened"));
+        Block.registerBlock(173, "coal_block", (new Block(Material.rock, MapColor.blackColor)).setHardness(5.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("blockCoal").setCreativeTab(CreativeTabs.tabBlock));
+        Block.registerBlock(174, "packed_ice", (new BlockPackedIce()).setHardness(0.5F).setStepSound(Block.soundTypeGlass).setUnlocalizedName("icePacked"));
+        Block.registerBlock(175, "double_plant", new BlockDoublePlant());
+        Block.registerBlock(176, "standing_banner", (new BlockBanner.BlockBannerStanding()).setHardness(1.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("banner").disableStats());
+        Block.registerBlock(177, "wall_banner", (new BlockBanner.BlockBannerHanging()).setHardness(1.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("banner").disableStats());
+        Block.registerBlock(178, "daylight_detector_inverted", new BlockDaylightDetector(true));
+        Block block12 = (new BlockRedSandstone()).setStepSound(Block.soundTypePiston).setHardness(0.8F).setUnlocalizedName("redSandStone");
+        Block.registerBlock(179, "red_sandstone", block12);
+        Block.registerBlock(180, "red_sandstone_stairs", (new BlockStairs(block12.getDefaultState().withProperty(BlockRedSandstone.TYPE, BlockRedSandstone.EnumType.SMOOTH))).setUnlocalizedName("stairsRedSandStone"));
+        Block.registerBlock(181, "double_stone_slab2", (new BlockDoubleStoneSlabNew()).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("stoneSlab2"));
+        Block.registerBlock(182, "stone_slab2", (new BlockHalfStoneSlabNew()).setHardness(2.0F).setResistance(10.0F).setStepSound(Block.soundTypePiston).setUnlocalizedName("stoneSlab2"));
+        Block.registerBlock(183, "spruce_fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.SPRUCE)).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("spruceFenceGate"));
+        Block.registerBlock(184, "birch_fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.BIRCH)).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("birchFenceGate"));
+        Block.registerBlock(185, "jungle_fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.JUNGLE)).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("jungleFenceGate"));
+        Block.registerBlock(186, "dark_oak_fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.DARK_OAK)).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("darkOakFenceGate"));
+        Block.registerBlock(187, "acacia_fence_gate", (new BlockFenceGate(BlockPlanks.EnumType.ACACIA)).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("acaciaFenceGate"));
+        Block.registerBlock(188, "spruce_fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.SPRUCE.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("spruceFence"));
+        Block.registerBlock(189, "birch_fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.BIRCH.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("birchFence"));
+        Block.registerBlock(190, "jungle_fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.JUNGLE.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("jungleFence"));
+        Block.registerBlock(191, "dark_oak_fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.DARK_OAK.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("darkOakFence"));
+        Block.registerBlock(192, "acacia_fence", (new BlockFence(Material.wood, BlockPlanks.EnumType.ACACIA.func_181070_c())).setHardness(2.0F).setResistance(5.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("acaciaFence"));
+        Block.registerBlock(193, "spruce_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("doorSpruce").disableStats());
+        Block.registerBlock(194, "birch_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("doorBirch").disableStats());
+        Block.registerBlock(195, "jungle_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("doorJungle").disableStats());
+        Block.registerBlock(196, "acacia_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("doorAcacia").disableStats());
+        Block.registerBlock(197, "dark_oak_door", (new BlockDoor(Material.wood)).setHardness(3.0F).setStepSound(Block.soundTypeWood).setUnlocalizedName("doorDarkOak").disableStats());
+        Block.blockRegistry.validateKey();
 
-        for (Block block13 : blockRegistry)
+        for (Block block13 : Block.blockRegistry)
         {
             if (block13.blockMaterial == Material.air)
             {
@@ -1477,31 +1477,31 @@ public class Block
             }
         }
 
-        for (Block block14 : blockRegistry)
+        for (Block block14 : Block.blockRegistry)
         {
             for (IBlockState iblockstate : block14.getBlockState().getValidStates())
             {
-                int i = blockRegistry.getIDForObject(block14) << 4 | block14.getMetaFromState(iblockstate);
-                BLOCK_STATE_IDS.put(iblockstate, i);
+                int i = Block.blockRegistry.getIDForObject(block14) << 4 | block14.getMetaFromState(iblockstate);
+                Block.BLOCK_STATE_IDS.put(iblockstate, i);
             }
         }
     }
 
     private static void registerBlock(int id, ResourceLocation textualID, Block block_)
     {
-        blockRegistry.register(id, textualID, block_);
+        Block.blockRegistry.register(id, textualID, block_);
     }
 
     private static void registerBlock(int id, String textualID, Block block_)
     {
-        registerBlock(id, new ResourceLocation(textualID), block_);
+        Block.registerBlock(id, new ResourceLocation(textualID), block_);
     }
 
     public static enum EnumOffsetType
     {
         NONE,
         XZ,
-        XYZ;
+        XYZ
     }
 
     public static class SoundType
@@ -1512,34 +1512,34 @@ public class Block
 
         public SoundType(String name, float volume, float frequency)
         {
-            this.soundName = name;
+            soundName = name;
             this.volume = volume;
             this.frequency = frequency;
         }
 
         public float getVolume()
         {
-            return this.volume;
+            return volume;
         }
 
         public float getFrequency()
         {
-            return this.frequency;
+            return frequency;
         }
 
         public String getBreakSound()
         {
-            return "dig." + this.soundName;
+            return "dig." + soundName;
         }
 
         public String getStepSound()
         {
-            return "step." + this.soundName;
+            return "step." + soundName;
         }
 
         public String getPlaceSound()
         {
-            return this.getBreakSound();
+            return getBreakSound();
         }
     }
 }

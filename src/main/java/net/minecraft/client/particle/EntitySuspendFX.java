@@ -9,16 +9,16 @@ public class EntitySuspendFX extends EntityFX
     protected EntitySuspendFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
     {
         super(worldIn, xCoordIn, yCoordIn - 0.125D, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-        this.particleRed = 0.4F;
-        this.particleGreen = 0.4F;
-        this.particleBlue = 0.7F;
-        this.setParticleTextureIndex(0);
-        this.setSize(0.01F, 0.01F);
-        this.particleScale *= this.rand.nextFloat() * 0.6F + 0.2F;
-        this.motionX = xSpeedIn * 0.0D;
-        this.motionY = ySpeedIn * 0.0D;
-        this.motionZ = zSpeedIn * 0.0D;
-        this.particleMaxAge = (int)(16.0D / (Math.random() * 0.8D + 0.2D));
+        particleRed = 0.4F;
+        particleGreen = 0.4F;
+        particleBlue = 0.7F;
+        setParticleTextureIndex(0);
+        setSize(0.01F, 0.01F);
+        particleScale *= rand.nextFloat() * 0.6F + 0.2F;
+        motionX = xSpeedIn * 0.0D;
+        motionY = ySpeedIn * 0.0D;
+        motionZ = zSpeedIn * 0.0D;
+        particleMaxAge = (int)(16.0D / (Math.random() * 0.8D + 0.2D));
     }
 
     /**
@@ -26,19 +26,19 @@ public class EntitySuspendFX extends EntityFX
      */
     public void onUpdate()
     {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
+        moveEntity(motionX, motionY, motionZ);
 
-        if (this.worldObj.getBlockState(new BlockPos(this)).getBlock().getMaterial() != Material.water)
+        if (worldObj.getBlockState(new BlockPos(this)).getBlock().getMaterial() != Material.water)
         {
-            this.setDead();
+            setDead();
         }
 
-        if (this.particleMaxAge-- <= 0)
+        if (particleMaxAge-- <= 0)
         {
-            this.setDead();
+            setDead();
         }
     }
 

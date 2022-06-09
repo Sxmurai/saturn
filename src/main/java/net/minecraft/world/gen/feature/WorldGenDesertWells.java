@@ -26,7 +26,7 @@ public class WorldGenDesertWells extends WorldGenerator
             position = position.down();
         }
 
-        if (!field_175913_a.apply(worldIn.getBlockState(position)))
+        if (!WorldGenDesertWells.field_175913_a.apply(worldIn.getBlockState(position)))
         {
             return false;
         }
@@ -49,16 +49,16 @@ public class WorldGenDesertWells extends WorldGenerator
                 {
                     for (int k = -2; k <= 2; ++k)
                     {
-                        worldIn.setBlockState(position.add(l1, l, k), this.field_175912_c, 2);
+                        worldIn.setBlockState(position.add(l1, l, k), field_175912_c, 2);
                     }
                 }
             }
 
-            worldIn.setBlockState(position, this.field_175910_d, 2);
+            worldIn.setBlockState(position, field_175910_d, 2);
 
             for (Object enumfacing : EnumFacing.Plane.HORIZONTAL)
             {
-                worldIn.setBlockState(position.offset((EnumFacing) enumfacing), this.field_175910_d, 2);
+                worldIn.setBlockState(position.offset((EnumFacing) enumfacing), field_175910_d, 2);
             }
 
             for (int i1 = -2; i1 <= 2; ++i1)
@@ -67,15 +67,15 @@ public class WorldGenDesertWells extends WorldGenerator
                 {
                     if (i1 == -2 || i1 == 2 || i2 == -2 || i2 == 2)
                     {
-                        worldIn.setBlockState(position.add(i1, 1, i2), this.field_175912_c, 2);
+                        worldIn.setBlockState(position.add(i1, 1, i2), field_175912_c, 2);
                     }
                 }
             }
 
-            worldIn.setBlockState(position.add(2, 1, 0), this.field_175911_b, 2);
-            worldIn.setBlockState(position.add(-2, 1, 0), this.field_175911_b, 2);
-            worldIn.setBlockState(position.add(0, 1, 2), this.field_175911_b, 2);
-            worldIn.setBlockState(position.add(0, 1, -2), this.field_175911_b, 2);
+            worldIn.setBlockState(position.add(2, 1, 0), field_175911_b, 2);
+            worldIn.setBlockState(position.add(-2, 1, 0), field_175911_b, 2);
+            worldIn.setBlockState(position.add(0, 1, 2), field_175911_b, 2);
+            worldIn.setBlockState(position.add(0, 1, -2), field_175911_b, 2);
 
             for (int j1 = -1; j1 <= 1; ++j1)
             {
@@ -83,21 +83,21 @@ public class WorldGenDesertWells extends WorldGenerator
                 {
                     if (j1 == 0 && j2 == 0)
                     {
-                        worldIn.setBlockState(position.add(j1, 4, j2), this.field_175912_c, 2);
+                        worldIn.setBlockState(position.add(j1, 4, j2), field_175912_c, 2);
                     }
                     else
                     {
-                        worldIn.setBlockState(position.add(j1, 4, j2), this.field_175911_b, 2);
+                        worldIn.setBlockState(position.add(j1, 4, j2), field_175911_b, 2);
                     }
                 }
             }
 
             for (int k1 = 1; k1 <= 3; ++k1)
             {
-                worldIn.setBlockState(position.add(-1, k1, -1), this.field_175912_c, 2);
-                worldIn.setBlockState(position.add(-1, k1, 1), this.field_175912_c, 2);
-                worldIn.setBlockState(position.add(1, k1, -1), this.field_175912_c, 2);
-                worldIn.setBlockState(position.add(1, k1, 1), this.field_175912_c, 2);
+                worldIn.setBlockState(position.add(-1, k1, -1), field_175912_c, 2);
+                worldIn.setBlockState(position.add(-1, k1, 1), field_175912_c, 2);
+                worldIn.setBlockState(position.add(1, k1, -1), field_175912_c, 2);
+                worldIn.setBlockState(position.add(1, k1, 1), field_175912_c, 2);
             }
 
             return true;

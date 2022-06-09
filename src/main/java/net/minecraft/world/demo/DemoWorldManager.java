@@ -24,48 +24,48 @@ public class DemoWorldManager extends ItemInWorldManager
     public void updateBlockRemoving()
     {
         super.updateBlockRemoving();
-        ++this.field_73102_f;
-        long i = this.theWorld.getTotalWorldTime();
+        ++field_73102_f;
+        long i = theWorld.getTotalWorldTime();
         long j = i / 24000L + 1L;
 
-        if (!this.field_73105_c && this.field_73102_f > 20)
+        if (!field_73105_c && field_73102_f > 20)
         {
-            this.field_73105_c = true;
-            this.thisPlayerMP.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(5, 0.0F));
+            field_73105_c = true;
+            thisPlayerMP.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(5, 0.0F));
         }
 
-        this.demoTimeExpired = i > 120500L;
+        demoTimeExpired = i > 120500L;
 
-        if (this.demoTimeExpired)
+        if (demoTimeExpired)
         {
-            ++this.field_73104_e;
+            ++field_73104_e;
         }
 
         if (i % 24000L == 500L)
         {
             if (j <= 6L)
             {
-                this.thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.day." + j, new Object[0]));
+                thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.day." + j));
             }
         }
         else if (j == 1L)
         {
             if (i == 100L)
             {
-                this.thisPlayerMP.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(5, 101.0F));
+                thisPlayerMP.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(5, 101.0F));
             }
             else if (i == 175L)
             {
-                this.thisPlayerMP.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(5, 102.0F));
+                thisPlayerMP.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(5, 102.0F));
             }
             else if (i == 250L)
             {
-                this.thisPlayerMP.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(5, 103.0F));
+                thisPlayerMP.playerNetServerHandler.sendPacket(new S2BPacketChangeGameState(5, 103.0F));
             }
         }
         else if (j == 5L && i % 24000L == 22000L)
         {
-            this.thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.day.warning", new Object[0]));
+            thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.day.warning"));
         }
     }
 
@@ -74,10 +74,10 @@ public class DemoWorldManager extends ItemInWorldManager
      */
     private void sendDemoReminder()
     {
-        if (this.field_73104_e > 100)
+        if (field_73104_e > 100)
         {
-            this.thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.reminder", new Object[0]));
-            this.field_73104_e = 0;
+            thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.reminder"));
+            field_73104_e = 0;
         }
     }
 
@@ -87,9 +87,9 @@ public class DemoWorldManager extends ItemInWorldManager
      */
     public void onBlockClicked(BlockPos pos, EnumFacing side)
     {
-        if (this.demoTimeExpired)
+        if (demoTimeExpired)
         {
-            this.sendDemoReminder();
+            sendDemoReminder();
         }
         else
         {
@@ -99,7 +99,7 @@ public class DemoWorldManager extends ItemInWorldManager
 
     public void blockRemoving(BlockPos pos)
     {
-        if (!this.demoTimeExpired)
+        if (!demoTimeExpired)
         {
             super.blockRemoving(pos);
         }
@@ -110,7 +110,7 @@ public class DemoWorldManager extends ItemInWorldManager
      */
     public boolean tryHarvestBlock(BlockPos pos)
     {
-        return this.demoTimeExpired ? false : super.tryHarvestBlock(pos);
+        return !this.demoTimeExpired && super.tryHarvestBlock(pos);
     }
 
     /**
@@ -118,9 +118,9 @@ public class DemoWorldManager extends ItemInWorldManager
      */
     public boolean tryUseItem(EntityPlayer player, World worldIn, ItemStack stack)
     {
-        if (this.demoTimeExpired)
+        if (demoTimeExpired)
         {
-            this.sendDemoReminder();
+            sendDemoReminder();
             return false;
         }
         else
@@ -134,9 +134,9 @@ public class DemoWorldManager extends ItemInWorldManager
      */
     public boolean activateBlockOrUseItem(EntityPlayer player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ)
     {
-        if (this.demoTimeExpired)
+        if (demoTimeExpired)
         {
-            this.sendDemoReminder();
+            sendDemoReminder();
             return false;
         }
         else

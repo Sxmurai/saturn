@@ -12,18 +12,18 @@ public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IO
 
     public RegistryNamespaced()
     {
-        this.inverseObjectRegistry = ((BiMap)this.registryObjects).inverse();
+        inverseObjectRegistry = ((BiMap) registryObjects).inverse();
     }
 
     public void register(int id, K p_177775_2_, V p_177775_3_)
     {
-        this.underlyingIntegerMap.put(p_177775_3_, id);
-        this.putObject(p_177775_2_, p_177775_3_);
+        underlyingIntegerMap.put(p_177775_3_, id);
+        putObject(p_177775_2_, p_177775_3_);
     }
 
     protected Map<K, V> createUnderlyingMap()
     {
-        return HashBiMap.<K, V>create();
+        return HashBiMap.create();
     }
 
     public V getObject(K name)
@@ -36,7 +36,7 @@ public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IO
      */
     public K getNameForObject(V p_177774_1_)
     {
-        return (K)this.inverseObjectRegistry.get(p_177774_1_);
+        return inverseObjectRegistry.get(p_177774_1_);
     }
 
     /**
@@ -52,7 +52,7 @@ public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IO
      */
     public int getIDForObject(V p_148757_1_)
     {
-        return this.underlyingIntegerMap.get(p_148757_1_);
+        return underlyingIntegerMap.get(p_148757_1_);
     }
 
     /**
@@ -60,11 +60,11 @@ public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IO
      */
     public V getObjectById(int id)
     {
-        return (V)this.underlyingIntegerMap.getByValue(id);
+        return (V) underlyingIntegerMap.getByValue(id);
     }
 
     public Iterator<V> iterator()
     {
-        return this.underlyingIntegerMap.iterator();
+        return underlyingIntegerMap.iterator();
     }
 }

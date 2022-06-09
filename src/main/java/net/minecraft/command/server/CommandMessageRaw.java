@@ -47,12 +47,12 @@ public class CommandMessageRaw extends CommandBase
     {
         if (args.length < 2)
         {
-            throw new WrongUsageException("commands.tellraw.usage", new Object[0]);
+            throw new WrongUsageException("commands.tellraw.usage");
         }
         else
         {
-            EntityPlayer entityplayer = getPlayer(sender, args[0]);
-            String s = buildString(args, 1);
+            EntityPlayer entityplayer = CommandBase.getPlayer(sender, args[0]);
+            String s = CommandBase.buildString(args, 1);
 
             try
             {
@@ -62,14 +62,14 @@ public class CommandMessageRaw extends CommandBase
             catch (JsonParseException jsonparseexception)
             {
                 Throwable throwable = ExceptionUtils.getRootCause(jsonparseexception);
-                throw new SyntaxErrorException("commands.tellraw.jsonException", new Object[] {throwable == null ? "" : throwable.getMessage()});
+                throw new SyntaxErrorException("commands.tellraw.jsonException", throwable == null ? "" : throwable.getMessage());
             }
         }
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
+        return args.length == 1 ? CommandBase.getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
     }
 
     /**

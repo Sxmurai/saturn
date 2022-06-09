@@ -20,12 +20,12 @@ public class EntityFireworkRocket extends Entity
     public EntityFireworkRocket(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.25F, 0.25F);
+        setSize(0.25F, 0.25F);
     }
 
     protected void entityInit()
     {
-        this.dataWatcher.addObjectByDataType(8, 5);
+        dataWatcher.addObjectByDataType(8, 5);
     }
 
     /**
@@ -40,14 +40,14 @@ public class EntityFireworkRocket extends Entity
     public EntityFireworkRocket(World worldIn, double x, double y, double z, ItemStack givenItem)
     {
         super(worldIn);
-        this.fireworkAge = 0;
-        this.setSize(0.25F, 0.25F);
-        this.setPosition(x, y, z);
+        fireworkAge = 0;
+        setSize(0.25F, 0.25F);
+        setPosition(x, y, z);
         int i = 1;
 
         if (givenItem != null && givenItem.hasTagCompound())
         {
-            this.dataWatcher.updateObject(8, givenItem);
+            dataWatcher.updateObject(8, givenItem);
             NBTTagCompound nbttagcompound = givenItem.getTagCompound();
             NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Fireworks");
 
@@ -57,10 +57,10 @@ public class EntityFireworkRocket extends Entity
             }
         }
 
-        this.motionX = this.rand.nextGaussian() * 0.001D;
-        this.motionZ = this.rand.nextGaussian() * 0.001D;
-        this.motionY = 0.05D;
-        this.lifetime = 10 * i + this.rand.nextInt(6) + this.rand.nextInt(7);
+        motionX = rand.nextGaussian() * 0.001D;
+        motionZ = rand.nextGaussian() * 0.001D;
+        motionY = 0.05D;
+        lifetime = 10 * i + rand.nextInt(6) + rand.nextInt(7);
     }
 
     /**
@@ -68,15 +68,15 @@ public class EntityFireworkRocket extends Entity
      */
     public void setVelocity(double x, double y, double z)
     {
-        this.motionX = x;
-        this.motionY = y;
-        this.motionZ = z;
+        motionX = x;
+        motionY = y;
+        motionZ = z;
 
-        if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
+        if (prevRotationPitch == 0.0F && prevRotationYaw == 0.0F)
         {
             float f = MathHelper.sqrt_double(x * x + z * z);
-            this.prevRotationYaw = this.rotationYaw = (float)(MathHelper.func_181159_b(x, z) * 180.0D / Math.PI);
-            this.prevRotationPitch = this.rotationPitch = (float)(MathHelper.func_181159_b(y, (double)f) * 180.0D / Math.PI);
+            prevRotationYaw = rotationYaw = (float)(MathHelper.func_181159_b(x, z) * 180.0D / Math.PI);
+            prevRotationPitch = rotationPitch = (float)(MathHelper.func_181159_b(y, f) * 180.0D / Math.PI);
         }
     }
 
@@ -85,64 +85,63 @@ public class EntityFireworkRocket extends Entity
      */
     public void onUpdate()
     {
-        this.lastTickPosX = this.posX;
-        this.lastTickPosY = this.posY;
-        this.lastTickPosZ = this.posZ;
+        lastTickPosX = posX;
+        lastTickPosY = posY;
+        lastTickPosZ = posZ;
         super.onUpdate();
-        this.motionX *= 1.15D;
-        this.motionZ *= 1.15D;
-        this.motionY += 0.04D;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        this.rotationYaw = (float)(MathHelper.func_181159_b(this.motionX, this.motionZ) * 180.0D / Math.PI);
+        motionX *= 1.15D;
+        motionZ *= 1.15D;
+        motionY += 0.04D;
+        moveEntity(motionX, motionY, motionZ);
+        float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+        rotationYaw = (float)(MathHelper.func_181159_b(motionX, motionZ) * 180.0D / Math.PI);
 
-        for (this.rotationPitch = (float)(MathHelper.func_181159_b(this.motionY, (double)f) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+        for (rotationPitch = (float)(MathHelper.func_181159_b(motionY, f) * 180.0D / Math.PI); rotationPitch - prevRotationPitch < -180.0F; prevRotationPitch -= 360.0F)
         {
-            ;
         }
 
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
+        while (rotationPitch - prevRotationPitch >= 180.0F)
         {
-            this.prevRotationPitch += 360.0F;
+            prevRotationPitch += 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw < -180.0F)
+        while (rotationYaw - prevRotationYaw < -180.0F)
         {
-            this.prevRotationYaw -= 360.0F;
+            prevRotationYaw -= 360.0F;
         }
 
-        while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
+        while (rotationYaw - prevRotationYaw >= 180.0F)
         {
-            this.prevRotationYaw += 360.0F;
+            prevRotationYaw += 360.0F;
         }
 
-        this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
-        this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
+        rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
+        rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
 
-        if (this.fireworkAge == 0 && !this.isSilent())
+        if (fireworkAge == 0 && !isSilent())
         {
-            this.worldObj.playSoundAtEntity(this, "fireworks.launch", 3.0F, 1.0F);
+            worldObj.playSoundAtEntity(this, "fireworks.launch", 3.0F, 1.0F);
         }
 
-        ++this.fireworkAge;
+        ++fireworkAge;
 
-        if (this.worldObj.isRemote && this.fireworkAge % 2 < 2)
+        if (worldObj.isRemote && fireworkAge % 2 < 2)
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, this.posX, this.posY - 0.3D, this.posZ, this.rand.nextGaussian() * 0.05D, -this.motionY * 0.5D, this.rand.nextGaussian() * 0.05D, new int[0]);
+            worldObj.spawnParticle(EnumParticleTypes.FIREWORKS_SPARK, posX, posY - 0.3D, posZ, rand.nextGaussian() * 0.05D, -motionY * 0.5D, rand.nextGaussian() * 0.05D);
         }
 
-        if (!this.worldObj.isRemote && this.fireworkAge > this.lifetime)
+        if (!worldObj.isRemote && fireworkAge > lifetime)
         {
-            this.worldObj.setEntityState(this, (byte)17);
-            this.setDead();
+            worldObj.setEntityState(this, (byte)17);
+            setDead();
         }
     }
 
     public void handleStatusUpdate(byte id)
     {
-        if (id == 17 && this.worldObj.isRemote)
+        if (id == 17 && worldObj.isRemote)
         {
-            ItemStack itemstack = this.dataWatcher.getWatchableObjectItemStack(8);
+            ItemStack itemstack = dataWatcher.getWatchableObjectItemStack(8);
             NBTTagCompound nbttagcompound = null;
 
             if (itemstack != null && itemstack.hasTagCompound())
@@ -150,7 +149,7 @@ public class EntityFireworkRocket extends Entity
                 nbttagcompound = itemstack.getTagCompound().getCompoundTag("Fireworks");
             }
 
-            this.worldObj.makeFireworks(this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ, nbttagcompound);
+            worldObj.makeFireworks(posX, posY, posZ, motionX, motionY, motionZ, nbttagcompound);
         }
 
         super.handleStatusUpdate(id);
@@ -161,9 +160,9 @@ public class EntityFireworkRocket extends Entity
      */
     public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
-        tagCompound.setInteger("Life", this.fireworkAge);
-        tagCompound.setInteger("LifeTime", this.lifetime);
-        ItemStack itemstack = this.dataWatcher.getWatchableObjectItemStack(8);
+        tagCompound.setInteger("Life", fireworkAge);
+        tagCompound.setInteger("LifeTime", lifetime);
+        ItemStack itemstack = dataWatcher.getWatchableObjectItemStack(8);
 
         if (itemstack != null)
         {
@@ -178,8 +177,8 @@ public class EntityFireworkRocket extends Entity
      */
     public void readEntityFromNBT(NBTTagCompound tagCompund)
     {
-        this.fireworkAge = tagCompund.getInteger("Life");
-        this.lifetime = tagCompund.getInteger("LifeTime");
+        fireworkAge = tagCompund.getInteger("Life");
+        lifetime = tagCompund.getInteger("LifeTime");
         NBTTagCompound nbttagcompound = tagCompund.getCompoundTag("FireworksItem");
 
         if (nbttagcompound != null)
@@ -188,7 +187,7 @@ public class EntityFireworkRocket extends Entity
 
             if (itemstack != null)
             {
-                this.dataWatcher.updateObject(8, itemstack);
+                dataWatcher.updateObject(8, itemstack);
             }
         }
     }

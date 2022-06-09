@@ -14,23 +14,23 @@ public class VboRenderList extends ChunkRenderContainer
 
     public void renderChunkLayer(EnumWorldBlockLayer layer)
     {
-        if (this.initialized)
+        if (initialized)
         {
-            for (RenderChunk renderchunk : this.renderChunks)
+            for (RenderChunk renderchunk : renderChunks)
             {
                 VertexBuffer vertexbuffer = renderchunk.getVertexBufferByLayer(layer.ordinal());
                 GlStateManager.pushMatrix();
-                this.preRenderChunk(renderchunk);
+                preRenderChunk(renderchunk);
                 renderchunk.multModelviewMatrix();
                 vertexbuffer.bindBuffer();
-                this.setupArrayPointers();
+                setupArrayPointers();
                 vertexbuffer.drawArrays(7);
                 GlStateManager.popMatrix();
             }
 
             OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER, 0);
             GlStateManager.resetColor();
-            this.renderChunks.clear();
+            renderChunks.clear();
         }
     }
 

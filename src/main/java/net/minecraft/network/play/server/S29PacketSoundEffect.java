@@ -22,13 +22,13 @@ public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient>
 
     public S29PacketSoundEffect(String soundNameIn, double soundX, double soundY, double soundZ, float volume, float pitch)
     {
-        Validate.notNull(soundNameIn, "name", new Object[0]);
-        this.soundName = soundNameIn;
-        this.posX = (int)(soundX * 8.0D);
-        this.posY = (int)(soundY * 8.0D);
-        this.posZ = (int)(soundZ * 8.0D);
-        this.soundVolume = volume;
-        this.soundPitch = (int)(pitch * 63.0F);
+        Validate.notNull(soundNameIn, "name");
+        soundName = soundNameIn;
+        posX = (int)(soundX * 8.0D);
+        posY = (int)(soundY * 8.0D);
+        posZ = (int)(soundZ * 8.0D);
+        soundVolume = volume;
+        soundPitch = (int)(pitch * 63.0F);
         pitch = MathHelper.clamp_float(pitch, 0.0F, 255.0F);
     }
 
@@ -37,12 +37,12 @@ public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.soundName = buf.readStringFromBuffer(256);
-        this.posX = buf.readInt();
-        this.posY = buf.readInt();
-        this.posZ = buf.readInt();
-        this.soundVolume = buf.readFloat();
-        this.soundPitch = buf.readUnsignedByte();
+        soundName = buf.readStringFromBuffer(256);
+        posX = buf.readInt();
+        posY = buf.readInt();
+        posZ = buf.readInt();
+        soundVolume = buf.readFloat();
+        soundPitch = buf.readUnsignedByte();
     }
 
     /**
@@ -50,42 +50,42 @@ public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeString(this.soundName);
-        buf.writeInt(this.posX);
-        buf.writeInt(this.posY);
-        buf.writeInt(this.posZ);
-        buf.writeFloat(this.soundVolume);
-        buf.writeByte(this.soundPitch);
+        buf.writeString(soundName);
+        buf.writeInt(posX);
+        buf.writeInt(posY);
+        buf.writeInt(posZ);
+        buf.writeFloat(soundVolume);
+        buf.writeByte(soundPitch);
     }
 
     public String getSoundName()
     {
-        return this.soundName;
+        return soundName;
     }
 
     public double getX()
     {
-        return (double)((float)this.posX / 8.0F);
+        return (float) posX / 8.0F;
     }
 
     public double getY()
     {
-        return (double)((float)this.posY / 8.0F);
+        return (float) posY / 8.0F;
     }
 
     public double getZ()
     {
-        return (double)((float)this.posZ / 8.0F);
+        return (float) posZ / 8.0F;
     }
 
     public float getVolume()
     {
-        return this.soundVolume;
+        return soundVolume;
     }
 
     public float getPitch()
     {
-        return (float)this.soundPitch / 63.0F;
+        return (float) soundPitch / 63.0F;
     }
 
     /**

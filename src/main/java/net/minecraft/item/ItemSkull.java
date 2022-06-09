@@ -25,9 +25,9 @@ public class ItemSkull extends Item
 
     public ItemSkull()
     {
-        this.setCreativeTab(CreativeTabs.tabDecorations);
-        this.setMaxDamage(0);
-        this.setHasSubtypes(true);
+        setCreativeTab(CreativeTabs.tabDecorations);
+        setMaxDamage(0);
+        setHasSubtypes(true);
     }
 
     /**
@@ -95,7 +95,7 @@ public class ItemSkull extends Item
                                 }
                                 else if (nbttagcompound.hasKey("SkullOwner", 8) && nbttagcompound.getString("SkullOwner").length() > 0)
                                 {
-                                    gameprofile = new GameProfile((UUID)null, nbttagcompound.getString("SkullOwner"));
+                                    gameprofile = new GameProfile(null, nbttagcompound.getString("SkullOwner"));
                                 }
                             }
 
@@ -123,7 +123,7 @@ public class ItemSkull extends Item
      */
     public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems)
     {
-        for (int i = 0; i < skullTypes.length; ++i)
+        for (int i = 0; i < ItemSkull.skullTypes.length; ++i)
         {
             subItems.add(new ItemStack(itemIn, 1, i));
         }
@@ -146,12 +146,12 @@ public class ItemSkull extends Item
     {
         int i = stack.getMetadata();
 
-        if (i < 0 || i >= skullTypes.length)
+        if (i < 0 || i >= ItemSkull.skullTypes.length)
         {
             i = 0;
         }
 
-        return super.getUnlocalizedName() + "." + skullTypes[i];
+        return super.getUnlocalizedName() + "." + ItemSkull.skullTypes[i];
     }
 
     public String getItemStackDisplayName(ItemStack stack)
@@ -160,7 +160,7 @@ public class ItemSkull extends Item
         {
             if (stack.getTagCompound().hasKey("SkullOwner", 8))
             {
-                return StatCollector.translateToLocalFormatted("item.skull.player.name", new Object[] {stack.getTagCompound().getString("SkullOwner")});
+                return StatCollector.translateToLocalFormatted("item.skull.player.name", stack.getTagCompound().getString("SkullOwner"));
             }
 
             if (stack.getTagCompound().hasKey("SkullOwner", 10))
@@ -169,7 +169,7 @@ public class ItemSkull extends Item
 
                 if (nbttagcompound.hasKey("Name", 8))
                 {
-                    return StatCollector.translateToLocalFormatted("item.skull.player.name", new Object[] {nbttagcompound.getString("Name")});
+                    return StatCollector.translateToLocalFormatted("item.skull.player.name", nbttagcompound.getString("Name"));
                 }
             }
         }
@@ -186,7 +186,7 @@ public class ItemSkull extends Item
 
         if (nbt.hasKey("SkullOwner", 8) && nbt.getString("SkullOwner").length() > 0)
         {
-            GameProfile gameprofile = new GameProfile((UUID)null, nbt.getString("SkullOwner"));
+            GameProfile gameprofile = new GameProfile(null, nbt.getString("SkullOwner"));
             gameprofile = TileEntitySkull.updateGameprofile(gameprofile);
             nbt.setTag("SkullOwner", NBTUtil.writeGameProfile(new NBTTagCompound(), gameprofile));
             return true;

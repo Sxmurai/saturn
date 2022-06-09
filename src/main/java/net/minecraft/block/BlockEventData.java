@@ -4,24 +4,24 @@ import net.minecraft.util.BlockPos;
 
 public class BlockEventData
 {
-    private BlockPos position;
-    private Block blockType;
+    private final BlockPos position;
+    private final Block blockType;
 
     /** Different for each blockID */
-    private int eventID;
-    private int eventParameter;
+    private final int eventID;
+    private final int eventParameter;
 
     public BlockEventData(BlockPos pos, Block blockType, int eventId, int p_i45756_4_)
     {
-        this.position = pos;
-        this.eventID = eventId;
-        this.eventParameter = p_i45756_4_;
+        position = pos;
+        eventID = eventId;
+        eventParameter = p_i45756_4_;
         this.blockType = blockType;
     }
 
     public BlockPos getPosition()
     {
-        return this.position;
+        return position;
     }
 
     /**
@@ -29,17 +29,17 @@ public class BlockEventData
      */
     public int getEventID()
     {
-        return this.eventID;
+        return eventID;
     }
 
     public int getEventParameter()
     {
-        return this.eventParameter;
+        return eventParameter;
     }
 
     public Block getBlock()
     {
-        return this.blockType;
+        return blockType;
     }
 
     public boolean equals(Object p_equals_1_)
@@ -51,12 +51,12 @@ public class BlockEventData
         else
         {
             BlockEventData blockeventdata = (BlockEventData)p_equals_1_;
-            return this.position.equals(blockeventdata.position) && this.eventID == blockeventdata.eventID && this.eventParameter == blockeventdata.eventParameter && this.blockType == blockeventdata.blockType;
+            return position.equals(blockeventdata.position) && eventID == blockeventdata.eventID && eventParameter == blockeventdata.eventParameter && blockType == blockeventdata.blockType;
         }
     }
 
     public String toString()
     {
-        return "TE(" + this.position + ")," + this.eventID + "," + this.eventParameter + "," + this.blockType;
+        return "TE(" + position + ")," + eventID + "," + eventParameter + "," + blockType;
     }
 }

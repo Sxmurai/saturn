@@ -19,10 +19,10 @@ public class BlockPartFace
 
     public BlockPartFace(EnumFacing cullFaceIn, int tintIndexIn, String textureIn, BlockFaceUV blockFaceUVIn)
     {
-        this.cullFace = cullFaceIn;
-        this.tintIndex = tintIndexIn;
-        this.texture = textureIn;
-        this.blockFaceUV = blockFaceUVIn;
+        cullFace = cullFaceIn;
+        tintIndex = tintIndexIn;
+        texture = textureIn;
+        blockFaceUV = blockFaceUVIn;
     }
 
     static class Deserializer implements JsonDeserializer<BlockPartFace>
@@ -30,10 +30,10 @@ public class BlockPartFace
         public BlockPartFace deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException
         {
             JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
-            EnumFacing enumfacing = this.parseCullFace(jsonobject);
-            int i = this.parseTintIndex(jsonobject);
-            String s = this.parseTexture(jsonobject);
-            BlockFaceUV blockfaceuv = (BlockFaceUV)p_deserialize_3_.deserialize(jsonobject, BlockFaceUV.class);
+            EnumFacing enumfacing = parseCullFace(jsonobject);
+            int i = parseTintIndex(jsonobject);
+            String s = parseTexture(jsonobject);
+            BlockFaceUV blockfaceuv = p_deserialize_3_.deserialize(jsonobject, BlockFaceUV.class);
             return new BlockPartFace(enumfacing, i, s, blockfaceuv);
         }
 

@@ -45,42 +45,42 @@ public class EntityIronGolem extends EntityGolem
     public EntityIronGolem(World worldIn)
     {
         super(worldIn);
-        this.setSize(1.4F, 2.9F);
-        ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
-        this.tasks.addTask(1, new EntityAIAttackOnCollide(this, 1.0D, true));
-        this.tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
-        this.tasks.addTask(3, new EntityAIMoveThroughVillage(this, 0.6D, true));
-        this.tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(5, new EntityAILookAtVillager(this));
-        this.tasks.addTask(6, new EntityAIWander(this, 0.6D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIDefendVillage(this));
-        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
-        this.targetTasks.addTask(3, new EntityIronGolem.AINearestAttackableTargetNonCreeper(this, EntityLiving.class, 10, false, true, IMob.VISIBLE_MOB_SELECTOR));
+        setSize(1.4F, 2.9F);
+        ((PathNavigateGround) getNavigator()).setAvoidsWater(true);
+        tasks.addTask(1, new EntityAIAttackOnCollide(this, 1.0D, true));
+        tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
+        tasks.addTask(3, new EntityAIMoveThroughVillage(this, 0.6D, true));
+        tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        tasks.addTask(5, new EntityAILookAtVillager(this));
+        tasks.addTask(6, new EntityAIWander(this, 0.6D));
+        tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        tasks.addTask(8, new EntityAILookIdle(this));
+        targetTasks.addTask(1, new EntityAIDefendVillage(this));
+        targetTasks.addTask(2, new EntityAIHurtByTarget(this, false));
+        targetTasks.addTask(3, new EntityIronGolem.AINearestAttackableTargetNonCreeper(this, EntityLiving.class, 10, false, true, IMob.VISIBLE_MOB_SELECTOR));
     }
 
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        dataWatcher.addObject(16, Byte.valueOf((byte)0));
     }
 
     protected void updateAITasks()
     {
-        if (--this.homeCheckTimer <= 0)
+        if (--homeCheckTimer <= 0)
         {
-            this.homeCheckTimer = 70 + this.rand.nextInt(50);
-            this.villageObj = this.worldObj.getVillageCollection().getNearestVillage(new BlockPos(this), 32);
+            homeCheckTimer = 70 + rand.nextInt(50);
+            villageObj = worldObj.getVillageCollection().getNearestVillage(new BlockPos(this), 32);
 
-            if (this.villageObj == null)
+            if (villageObj == null)
             {
-                this.detachHome();
+                detachHome();
             }
             else
             {
-                BlockPos blockpos = this.villageObj.getCenter();
-                this.setHomePosAndDistance(blockpos, (int)((float)this.villageObj.getVillageRadius() * 0.6F));
+                BlockPos blockpos = villageObj.getCenter();
+                setHomePosAndDistance(blockpos, (int)((float) villageObj.getVillageRadius() * 0.6F));
             }
         }
 
@@ -90,8 +90,8 @@ public class EntityIronGolem extends EntityGolem
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
+        getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(100.0D);
+        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.25D);
     }
 
     /**
@@ -104,9 +104,9 @@ public class EntityIronGolem extends EntityGolem
 
     protected void collideWithEntity(Entity p_82167_1_)
     {
-        if (p_82167_1_ instanceof IMob && !(p_82167_1_ instanceof EntityCreeper) && this.getRNG().nextInt(20) == 0)
+        if (p_82167_1_ instanceof IMob && !(p_82167_1_ instanceof EntityCreeper) && getRNG().nextInt(20) == 0)
         {
-            this.setAttackTarget((EntityLivingBase)p_82167_1_);
+            setAttackTarget((EntityLivingBase)p_82167_1_);
         }
 
         super.collideWithEntity(p_82167_1_);
@@ -120,27 +120,27 @@ public class EntityIronGolem extends EntityGolem
     {
         super.onLivingUpdate();
 
-        if (this.attackTimer > 0)
+        if (attackTimer > 0)
         {
-            --this.attackTimer;
+            --attackTimer;
         }
 
-        if (this.holdRoseTick > 0)
+        if (holdRoseTick > 0)
         {
-            --this.holdRoseTick;
+            --holdRoseTick;
         }
 
-        if (this.motionX * this.motionX + this.motionZ * this.motionZ > 2.500000277905201E-7D && this.rand.nextInt(5) == 0)
+        if (motionX * motionX + motionZ * motionZ > 2.500000277905201E-7D && rand.nextInt(5) == 0)
         {
-            int i = MathHelper.floor_double(this.posX);
-            int j = MathHelper.floor_double(this.posY - 0.20000000298023224D);
-            int k = MathHelper.floor_double(this.posZ);
-            IBlockState iblockstate = this.worldObj.getBlockState(new BlockPos(i, j, k));
+            int i = MathHelper.floor_double(posX);
+            int j = MathHelper.floor_double(posY - 0.20000000298023224D);
+            int k = MathHelper.floor_double(posZ);
+            IBlockState iblockstate = worldObj.getBlockState(new BlockPos(i, j, k));
             Block block = iblockstate.getBlock();
 
             if (block.getMaterial() != Material.air)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double)this.rand.nextFloat() - 0.5D) * (double)this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + ((double)this.rand.nextFloat() - 0.5D) * (double)this.width, 4.0D * ((double)this.rand.nextFloat() - 0.5D), 0.5D, ((double)this.rand.nextFloat() - 0.5D) * 4.0D, new int[] {Block.getStateId(iblockstate)});
+                worldObj.spawnParticle(EnumParticleTypes.BLOCK_CRACK, posX + ((double) rand.nextFloat() - 0.5D) * (double) width, getEntityBoundingBox().minY + 0.1D, posZ + ((double) rand.nextFloat() - 0.5D) * (double) width, 4.0D * ((double) rand.nextFloat() - 0.5D), 0.5D, ((double) rand.nextFloat() - 0.5D) * 4.0D, Block.getStateId(iblockstate));
             }
         }
     }
@@ -159,7 +159,7 @@ public class EntityIronGolem extends EntityGolem
     public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setBoolean("PlayerCreated", this.isPlayerCreated());
+        tagCompound.setBoolean("PlayerCreated", isPlayerCreated());
     }
 
     /**
@@ -168,22 +168,22 @@ public class EntityIronGolem extends EntityGolem
     public void readEntityFromNBT(NBTTagCompound tagCompund)
     {
         super.readEntityFromNBT(tagCompund);
-        this.setPlayerCreated(tagCompund.getBoolean("PlayerCreated"));
+        setPlayerCreated(tagCompund.getBoolean("PlayerCreated"));
     }
 
     public boolean attackEntityAsMob(Entity entityIn)
     {
-        this.attackTimer = 10;
-        this.worldObj.setEntityState(this, (byte)4);
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)(7 + this.rand.nextInt(15)));
+        attackTimer = 10;
+        worldObj.setEntityState(this, (byte)4);
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)(7 + rand.nextInt(15)));
 
         if (flag)
         {
             entityIn.motionY += 0.4000000059604645D;
-            this.applyEnchantments(this, entityIn);
+            applyEnchantments(this, entityIn);
         }
 
-        this.playSound("mob.irongolem.throw", 1.0F, 1.0F);
+        playSound("mob.irongolem.throw", 1.0F, 1.0F);
         return flag;
     }
 
@@ -191,12 +191,12 @@ public class EntityIronGolem extends EntityGolem
     {
         if (id == 4)
         {
-            this.attackTimer = 10;
-            this.playSound("mob.irongolem.throw", 1.0F, 1.0F);
+            attackTimer = 10;
+            playSound("mob.irongolem.throw", 1.0F, 1.0F);
         }
         else if (id == 11)
         {
-            this.holdRoseTick = 400;
+            holdRoseTick = 400;
         }
         else
         {
@@ -206,18 +206,18 @@ public class EntityIronGolem extends EntityGolem
 
     public Village getVillage()
     {
-        return this.villageObj;
+        return villageObj;
     }
 
     public int getAttackTimer()
     {
-        return this.attackTimer;
+        return attackTimer;
     }
 
     public void setHoldingRose(boolean p_70851_1_)
     {
-        this.holdRoseTick = p_70851_1_ ? 400 : 0;
-        this.worldObj.setEntityState(this, (byte)11);
+        holdRoseTick = p_70851_1_ ? 400 : 0;
+        worldObj.setEntityState(this, (byte)11);
     }
 
     /**
@@ -238,7 +238,7 @@ public class EntityIronGolem extends EntityGolem
 
     protected void playStepSound(BlockPos pos, Block blockIn)
     {
-        this.playSound("mob.irongolem.walk", 1.0F, 1.0F);
+        playSound("mob.irongolem.walk", 1.0F, 1.0F);
     }
 
     /**
@@ -246,42 +246,42 @@ public class EntityIronGolem extends EntityGolem
      */
     protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
-        int i = this.rand.nextInt(3);
+        int i = rand.nextInt(3);
 
         for (int j = 0; j < i; ++j)
         {
-            this.dropItemWithOffset(Item.getItemFromBlock(Blocks.red_flower), 1, (float)BlockFlower.EnumFlowerType.POPPY.getMeta());
+            dropItemWithOffset(Item.getItemFromBlock(Blocks.red_flower), 1, (float)BlockFlower.EnumFlowerType.POPPY.getMeta());
         }
 
-        int l = 3 + this.rand.nextInt(3);
+        int l = 3 + rand.nextInt(3);
 
         for (int k = 0; k < l; ++k)
         {
-            this.dropItem(Items.iron_ingot, 1);
+            dropItem(Items.iron_ingot, 1);
         }
     }
 
     public int getHoldRoseTick()
     {
-        return this.holdRoseTick;
+        return holdRoseTick;
     }
 
     public boolean isPlayerCreated()
     {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+        return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
 
     public void setPlayerCreated(boolean p_70849_1_)
     {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = dataWatcher.getWatchableObjectByte(16);
 
         if (p_70849_1_)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 1)));
+            dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 1)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -2)));
+            dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -2)));
         }
     }
 
@@ -290,9 +290,9 @@ public class EntityIronGolem extends EntityGolem
      */
     public void onDeath(DamageSource cause)
     {
-        if (!this.isPlayerCreated() && this.attackingPlayer != null && this.villageObj != null)
+        if (!isPlayerCreated() && attackingPlayer != null && villageObj != null)
         {
-            this.villageObj.setReputationForPlayer(this.attackingPlayer.getName(), -5);
+            villageObj.setReputationForPlayer(attackingPlayer.getName(), -5);
         }
 
         super.onDeath(cause);
@@ -303,7 +303,7 @@ public class EntityIronGolem extends EntityGolem
         public AINearestAttackableTargetNonCreeper(final EntityCreature creature, Class<T> classTarget, int chance, boolean p_i45858_4_, boolean p_i45858_5_, final Predicate <? super T > p_i45858_6_)
         {
             super(creature, classTarget, chance, p_i45858_4_, p_i45858_5_, p_i45858_6_);
-            this.targetEntitySelector = new Predicate<T>()
+            targetEntitySelector = new Predicate<T>()
             {
                 public boolean apply(T p_apply_1_)
                 {
@@ -319,7 +319,7 @@ public class EntityIronGolem extends EntityGolem
                     {
                         if (p_apply_1_ instanceof EntityPlayer)
                         {
-                            double d0 = AINearestAttackableTargetNonCreeper.this.getTargetDistance();
+                            double d0 = getTargetDistance();
 
                             if (p_apply_1_.isSneaking())
                             {
@@ -335,7 +335,7 @@ public class EntityIronGolem extends EntityGolem
                                     f = 0.1F;
                                 }
 
-                                d0 *= (double)(0.7F * f);
+                                d0 *= 0.7F * f;
                             }
 
                             if ((double)p_apply_1_.getDistanceToEntity(creature) > d0)
@@ -344,7 +344,7 @@ public class EntityIronGolem extends EntityGolem
                             }
                         }
 
-                        return AINearestAttackableTargetNonCreeper.this.isSuitableTarget(p_apply_1_, false);
+                        return isSuitableTarget(p_apply_1_, false);
                     }
                 }
             };

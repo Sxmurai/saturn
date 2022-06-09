@@ -13,11 +13,11 @@ public class SoundEventAccessor implements ISoundEventAccessor<SoundPoolEntry>
 
     public int getWeight()
     {
-        return this.weight;
+        return weight;
     }
 
     public SoundPoolEntry cloneEntry()
     {
-        return new SoundPoolEntry(this.entry);
+        return new SoundPoolEntry(entry);
     }
 }

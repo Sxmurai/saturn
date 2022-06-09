@@ -11,9 +11,9 @@ public class GuardianSound extends MovingSound
     {
         super(new ResourceLocation("minecraft:mob.guardian.attack"));
         this.guardian = guardian;
-        this.attenuationType = ISound.AttenuationType.NONE;
-        this.repeat = true;
-        this.repeatDelay = 0;
+        attenuationType = ISound.AttenuationType.NONE;
+        repeat = true;
+        repeatDelay = 0;
     }
 
     /**
@@ -21,18 +21,18 @@ public class GuardianSound extends MovingSound
      */
     public void update()
     {
-        if (!this.guardian.isDead && this.guardian.hasTargetedEntity())
+        if (!guardian.isDead && guardian.hasTargetedEntity())
         {
-            this.xPosF = (float)this.guardian.posX;
-            this.yPosF = (float)this.guardian.posY;
-            this.zPosF = (float)this.guardian.posZ;
-            float f = this.guardian.func_175477_p(0.0F);
-            this.volume = 0.0F + 1.0F * f * f;
-            this.pitch = 0.7F + 0.5F * f;
+            xPosF = (float) guardian.posX;
+            yPosF = (float) guardian.posY;
+            zPosF = (float) guardian.posZ;
+            float f = guardian.func_175477_p(0.0F);
+            volume = 0.0F + 1.0F * f * f;
+            pitch = 0.7F + 0.5F * f;
         }
         else
         {
-            this.donePlaying = true;
+            donePlaying = true;
         }
     }
 }

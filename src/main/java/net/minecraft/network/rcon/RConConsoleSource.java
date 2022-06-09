@@ -16,7 +16,7 @@ public class RConConsoleSource implements ICommandSender
     private static final RConConsoleSource instance = new RConConsoleSource();
 
     /** RCon string buffer for log. */
-    private StringBuffer buffer = new StringBuffer();
+    private final StringBuffer buffer = new StringBuffer();
 
     /**
      * Gets the name of this command sender (usually username, but possibly "Rcon")
@@ -31,7 +31,7 @@ public class RConConsoleSource implements ICommandSender
      */
     public IChatComponent getDisplayName()
     {
-        return new ChatComponentText(this.getName());
+        return new ChatComponentText(getName());
     }
 
     /**
@@ -39,7 +39,7 @@ public class RConConsoleSource implements ICommandSender
      */
     public void addChatMessage(IChatComponent component)
     {
-        this.buffer.append(component.getUnformattedText());
+        buffer.append(component.getUnformattedText());
     }
 
     /**

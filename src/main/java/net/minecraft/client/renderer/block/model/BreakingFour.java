@@ -12,29 +12,29 @@ public class BreakingFour extends BakedQuad
     public BreakingFour(BakedQuad p_i46217_1_, TextureAtlasSprite textureIn)
     {
         super(Arrays.copyOf(p_i46217_1_.getVertexData(), p_i46217_1_.getVertexData().length), p_i46217_1_.tintIndex, FaceBakery.getFacingFromVertexData(p_i46217_1_.getVertexData()));
-        this.texture = textureIn;
-        this.func_178217_e();
+        texture = textureIn;
+        func_178217_e();
     }
 
     private void func_178217_e()
     {
         for (int i = 0; i < 4; ++i)
         {
-            this.func_178216_a(i);
+            func_178216_a(i);
         }
     }
 
     private void func_178216_a(int p_178216_1_)
     {
-        int i = this.vertexData.length / 4;
+        int i = vertexData.length / 4;
         int j = i * p_178216_1_;
-        float f = Float.intBitsToFloat(this.vertexData[j]);
-        float f1 = Float.intBitsToFloat(this.vertexData[j + 1]);
-        float f2 = Float.intBitsToFloat(this.vertexData[j + 2]);
+        float f = Float.intBitsToFloat(vertexData[j]);
+        float f1 = Float.intBitsToFloat(vertexData[j + 1]);
+        float f2 = Float.intBitsToFloat(vertexData[j + 2]);
         float f3 = 0.0F;
         float f4 = 0.0F;
 
-        switch (BreakingFour.BreakingFour$1.field_178419_a[this.face.ordinal()])
+        switch (BreakingFour.BreakingFour$1.field_178419_a[face.ordinal()])
         {
             case 1:
                 f3 = f * 16.0F;
@@ -66,8 +66,8 @@ public class BreakingFour extends BakedQuad
                 f4 = (1.0F - f1) * 16.0F;
         }
 
-        this.vertexData[j + 4] = Float.floatToRawIntBits(this.texture.getInterpolatedU((double)f3));
-        this.vertexData[j + 4 + 1] = Float.floatToRawIntBits(this.texture.getInterpolatedV((double)f4));
+        vertexData[j + 4] = Float.floatToRawIntBits(texture.getInterpolatedU(f3));
+        vertexData[j + 4 + 1] = Float.floatToRawIntBits(texture.getInterpolatedV(f4));
     }
 
     static final class BreakingFour$1
@@ -79,56 +79,50 @@ public class BreakingFour extends BakedQuad
         {
             try
             {
-                field_178419_a[EnumFacing.DOWN.ordinal()] = 1;
+                BreakingFour$1.field_178419_a[EnumFacing.DOWN.ordinal()] = 1;
             }
             catch (NoSuchFieldError var6)
             {
-                ;
             }
 
             try
             {
-                field_178419_a[EnumFacing.UP.ordinal()] = 2;
+                BreakingFour$1.field_178419_a[EnumFacing.UP.ordinal()] = 2;
             }
             catch (NoSuchFieldError var5)
             {
-                ;
             }
 
             try
             {
-                field_178419_a[EnumFacing.NORTH.ordinal()] = 3;
+                BreakingFour$1.field_178419_a[EnumFacing.NORTH.ordinal()] = 3;
             }
             catch (NoSuchFieldError var4)
             {
-                ;
             }
 
             try
             {
-                field_178419_a[EnumFacing.SOUTH.ordinal()] = 4;
+                BreakingFour$1.field_178419_a[EnumFacing.SOUTH.ordinal()] = 4;
             }
             catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
-                field_178419_a[EnumFacing.WEST.ordinal()] = 5;
+                BreakingFour$1.field_178419_a[EnumFacing.WEST.ordinal()] = 5;
             }
             catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
-                field_178419_a[EnumFacing.EAST.ordinal()] = 6;
+                BreakingFour$1.field_178419_a[EnumFacing.EAST.ordinal()] = 6;
             }
             catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

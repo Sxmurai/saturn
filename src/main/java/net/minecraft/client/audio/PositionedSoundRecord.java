@@ -29,9 +29,9 @@ public class PositionedSoundRecord extends PositionedSound
         super(soundResource);
         this.volume = volume;
         this.pitch = pitch;
-        this.xPosF = xPosition;
-        this.yPosF = yPosition;
-        this.zPosF = zPosition;
+        xPosF = xPosition;
+        yPosF = yPosition;
+        zPosF = zPosition;
         this.repeat = repeat;
         this.repeatDelay = repeatDelay;
         this.attenuationType = attenuationType;

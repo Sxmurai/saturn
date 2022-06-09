@@ -12,29 +12,29 @@ import net.minecraft.world.World;
 
 public class ItemTool extends Item
 {
-    private Set<Block> effectiveBlocks;
+    private final Set<Block> effectiveBlocks;
     protected float efficiencyOnProperMaterial = 4.0F;
 
     /** Damage versus entities. */
-    private float damageVsEntity;
+    private final float damageVsEntity;
 
     /** The material this tool is made from. */
     protected Item.ToolMaterial toolMaterial;
 
     protected ItemTool(float attackDamage, Item.ToolMaterial material, Set<Block> effectiveBlocks)
     {
-        this.toolMaterial = material;
+        toolMaterial = material;
         this.effectiveBlocks = effectiveBlocks;
-        this.maxStackSize = 1;
-        this.setMaxDamage(material.getMaxUses());
-        this.efficiencyOnProperMaterial = material.getEfficiencyOnProperMaterial();
-        this.damageVsEntity = attackDamage + material.getDamageVsEntity();
-        this.setCreativeTab(CreativeTabs.tabTools);
+        maxStackSize = 1;
+        setMaxDamage(material.getMaxUses());
+        efficiencyOnProperMaterial = material.getEfficiencyOnProperMaterial();
+        damageVsEntity = attackDamage + material.getDamageVsEntity();
+        setCreativeTab(CreativeTabs.tabTools);
     }
 
     public float getStrVsBlock(ItemStack stack, Block block)
     {
-        return this.effectiveBlocks.contains(block) ? this.efficiencyOnProperMaterial : 1.0F;
+        return effectiveBlocks.contains(block) ? efficiencyOnProperMaterial : 1.0F;
     }
 
     /**
@@ -70,7 +70,7 @@ public class ItemTool extends Item
 
     public Item.ToolMaterial getToolMaterial()
     {
-        return this.toolMaterial;
+        return toolMaterial;
     }
 
     /**
@@ -78,7 +78,7 @@ public class ItemTool extends Item
      */
     public int getItemEnchantability()
     {
-        return this.toolMaterial.getEnchantability();
+        return toolMaterial.getEnchantability();
     }
 
     /**
@@ -86,7 +86,7 @@ public class ItemTool extends Item
      */
     public String getToolMaterialName()
     {
-        return this.toolMaterial.toString();
+        return toolMaterial.toString();
     }
 
     /**
@@ -94,13 +94,13 @@ public class ItemTool extends Item
      */
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
-        return this.toolMaterial.getRepairItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
+        return toolMaterial.getRepairItem() == repair.getItem() || super.getIsRepairable(toRepair, repair);
     }
 
     public Multimap<String, AttributeModifier> getItemAttributeModifiers()
     {
         Multimap<String, AttributeModifier> multimap = super.getItemAttributeModifiers();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(itemModifierUUID, "Tool modifier", (double)this.damageVsEntity, 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(Item.itemModifierUUID, "Tool modifier", damageVsEntity, 0));
         return multimap;
     }
 }

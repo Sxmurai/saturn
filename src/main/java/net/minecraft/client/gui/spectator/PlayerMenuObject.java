@@ -17,24 +17,24 @@ public class PlayerMenuObject implements ISpectatorMenuObject
 
     public PlayerMenuObject(GameProfile profileIn)
     {
-        this.profile = profileIn;
-        this.resourceLocation = AbstractClientPlayer.getLocationSkin(profileIn.getName());
-        AbstractClientPlayer.getDownloadImageSkin(this.resourceLocation, profileIn.getName());
+        profile = profileIn;
+        resourceLocation = AbstractClientPlayer.getLocationSkin(profileIn.getName());
+        AbstractClientPlayer.getDownloadImageSkin(resourceLocation, profileIn.getName());
     }
 
     public void func_178661_a(SpectatorMenu menu)
     {
-        Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C18PacketSpectate(this.profile.getId()));
+        Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C18PacketSpectate(profile.getId()));
     }
 
     public IChatComponent getSpectatorName()
     {
-        return new ChatComponentText(this.profile.getName());
+        return new ChatComponentText(profile.getName());
     }
 
     public void func_178663_a(float p_178663_1_, int alpha)
     {
-        Minecraft.getMinecraft().getTextureManager().bindTexture(this.resourceLocation);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
         GlStateManager.color(1.0F, 1.0F, 1.0F, (float)alpha / 255.0F);
         Gui.drawScaledCustomSizeModalRect(2, 2, 8.0F, 8.0F, 8, 8, 12, 12, 64.0F, 64.0F);
         Gui.drawScaledCustomSizeModalRect(2, 2, 40.0F, 8.0F, 8, 8, 12, 12, 64.0F, 64.0F);

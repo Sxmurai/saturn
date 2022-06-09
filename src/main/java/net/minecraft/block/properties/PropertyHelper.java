@@ -15,17 +15,17 @@ public abstract class PropertyHelper<T extends Comparable<T>> implements IProper
 
     public String getName()
     {
-        return this.name;
+        return name;
     }
 
     public Class<T> getValueClass()
     {
-        return this.valueClass;
+        return valueClass;
     }
 
     public String toString()
     {
-        return Objects.toStringHelper(this).add("name", this.name).add("clazz", this.valueClass).add("values", this.getAllowedValues()).toString();
+        return Objects.toStringHelper(this).add("name", name).add("clazz", valueClass).add("values", getAllowedValues()).toString();
     }
 
     public boolean equals(Object p_equals_1_)
@@ -34,10 +34,10 @@ public abstract class PropertyHelper<T extends Comparable<T>> implements IProper
         {
             return true;
         }
-        else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
+        else if (p_equals_1_ != null && getClass() == p_equals_1_.getClass())
         {
             PropertyHelper propertyhelper = (PropertyHelper)p_equals_1_;
-            return this.valueClass.equals(propertyhelper.valueClass) && this.name.equals(propertyhelper.name);
+            return valueClass.equals(propertyhelper.valueClass) && name.equals(propertyhelper.name);
         }
         else
         {
@@ -47,6 +47,6 @@ public abstract class PropertyHelper<T extends Comparable<T>> implements IProper
 
     public int hashCode()
     {
-        return 31 * this.valueClass.hashCode() + this.name.hashCode();
+        return 31 * valueClass.hashCode() + name.hashCode();
     }
 }

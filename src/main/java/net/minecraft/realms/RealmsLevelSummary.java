@@ -4,60 +4,60 @@ import net.minecraft.world.storage.SaveFormatComparator;
 
 public class RealmsLevelSummary implements Comparable<RealmsLevelSummary>
 {
-    private SaveFormatComparator levelSummary;
+    private final SaveFormatComparator levelSummary;
 
     public RealmsLevelSummary(SaveFormatComparator p_i1109_1_)
     {
-        this.levelSummary = p_i1109_1_;
+        levelSummary = p_i1109_1_;
     }
 
     public int getGameMode()
     {
-        return this.levelSummary.getEnumGameType().getID();
+        return levelSummary.getEnumGameType().getID();
     }
 
     public String getLevelId()
     {
-        return this.levelSummary.getFileName();
+        return levelSummary.getFileName();
     }
 
     public boolean hasCheats()
     {
-        return this.levelSummary.getCheatsEnabled();
+        return levelSummary.getCheatsEnabled();
     }
 
     public boolean isHardcore()
     {
-        return this.levelSummary.isHardcoreModeEnabled();
+        return levelSummary.isHardcoreModeEnabled();
     }
 
     public boolean isRequiresConversion()
     {
-        return this.levelSummary.requiresConversion();
+        return levelSummary.requiresConversion();
     }
 
     public String getLevelName()
     {
-        return this.levelSummary.getDisplayName();
+        return levelSummary.getDisplayName();
     }
 
     public long getLastPlayed()
     {
-        return this.levelSummary.getLastTimePlayed();
+        return levelSummary.getLastTimePlayed();
     }
 
     public int compareTo(SaveFormatComparator p_compareTo_1_)
     {
-        return this.levelSummary.compareTo(p_compareTo_1_);
+        return levelSummary.compareTo(p_compareTo_1_);
     }
 
     public long getSizeOnDisk()
     {
-        return this.levelSummary.getSizeOnDisk();
+        return levelSummary.getSizeOnDisk();
     }
 
     public int compareTo(RealmsLevelSummary p_compareTo_1_)
     {
-        return this.levelSummary.getLastTimePlayed() < p_compareTo_1_.getLastPlayed() ? 1 : (this.levelSummary.getLastTimePlayed() > p_compareTo_1_.getLastPlayed() ? -1 : this.levelSummary.getFileName().compareTo(p_compareTo_1_.getLevelId()));
+        return levelSummary.getLastTimePlayed() < p_compareTo_1_.getLastPlayed() ? 1 : (levelSummary.getLastTimePlayed() > p_compareTo_1_.getLastPlayed() ? -1 : levelSummary.getFileName().compareTo(p_compareTo_1_.getLevelId()));
     }
 }

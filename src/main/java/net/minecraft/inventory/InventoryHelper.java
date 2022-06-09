@@ -14,12 +14,12 @@ public class InventoryHelper
 
     public static void dropInventoryItems(World worldIn, BlockPos pos, IInventory p_180175_2_)
     {
-        func_180174_a(worldIn, (double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), p_180175_2_);
+        InventoryHelper.func_180174_a(worldIn, pos.getX(), pos.getY(), pos.getZ(), p_180175_2_);
     }
 
     public static void func_180176_a(World worldIn, Entity p_180176_1_, IInventory p_180176_2_)
     {
-        func_180174_a(worldIn, p_180176_1_.posX, p_180176_1_.posY, p_180176_1_.posZ, p_180176_2_);
+        InventoryHelper.func_180174_a(worldIn, p_180176_1_.posX, p_180176_1_.posY, p_180176_1_.posZ, p_180176_2_);
     }
 
     private static void func_180174_a(World worldIn, double x, double y, double z, IInventory p_180174_7_)
@@ -30,20 +30,20 @@ public class InventoryHelper
 
             if (itemstack != null)
             {
-                spawnItemStack(worldIn, x, y, z, itemstack);
+                InventoryHelper.spawnItemStack(worldIn, x, y, z, itemstack);
             }
         }
     }
 
     private static void spawnItemStack(World worldIn, double x, double y, double z, ItemStack stack)
     {
-        float f = RANDOM.nextFloat() * 0.8F + 0.1F;
-        float f1 = RANDOM.nextFloat() * 0.8F + 0.1F;
-        float f2 = RANDOM.nextFloat() * 0.8F + 0.1F;
+        float f = InventoryHelper.RANDOM.nextFloat() * 0.8F + 0.1F;
+        float f1 = InventoryHelper.RANDOM.nextFloat() * 0.8F + 0.1F;
+        float f2 = InventoryHelper.RANDOM.nextFloat() * 0.8F + 0.1F;
 
         while (stack.stackSize > 0)
         {
-            int i = RANDOM.nextInt(21) + 10;
+            int i = InventoryHelper.RANDOM.nextInt(21) + 10;
 
             if (i > stack.stackSize)
             {
@@ -59,9 +59,9 @@ public class InventoryHelper
             }
 
             float f3 = 0.05F;
-            entityitem.motionX = RANDOM.nextGaussian() * (double)f3;
-            entityitem.motionY = RANDOM.nextGaussian() * (double)f3 + 0.20000000298023224D;
-            entityitem.motionZ = RANDOM.nextGaussian() * (double)f3;
+            entityitem.motionX = InventoryHelper.RANDOM.nextGaussian() * (double)f3;
+            entityitem.motionY = InventoryHelper.RANDOM.nextGaussian() * (double)f3 + 0.20000000298023224D;
+            entityitem.motionZ = InventoryHelper.RANDOM.nextGaussian() * (double)f3;
             worldIn.spawnEntityInWorld(entityitem);
         }
     }

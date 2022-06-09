@@ -8,18 +8,18 @@ import net.minecraft.world.World;
 
 public class EntityAIBeg extends EntityAIBase
 {
-    private EntityWolf theWolf;
+    private final EntityWolf theWolf;
     private EntityPlayer thePlayer;
-    private World worldObject;
-    private float minPlayerDistance;
+    private final World worldObject;
+    private final float minPlayerDistance;
     private int timeoutCounter;
 
     public EntityAIBeg(EntityWolf wolf, float minDistance)
     {
-        this.theWolf = wolf;
-        this.worldObject = wolf.worldObj;
-        this.minPlayerDistance = minDistance;
-        this.setMutexBits(2);
+        theWolf = wolf;
+        worldObject = wolf.worldObj;
+        minPlayerDistance = minDistance;
+        setMutexBits(2);
     }
 
     /**
@@ -27,8 +27,8 @@ public class EntityAIBeg extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        this.thePlayer = this.worldObject.getClosestPlayerToEntity(this.theWolf, (double)this.minPlayerDistance);
-        return this.thePlayer == null ? false : this.hasPlayerGotBoneInHand(this.thePlayer);
+        thePlayer = worldObject.getClosestPlayerToEntity(theWolf, minPlayerDistance);
+        return thePlayer != null && hasPlayerGotBoneInHand(thePlayer);
     }
 
     /**
@@ -36,7 +36,7 @@ public class EntityAIBeg extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return !this.thePlayer.isEntityAlive() ? false : (this.theWolf.getDistanceSqToEntity(this.thePlayer) > (double)(this.minPlayerDistance * this.minPlayerDistance) ? false : this.timeoutCounter > 0 && this.hasPlayerGotBoneInHand(this.thePlayer));
+        return thePlayer.isEntityAlive() && (!(this.theWolf.getDistanceSqToEntity(thePlayer) > (double) (minPlayerDistance * minPlayerDistance)) && timeoutCounter > 0 && hasPlayerGotBoneInHand(thePlayer));
     }
 
     /**
@@ -44,8 +44,8 @@ public class EntityAIBeg extends EntityAIBase
      */
     public void startExecuting()
     {
-        this.theWolf.setBegging(true);
-        this.timeoutCounter = 40 + this.theWolf.getRNG().nextInt(40);
+        theWolf.setBegging(true);
+        timeoutCounter = 40 + theWolf.getRNG().nextInt(40);
     }
 
     /**
@@ -53,8 +53,8 @@ public class EntityAIBeg extends EntityAIBase
      */
     public void resetTask()
     {
-        this.theWolf.setBegging(false);
-        this.thePlayer = null;
+        theWolf.setBegging(false);
+        thePlayer = null;
     }
 
     /**
@@ -62,8 +62,8 @@ public class EntityAIBeg extends EntityAIBase
      */
     public void updateTask()
     {
-        this.theWolf.getLookHelper().setLookPosition(this.thePlayer.posX, this.thePlayer.posY + (double)this.thePlayer.getEyeHeight(), this.thePlayer.posZ, 10.0F, (float)this.theWolf.getVerticalFaceSpeed());
-        --this.timeoutCounter;
+        theWolf.getLookHelper().setLookPosition(thePlayer.posX, thePlayer.posY + (double) thePlayer.getEyeHeight(), thePlayer.posZ, 10.0F, (float) theWolf.getVerticalFaceSpeed());
+        --timeoutCounter;
     }
 
     /**
@@ -72,6 +72,6 @@ public class EntityAIBeg extends EntityAIBase
     private boolean hasPlayerGotBoneInHand(EntityPlayer player)
     {
         ItemStack itemstack = player.inventory.getCurrentItem();
-        return itemstack == null ? false : (!this.theWolf.isTamed() && itemstack.getItem() == Items.bone ? true : this.theWolf.isBreedingItem(itemstack));
+        return itemstack != null && (!theWolf.isTamed() && itemstack.getItem() == Items.bone || theWolf.isBreedingItem(itemstack));
     }
 }

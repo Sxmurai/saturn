@@ -20,7 +20,7 @@ public class RenderGhast extends RenderLiving<EntityGhast>
      */
     protected ResourceLocation getEntityTexture(EntityGhast entity)
     {
-        return entity.isAttacking() ? ghastShootingTextures : ghastTextures;
+        return entity.isAttacking() ? RenderGhast.ghastShootingTextures : RenderGhast.ghastTextures;
     }
 
     /**

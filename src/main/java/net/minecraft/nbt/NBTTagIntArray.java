@@ -16,7 +16,7 @@ public class NBTTagIntArray extends NBTBase
 
     public NBTTagIntArray(int[] p_i45132_1_)
     {
-        this.intArray = p_i45132_1_;
+        intArray = p_i45132_1_;
     }
 
     /**
@@ -24,11 +24,11 @@ public class NBTTagIntArray extends NBTBase
      */
     void write(DataOutput output) throws IOException
     {
-        output.writeInt(this.intArray.length);
+        output.writeInt(intArray.length);
 
-        for (int i = 0; i < this.intArray.length; ++i)
+        for (int i = 0; i < intArray.length; ++i)
         {
-            output.writeInt(this.intArray[i]);
+            output.writeInt(intArray[i]);
         }
     }
 
@@ -36,12 +36,12 @@ public class NBTTagIntArray extends NBTBase
     {
         sizeTracker.read(192L);
         int i = input.readInt();
-        sizeTracker.read((long)(32 * i));
-        this.intArray = new int[i];
+        sizeTracker.read(32 * i);
+        intArray = new int[i];
 
         for (int j = 0; j < i; ++j)
         {
-            this.intArray[j] = input.readInt();
+            intArray[j] = input.readInt();
         }
     }
 
@@ -57,7 +57,7 @@ public class NBTTagIntArray extends NBTBase
     {
         String s = "[";
 
-        for (int i : this.intArray)
+        for (int i : intArray)
         {
             s = s + i + ",";
         }
@@ -70,23 +70,23 @@ public class NBTTagIntArray extends NBTBase
      */
     public NBTBase copy()
     {
-        int[] aint = new int[this.intArray.length];
-        System.arraycopy(this.intArray, 0, aint, 0, this.intArray.length);
+        int[] aint = new int[intArray.length];
+        System.arraycopy(intArray, 0, aint, 0, intArray.length);
         return new NBTTagIntArray(aint);
     }
 
     public boolean equals(Object p_equals_1_)
     {
-        return super.equals(p_equals_1_) ? Arrays.equals(this.intArray, ((NBTTagIntArray)p_equals_1_).intArray) : false;
+        return super.equals(p_equals_1_) && Arrays.equals(intArray, ((NBTTagIntArray) p_equals_1_).intArray);
     }
 
     public int hashCode()
     {
-        return super.hashCode() ^ Arrays.hashCode(this.intArray);
+        return super.hashCode() ^ Arrays.hashCode(intArray);
     }
 
     public int[] getIntArray()
     {
-        return this.intArray;
+        return intArray;
     }
 }

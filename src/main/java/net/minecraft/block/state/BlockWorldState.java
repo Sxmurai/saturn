@@ -16,35 +16,35 @@ public class BlockWorldState
 
     public BlockWorldState(World p_i46451_1_, BlockPos p_i46451_2_, boolean p_i46451_3_)
     {
-        this.world = p_i46451_1_;
-        this.pos = p_i46451_2_;
-        this.field_181628_c = p_i46451_3_;
+        world = p_i46451_1_;
+        pos = p_i46451_2_;
+        field_181628_c = p_i46451_3_;
     }
 
     public IBlockState getBlockState()
     {
-        if (this.state == null && (this.field_181628_c || this.world.isBlockLoaded(this.pos)))
+        if (state == null && (field_181628_c || world.isBlockLoaded(pos)))
         {
-            this.state = this.world.getBlockState(this.pos);
+            state = world.getBlockState(pos);
         }
 
-        return this.state;
+        return state;
     }
 
     public TileEntity getTileEntity()
     {
-        if (this.tileEntity == null && !this.tileEntityInitialized)
+        if (tileEntity == null && !tileEntityInitialized)
         {
-            this.tileEntity = this.world.getTileEntity(this.pos);
-            this.tileEntityInitialized = true;
+            tileEntity = world.getTileEntity(pos);
+            tileEntityInitialized = true;
         }
 
-        return this.tileEntity;
+        return tileEntity;
     }
 
     public BlockPos getPos()
     {
-        return this.pos;
+        return pos;
     }
 
     public static Predicate<BlockWorldState> hasState(final Predicate<IBlockState> p_177510_0_)

@@ -23,6 +23,6 @@ public class RenderEndermite extends RenderLiving<EntityEndermite>
      */
     protected ResourceLocation getEntityTexture(EntityEndermite entity)
     {
-        return ENDERMITE_TEXTURES;
+        return RenderEndermite.ENDERMITE_TEXTURES;
     }
 }

@@ -25,7 +25,7 @@ public class LongHashMap
 
     public LongHashMap()
     {
-        this.mask = this.hashArray.length - 1;
+        mask = hashArray.length - 1;
     }
 
     /**
@@ -55,7 +55,7 @@ public class LongHashMap
 
     public int getNumHashElements()
     {
-        return this.numHashElements;
+        return numHashElements;
     }
 
     /**
@@ -63,9 +63,9 @@ public class LongHashMap
      */
     public Object getValueByKey(long p_76164_1_)
     {
-        int i = getHashedKey(p_76164_1_);
+        int i = LongHashMap.getHashedKey(p_76164_1_);
 
-        for (LongHashMap.Entry longhashmap$entry = this.hashArray[getHashIndex(i, this.mask)]; longhashmap$entry != null; longhashmap$entry = longhashmap$entry.nextEntry)
+        for (LongHashMap.Entry longhashmap$entry = hashArray[LongHashMap.getHashIndex(i, mask)]; longhashmap$entry != null; longhashmap$entry = longhashmap$entry.nextEntry)
         {
             if (longhashmap$entry.key == p_76164_1_)
             {
@@ -78,14 +78,14 @@ public class LongHashMap
 
     public boolean containsItem(long p_76161_1_)
     {
-        return this.getEntry(p_76161_1_) != null;
+        return getEntry(p_76161_1_) != null;
     }
 
     final LongHashMap.Entry getEntry(long p_76160_1_)
     {
-        int i = getHashedKey(p_76160_1_);
+        int i = LongHashMap.getHashedKey(p_76160_1_);
 
-        for (LongHashMap.Entry longhashmap$entry = this.hashArray[getHashIndex(i, this.mask)]; longhashmap$entry != null; longhashmap$entry = longhashmap$entry.nextEntry)
+        for (LongHashMap.Entry longhashmap$entry = hashArray[LongHashMap.getHashIndex(i, mask)]; longhashmap$entry != null; longhashmap$entry = longhashmap$entry.nextEntry)
         {
             if (longhashmap$entry.key == p_76160_1_)
             {
@@ -101,10 +101,10 @@ public class LongHashMap
      */
     public void add(long p_76163_1_, Object p_76163_3_)
     {
-        int i = getHashedKey(p_76163_1_);
-        int j = getHashIndex(i, this.mask);
+        int i = LongHashMap.getHashedKey(p_76163_1_);
+        int j = LongHashMap.getHashIndex(i, mask);
 
-        for (LongHashMap.Entry longhashmap$entry = this.hashArray[j]; longhashmap$entry != null; longhashmap$entry = longhashmap$entry.nextEntry)
+        for (LongHashMap.Entry longhashmap$entry = hashArray[j]; longhashmap$entry != null; longhashmap$entry = longhashmap$entry.nextEntry)
         {
             if (longhashmap$entry.key == p_76163_1_)
             {
@@ -113,8 +113,8 @@ public class LongHashMap
             }
         }
 
-        ++this.modCount;
-        this.createKey(i, p_76163_1_, p_76163_3_, j);
+        ++modCount;
+        createKey(i, p_76163_1_, p_76163_3_, j);
     }
 
     /**
@@ -122,22 +122,22 @@ public class LongHashMap
      */
     private void resizeTable(int p_76153_1_)
     {
-        LongHashMap.Entry[] alonghashmap$entry = this.hashArray;
+        LongHashMap.Entry[] alonghashmap$entry = hashArray;
         int i = alonghashmap$entry.length;
 
         if (i == 1073741824)
         {
-            this.capacity = Integer.MAX_VALUE;
+            capacity = Integer.MAX_VALUE;
         }
         else
         {
             LongHashMap.Entry[] alonghashmap$entry1 = new LongHashMap.Entry[p_76153_1_];
-            this.copyHashTableTo(alonghashmap$entry1);
-            this.hashArray = alonghashmap$entry1;
-            this.mask = this.hashArray.length - 1;
+            copyHashTableTo(alonghashmap$entry1);
+            hashArray = alonghashmap$entry1;
+            mask = hashArray.length - 1;
             float f = (float)p_76153_1_;
-            this.getClass();
-            this.capacity = (int)(f * 0.75F);
+            getClass();
+            capacity = (int)(f * 0.75F);
         }
     }
 
@@ -146,7 +146,7 @@ public class LongHashMap
      */
     private void copyHashTableTo(LongHashMap.Entry[] p_76154_1_)
     {
-        LongHashMap.Entry[] alonghashmap$entry = this.hashArray;
+        LongHashMap.Entry[] alonghashmap$entry = hashArray;
         int i = p_76154_1_.length;
 
         for (int j = 0; j < alonghashmap$entry.length; ++j)
@@ -160,7 +160,7 @@ public class LongHashMap
                 while (true)
                 {
                     LongHashMap.Entry longhashmap$entry1 = longhashmap$entry.nextEntry;
-                    int k = getHashIndex(longhashmap$entry.hash, i - 1);
+                    int k = LongHashMap.getHashIndex(longhashmap$entry.hash, i - 1);
                     longhashmap$entry.nextEntry = p_76154_1_[k];
                     p_76154_1_[k] = longhashmap$entry;
                     longhashmap$entry = longhashmap$entry1;
@@ -179,7 +179,7 @@ public class LongHashMap
      */
     public Object remove(long p_76159_1_)
     {
-        LongHashMap.Entry longhashmap$entry = this.removeKey(p_76159_1_);
+        LongHashMap.Entry longhashmap$entry = removeKey(p_76159_1_);
         return longhashmap$entry == null ? null : longhashmap$entry.value;
     }
 
@@ -188,9 +188,9 @@ public class LongHashMap
      */
     final LongHashMap.Entry removeKey(long p_76152_1_)
     {
-        int i = getHashedKey(p_76152_1_);
-        int j = getHashIndex(i, this.mask);
-        LongHashMap.Entry longhashmap$entry = this.hashArray[j];
+        int i = LongHashMap.getHashedKey(p_76152_1_);
+        int j = LongHashMap.getHashIndex(i, mask);
+        LongHashMap.Entry longhashmap$entry = hashArray[j];
         LongHashMap.Entry longhashmap$entry1;
         LongHashMap.Entry longhashmap$entry2;
 
@@ -200,12 +200,12 @@ public class LongHashMap
 
             if (longhashmap$entry1.key == p_76152_1_)
             {
-                ++this.modCount;
-                --this.numHashElements;
+                ++modCount;
+                --numHashElements;
 
                 if (longhashmap$entry == longhashmap$entry1)
                 {
-                    this.hashArray[j] = longhashmap$entry2;
+                    hashArray[j] = longhashmap$entry2;
                 }
                 else
                 {
@@ -226,12 +226,12 @@ public class LongHashMap
      */
     private void createKey(int p_76156_1_, long p_76156_2_, Object p_76156_4_, int p_76156_5_)
     {
-        LongHashMap.Entry longhashmap$entry = this.hashArray[p_76156_5_];
-        this.hashArray[p_76156_5_] = new LongHashMap.Entry(p_76156_1_, p_76156_2_, p_76156_4_, longhashmap$entry);
+        LongHashMap.Entry longhashmap$entry = hashArray[p_76156_5_];
+        hashArray[p_76156_5_] = new LongHashMap.Entry(p_76156_1_, p_76156_2_, p_76156_4_, longhashmap$entry);
 
-        if (this.numHashElements++ >= this.capacity)
+        if (numHashElements++ >= capacity)
         {
-            this.resizeTable(2 * this.hashArray.length);
+            resizeTable(2 * hashArray.length);
         }
     }
 
@@ -239,15 +239,15 @@ public class LongHashMap
     {
         int i = 0;
 
-        for (int j = 0; j < this.hashArray.length; ++j)
+        for (int j = 0; j < hashArray.length; ++j)
         {
-            if (this.hashArray[j] != null)
+            if (hashArray[j] != null)
             {
                 ++i;
             }
         }
 
-        return 1.0D * (double)i / (double)this.numHashElements;
+        return 1.0D * (double)i / (double) numHashElements;
     }
 
     static class Entry
@@ -260,20 +260,20 @@ public class LongHashMap
 
         Entry(int p_i1553_1_, long p_i1553_2_, Object p_i1553_4_, LongHashMap.Entry p_i1553_5_)
         {
-            this.value = p_i1553_4_;
-            this.nextEntry = p_i1553_5_;
-            this.key = p_i1553_2_;
-            this.hash = p_i1553_1_;
+            value = p_i1553_4_;
+            nextEntry = p_i1553_5_;
+            key = p_i1553_2_;
+            hash = p_i1553_1_;
         }
 
         public final long getKey()
         {
-            return this.key;
+            return key;
         }
 
         public final Object getValue()
         {
-            return this.value;
+            return value;
         }
 
         public final boolean equals(Object p_equals_1_)
@@ -285,18 +285,15 @@ public class LongHashMap
             else
             {
                 LongHashMap.Entry longhashmap$entry = (LongHashMap.Entry)p_equals_1_;
-                Long olong = Long.valueOf(this.getKey());
+                Long olong = Long.valueOf(getKey());
                 Long olong1 = Long.valueOf(longhashmap$entry.getKey());
 
                 if (olong == olong1 || olong != null && olong.equals(olong1))
                 {
-                    Object object = this.getValue();
+                    Object object = getValue();
                     Object object1 = longhashmap$entry.getValue();
 
-                    if (object == object1 || object != null && object.equals(object1))
-                    {
-                        return true;
-                    }
+                    return object == object1 || object != null && object.equals(object1);
                 }
 
                 return false;
@@ -305,12 +302,12 @@ public class LongHashMap
 
         public final int hashCode()
         {
-            return LongHashMap.getHashedKey(this.key);
+            return LongHashMap.getHashedKey(key);
         }
 
         public final String toString()
         {
-            return this.getKey() + "=" + this.getValue();
+            return getKey() + "=" + getValue();
         }
     }
 }

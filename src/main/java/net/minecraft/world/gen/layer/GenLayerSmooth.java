@@ -18,7 +18,7 @@ public class GenLayerSmooth extends GenLayer
         int j = areaY - 1;
         int k = areaWidth + 2;
         int l = areaHeight + 2;
-        int[] aint = this.parent.getInts(i, j, k, l);
+        int[] aint = parent.getInts(i, j, k, l);
         int[] aint1 = IntCache.getIntCache(areaWidth * areaHeight);
 
         for (int i1 = 0; i1 < areaHeight; ++i1)
@@ -33,9 +33,9 @@ public class GenLayerSmooth extends GenLayer
 
                 if (k1 == l1 && i2 == j2)
                 {
-                    this.initChunkSeed((long)(j1 + areaX), (long)(i1 + areaY));
+                    initChunkSeed(j1 + areaX, i1 + areaY);
 
-                    if (this.nextInt(2) == 0)
+                    if (nextInt(2) == 0)
                     {
                         k2 = k1;
                     }

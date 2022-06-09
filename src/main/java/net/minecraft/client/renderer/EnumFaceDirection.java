@@ -16,26 +16,26 @@ public enum EnumFaceDirection
 
     public static EnumFaceDirection getFacing(EnumFacing facing)
     {
-        return facings[facing.getIndex()];
+        return EnumFaceDirection.facings[facing.getIndex()];
     }
 
     private EnumFaceDirection(EnumFaceDirection.VertexInformation[] vertexInfosIn)
     {
-        this.vertexInfos = vertexInfosIn;
+        vertexInfos = vertexInfosIn;
     }
 
     public EnumFaceDirection.VertexInformation func_179025_a(int p_179025_1_)
     {
-        return this.vertexInfos[p_179025_1_];
+        return vertexInfos[p_179025_1_];
     }
 
     static {
-        facings[EnumFaceDirection.Constants.DOWN_INDEX] = DOWN;
-        facings[EnumFaceDirection.Constants.UP_INDEX] = UP;
-        facings[EnumFaceDirection.Constants.NORTH_INDEX] = NORTH;
-        facings[EnumFaceDirection.Constants.SOUTH_INDEX] = SOUTH;
-        facings[EnumFaceDirection.Constants.WEST_INDEX] = WEST;
-        facings[EnumFaceDirection.Constants.EAST_INDEX] = EAST;
+        EnumFaceDirection.facings[EnumFaceDirection.Constants.DOWN_INDEX] = EnumFaceDirection.DOWN;
+        EnumFaceDirection.facings[EnumFaceDirection.Constants.UP_INDEX] = EnumFaceDirection.UP;
+        EnumFaceDirection.facings[EnumFaceDirection.Constants.NORTH_INDEX] = EnumFaceDirection.NORTH;
+        EnumFaceDirection.facings[EnumFaceDirection.Constants.SOUTH_INDEX] = EnumFaceDirection.SOUTH;
+        EnumFaceDirection.facings[EnumFaceDirection.Constants.WEST_INDEX] = EnumFaceDirection.WEST;
+        EnumFaceDirection.facings[EnumFaceDirection.Constants.EAST_INDEX] = EnumFaceDirection.EAST;
     }
 
     public static final class Constants {
@@ -54,9 +54,9 @@ public enum EnumFaceDirection
 
         private VertexInformation(int p_i46270_1_, int p_i46270_2_, int p_i46270_3_)
         {
-            this.field_179184_a = p_i46270_1_;
-            this.field_179182_b = p_i46270_2_;
-            this.field_179183_c = p_i46270_3_;
+            field_179184_a = p_i46270_1_;
+            field_179182_b = p_i46270_2_;
+            field_179183_c = p_i46270_3_;
         }
     }
 }

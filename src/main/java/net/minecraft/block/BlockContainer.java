@@ -18,7 +18,7 @@ public abstract class BlockContainer extends Block implements ITileEntityProvide
     protected BlockContainer(Material p_i46402_1_, MapColor p_i46402_2_)
     {
         super(p_i46402_1_, p_i46402_2_);
-        this.isBlockContainer = true;
+        isBlockContainer = true;
     }
 
     protected boolean func_181086_a(World p_181086_1_, BlockPos p_181086_2_, EnumFacing p_181086_3_)
@@ -28,7 +28,7 @@ public abstract class BlockContainer extends Block implements ITileEntityProvide
 
     protected boolean func_181087_e(World p_181087_1_, BlockPos p_181087_2_)
     {
-        return this.func_181086_a(p_181087_1_, p_181087_2_, EnumFacing.NORTH) || this.func_181086_a(p_181087_1_, p_181087_2_, EnumFacing.SOUTH) || this.func_181086_a(p_181087_1_, p_181087_2_, EnumFacing.WEST) || this.func_181086_a(p_181087_1_, p_181087_2_, EnumFacing.EAST);
+        return func_181086_a(p_181087_1_, p_181087_2_, EnumFacing.NORTH) || func_181086_a(p_181087_1_, p_181087_2_, EnumFacing.SOUTH) || func_181086_a(p_181087_1_, p_181087_2_, EnumFacing.WEST) || func_181086_a(p_181087_1_, p_181087_2_, EnumFacing.EAST);
     }
 
     /**
@@ -52,6 +52,6 @@ public abstract class BlockContainer extends Block implements ITileEntityProvide
     {
         super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
         TileEntity tileentity = worldIn.getTileEntity(pos);
-        return tileentity == null ? false : tileentity.receiveClientEvent(eventID, eventParam);
+        return tileentity != null && tileentity.receiveClientEvent(eventID, eventParam);
     }
 }

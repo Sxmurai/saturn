@@ -21,11 +21,11 @@ public class S11PacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient
 
     public S11PacketSpawnExperienceOrb(EntityXPOrb xpOrb)
     {
-        this.entityID = xpOrb.getEntityId();
-        this.posX = MathHelper.floor_double(xpOrb.posX * 32.0D);
-        this.posY = MathHelper.floor_double(xpOrb.posY * 32.0D);
-        this.posZ = MathHelper.floor_double(xpOrb.posZ * 32.0D);
-        this.xpValue = xpOrb.getXpValue();
+        entityID = xpOrb.getEntityId();
+        posX = MathHelper.floor_double(xpOrb.posX * 32.0D);
+        posY = MathHelper.floor_double(xpOrb.posY * 32.0D);
+        posZ = MathHelper.floor_double(xpOrb.posZ * 32.0D);
+        xpValue = xpOrb.getXpValue();
     }
 
     /**
@@ -33,11 +33,11 @@ public class S11PacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityID = buf.readVarIntFromBuffer();
-        this.posX = buf.readInt();
-        this.posY = buf.readInt();
-        this.posZ = buf.readInt();
-        this.xpValue = buf.readShort();
+        entityID = buf.readVarIntFromBuffer();
+        posX = buf.readInt();
+        posY = buf.readInt();
+        posZ = buf.readInt();
+        xpValue = buf.readShort();
     }
 
     /**
@@ -45,11 +45,11 @@ public class S11PacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityID);
-        buf.writeInt(this.posX);
-        buf.writeInt(this.posY);
-        buf.writeInt(this.posZ);
-        buf.writeShort(this.xpValue);
+        buf.writeVarIntToBuffer(entityID);
+        buf.writeInt(posX);
+        buf.writeInt(posY);
+        buf.writeInt(posZ);
+        buf.writeShort(xpValue);
     }
 
     /**
@@ -62,26 +62,26 @@ public class S11PacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient
 
     public int getEntityID()
     {
-        return this.entityID;
+        return entityID;
     }
 
     public int getX()
     {
-        return this.posX;
+        return posX;
     }
 
     public int getY()
     {
-        return this.posY;
+        return posY;
     }
 
     public int getZ()
     {
-        return this.posZ;
+        return posZ;
     }
 
     public int getXPValue()
     {
-        return this.xpValue;
+        return xpValue;
     }
 }

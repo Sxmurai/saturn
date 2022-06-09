@@ -13,7 +13,7 @@ public class BlockMelon extends Block
     protected BlockMelon()
     {
         super(Material.gourd, MapColor.limeColor);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**
@@ -37,6 +37,6 @@ public class BlockMelon extends Block
      */
     public int quantityDroppedWithBonus(int fortune, Random random)
     {
-        return Math.min(9, this.quantityDropped(random) + random.nextInt(1 + fortune));
+        return Math.min(9, quantityDropped(random) + random.nextInt(1 + fortune));
     }
 }

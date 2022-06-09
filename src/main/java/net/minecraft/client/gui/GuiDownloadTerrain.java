@@ -7,12 +7,12 @@ import net.minecraft.network.play.client.C00PacketKeepAlive;
 
 public class GuiDownloadTerrain extends GuiScreen
 {
-    private NetHandlerPlayClient netHandlerPlayClient;
+    private final NetHandlerPlayClient netHandlerPlayClient;
     private int progress;
 
     public GuiDownloadTerrain(NetHandlerPlayClient netHandler)
     {
-        this.netHandlerPlayClient = netHandler;
+        netHandlerPlayClient = netHandler;
     }
 
     /**
@@ -29,7 +29,7 @@ public class GuiDownloadTerrain extends GuiScreen
      */
     public void initGui()
     {
-        this.buttonList.clear();
+        buttonList.clear();
     }
 
     /**
@@ -37,11 +37,11 @@ public class GuiDownloadTerrain extends GuiScreen
      */
     public void updateScreen()
     {
-        ++this.progress;
+        ++progress;
 
-        if (this.progress % 20 == 0)
+        if (progress % 20 == 0)
         {
-            this.netHandlerPlayClient.addToSendQueue(new C00PacketKeepAlive());
+            netHandlerPlayClient.addToSendQueue(new C00PacketKeepAlive());
         }
     }
 
@@ -50,8 +50,8 @@ public class GuiDownloadTerrain extends GuiScreen
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawBackground(0);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingTerrain", new Object[0]), this.width / 2, this.height / 2 - 50, 16777215);
+        drawBackground(0);
+        drawCenteredString(fontRendererObj, I18n.format("multiplayer.downloadingTerrain"), width / 2, height / 2 - 50, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 

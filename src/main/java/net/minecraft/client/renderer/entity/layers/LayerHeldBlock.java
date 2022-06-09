@@ -16,7 +16,7 @@ public class LayerHeldBlock implements LayerRenderer<EntityEnderman>
 
     public LayerHeldBlock(RenderEnderman endermanRendererIn)
     {
-        this.endermanRenderer = endermanRendererIn;
+        endermanRenderer = endermanRendererIn;
     }
 
     public void doRenderLayer(EntityEnderman entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
@@ -39,7 +39,7 @@ public class LayerHeldBlock implements LayerRenderer<EntityEnderman>
             int k = i / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.endermanRenderer.bindTexture(TextureMap.locationBlocksTexture);
+            endermanRenderer.bindTexture(TextureMap.locationBlocksTexture);
             blockrendererdispatcher.renderBlockBrightness(iblockstate, 1.0F);
             GlStateManager.popMatrix();
             GlStateManager.disableRescaleNormal();

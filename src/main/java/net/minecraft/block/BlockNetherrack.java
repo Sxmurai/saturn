@@ -10,7 +10,7 @@ public class BlockNetherrack extends Block
     public BlockNetherrack()
     {
         super(Material.rock);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**

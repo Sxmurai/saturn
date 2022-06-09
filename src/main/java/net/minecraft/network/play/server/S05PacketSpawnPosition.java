@@ -16,7 +16,7 @@ public class S05PacketSpawnPosition implements Packet<INetHandlerPlayClient>
 
     public S05PacketSpawnPosition(BlockPos spawnBlockPosIn)
     {
-        this.spawnBlockPos = spawnBlockPosIn;
+        spawnBlockPos = spawnBlockPosIn;
     }
 
     /**
@@ -24,7 +24,7 @@ public class S05PacketSpawnPosition implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.spawnBlockPos = buf.readBlockPos();
+        spawnBlockPos = buf.readBlockPos();
     }
 
     /**
@@ -32,7 +32,7 @@ public class S05PacketSpawnPosition implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeBlockPos(this.spawnBlockPos);
+        buf.writeBlockPos(spawnBlockPos);
     }
 
     /**
@@ -45,6 +45,6 @@ public class S05PacketSpawnPosition implements Packet<INetHandlerPlayClient>
 
     public BlockPos getSpawnPos()
     {
-        return this.spawnBlockPos;
+        return spawnBlockPos;
     }
 }

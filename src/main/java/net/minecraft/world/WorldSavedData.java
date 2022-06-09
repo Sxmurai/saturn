@@ -12,7 +12,7 @@ public abstract class WorldSavedData
 
     public WorldSavedData(String name)
     {
-        this.mapName = name;
+        mapName = name;
     }
 
     /**
@@ -30,7 +30,7 @@ public abstract class WorldSavedData
      */
     public void markDirty()
     {
-        this.setDirty(true);
+        setDirty(true);
     }
 
     /**
@@ -38,7 +38,7 @@ public abstract class WorldSavedData
      */
     public void setDirty(boolean isDirty)
     {
-        this.dirty = isDirty;
+        dirty = isDirty;
     }
 
     /**
@@ -46,6 +46,6 @@ public abstract class WorldSavedData
      */
     public boolean isDirty()
     {
-        return this.dirty;
+        return dirty;
     }
 }

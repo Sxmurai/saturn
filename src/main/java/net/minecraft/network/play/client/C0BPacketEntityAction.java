@@ -23,7 +23,7 @@ public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer>
 
     public C0BPacketEntityAction(Entity entity, C0BPacketEntityAction.Action action, int auxData)
     {
-        this.entityID = entity.getEntityId();
+        entityID = entity.getEntityId();
         this.action = action;
         this.auxData = auxData;
     }
@@ -33,9 +33,9 @@ public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityID = buf.readVarIntFromBuffer();
-        this.action = (C0BPacketEntityAction.Action)buf.readEnumValue(C0BPacketEntityAction.Action.class);
-        this.auxData = buf.readVarIntFromBuffer();
+        entityID = buf.readVarIntFromBuffer();
+        action = buf.readEnumValue(Action.class);
+        auxData = buf.readVarIntFromBuffer();
     }
 
     /**
@@ -43,9 +43,9 @@ public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityID);
-        buf.writeEnumValue(this.action);
-        buf.writeVarIntToBuffer(this.auxData);
+        buf.writeVarIntToBuffer(entityID);
+        buf.writeEnumValue(action);
+        buf.writeVarIntToBuffer(auxData);
     }
 
     /**
@@ -58,12 +58,12 @@ public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer>
 
     public C0BPacketEntityAction.Action getAction()
     {
-        return this.action;
+        return action;
     }
 
     public int getAuxData()
     {
-        return this.auxData;
+        return auxData;
     }
 
     public static enum Action
@@ -74,6 +74,6 @@ public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer>
         START_SPRINTING,
         STOP_SPRINTING,
         RIDING_JUMP,
-        OPEN_INVENTORY;
+        OPEN_INVENTORY
     }
 }

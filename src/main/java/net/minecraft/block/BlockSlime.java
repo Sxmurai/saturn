@@ -13,8 +13,8 @@ public class BlockSlime extends BlockBreakable
     public BlockSlime()
     {
         super(Material.clay, false, MapColor.grassColor);
-        this.setCreativeTab(CreativeTabs.tabDecorations);
-        this.slipperiness = 0.8F;
+        setCreativeTab(CreativeTabs.tabDecorations);
+        slipperiness = 0.8F;
     }
 
     public EnumWorldBlockLayer getBlockLayer()

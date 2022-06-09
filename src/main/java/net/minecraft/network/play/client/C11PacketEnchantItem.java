@@ -33,8 +33,8 @@ public class C11PacketEnchantItem implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.windowId = buf.readByte();
-        this.button = buf.readByte();
+        windowId = buf.readByte();
+        button = buf.readByte();
     }
 
     /**
@@ -42,17 +42,17 @@ public class C11PacketEnchantItem implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeByte(this.windowId);
-        buf.writeByte(this.button);
+        buf.writeByte(windowId);
+        buf.writeByte(button);
     }
 
     public int getWindowId()
     {
-        return this.windowId;
+        return windowId;
     }
 
     public int getButton()
     {
-        return this.button;
+        return button;
     }
 }

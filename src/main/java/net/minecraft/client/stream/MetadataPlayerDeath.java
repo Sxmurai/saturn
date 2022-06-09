@@ -10,12 +10,12 @@ public class MetadataPlayerDeath extends Metadata
 
         if (p_i46066_1_ != null)
         {
-            this.func_152808_a("player", p_i46066_1_.getName());
+            func_152808_a("player", p_i46066_1_.getName());
         }
 
         if (p_i46066_2_ != null)
         {
-            this.func_152808_a("killer", p_i46066_2_.getName());
+            func_152808_a("killer", p_i46066_2_.getName());
         }
     }
 }

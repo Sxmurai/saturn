@@ -53,12 +53,12 @@ public class C0EPacketClickWindow implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.windowId = buf.readByte();
-        this.slotId = buf.readShort();
-        this.usedButton = buf.readByte();
-        this.actionNumber = buf.readShort();
-        this.mode = buf.readByte();
-        this.clickedItem = buf.readItemStackFromBuffer();
+        windowId = buf.readByte();
+        slotId = buf.readShort();
+        usedButton = buf.readByte();
+        actionNumber = buf.readShort();
+        mode = buf.readByte();
+        clickedItem = buf.readItemStackFromBuffer();
     }
 
     /**
@@ -66,41 +66,41 @@ public class C0EPacketClickWindow implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeByte(this.windowId);
-        buf.writeShort(this.slotId);
-        buf.writeByte(this.usedButton);
-        buf.writeShort(this.actionNumber);
-        buf.writeByte(this.mode);
-        buf.writeItemStackToBuffer(this.clickedItem);
+        buf.writeByte(windowId);
+        buf.writeShort(slotId);
+        buf.writeByte(usedButton);
+        buf.writeShort(actionNumber);
+        buf.writeByte(mode);
+        buf.writeItemStackToBuffer(clickedItem);
     }
 
     public int getWindowId()
     {
-        return this.windowId;
+        return windowId;
     }
 
     public int getSlotId()
     {
-        return this.slotId;
+        return slotId;
     }
 
     public int getUsedButton()
     {
-        return this.usedButton;
+        return usedButton;
     }
 
     public short getActionNumber()
     {
-        return this.actionNumber;
+        return actionNumber;
     }
 
     public ItemStack getClickedItem()
     {
-        return this.clickedItem;
+        return clickedItem;
     }
 
     public int getMode()
     {
-        return this.mode;
+        return mode;
     }
 }

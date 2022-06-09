@@ -22,7 +22,7 @@ public class S00PacketServerInfo implements Packet<INetHandlerStatusClient>
 
     public S00PacketServerInfo(ServerStatusResponse responseIn)
     {
-        this.response = responseIn;
+        response = responseIn;
     }
 
     /**
@@ -30,7 +30,7 @@ public class S00PacketServerInfo implements Packet<INetHandlerStatusClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.response = (ServerStatusResponse)GSON.fromJson(buf.readStringFromBuffer(32767), ServerStatusResponse.class);
+        response = S00PacketServerInfo.GSON.fromJson(buf.readStringFromBuffer(32767), ServerStatusResponse.class);
     }
 
     /**
@@ -38,7 +38,7 @@ public class S00PacketServerInfo implements Packet<INetHandlerStatusClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeString(GSON.toJson((Object)this.response));
+        buf.writeString(S00PacketServerInfo.GSON.toJson(response));
     }
 
     /**
@@ -51,6 +51,6 @@ public class S00PacketServerInfo implements Packet<INetHandlerStatusClient>
 
     public ServerStatusResponse getResponse()
     {
-        return this.response;
+        return response;
     }
 }

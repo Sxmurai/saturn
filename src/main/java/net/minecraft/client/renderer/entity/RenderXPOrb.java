@@ -20,8 +20,8 @@ public class RenderXPOrb extends Render
     public RenderXPOrb(RenderManager renderManagerIn)
     {
         super(renderManagerIn);
-        this.shadowSize = 0.15F;
-        this.shadowOpaque = 0.75F;
+        shadowSize = 0.15F;
+        shadowOpaque = 0.75F;
     }
 
     /**
@@ -34,7 +34,7 @@ public class RenderXPOrb extends Render
     {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)x, (float)y, (float)z);
-        this.bindEntityTexture(entity);
+        bindEntityTexture(entity);
         int i = entity.getTextureByXP();
         float f = (float)(i % 4 * 16 + 0) / 64.0F;
         float f1 = (float)(i % 4 * 16 + 16) / 64.0F;
@@ -53,8 +53,8 @@ public class RenderXPOrb extends Render
         l = (int)((MathHelper.sin(f8 + 0.0F) + 1.0F) * 0.5F * 255.0F);
         boolean flag = true;
         int i1 = (int)((MathHelper.sin(f8 + 4.1887903F) + 1.0F) * 0.1F * 255.0F);
-        GlStateManager.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+        GlStateManager.rotate(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(-renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
         float f9 = 0.3F;
         GlStateManager.scale(0.3F, 0.3F, 0.3F);
         Tessellator tessellator = Tessellator.getInstance();
@@ -76,10 +76,10 @@ public class RenderXPOrb extends Render
             }
         }
 
-        worldrenderer.pos((double)(0.0F - f5), (double)(0.0F - f6), 0.0D).tex((double)f, (double)f3).color(j1, k1, l1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
-        worldrenderer.pos((double)(f4 - f5), (double)(0.0F - f6), 0.0D).tex((double)f1, (double)f3).color(j1, k1, l1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
-        worldrenderer.pos((double)(f4 - f5), (double)(1.0F - f6), 0.0D).tex((double)f1, (double)f2).color(j1, k1, l1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
-        worldrenderer.pos((double)(0.0F - f5), (double)(1.0F - f6), 0.0D).tex((double)f, (double)f2).color(j1, k1, l1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
+        worldrenderer.pos(0.0F - f5, 0.0F - f6, 0.0D).tex(f, f3).color(j1, k1, l1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
+        worldrenderer.pos(f4 - f5, 0.0F - f6, 0.0D).tex(f1, f3).color(j1, k1, l1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
+        worldrenderer.pos(f4 - f5, 1.0F - f6, 0.0D).tex(f1, f2).color(j1, k1, l1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
+        worldrenderer.pos(0.0F - f5, 1.0F - f6, 0.0D).tex(f, f2).color(j1, k1, l1, 128).normal(0.0F, 1.0F, 0.0F).endVertex();
         tessellator.draw();
         GlStateManager.disableBlend();
         GlStateManager.disableRescaleNormal();
@@ -92,7 +92,7 @@ public class RenderXPOrb extends Render
      */
     protected ResourceLocation getEntityTexture(EntityXPOrb entity)
     {
-        return experienceOrbTextures;
+        return RenderXPOrb.experienceOrbTextures;
     }
 
     /**
@@ -100,7 +100,7 @@ public class RenderXPOrb extends Render
      */
     protected ResourceLocation getEntityTexture(Entity entity)
     {
-        return this.getEntityTexture((EntityXPOrb)entity);
+        return getEntityTexture((EntityXPOrb)entity);
     }
 
     /**
@@ -111,6 +111,6 @@ public class RenderXPOrb extends Render
      */
     public void doRender(Entity entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        this.doRender((EntityXPOrb)entity, x, y, z, entityYaw, partialTicks);
+        doRender((EntityXPOrb)entity, x, y, z, entityYaw, partialTicks);
     }
 }

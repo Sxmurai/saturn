@@ -28,11 +28,11 @@ import net.minecraft.world.gen.structure.StructureOceanMonument;
 public class ChunkProviderGenerate implements IChunkProvider
 {
     /** RNG. */
-    private Random rand;
-    private NoiseGeneratorOctaves field_147431_j;
-    private NoiseGeneratorOctaves field_147432_k;
-    private NoiseGeneratorOctaves field_147429_l;
-    private NoiseGeneratorPerlin field_147430_m;
+    private final Random rand;
+    private final NoiseGeneratorOctaves field_147431_j;
+    private final NoiseGeneratorOctaves field_147432_k;
+    private final NoiseGeneratorOctaves field_147429_l;
+    private final NoiseGeneratorPerlin field_147430_m;
 
     /** A NoiseGeneratorOctaves used in generating terrain */
     public NoiseGeneratorOctaves noiseGen5;
@@ -42,31 +42,31 @@ public class ChunkProviderGenerate implements IChunkProvider
     public NoiseGeneratorOctaves mobSpawnerNoise;
 
     /** Reference to the World object. */
-    private World worldObj;
+    private final World worldObj;
 
     /** are map structures going to be generated (e.g. strongholds) */
     private final boolean mapFeaturesEnabled;
-    private WorldType field_177475_o;
+    private final WorldType field_177475_o;
     private final double[] field_147434_q;
     private final float[] parabolicField;
     private ChunkProviderSettings settings;
     private Block field_177476_s = Blocks.water;
     private double[] stoneNoise = new double[256];
-    private MapGenBase caveGenerator = new MapGenCaves();
+    private final MapGenBase caveGenerator = new MapGenCaves();
 
     /** Holds Stronghold Generator */
-    private MapGenStronghold strongholdGenerator = new MapGenStronghold();
+    private final MapGenStronghold strongholdGenerator = new MapGenStronghold();
 
     /** Holds Village Generator */
-    private MapGenVillage villageGenerator = new MapGenVillage();
+    private final MapGenVillage villageGenerator = new MapGenVillage();
 
     /** Holds Mineshaft Generator */
-    private MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
-    private MapGenScatteredFeature scatteredFeatureGenerator = new MapGenScatteredFeature();
+    private final MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
+    private final MapGenScatteredFeature scatteredFeatureGenerator = new MapGenScatteredFeature();
 
     /** Holds ravine generator */
-    private MapGenBase ravineGenerator = new MapGenRavine();
-    private StructureOceanMonument oceanMonumentGenerator = new StructureOceanMonument();
+    private final MapGenBase ravineGenerator = new MapGenRavine();
+    private final StructureOceanMonument oceanMonumentGenerator = new StructureOceanMonument();
 
     /** The biomes that are used to generate the chunk */
     private BiomeGenBase[] biomesForGeneration;
@@ -77,41 +77,41 @@ public class ChunkProviderGenerate implements IChunkProvider
 
     public ChunkProviderGenerate(World worldIn, long p_i45636_2_, boolean p_i45636_4_, String p_i45636_5_)
     {
-        this.worldObj = worldIn;
-        this.mapFeaturesEnabled = p_i45636_4_;
-        this.field_177475_o = worldIn.getWorldInfo().getTerrainType();
-        this.rand = new Random(p_i45636_2_);
-        this.field_147431_j = new NoiseGeneratorOctaves(this.rand, 16);
-        this.field_147432_k = new NoiseGeneratorOctaves(this.rand, 16);
-        this.field_147429_l = new NoiseGeneratorOctaves(this.rand, 8);
-        this.field_147430_m = new NoiseGeneratorPerlin(this.rand, 4);
-        this.noiseGen5 = new NoiseGeneratorOctaves(this.rand, 10);
-        this.noiseGen6 = new NoiseGeneratorOctaves(this.rand, 16);
-        this.mobSpawnerNoise = new NoiseGeneratorOctaves(this.rand, 8);
-        this.field_147434_q = new double[825];
-        this.parabolicField = new float[25];
+        worldObj = worldIn;
+        mapFeaturesEnabled = p_i45636_4_;
+        field_177475_o = worldIn.getWorldInfo().getTerrainType();
+        rand = new Random(p_i45636_2_);
+        field_147431_j = new NoiseGeneratorOctaves(rand, 16);
+        field_147432_k = new NoiseGeneratorOctaves(rand, 16);
+        field_147429_l = new NoiseGeneratorOctaves(rand, 8);
+        field_147430_m = new NoiseGeneratorPerlin(rand, 4);
+        noiseGen5 = new NoiseGeneratorOctaves(rand, 10);
+        noiseGen6 = new NoiseGeneratorOctaves(rand, 16);
+        mobSpawnerNoise = new NoiseGeneratorOctaves(rand, 8);
+        field_147434_q = new double[825];
+        parabolicField = new float[25];
 
         for (int i = -2; i <= 2; ++i)
         {
             for (int j = -2; j <= 2; ++j)
             {
                 float f = 10.0F / MathHelper.sqrt_float((float)(i * i + j * j) + 0.2F);
-                this.parabolicField[i + 2 + (j + 2) * 5] = f;
+                parabolicField[i + 2 + (j + 2) * 5] = f;
             }
         }
 
         if (p_i45636_5_ != null)
         {
-            this.settings = ChunkProviderSettings.Factory.jsonToFactory(p_i45636_5_).func_177864_b();
-            this.field_177476_s = this.settings.useLavaOceans ? Blocks.lava : Blocks.water;
-            worldIn.func_181544_b(this.settings.seaLevel);
+            settings = ChunkProviderSettings.Factory.jsonToFactory(p_i45636_5_).func_177864_b();
+            field_177476_s = settings.useLavaOceans ? Blocks.lava : Blocks.water;
+            worldIn.func_181544_b(settings.seaLevel);
         }
     }
 
     public void setBlocksInChunk(int p_180518_1_, int p_180518_2_, ChunkPrimer p_180518_3_)
     {
-        this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, p_180518_1_ * 4 - 2, p_180518_2_ * 4 - 2, 10, 10);
-        this.func_147423_a(p_180518_1_ * 4, 0, p_180518_2_ * 4);
+        biomesForGeneration = worldObj.getWorldChunkManager().getBiomesForGeneration(biomesForGeneration, p_180518_1_ * 4 - 2, p_180518_2_ * 4 - 2, 10, 10);
+        func_147423_a(p_180518_1_ * 4, 0, p_180518_2_ * 4);
 
         for (int i = 0; i < 4; ++i)
         {
@@ -128,14 +128,14 @@ public class ChunkProviderGenerate implements IChunkProvider
                 for (int i2 = 0; i2 < 32; ++i2)
                 {
                     double d0 = 0.125D;
-                    double d1 = this.field_147434_q[i1 + i2];
-                    double d2 = this.field_147434_q[j1 + i2];
-                    double d3 = this.field_147434_q[k1 + i2];
-                    double d4 = this.field_147434_q[l1 + i2];
-                    double d5 = (this.field_147434_q[i1 + i2 + 1] - d1) * d0;
-                    double d6 = (this.field_147434_q[j1 + i2 + 1] - d2) * d0;
-                    double d7 = (this.field_147434_q[k1 + i2 + 1] - d3) * d0;
-                    double d8 = (this.field_147434_q[l1 + i2 + 1] - d4) * d0;
+                    double d1 = field_147434_q[i1 + i2];
+                    double d2 = field_147434_q[j1 + i2];
+                    double d3 = field_147434_q[k1 + i2];
+                    double d4 = field_147434_q[l1 + i2];
+                    double d5 = (field_147434_q[i1 + i2 + 1] - d1) * d0;
+                    double d6 = (field_147434_q[j1 + i2 + 1] - d2) * d0;
+                    double d7 = (field_147434_q[k1 + i2 + 1] - d3) * d0;
+                    double d8 = (field_147434_q[l1 + i2 + 1] - d4) * d0;
 
                     for (int j2 = 0; j2 < 8; ++j2)
                     {
@@ -157,9 +157,9 @@ public class ChunkProviderGenerate implements IChunkProvider
                                 {
                                     p_180518_3_.setBlockState(i * 4 + k2, i2 * 8 + j2, l * 4 + l2, Blocks.stone.getDefaultState());
                                 }
-                                else if (i2 * 8 + j2 < this.settings.seaLevel)
+                                else if (i2 * 8 + j2 < settings.seaLevel)
                                 {
-                                    p_180518_3_.setBlockState(i * 4 + k2, i2 * 8 + j2, l * 4 + l2, this.field_177476_s.getDefaultState());
+                                    p_180518_3_.setBlockState(i * 4 + k2, i2 * 8 + j2, l * 4 + l2, field_177476_s.getDefaultState());
                                 }
                             }
 
@@ -180,14 +180,14 @@ public class ChunkProviderGenerate implements IChunkProvider
     public void replaceBlocksForBiome(int p_180517_1_, int p_180517_2_, ChunkPrimer p_180517_3_, BiomeGenBase[] p_180517_4_)
     {
         double d0 = 0.03125D;
-        this.stoneNoise = this.field_147430_m.func_151599_a(this.stoneNoise, (double)(p_180517_1_ * 16), (double)(p_180517_2_ * 16), 16, 16, d0 * 2.0D, d0 * 2.0D, 1.0D);
+        stoneNoise = field_147430_m.func_151599_a(stoneNoise, p_180517_1_ * 16, p_180517_2_ * 16, 16, 16, d0 * 2.0D, d0 * 2.0D, 1.0D);
 
         for (int i = 0; i < 16; ++i)
         {
             for (int j = 0; j < 16; ++j)
             {
                 BiomeGenBase biomegenbase = p_180517_4_[j + i * 16];
-                biomegenbase.genTerrainBlocks(this.worldObj, this.rand, p_180517_3_, p_180517_1_ * 16 + i, p_180517_2_ * 16 + j, this.stoneNoise[j + i * 16]);
+                biomegenbase.genTerrainBlocks(worldObj, rand, p_180517_3_, p_180517_1_ * 16 + i, p_180517_2_ * 16 + j, stoneNoise[j + i * 16]);
             }
         }
     }
@@ -198,53 +198,53 @@ public class ChunkProviderGenerate implements IChunkProvider
      */
     public Chunk provideChunk(int x, int z)
     {
-        this.rand.setSeed((long)x * 341873128712L + (long)z * 132897987541L);
+        rand.setSeed((long)x * 341873128712L + (long)z * 132897987541L);
         ChunkPrimer chunkprimer = new ChunkPrimer();
-        this.setBlocksInChunk(x, z, chunkprimer);
-        this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, x * 16, z * 16, 16, 16);
-        this.replaceBlocksForBiome(x, z, chunkprimer, this.biomesForGeneration);
+        setBlocksInChunk(x, z, chunkprimer);
+        biomesForGeneration = worldObj.getWorldChunkManager().loadBlockGeneratorData(biomesForGeneration, x * 16, z * 16, 16, 16);
+        replaceBlocksForBiome(x, z, chunkprimer, biomesForGeneration);
 
-        if (this.settings.useCaves)
+        if (settings.useCaves)
         {
-            this.caveGenerator.generate(this, this.worldObj, x, z, chunkprimer);
+            caveGenerator.generate(this, worldObj, x, z, chunkprimer);
         }
 
-        if (this.settings.useRavines)
+        if (settings.useRavines)
         {
-            this.ravineGenerator.generate(this, this.worldObj, x, z, chunkprimer);
+            ravineGenerator.generate(this, worldObj, x, z, chunkprimer);
         }
 
-        if (this.settings.useMineShafts && this.mapFeaturesEnabled)
+        if (settings.useMineShafts && mapFeaturesEnabled)
         {
-            this.mineshaftGenerator.generate(this, this.worldObj, x, z, chunkprimer);
+            mineshaftGenerator.generate(this, worldObj, x, z, chunkprimer);
         }
 
-        if (this.settings.useVillages && this.mapFeaturesEnabled)
+        if (settings.useVillages && mapFeaturesEnabled)
         {
-            this.villageGenerator.generate(this, this.worldObj, x, z, chunkprimer);
+            villageGenerator.generate(this, worldObj, x, z, chunkprimer);
         }
 
-        if (this.settings.useStrongholds && this.mapFeaturesEnabled)
+        if (settings.useStrongholds && mapFeaturesEnabled)
         {
-            this.strongholdGenerator.generate(this, this.worldObj, x, z, chunkprimer);
+            strongholdGenerator.generate(this, worldObj, x, z, chunkprimer);
         }
 
-        if (this.settings.useTemples && this.mapFeaturesEnabled)
+        if (settings.useTemples && mapFeaturesEnabled)
         {
-            this.scatteredFeatureGenerator.generate(this, this.worldObj, x, z, chunkprimer);
+            scatteredFeatureGenerator.generate(this, worldObj, x, z, chunkprimer);
         }
 
-        if (this.settings.useMonuments && this.mapFeaturesEnabled)
+        if (settings.useMonuments && mapFeaturesEnabled)
         {
-            this.oceanMonumentGenerator.generate(this, this.worldObj, x, z, chunkprimer);
+            oceanMonumentGenerator.generate(this, worldObj, x, z, chunkprimer);
         }
 
-        Chunk chunk = new Chunk(this.worldObj, chunkprimer, x, z);
+        Chunk chunk = new Chunk(worldObj, chunkprimer, x, z);
         byte[] abyte = chunk.getBiomeArray();
 
         for (int i = 0; i < abyte.length; ++i)
         {
-            abyte[i] = (byte)this.biomesForGeneration[i].biomeID;
+            abyte[i] = (byte) biomesForGeneration[i].biomeID;
         }
 
         chunk.generateSkylightMap();
@@ -253,12 +253,12 @@ public class ChunkProviderGenerate implements IChunkProvider
 
     private void func_147423_a(int p_147423_1_, int p_147423_2_, int p_147423_3_)
     {
-        this.field_147426_g = this.noiseGen6.generateNoiseOctaves(this.field_147426_g, p_147423_1_, p_147423_3_, 5, 5, (double)this.settings.depthNoiseScaleX, (double)this.settings.depthNoiseScaleZ, (double)this.settings.depthNoiseScaleExponent);
-        float f = this.settings.coordinateScale;
-        float f1 = this.settings.heightScale;
-        this.field_147427_d = this.field_147429_l.generateNoiseOctaves(this.field_147427_d, p_147423_1_, p_147423_2_, p_147423_3_, 5, 33, 5, (double)(f / this.settings.mainNoiseScaleX), (double)(f1 / this.settings.mainNoiseScaleY), (double)(f / this.settings.mainNoiseScaleZ));
-        this.field_147428_e = this.field_147431_j.generateNoiseOctaves(this.field_147428_e, p_147423_1_, p_147423_2_, p_147423_3_, 5, 33, 5, (double)f, (double)f1, (double)f);
-        this.field_147425_f = this.field_147432_k.generateNoiseOctaves(this.field_147425_f, p_147423_1_, p_147423_2_, p_147423_3_, 5, 33, 5, (double)f, (double)f1, (double)f);
+        field_147426_g = noiseGen6.generateNoiseOctaves(field_147426_g, p_147423_1_, p_147423_3_, 5, 5, settings.depthNoiseScaleX, settings.depthNoiseScaleZ, settings.depthNoiseScaleExponent);
+        float f = settings.coordinateScale;
+        float f1 = settings.heightScale;
+        field_147427_d = field_147429_l.generateNoiseOctaves(field_147427_d, p_147423_1_, p_147423_2_, p_147423_3_, 5, 33, 5, f / settings.mainNoiseScaleX, f1 / settings.mainNoiseScaleY, f / settings.mainNoiseScaleZ);
+        field_147428_e = field_147431_j.generateNoiseOctaves(field_147428_e, p_147423_1_, p_147423_2_, p_147423_3_, 5, 33, 5, f, f1, f);
+        field_147425_f = field_147432_k.generateNoiseOctaves(field_147425_f, p_147423_1_, p_147423_2_, p_147423_3_, 5, 33, 5, f, f1, f);
         p_147423_3_ = 0;
         p_147423_1_ = 0;
         int i = 0;
@@ -272,23 +272,23 @@ public class ChunkProviderGenerate implements IChunkProvider
                 float f3 = 0.0F;
                 float f4 = 0.0F;
                 int i1 = 2;
-                BiomeGenBase biomegenbase = this.biomesForGeneration[k + 2 + (l + 2) * 10];
+                BiomeGenBase biomegenbase = biomesForGeneration[k + 2 + (l + 2) * 10];
 
                 for (int j1 = -i1; j1 <= i1; ++j1)
                 {
                     for (int k1 = -i1; k1 <= i1; ++k1)
                     {
-                        BiomeGenBase biomegenbase1 = this.biomesForGeneration[k + j1 + 2 + (l + k1 + 2) * 10];
-                        float f5 = this.settings.biomeDepthOffSet + biomegenbase1.minHeight * this.settings.biomeDepthWeight;
-                        float f6 = this.settings.biomeScaleOffset + biomegenbase1.maxHeight * this.settings.biomeScaleWeight;
+                        BiomeGenBase biomegenbase1 = biomesForGeneration[k + j1 + 2 + (l + k1 + 2) * 10];
+                        float f5 = settings.biomeDepthOffSet + biomegenbase1.minHeight * settings.biomeDepthWeight;
+                        float f6 = settings.biomeScaleOffset + biomegenbase1.maxHeight * settings.biomeScaleWeight;
 
-                        if (this.field_177475_o == WorldType.AMPLIFIED && f5 > 0.0F)
+                        if (field_177475_o == WorldType.AMPLIFIED && f5 > 0.0F)
                         {
                             f5 = 1.0F + f5 * 2.0F;
                             f6 = 1.0F + f6 * 4.0F;
                         }
 
-                        float f7 = this.parabolicField[j1 + 2 + (k1 + 2) * 5] / (f5 + 2.0F);
+                        float f7 = parabolicField[j1 + 2 + (k1 + 2) * 5] / (f5 + 2.0F);
 
                         if (biomegenbase1.minHeight > biomegenbase.minHeight)
                         {
@@ -305,7 +305,7 @@ public class ChunkProviderGenerate implements IChunkProvider
                 f3 = f3 / f4;
                 f2 = f2 * 0.9F + 0.1F;
                 f3 = (f3 * 4.0F - 1.0F) / 8.0F;
-                double d7 = this.field_147426_g[j] / 8000.0D;
+                double d7 = field_147426_g[j] / 8000.0D;
 
                 if (d7 < 0.0D)
                 {
@@ -337,33 +337,33 @@ public class ChunkProviderGenerate implements IChunkProvider
                 }
 
                 ++j;
-                double d8 = (double)f3;
-                double d9 = (double)f2;
+                double d8 = f3;
+                double d9 = f2;
                 d8 = d8 + d7 * 0.2D;
-                d8 = d8 * (double)this.settings.baseSize / 8.0D;
-                double d0 = (double)this.settings.baseSize + d8 * 4.0D;
+                d8 = d8 * (double) settings.baseSize / 8.0D;
+                double d0 = (double) settings.baseSize + d8 * 4.0D;
 
                 for (int l1 = 0; l1 < 33; ++l1)
                 {
-                    double d1 = ((double)l1 - d0) * (double)this.settings.stretchY * 128.0D / 256.0D / d9;
+                    double d1 = ((double)l1 - d0) * (double) settings.stretchY * 128.0D / 256.0D / d9;
 
                     if (d1 < 0.0D)
                     {
                         d1 *= 4.0D;
                     }
 
-                    double d2 = this.field_147428_e[i] / (double)this.settings.lowerLimitScale;
-                    double d3 = this.field_147425_f[i] / (double)this.settings.upperLimitScale;
-                    double d4 = (this.field_147427_d[i] / 10.0D + 1.0D) / 2.0D;
+                    double d2 = field_147428_e[i] / (double) settings.lowerLimitScale;
+                    double d3 = field_147425_f[i] / (double) settings.upperLimitScale;
+                    double d4 = (field_147427_d[i] / 10.0D + 1.0D) / 2.0D;
                     double d5 = MathHelper.denormalizeClamp(d2, d3, d4) - d1;
 
                     if (l1 > 29)
                     {
-                        double d6 = (double)((float)(l1 - 29) / 3.0F);
+                        double d6 = (float)(l1 - 29) / 3.0F;
                         d5 = d5 * (1.0D - d6) + -10.0D * d6;
                     }
 
-                    this.field_147434_q[i] = d5;
+                    field_147434_q[i] = d5;
                     ++i;
                 }
             }
@@ -387,89 +387,89 @@ public class ChunkProviderGenerate implements IChunkProvider
         int i = p_73153_2_ * 16;
         int j = p_73153_3_ * 16;
         BlockPos blockpos = new BlockPos(i, 0, j);
-        BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(blockpos.add(16, 0, 16));
-        this.rand.setSeed(this.worldObj.getSeed());
-        long k = this.rand.nextLong() / 2L * 2L + 1L;
-        long l = this.rand.nextLong() / 2L * 2L + 1L;
-        this.rand.setSeed((long)p_73153_2_ * k + (long)p_73153_3_ * l ^ this.worldObj.getSeed());
+        BiomeGenBase biomegenbase = worldObj.getBiomeGenForCoords(blockpos.add(16, 0, 16));
+        rand.setSeed(worldObj.getSeed());
+        long k = rand.nextLong() / 2L * 2L + 1L;
+        long l = rand.nextLong() / 2L * 2L + 1L;
+        rand.setSeed((long)p_73153_2_ * k + (long)p_73153_3_ * l ^ worldObj.getSeed());
         boolean flag = false;
         ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(p_73153_2_, p_73153_3_);
 
-        if (this.settings.useMineShafts && this.mapFeaturesEnabled)
+        if (settings.useMineShafts && mapFeaturesEnabled)
         {
-            this.mineshaftGenerator.generateStructure(this.worldObj, this.rand, chunkcoordintpair);
+            mineshaftGenerator.generateStructure(worldObj, rand, chunkcoordintpair);
         }
 
-        if (this.settings.useVillages && this.mapFeaturesEnabled)
+        if (settings.useVillages && mapFeaturesEnabled)
         {
-            flag = this.villageGenerator.generateStructure(this.worldObj, this.rand, chunkcoordintpair);
+            flag = villageGenerator.generateStructure(worldObj, rand, chunkcoordintpair);
         }
 
-        if (this.settings.useStrongholds && this.mapFeaturesEnabled)
+        if (settings.useStrongholds && mapFeaturesEnabled)
         {
-            this.strongholdGenerator.generateStructure(this.worldObj, this.rand, chunkcoordintpair);
+            strongholdGenerator.generateStructure(worldObj, rand, chunkcoordintpair);
         }
 
-        if (this.settings.useTemples && this.mapFeaturesEnabled)
+        if (settings.useTemples && mapFeaturesEnabled)
         {
-            this.scatteredFeatureGenerator.generateStructure(this.worldObj, this.rand, chunkcoordintpair);
+            scatteredFeatureGenerator.generateStructure(worldObj, rand, chunkcoordintpair);
         }
 
-        if (this.settings.useMonuments && this.mapFeaturesEnabled)
+        if (settings.useMonuments && mapFeaturesEnabled)
         {
-            this.oceanMonumentGenerator.generateStructure(this.worldObj, this.rand, chunkcoordintpair);
+            oceanMonumentGenerator.generateStructure(worldObj, rand, chunkcoordintpair);
         }
 
-        if (biomegenbase != BiomeGenBase.desert && biomegenbase != BiomeGenBase.desertHills && this.settings.useWaterLakes && !flag && this.rand.nextInt(this.settings.waterLakeChance) == 0)
+        if (biomegenbase != BiomeGenBase.desert && biomegenbase != BiomeGenBase.desertHills && settings.useWaterLakes && !flag && rand.nextInt(settings.waterLakeChance) == 0)
         {
-            int i1 = this.rand.nextInt(16) + 8;
-            int j1 = this.rand.nextInt(256);
-            int k1 = this.rand.nextInt(16) + 8;
-            (new WorldGenLakes(Blocks.water)).generate(this.worldObj, this.rand, blockpos.add(i1, j1, k1));
+            int i1 = rand.nextInt(16) + 8;
+            int j1 = rand.nextInt(256);
+            int k1 = rand.nextInt(16) + 8;
+            (new WorldGenLakes(Blocks.water)).generate(worldObj, rand, blockpos.add(i1, j1, k1));
         }
 
-        if (!flag && this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes)
+        if (!flag && rand.nextInt(settings.lavaLakeChance / 10) == 0 && settings.useLavaLakes)
         {
-            int i2 = this.rand.nextInt(16) + 8;
-            int l2 = this.rand.nextInt(this.rand.nextInt(248) + 8);
-            int k3 = this.rand.nextInt(16) + 8;
+            int i2 = rand.nextInt(16) + 8;
+            int l2 = rand.nextInt(rand.nextInt(248) + 8);
+            int k3 = rand.nextInt(16) + 8;
 
-            if (l2 < this.worldObj.func_181545_F() || this.rand.nextInt(this.settings.lavaLakeChance / 8) == 0)
+            if (l2 < worldObj.func_181545_F() || rand.nextInt(settings.lavaLakeChance / 8) == 0)
             {
-                (new WorldGenLakes(Blocks.lava)).generate(this.worldObj, this.rand, blockpos.add(i2, l2, k3));
+                (new WorldGenLakes(Blocks.lava)).generate(worldObj, rand, blockpos.add(i2, l2, k3));
             }
         }
 
-        if (this.settings.useDungeons)
+        if (settings.useDungeons)
         {
-            for (int j2 = 0; j2 < this.settings.dungeonChance; ++j2)
+            for (int j2 = 0; j2 < settings.dungeonChance; ++j2)
             {
-                int i3 = this.rand.nextInt(16) + 8;
-                int l3 = this.rand.nextInt(256);
-                int l1 = this.rand.nextInt(16) + 8;
-                (new WorldGenDungeons()).generate(this.worldObj, this.rand, blockpos.add(i3, l3, l1));
+                int i3 = rand.nextInt(16) + 8;
+                int l3 = rand.nextInt(256);
+                int l1 = rand.nextInt(16) + 8;
+                (new WorldGenDungeons()).generate(worldObj, rand, blockpos.add(i3, l3, l1));
             }
         }
 
-        biomegenbase.decorate(this.worldObj, this.rand, new BlockPos(i, 0, j));
-        SpawnerAnimals.performWorldGenSpawning(this.worldObj, biomegenbase, i + 8, j + 8, 16, 16, this.rand);
+        biomegenbase.decorate(worldObj, rand, new BlockPos(i, 0, j));
+        SpawnerAnimals.performWorldGenSpawning(worldObj, biomegenbase, i + 8, j + 8, 16, 16, rand);
         blockpos = blockpos.add(8, 0, 8);
 
         for (int k2 = 0; k2 < 16; ++k2)
         {
             for (int j3 = 0; j3 < 16; ++j3)
             {
-                BlockPos blockpos1 = this.worldObj.getPrecipitationHeight(blockpos.add(k2, 0, j3));
+                BlockPos blockpos1 = worldObj.getPrecipitationHeight(blockpos.add(k2, 0, j3));
                 BlockPos blockpos2 = blockpos1.down();
 
-                if (this.worldObj.canBlockFreezeWater(blockpos2))
+                if (worldObj.canBlockFreezeWater(blockpos2))
                 {
-                    this.worldObj.setBlockState(blockpos2, Blocks.ice.getDefaultState(), 2);
+                    worldObj.setBlockState(blockpos2, Blocks.ice.getDefaultState(), 2);
                 }
 
-                if (this.worldObj.canSnowAt(blockpos1, true))
+                if (worldObj.canSnowAt(blockpos1, true))
                 {
-                    this.worldObj.setBlockState(blockpos1, Blocks.snow_layer.getDefaultState(), 2);
+                    worldObj.setBlockState(blockpos1, Blocks.snow_layer.getDefaultState(), 2);
                 }
             }
         }
@@ -481,9 +481,9 @@ public class ChunkProviderGenerate implements IChunkProvider
     {
         boolean flag = false;
 
-        if (this.settings.useMonuments && this.mapFeaturesEnabled && p_177460_2_.getInhabitedTime() < 3600L)
+        if (settings.useMonuments && mapFeaturesEnabled && p_177460_2_.getInhabitedTime() < 3600L)
         {
-            flag |= this.oceanMonumentGenerator.generateStructure(this.worldObj, this.rand, new ChunkCoordIntPair(p_177460_3_, p_177460_4_));
+            flag |= oceanMonumentGenerator.generateStructure(worldObj, rand, new ChunkCoordIntPair(p_177460_3_, p_177460_4_));
         }
 
         return flag;
@@ -532,18 +532,18 @@ public class ChunkProviderGenerate implements IChunkProvider
 
     public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos)
     {
-        BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(pos);
+        BiomeGenBase biomegenbase = worldObj.getBiomeGenForCoords(pos);
 
-        if (this.mapFeaturesEnabled)
+        if (mapFeaturesEnabled)
         {
-            if (creatureType == EnumCreatureType.MONSTER && this.scatteredFeatureGenerator.func_175798_a(pos))
+            if (creatureType == EnumCreatureType.MONSTER && scatteredFeatureGenerator.func_175798_a(pos))
             {
-                return this.scatteredFeatureGenerator.getScatteredFeatureSpawnList();
+                return scatteredFeatureGenerator.getScatteredFeatureSpawnList();
             }
 
-            if (creatureType == EnumCreatureType.MONSTER && this.settings.useMonuments && this.oceanMonumentGenerator.func_175796_a(this.worldObj, pos))
+            if (creatureType == EnumCreatureType.MONSTER && settings.useMonuments && oceanMonumentGenerator.func_175796_a(worldObj, pos))
             {
-                return this.oceanMonumentGenerator.func_175799_b();
+                return oceanMonumentGenerator.func_175799_b();
             }
         }
 
@@ -552,7 +552,7 @@ public class ChunkProviderGenerate implements IChunkProvider
 
     public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position)
     {
-        return "Stronghold".equals(structureName) && this.strongholdGenerator != null ? this.strongholdGenerator.getClosestStrongholdPos(worldIn, position) : null;
+        return "Stronghold".equals(structureName) && strongholdGenerator != null ? strongholdGenerator.getClosestStrongholdPos(worldIn, position) : null;
     }
 
     public int getLoadedChunkCount()
@@ -562,34 +562,34 @@ public class ChunkProviderGenerate implements IChunkProvider
 
     public void recreateStructures(Chunk p_180514_1_, int p_180514_2_, int p_180514_3_)
     {
-        if (this.settings.useMineShafts && this.mapFeaturesEnabled)
+        if (settings.useMineShafts && mapFeaturesEnabled)
         {
-            this.mineshaftGenerator.generate(this, this.worldObj, p_180514_2_, p_180514_3_, (ChunkPrimer)null);
+            mineshaftGenerator.generate(this, worldObj, p_180514_2_, p_180514_3_, null);
         }
 
-        if (this.settings.useVillages && this.mapFeaturesEnabled)
+        if (settings.useVillages && mapFeaturesEnabled)
         {
-            this.villageGenerator.generate(this, this.worldObj, p_180514_2_, p_180514_3_, (ChunkPrimer)null);
+            villageGenerator.generate(this, worldObj, p_180514_2_, p_180514_3_, null);
         }
 
-        if (this.settings.useStrongholds && this.mapFeaturesEnabled)
+        if (settings.useStrongholds && mapFeaturesEnabled)
         {
-            this.strongholdGenerator.generate(this, this.worldObj, p_180514_2_, p_180514_3_, (ChunkPrimer)null);
+            strongholdGenerator.generate(this, worldObj, p_180514_2_, p_180514_3_, null);
         }
 
-        if (this.settings.useTemples && this.mapFeaturesEnabled)
+        if (settings.useTemples && mapFeaturesEnabled)
         {
-            this.scatteredFeatureGenerator.generate(this, this.worldObj, p_180514_2_, p_180514_3_, (ChunkPrimer)null);
+            scatteredFeatureGenerator.generate(this, worldObj, p_180514_2_, p_180514_3_, null);
         }
 
-        if (this.settings.useMonuments && this.mapFeaturesEnabled)
+        if (settings.useMonuments && mapFeaturesEnabled)
         {
-            this.oceanMonumentGenerator.generate(this, this.worldObj, p_180514_2_, p_180514_3_, (ChunkPrimer)null);
+            oceanMonumentGenerator.generate(this, worldObj, p_180514_2_, p_180514_3_, null);
         }
     }
 
     public Chunk provideChunk(BlockPos blockPosIn)
     {
-        return this.provideChunk(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4);
+        return provideChunk(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4);
     }
 }

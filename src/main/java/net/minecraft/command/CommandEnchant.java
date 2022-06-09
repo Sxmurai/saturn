@@ -41,17 +41,17 @@ public class CommandEnchant extends CommandBase
     {
         if (args.length < 2)
         {
-            throw new WrongUsageException("commands.enchant.usage", new Object[0]);
+            throw new WrongUsageException("commands.enchant.usage");
         }
         else
         {
-            EntityPlayer entityplayer = getPlayer(sender, args[0]);
+            EntityPlayer entityplayer = CommandBase.getPlayer(sender, args[0]);
             sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
             int i;
 
             try
             {
-                i = parseInt(args[1], 0);
+                i = CommandBase.parseInt(args[1], 0);
             }
             catch (NumberInvalidException numberinvalidexception)
             {
@@ -70,7 +70,7 @@ public class CommandEnchant extends CommandBase
 
             if (itemstack == null)
             {
-                throw new CommandException("commands.enchant.noItem", new Object[0]);
+                throw new CommandException("commands.enchant.noItem");
             }
             else
             {
@@ -78,17 +78,17 @@ public class CommandEnchant extends CommandBase
 
                 if (enchantment1 == null)
                 {
-                    throw new NumberInvalidException("commands.enchant.notFound", new Object[] {Integer.valueOf(i)});
+                    throw new NumberInvalidException("commands.enchant.notFound", Integer.valueOf(i));
                 }
                 else if (!enchantment1.canApply(itemstack))
                 {
-                    throw new CommandException("commands.enchant.cantEnchant", new Object[0]);
+                    throw new CommandException("commands.enchant.cantEnchant");
                 }
                 else
                 {
                     if (args.length >= 3)
                     {
-                        j = parseInt(args[2], enchantment1.getMinLevel(), enchantment1.getMaxLevel());
+                        j = CommandBase.parseInt(args[2], enchantment1.getMinLevel(), enchantment1.getMaxLevel());
                     }
 
                     if (itemstack.hasTagCompound())
@@ -107,7 +107,7 @@ public class CommandEnchant extends CommandBase
 
                                     if (!enchantment2.canApplyTogether(enchantment1))
                                     {
-                                        throw new CommandException("commands.enchant.cantCombine", new Object[] {enchantment1.getTranslatedName(j), enchantment2.getTranslatedName(nbttaglist.getCompoundTagAt(k).getShort("lvl"))});
+                                        throw new CommandException("commands.enchant.cantCombine", enchantment1.getTranslatedName(j), enchantment2.getTranslatedName(nbttaglist.getCompoundTagAt(k).getShort("lvl")));
                                     }
                                 }
                             }
@@ -115,7 +115,7 @@ public class CommandEnchant extends CommandBase
                     }
 
                     itemstack.addEnchantment(enchantment1, j);
-                    notifyOperators(sender, this, "commands.enchant.success", new Object[0]);
+                    CommandBase.notifyOperators(sender, this, "commands.enchant.success");
                     sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 1);
                 }
             }
@@ -124,7 +124,7 @@ public class CommandEnchant extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, this.getListOfPlayers()) : (args.length == 2 ? getListOfStringsMatchingLastWord(args, Enchantment.func_181077_c()) : null);
+        return args.length == 1 ? CommandBase.getListOfStringsMatchingLastWord(args, getListOfPlayers()) : (args.length == 2 ? CommandBase.getListOfStringsMatchingLastWord(args, Enchantment.func_181077_c()) : null);
     }
 
     protected String[] getListOfPlayers()

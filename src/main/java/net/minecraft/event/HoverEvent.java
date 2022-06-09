@@ -11,8 +11,8 @@ public class HoverEvent
 
     public HoverEvent(HoverEvent.Action actionIn, IChatComponent valueIn)
     {
-        this.action = actionIn;
-        this.value = valueIn;
+        action = actionIn;
+        value = valueIn;
     }
 
     /**
@@ -20,7 +20,7 @@ public class HoverEvent
      */
     public HoverEvent.Action getAction()
     {
-        return this.action;
+        return action;
     }
 
     /**
@@ -29,7 +29,7 @@ public class HoverEvent
      */
     public IChatComponent getValue()
     {
-        return this.value;
+        return value;
     }
 
     public boolean equals(Object p_equals_1_)
@@ -38,29 +38,21 @@ public class HoverEvent
         {
             return true;
         }
-        else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass())
+        else if (p_equals_1_ != null && getClass() == p_equals_1_.getClass())
         {
             HoverEvent hoverevent = (HoverEvent)p_equals_1_;
 
-            if (this.action != hoverevent.action)
+            if (action != hoverevent.action)
             {
                 return false;
             }
             else
             {
-                if (this.value != null)
+                if (value != null)
                 {
-                    if (!this.value.equals(hoverevent.value))
-                    {
-                        return false;
-                    }
+                    return value.equals(hoverevent.value);
                 }
-                else if (hoverevent.value != null)
-                {
-                    return false;
-                }
-
-                return true;
+                else return hoverevent.value == null;
             }
         }
         else
@@ -71,13 +63,13 @@ public class HoverEvent
 
     public String toString()
     {
-        return "HoverEvent{action=" + this.action + ", value=\'" + this.value + '\'' + '}';
+        return "HoverEvent{action=" + action + ", value='" + value + '\'' + '}';
     }
 
     public int hashCode()
     {
-        int i = this.action.hashCode();
-        i = 31 * i + (this.value != null ? this.value.hashCode() : 0);
+        int i = action.hashCode();
+        i = 31 * i + (value != null ? value.hashCode() : 0);
         return i;
     }
 
@@ -88,35 +80,35 @@ public class HoverEvent
         SHOW_ITEM("show_item", true),
         SHOW_ENTITY("show_entity", true);
 
-        private static final Map<String, HoverEvent.Action> nameMapping = Maps.<String, HoverEvent.Action>newHashMap();
+        private static final Map<String, HoverEvent.Action> nameMapping = Maps.newHashMap();
         private final boolean allowedInChat;
         private final String canonicalName;
 
         private Action(String canonicalNameIn, boolean allowedInChatIn)
         {
-            this.canonicalName = canonicalNameIn;
-            this.allowedInChat = allowedInChatIn;
+            canonicalName = canonicalNameIn;
+            allowedInChat = allowedInChatIn;
         }
 
         public boolean shouldAllowInChat()
         {
-            return this.allowedInChat;
+            return allowedInChat;
         }
 
         public String getCanonicalName()
         {
-            return this.canonicalName;
+            return canonicalName;
         }
 
         public static HoverEvent.Action getValueByCanonicalName(String canonicalNameIn)
         {
-            return (HoverEvent.Action)nameMapping.get(canonicalNameIn);
+            return Action.nameMapping.get(canonicalNameIn);
         }
 
         static {
-            for (HoverEvent.Action hoverevent$action : values())
+            for (HoverEvent.Action hoverevent$action : Action.values())
             {
-                nameMapping.put(hoverevent$action.getCanonicalName(), hoverevent$action);
+                Action.nameMapping.put(hoverevent$action.getCanonicalName(), hoverevent$action);
             }
         }
     }

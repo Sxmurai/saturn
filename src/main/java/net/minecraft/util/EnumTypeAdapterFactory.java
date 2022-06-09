@@ -24,11 +24,11 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory
         }
         else
         {
-            final Map<String, T> map = Maps.<String, T>newHashMap();
+            final Map<String, T> map = Maps.newHashMap();
 
             for (T t : oclass.getEnumConstants())
             {
-                map.put(this.func_151232_a(t), t);
+                map.put(func_151232_a(t), t);
             }
 
             return new TypeAdapter<T>()
@@ -41,7 +41,7 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory
                     }
                     else
                     {
-                        p_write_1_.value(EnumTypeAdapterFactory.this.func_151232_a(p_write_2_));
+                        p_write_1_.value(func_151232_a(p_write_2_));
                     }
                 }
                 public T read(JsonReader p_read_1_) throws IOException
@@ -49,11 +49,11 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory
                     if (p_read_1_.peek() == JsonToken.NULL)
                     {
                         p_read_1_.nextNull();
-                        return (T)null;
+                        return null;
                     }
                     else
                     {
-                        return (T)map.get(p_read_1_.nextString());
+                        return map.get(p_read_1_.nextString());
                     }
                 }
             };

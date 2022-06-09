@@ -52,19 +52,19 @@ public class CommandTime extends CommandBase
                 }
                 else
                 {
-                    l = parseInt(args[1], 0);
+                    l = CommandBase.parseInt(args[1], 0);
                 }
 
-                this.setTime(sender, l);
-                notifyOperators(sender, this, "commands.time.set", new Object[] {Integer.valueOf(l)});
+                setTime(sender, l);
+                CommandBase.notifyOperators(sender, this, "commands.time.set", Integer.valueOf(l));
                 return;
             }
 
             if (args[0].equals("add"))
             {
-                int k = parseInt(args[1], 0);
-                this.addTime(sender, k);
-                notifyOperators(sender, this, "commands.time.added", new Object[] {Integer.valueOf(k)});
+                int k = CommandBase.parseInt(args[1], 0);
+                addTime(sender, k);
+                CommandBase.notifyOperators(sender, this, "commands.time.added", Integer.valueOf(k));
                 return;
             }
 
@@ -74,7 +74,7 @@ public class CommandTime extends CommandBase
                 {
                     int j = (int)(sender.getEntityWorld().getWorldTime() % 2147483647L);
                     sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, j);
-                    notifyOperators(sender, this, "commands.time.query", new Object[] {Integer.valueOf(j)});
+                    CommandBase.notifyOperators(sender, this, "commands.time.query", Integer.valueOf(j));
                     return;
                 }
 
@@ -82,18 +82,18 @@ public class CommandTime extends CommandBase
                 {
                     int i = (int)(sender.getEntityWorld().getTotalWorldTime() % 2147483647L);
                     sender.setCommandStat(CommandResultStats.Type.QUERY_RESULT, i);
-                    notifyOperators(sender, this, "commands.time.query", new Object[] {Integer.valueOf(i)});
+                    CommandBase.notifyOperators(sender, this, "commands.time.query", Integer.valueOf(i));
                     return;
                 }
             }
         }
 
-        throw new WrongUsageException("commands.time.usage", new Object[0]);
+        throw new WrongUsageException("commands.time.usage");
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"set", "add", "query"}): (args.length == 2 && args[0].equals("set") ? getListOfStringsMatchingLastWord(args, new String[] {"day", "night"}): (args.length == 2 && args[0].equals("query") ? getListOfStringsMatchingLastWord(args, new String[] {"daytime", "gametime"}): null));
+        return args.length == 1 ? CommandBase.getListOfStringsMatchingLastWord(args, "set", "add", "query"): (args.length == 2 && args[0].equals("set") ? CommandBase.getListOfStringsMatchingLastWord(args, "day", "night"): (args.length == 2 && args[0].equals("query") ? CommandBase.getListOfStringsMatchingLastWord(args, "daytime", "gametime"): null));
     }
 
     /**
@@ -103,7 +103,7 @@ public class CommandTime extends CommandBase
     {
         for (int i = 0; i < MinecraftServer.getServer().worldServers.length; ++i)
         {
-            MinecraftServer.getServer().worldServers[i].setWorldTime((long)p_71552_2_);
+            MinecraftServer.getServer().worldServers[i].setWorldTime(p_71552_2_);
         }
     }
 

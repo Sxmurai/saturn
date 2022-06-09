@@ -39,15 +39,15 @@ public class CommandEntityData extends CommandBase
     {
         if (args.length < 2)
         {
-            throw new WrongUsageException("commands.entitydata.usage", new Object[0]);
+            throw new WrongUsageException("commands.entitydata.usage");
         }
         else
         {
-            Entity entity = func_175768_b(sender, args[0]);
+            Entity entity = CommandBase.func_175768_b(sender, args[0]);
 
             if (entity instanceof EntityPlayer)
             {
-                throw new CommandException("commands.entitydata.noPlayers", new Object[] {entity.getDisplayName()});
+                throw new CommandException("commands.entitydata.noPlayers", entity.getDisplayName());
             }
             else
             {
@@ -58,11 +58,11 @@ public class CommandEntityData extends CommandBase
 
                 try
                 {
-                    nbttagcompound2 = JsonToNBT.getTagFromJson(getChatComponentFromNthArg(sender, args, 1).getUnformattedText());
+                    nbttagcompound2 = JsonToNBT.getTagFromJson(CommandBase.getChatComponentFromNthArg(sender, args, 1).getUnformattedText());
                 }
                 catch (NBTException nbtexception)
                 {
-                    throw new CommandException("commands.entitydata.tagError", new Object[] {nbtexception.getMessage()});
+                    throw new CommandException("commands.entitydata.tagError", nbtexception.getMessage());
                 }
 
                 nbttagcompound2.removeTag("UUIDMost");
@@ -71,12 +71,12 @@ public class CommandEntityData extends CommandBase
 
                 if (nbttagcompound.equals(nbttagcompound1))
                 {
-                    throw new CommandException("commands.entitydata.failed", new Object[] {nbttagcompound.toString()});
+                    throw new CommandException("commands.entitydata.failed", nbttagcompound.toString());
                 }
                 else
                 {
                     entity.readFromNBT(nbttagcompound);
-                    notifyOperators(sender, this, "commands.entitydata.success", new Object[] {nbttagcompound.toString()});
+                    CommandBase.notifyOperators(sender, this, "commands.entitydata.success", nbttagcompound.toString());
                 }
             }
         }

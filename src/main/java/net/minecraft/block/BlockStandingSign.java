@@ -13,7 +13,7 @@ public class BlockStandingSign extends BlockSign
 
     public BlockStandingSign()
     {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, Integer.valueOf(0)));
+        setDefaultState(blockState.getBaseState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(0)));
     }
 
     /**
@@ -23,7 +23,7 @@ public class BlockStandingSign extends BlockSign
     {
         if (!worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid())
         {
-            this.dropBlockAsItem(worldIn, pos, state, 0);
+            dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockToAir(pos);
         }
 
@@ -35,7 +35,7 @@ public class BlockStandingSign extends BlockSign
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(ROTATION, Integer.valueOf(meta));
+        return getDefaultState().withProperty(BlockStandingSign.ROTATION, Integer.valueOf(meta));
     }
 
     /**
@@ -43,11 +43,11 @@ public class BlockStandingSign extends BlockSign
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(ROTATION)).intValue();
+        return state.getValue(BlockStandingSign.ROTATION).intValue();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {ROTATION});
+        return new BlockState(this, BlockStandingSign.ROTATION);
     }
 }

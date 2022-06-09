@@ -12,14 +12,14 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class Scoreboard
 {
-    private final Map<String, ScoreObjective> scoreObjectives = Maps.<String, ScoreObjective>newHashMap();
-    private final Map<IScoreObjectiveCriteria, List<ScoreObjective>> scoreObjectiveCriterias = Maps.<IScoreObjectiveCriteria, List<ScoreObjective>>newHashMap();
-    private final Map<String, Map<ScoreObjective, Score>> entitiesScoreObjectives = Maps.<String, Map<ScoreObjective, Score>>newHashMap();
+    private final Map<String, ScoreObjective> scoreObjectives = Maps.newHashMap();
+    private final Map<IScoreObjectiveCriteria, List<ScoreObjective>> scoreObjectiveCriterias = Maps.newHashMap();
+    private final Map<String, Map<ScoreObjective, Score>> entitiesScoreObjectives = Maps.newHashMap();
 
     /** Index 0 is tab menu, 1 is sidebar, and 2 is below name */
     private final ScoreObjective[] objectiveDisplaySlots = new ScoreObjective[19];
-    private final Map<String, ScorePlayerTeam> teams = Maps.<String, ScorePlayerTeam>newHashMap();
-    private final Map<String, ScorePlayerTeam> teamMemberships = Maps.<String, ScorePlayerTeam>newHashMap();
+    private final Map<String, ScorePlayerTeam> teams = Maps.newHashMap();
+    private final Map<String, ScorePlayerTeam> teamMemberships = Maps.newHashMap();
     private static String[] field_178823_g = null;
 
     /**
@@ -27,7 +27,7 @@ public class Scoreboard
      */
     public ScoreObjective getObjective(String name)
     {
-        return (ScoreObjective)this.scoreObjectives.get(name);
+        return scoreObjectives.get(name);
     }
 
     /**
@@ -37,30 +37,30 @@ public class Scoreboard
     {
         if (name.length() > 16)
         {
-            throw new IllegalArgumentException("The objective name \'" + name + "\' is too long!");
+            throw new IllegalArgumentException("The objective name '" + name + "' is too long!");
         }
         else
         {
-            ScoreObjective scoreobjective = this.getObjective(name);
+            ScoreObjective scoreobjective = getObjective(name);
 
             if (scoreobjective != null)
             {
-                throw new IllegalArgumentException("An objective with the name \'" + name + "\' already exists!");
+                throw new IllegalArgumentException("An objective with the name '" + name + "' already exists!");
             }
             else
             {
                 scoreobjective = new ScoreObjective(this, name, criteria);
-                List<ScoreObjective> list = (List)this.scoreObjectiveCriterias.get(criteria);
+                List<ScoreObjective> list = scoreObjectiveCriterias.get(criteria);
 
                 if (list == null)
                 {
-                    list = Lists.<ScoreObjective>newArrayList();
-                    this.scoreObjectiveCriterias.put(criteria, list);
+                    list = Lists.newArrayList();
+                    scoreObjectiveCriterias.put(criteria, list);
                 }
 
                 list.add(scoreobjective);
-                this.scoreObjectives.put(name, scoreobjective);
-                this.onScoreObjectiveAdded(scoreobjective);
+                scoreObjectives.put(name, scoreobjective);
+                onScoreObjectiveAdded(scoreobjective);
                 return scoreobjective;
             }
         }
@@ -68,8 +68,8 @@ public class Scoreboard
 
     public Collection<ScoreObjective> getObjectivesFromCriteria(IScoreObjectiveCriteria criteria)
     {
-        Collection<ScoreObjective> collection = (Collection)this.scoreObjectiveCriterias.get(criteria);
-        return collection == null ? Lists.<ScoreObjective>newArrayList() : Lists.newArrayList(collection);
+        Collection<ScoreObjective> collection = scoreObjectiveCriterias.get(criteria);
+        return collection == null ? Lists.newArrayList() : Lists.newArrayList(collection);
     }
 
     /**
@@ -77,7 +77,7 @@ public class Scoreboard
      */
     public boolean entityHasObjective(String name, ScoreObjective p_178819_2_)
     {
-        Map<ScoreObjective, Score> map = (Map)this.entitiesScoreObjectives.get(name);
+        Map<ScoreObjective, Score> map = entitiesScoreObjectives.get(name);
 
         if (map == null)
         {
@@ -85,7 +85,7 @@ public class Scoreboard
         }
         else
         {
-            Score score = (Score)map.get(p_178819_2_);
+            Score score = map.get(p_178819_2_);
             return score != null;
         }
     }
@@ -97,19 +97,19 @@ public class Scoreboard
     {
         if (name.length() > 40)
         {
-            throw new IllegalArgumentException("The player name \'" + name + "\' is too long!");
+            throw new IllegalArgumentException("The player name '" + name + "' is too long!");
         }
         else
         {
-            Map<ScoreObjective, Score> map = (Map)this.entitiesScoreObjectives.get(name);
+            Map<ScoreObjective, Score> map = entitiesScoreObjectives.get(name);
 
             if (map == null)
             {
-                map = Maps.<ScoreObjective, Score>newHashMap();
-                this.entitiesScoreObjectives.put(name, map);
+                map = Maps.newHashMap();
+                entitiesScoreObjectives.put(name, map);
             }
 
-            Score score = (Score)map.get(objective);
+            Score score = map.get(objective);
 
             if (score == null)
             {
@@ -123,11 +123,11 @@ public class Scoreboard
 
     public Collection<Score> getSortedScores(ScoreObjective objective)
     {
-        List<Score> list = Lists.<Score>newArrayList();
+        List<Score> list = Lists.newArrayList();
 
-        for (Map<ScoreObjective, Score> map : this.entitiesScoreObjectives.values())
+        for (Map<ScoreObjective, Score> map : entitiesScoreObjectives.values())
         {
-            Score score = (Score)map.get(objective);
+            Score score = map.get(objective);
 
             if (score != null)
             {
@@ -141,12 +141,12 @@ public class Scoreboard
 
     public Collection<ScoreObjective> getScoreObjectives()
     {
-        return this.scoreObjectives.values();
+        return scoreObjectives.values();
     }
 
     public Collection<String> getObjectiveNames()
     {
-        return this.entitiesScoreObjectives.keySet();
+        return entitiesScoreObjectives.keySet();
     }
 
     /**
@@ -156,33 +156,33 @@ public class Scoreboard
     {
         if (objective == null)
         {
-            Map<ScoreObjective, Score> map = (Map)this.entitiesScoreObjectives.remove(name);
+            Map<ScoreObjective, Score> map = entitiesScoreObjectives.remove(name);
 
             if (map != null)
             {
-                this.func_96516_a(name);
+                func_96516_a(name);
             }
         }
         else
         {
-            Map<ScoreObjective, Score> map2 = (Map)this.entitiesScoreObjectives.get(name);
+            Map<ScoreObjective, Score> map2 = entitiesScoreObjectives.get(name);
 
             if (map2 != null)
             {
-                Score score = (Score)map2.remove(objective);
+                Score score = map2.remove(objective);
 
                 if (map2.size() < 1)
                 {
-                    Map<ScoreObjective, Score> map1 = (Map)this.entitiesScoreObjectives.remove(name);
+                    Map<ScoreObjective, Score> map1 = entitiesScoreObjectives.remove(name);
 
                     if (map1 != null)
                     {
-                        this.func_96516_a(name);
+                        func_96516_a(name);
                     }
                 }
                 else if (score != null)
                 {
-                    this.func_178820_a(name, objective);
+                    func_178820_a(name, objective);
                 }
             }
         }
@@ -190,8 +190,8 @@ public class Scoreboard
 
     public Collection<Score> getScores()
     {
-        Collection<Map<ScoreObjective, Score>> collection = this.entitiesScoreObjectives.values();
-        List<Score> list = Lists.<Score>newArrayList();
+        Collection<Map<ScoreObjective, Score>> collection = entitiesScoreObjectives.values();
+        List<Score> list = Lists.newArrayList();
 
         for (Map<ScoreObjective, Score> map : collection)
         {
@@ -203,11 +203,11 @@ public class Scoreboard
 
     public Map<ScoreObjective, Score> getObjectivesForEntity(String name)
     {
-        Map<ScoreObjective, Score> map = (Map)this.entitiesScoreObjectives.get(name);
+        Map<ScoreObjective, Score> map = entitiesScoreObjectives.get(name);
 
         if (map == null)
         {
-            map = Maps.<ScoreObjective, Score>newHashMap();
+            map = Maps.newHashMap();
         }
 
         return map;
@@ -215,29 +215,29 @@ public class Scoreboard
 
     public void removeObjective(ScoreObjective p_96519_1_)
     {
-        this.scoreObjectives.remove(p_96519_1_.getName());
+        scoreObjectives.remove(p_96519_1_.getName());
 
         for (int i = 0; i < 19; ++i)
         {
-            if (this.getObjectiveInDisplaySlot(i) == p_96519_1_)
+            if (getObjectiveInDisplaySlot(i) == p_96519_1_)
             {
-                this.setObjectiveInDisplaySlot(i, (ScoreObjective)null);
+                setObjectiveInDisplaySlot(i, null);
             }
         }
 
-        List<ScoreObjective> list = (List)this.scoreObjectiveCriterias.get(p_96519_1_.getCriteria());
+        List<ScoreObjective> list = scoreObjectiveCriterias.get(p_96519_1_.getCriteria());
 
         if (list != null)
         {
             list.remove(p_96519_1_);
         }
 
-        for (Map<ScoreObjective, Score> map : this.entitiesScoreObjectives.values())
+        for (Map<ScoreObjective, Score> map : entitiesScoreObjectives.values())
         {
             map.remove(p_96519_1_);
         }
 
-        this.func_96533_c(p_96519_1_);
+        func_96533_c(p_96519_1_);
     }
 
     /**
@@ -245,7 +245,7 @@ public class Scoreboard
      */
     public void setObjectiveInDisplaySlot(int p_96530_1_, ScoreObjective p_96530_2_)
     {
-        this.objectiveDisplaySlots[p_96530_1_] = p_96530_2_;
+        objectiveDisplaySlots[p_96530_1_] = p_96530_2_;
     }
 
     /**
@@ -253,7 +253,7 @@ public class Scoreboard
      */
     public ScoreObjective getObjectiveInDisplaySlot(int p_96539_1_)
     {
-        return this.objectiveDisplaySlots[p_96539_1_];
+        return objectiveDisplaySlots[p_96539_1_];
     }
 
     /**
@@ -261,28 +261,28 @@ public class Scoreboard
      */
     public ScorePlayerTeam getTeam(String p_96508_1_)
     {
-        return (ScorePlayerTeam)this.teams.get(p_96508_1_);
+        return teams.get(p_96508_1_);
     }
 
     public ScorePlayerTeam createTeam(String p_96527_1_)
     {
         if (p_96527_1_.length() > 16)
         {
-            throw new IllegalArgumentException("The team name \'" + p_96527_1_ + "\' is too long!");
+            throw new IllegalArgumentException("The team name '" + p_96527_1_ + "' is too long!");
         }
         else
         {
-            ScorePlayerTeam scoreplayerteam = this.getTeam(p_96527_1_);
+            ScorePlayerTeam scoreplayerteam = getTeam(p_96527_1_);
 
             if (scoreplayerteam != null)
             {
-                throw new IllegalArgumentException("A team with the name \'" + p_96527_1_ + "\' already exists!");
+                throw new IllegalArgumentException("A team with the name '" + p_96527_1_ + "' already exists!");
             }
             else
             {
                 scoreplayerteam = new ScorePlayerTeam(this, p_96527_1_);
-                this.teams.put(p_96527_1_, scoreplayerteam);
-                this.broadcastTeamCreated(scoreplayerteam);
+                teams.put(p_96527_1_, scoreplayerteam);
+                broadcastTeamCreated(scoreplayerteam);
                 return scoreplayerteam;
             }
         }
@@ -293,14 +293,14 @@ public class Scoreboard
      */
     public void removeTeam(ScorePlayerTeam p_96511_1_)
     {
-        this.teams.remove(p_96511_1_.getRegisteredName());
+        teams.remove(p_96511_1_.getRegisteredName());
 
         for (String s : p_96511_1_.getMembershipCollection())
         {
-            this.teamMemberships.remove(s);
+            teamMemberships.remove(s);
         }
 
-        this.func_96513_c(p_96511_1_);
+        func_96513_c(p_96511_1_);
     }
 
     /**
@@ -310,22 +310,22 @@ public class Scoreboard
     {
         if (player.length() > 40)
         {
-            throw new IllegalArgumentException("The player name \'" + player + "\' is too long!");
+            throw new IllegalArgumentException("The player name '" + player + "' is too long!");
         }
-        else if (!this.teams.containsKey(newTeam))
+        else if (!teams.containsKey(newTeam))
         {
             return false;
         }
         else
         {
-            ScorePlayerTeam scoreplayerteam = this.getTeam(newTeam);
+            ScorePlayerTeam scoreplayerteam = getTeam(newTeam);
 
-            if (this.getPlayersTeam(player) != null)
+            if (getPlayersTeam(player) != null)
             {
-                this.removePlayerFromTeams(player);
+                removePlayerFromTeams(player);
             }
 
-            this.teamMemberships.put(player, scoreplayerteam);
+            teamMemberships.put(player, scoreplayerteam);
             scoreplayerteam.getMembershipCollection().add(player);
             return true;
         }
@@ -333,11 +333,11 @@ public class Scoreboard
 
     public boolean removePlayerFromTeams(String p_96524_1_)
     {
-        ScorePlayerTeam scoreplayerteam = this.getPlayersTeam(p_96524_1_);
+        ScorePlayerTeam scoreplayerteam = getPlayersTeam(p_96524_1_);
 
         if (scoreplayerteam != null)
         {
-            this.removePlayerFromTeam(p_96524_1_, scoreplayerteam);
+            removePlayerFromTeam(p_96524_1_, scoreplayerteam);
             return true;
         }
         else
@@ -352,25 +352,25 @@ public class Scoreboard
      */
     public void removePlayerFromTeam(String p_96512_1_, ScorePlayerTeam p_96512_2_)
     {
-        if (this.getPlayersTeam(p_96512_1_) != p_96512_2_)
+        if (getPlayersTeam(p_96512_1_) != p_96512_2_)
         {
-            throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team \'" + p_96512_2_.getRegisteredName() + "\'.");
+            throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team '" + p_96512_2_.getRegisteredName() + "'.");
         }
         else
         {
-            this.teamMemberships.remove(p_96512_1_);
+            teamMemberships.remove(p_96512_1_);
             p_96512_2_.getMembershipCollection().remove(p_96512_1_);
         }
     }
 
     public Collection<String> getTeamNames()
     {
-        return this.teams.keySet();
+        return teams.keySet();
     }
 
     public Collection<ScorePlayerTeam> getTeams()
     {
-        return this.teams.values();
+        return teams.values();
     }
 
     /**
@@ -378,7 +378,7 @@ public class Scoreboard
      */
     public ScorePlayerTeam getPlayersTeam(String p_96509_1_)
     {
-        return (ScorePlayerTeam)this.teamMemberships.get(p_96509_1_);
+        return teamMemberships.get(p_96509_1_);
     }
 
     /**
@@ -493,17 +493,17 @@ public class Scoreboard
 
     public static String[] getDisplaySlotStrings()
     {
-        if (field_178823_g == null)
+        if (Scoreboard.field_178823_g == null)
         {
-            field_178823_g = new String[19];
+            Scoreboard.field_178823_g = new String[19];
 
             for (int i = 0; i < 19; ++i)
             {
-                field_178823_g[i] = getObjectiveDisplaySlot(i);
+                Scoreboard.field_178823_g[i] = Scoreboard.getObjectiveDisplaySlot(i);
             }
         }
 
-        return field_178823_g;
+        return Scoreboard.field_178823_g;
     }
 
     public void func_181140_a(Entity p_181140_1_)
@@ -511,8 +511,8 @@ public class Scoreboard
         if (p_181140_1_ != null && !(p_181140_1_ instanceof EntityPlayer) && !p_181140_1_.isEntityAlive())
         {
             String s = p_181140_1_.getUniqueID().toString();
-            this.removeObjectiveFromEntity(s, (ScoreObjective)null);
-            this.removePlayerFromTeams(s);
+            removeObjectiveFromEntity(s, null);
+            removePlayerFromTeams(s);
         }
     }
 }

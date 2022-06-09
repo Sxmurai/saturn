@@ -28,17 +28,17 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 
     public EntityAINearestAttackableTarget(EntityCreature creature, Class<T> classTarget, boolean checkSight, boolean onlyNearby)
     {
-        this(creature, classTarget, 10, checkSight, onlyNearby, (Predicate <? super T >)null);
+        this(creature, classTarget, 10, checkSight, onlyNearby, null);
     }
 
     public EntityAINearestAttackableTarget(EntityCreature creature, Class<T> classTarget, int chance, boolean checkSight, boolean onlyNearby, final Predicate <? super T > targetSelector)
     {
         super(creature, checkSight, onlyNearby);
-        this.targetClass = classTarget;
-        this.targetChance = chance;
-        this.theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter(creature);
-        this.setMutexBits(1);
-        this.targetEntitySelector = new Predicate<T>()
+        targetClass = classTarget;
+        targetChance = chance;
+        theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter(creature);
+        setMutexBits(1);
+        targetEntitySelector = new Predicate<T>()
         {
             public boolean apply(T p_apply_1_)
             {
@@ -50,7 +50,7 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
                 {
                     if (p_apply_1_ instanceof EntityPlayer)
                     {
-                        double d0 = EntityAINearestAttackableTarget.this.getTargetDistance();
+                        double d0 = getTargetDistance();
 
                         if (p_apply_1_.isSneaking())
                         {
@@ -66,16 +66,16 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
                                 f = 0.1F;
                             }
 
-                            d0 *= (double)(0.7F * f);
+                            d0 *= 0.7F * f;
                         }
 
-                        if ((double)p_apply_1_.getDistanceToEntity(EntityAINearestAttackableTarget.this.taskOwner) > d0)
+                        if ((double)p_apply_1_.getDistanceToEntity(taskOwner) > d0)
                         {
                             return false;
                         }
                     }
 
-                    return EntityAINearestAttackableTarget.this.isSuitableTarget(p_apply_1_, false);
+                    return isSuitableTarget(p_apply_1_, false);
                 }
             }
         };
@@ -86,15 +86,15 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
      */
     public boolean shouldExecute()
     {
-        if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0)
+        if (targetChance > 0 && taskOwner.getRNG().nextInt(targetChance) != 0)
         {
             return false;
         }
         else
         {
-            double d0 = this.getTargetDistance();
-            List<T> list = this.taskOwner.worldObj.<T>getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.<T> and (this.targetEntitySelector, EntitySelectors.NOT_SPECTATING));
-            Collections.sort(list, this.theNearestAttackableTargetSorter);
+            double d0 = getTargetDistance();
+            List<T> list = taskOwner.worldObj.getEntitiesWithinAABB(targetClass, taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.<T> and (targetEntitySelector, EntitySelectors.NOT_SPECTATING));
+            Collections.sort(list, theNearestAttackableTargetSorter);
 
             if (list.isEmpty())
             {
@@ -102,7 +102,7 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
             }
             else
             {
-                this.targetEntity = (EntityLivingBase)list.get(0);
+                targetEntity = list.get(0);
                 return true;
             }
         }
@@ -113,7 +113,7 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
      */
     public void startExecuting()
     {
-        this.taskOwner.setAttackTarget(this.targetEntity);
+        taskOwner.setAttackTarget(targetEntity);
         super.startExecuting();
     }
 
@@ -123,13 +123,13 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
 
         public Sorter(Entity theEntityIn)
         {
-            this.theEntity = theEntityIn;
+            theEntity = theEntityIn;
         }
 
         public int compare(Entity p_compare_1_, Entity p_compare_2_)
         {
-            double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
-            double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
+            double d0 = theEntity.getDistanceSqToEntity(p_compare_1_);
+            double d1 = theEntity.getDistanceSqToEntity(p_compare_2_);
             return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
         }
     }

@@ -9,17 +9,17 @@ public class PackMetadataSection implements IMetadataSection
 
     public PackMetadataSection(IChatComponent p_i1034_1_, int p_i1034_2_)
     {
-        this.packDescription = p_i1034_1_;
-        this.packFormat = p_i1034_2_;
+        packDescription = p_i1034_1_;
+        packFormat = p_i1034_2_;
     }
 
     public IChatComponent getPackDescription()
     {
-        return this.packDescription;
+        return packDescription;
     }
 
     public int getPackFormat()
     {
-        return this.packFormat;
+        return packFormat;
     }
 }

@@ -33,33 +33,33 @@ public class MovingObjectPosition
 
     public MovingObjectPosition(MovingObjectPosition.MovingObjectType typeOfHitIn, Vec3 hitVecIn, EnumFacing sideHitIn, BlockPos blockPosIn)
     {
-        this.typeOfHit = typeOfHitIn;
-        this.blockPos = blockPosIn;
-        this.sideHit = sideHitIn;
-        this.hitVec = new Vec3(hitVecIn.xCoord, hitVecIn.yCoord, hitVecIn.zCoord);
+        typeOfHit = typeOfHitIn;
+        blockPos = blockPosIn;
+        sideHit = sideHitIn;
+        hitVec = new Vec3(hitVecIn.xCoord, hitVecIn.yCoord, hitVecIn.zCoord);
     }
 
     public MovingObjectPosition(Entity entityHitIn, Vec3 hitVecIn)
     {
-        this.typeOfHit = MovingObjectPosition.MovingObjectType.ENTITY;
-        this.entityHit = entityHitIn;
-        this.hitVec = hitVecIn;
+        typeOfHit = MovingObjectPosition.MovingObjectType.ENTITY;
+        entityHit = entityHitIn;
+        hitVec = hitVecIn;
     }
 
     public BlockPos getBlockPos()
     {
-        return this.blockPos;
+        return blockPos;
     }
 
     public String toString()
     {
-        return "HitResult{type=" + this.typeOfHit + ", blockpos=" + this.blockPos + ", f=" + this.sideHit + ", pos=" + this.hitVec + ", entity=" + this.entityHit + '}';
+        return "HitResult{type=" + typeOfHit + ", blockpos=" + blockPos + ", f=" + sideHit + ", pos=" + hitVec + ", entity=" + entityHit + '}';
     }
 
     public static enum MovingObjectType
     {
         MISS,
         BLOCK,
-        ENTITY;
+        ENTITY
     }
 }

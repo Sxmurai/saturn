@@ -16,7 +16,7 @@ public class RenderWither extends RenderLiving<EntityWither>
     public RenderWither(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelWither(0.0F), 1.0F);
-        this.addLayer(new LayerWitherAura(this));
+        addLayer(new LayerWitherAura(this));
     }
 
     /**
@@ -37,7 +37,7 @@ public class RenderWither extends RenderLiving<EntityWither>
     protected ResourceLocation getEntityTexture(EntityWither entity)
     {
         int i = entity.getInvulTime();
-        return i > 0 && (i > 80 || i / 5 % 2 != 1) ? invulnerableWitherTextures : witherTextures;
+        return i > 0 && (i > 80 || i / 5 % 2 != 1) ? RenderWither.invulnerableWitherTextures : RenderWither.witherTextures;
     }
 
     /**

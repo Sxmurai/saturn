@@ -18,27 +18,27 @@ public class ViewFrustum
 
     public ViewFrustum(World worldIn, int renderDistanceChunks, RenderGlobal p_i46246_3_, IRenderChunkFactory renderChunkFactory)
     {
-        this.renderGlobal = p_i46246_3_;
-        this.world = worldIn;
-        this.setCountChunksXYZ(renderDistanceChunks);
-        this.createRenderChunks(renderChunkFactory);
+        renderGlobal = p_i46246_3_;
+        world = worldIn;
+        setCountChunksXYZ(renderDistanceChunks);
+        createRenderChunks(renderChunkFactory);
     }
 
     protected void createRenderChunks(IRenderChunkFactory renderChunkFactory)
     {
-        int i = this.countChunksX * this.countChunksY * this.countChunksZ;
-        this.renderChunks = new RenderChunk[i];
+        int i = countChunksX * countChunksY * countChunksZ;
+        renderChunks = new RenderChunk[i];
         int j = 0;
 
-        for (int k = 0; k < this.countChunksX; ++k)
+        for (int k = 0; k < countChunksX; ++k)
         {
-            for (int l = 0; l < this.countChunksY; ++l)
+            for (int l = 0; l < countChunksY; ++l)
             {
-                for (int i1 = 0; i1 < this.countChunksZ; ++i1)
+                for (int i1 = 0; i1 < countChunksZ; ++i1)
                 {
-                    int j1 = (i1 * this.countChunksY + l) * this.countChunksX + k;
+                    int j1 = (i1 * countChunksY + l) * countChunksX + k;
                     BlockPos blockpos = new BlockPos(k * 16, l * 16, i1 * 16);
-                    this.renderChunks[j1] = renderChunkFactory.makeRenderChunk(this.world, this.renderGlobal, blockpos, j++);
+                    renderChunks[j1] = renderChunkFactory.makeRenderChunk(world, renderGlobal, blockpos, j++);
                 }
             }
         }
@@ -46,7 +46,7 @@ public class ViewFrustum
 
     public void deleteGlResources()
     {
-        for (RenderChunk renderchunk : this.renderChunks)
+        for (RenderChunk renderchunk : renderChunks)
         {
             renderchunk.deleteGlResources();
         }
@@ -55,29 +55,29 @@ public class ViewFrustum
     protected void setCountChunksXYZ(int renderDistanceChunks)
     {
         int i = renderDistanceChunks * 2 + 1;
-        this.countChunksX = i;
-        this.countChunksY = 16;
-        this.countChunksZ = i;
+        countChunksX = i;
+        countChunksY = 16;
+        countChunksZ = i;
     }
 
     public void updateChunkPositions(double viewEntityX, double viewEntityZ)
     {
         int i = MathHelper.floor_double(viewEntityX) - 8;
         int j = MathHelper.floor_double(viewEntityZ) - 8;
-        int k = this.countChunksX * 16;
+        int k = countChunksX * 16;
 
-        for (int l = 0; l < this.countChunksX; ++l)
+        for (int l = 0; l < countChunksX; ++l)
         {
-            int i1 = this.func_178157_a(i, k, l);
+            int i1 = func_178157_a(i, k, l);
 
-            for (int j1 = 0; j1 < this.countChunksZ; ++j1)
+            for (int j1 = 0; j1 < countChunksZ; ++j1)
             {
-                int k1 = this.func_178157_a(j, k, j1);
+                int k1 = func_178157_a(j, k, j1);
 
-                for (int l1 = 0; l1 < this.countChunksY; ++l1)
+                for (int l1 = 0; l1 < countChunksY; ++l1)
                 {
                     int i2 = l1 * 16;
-                    RenderChunk renderchunk = this.renderChunks[(j1 * this.countChunksY + l1) * this.countChunksX + l];
+                    RenderChunk renderchunk = renderChunks[(j1 * countChunksY + l1) * countChunksX + l];
                     BlockPos blockpos = renderchunk.getPosition();
 
                     if (blockpos.getX() != i1 || blockpos.getY() != i2 || blockpos.getZ() != k1)
@@ -118,33 +118,33 @@ public class ViewFrustum
 
         for (int k1 = i; k1 <= l; ++k1)
         {
-            int l1 = k1 % this.countChunksX;
+            int l1 = k1 % countChunksX;
 
             if (l1 < 0)
             {
-                l1 += this.countChunksX;
+                l1 += countChunksX;
             }
 
             for (int i2 = j; i2 <= i1; ++i2)
             {
-                int j2 = i2 % this.countChunksY;
+                int j2 = i2 % countChunksY;
 
                 if (j2 < 0)
                 {
-                    j2 += this.countChunksY;
+                    j2 += countChunksY;
                 }
 
                 for (int k2 = k; k2 <= j1; ++k2)
                 {
-                    int l2 = k2 % this.countChunksZ;
+                    int l2 = k2 % countChunksZ;
 
                     if (l2 < 0)
                     {
-                        l2 += this.countChunksZ;
+                        l2 += countChunksZ;
                     }
 
-                    int i3 = (l2 * this.countChunksY + j2) * this.countChunksX + l1;
-                    RenderChunk renderchunk = this.renderChunks[i3];
+                    int i3 = (l2 * countChunksY + j2) * countChunksX + l1;
+                    RenderChunk renderchunk = renderChunks[i3];
                     renderchunk.setNeedsUpdate(true);
                 }
             }
@@ -157,24 +157,24 @@ public class ViewFrustum
         int j = pos.getY() >> 4;
         int k = pos.getZ() >> 4;
 
-        if (j >= 0 && j < this.countChunksY)
+        if (j >= 0 && j < countChunksY)
         {
-            i = i % this.countChunksX;
+            i = i % countChunksX;
 
             if (i < 0)
             {
-                i += this.countChunksX;
+                i += countChunksX;
             }
 
-            k = k % this.countChunksZ;
+            k = k % countChunksZ;
 
             if (k < 0)
             {
-                k += this.countChunksZ;
+                k += countChunksZ;
             }
 
-            int l = (k * this.countChunksY + j) * this.countChunksX + i;
-            return this.renderChunks[l];
+            int l = (k * countChunksY + j) * countChunksX + i;
+            return renderChunks[l];
         }
         else
         {

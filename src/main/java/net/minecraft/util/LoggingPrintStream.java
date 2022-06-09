@@ -13,23 +13,23 @@ public class LoggingPrintStream extends PrintStream
     public LoggingPrintStream(String domainIn, OutputStream outStream)
     {
         super(outStream);
-        this.domain = domainIn;
+        domain = domainIn;
     }
 
     public void println(String p_println_1_)
     {
-        this.logString(p_println_1_);
+        logString(p_println_1_);
     }
 
     public void println(Object p_println_1_)
     {
-        this.logString(String.valueOf(p_println_1_));
+        logString(String.valueOf(p_println_1_));
     }
 
     private void logString(String string)
     {
         StackTraceElement[] astacktraceelement = Thread.currentThread().getStackTrace();
         StackTraceElement stacktraceelement = astacktraceelement[Math.min(3, astacktraceelement.length)];
-        LOGGER.info("[{}]@.({}:{}): {}", new Object[] {this.domain, stacktraceelement.getFileName(), Integer.valueOf(stacktraceelement.getLineNumber()), string});
+        LoggingPrintStream.LOGGER.info("[{}]@.({}:{}): {}", new Object[] {domain, stacktraceelement.getFileName(), Integer.valueOf(stacktraceelement.getLineNumber()), string});
     }
 }

@@ -9,13 +9,13 @@ public class ModelResourceLocation extends ResourceLocation
 
     protected ModelResourceLocation(int p_i46078_1_, String... p_i46078_2_)
     {
-        super(0, new String[] {p_i46078_2_[0], p_i46078_2_[1]});
-        this.variant = StringUtils.isEmpty(p_i46078_2_[2]) ? "normal" : p_i46078_2_[2].toLowerCase();
+        super(0, p_i46078_2_[0], p_i46078_2_[1]);
+        variant = StringUtils.isEmpty(p_i46078_2_[2]) ? "normal" : p_i46078_2_[2].toLowerCase();
     }
 
     public ModelResourceLocation(String p_i46079_1_)
     {
-        this(0, parsePathString(p_i46079_1_));
+        this(0, ModelResourceLocation.parsePathString(p_i46079_1_));
     }
 
     public ModelResourceLocation(ResourceLocation p_i46080_1_, String p_i46080_2_)
@@ -25,7 +25,7 @@ public class ModelResourceLocation extends ResourceLocation
 
     public ModelResourceLocation(String p_i46081_1_, String p_i46081_2_)
     {
-        this(0, parsePathString(p_i46081_1_ + '#' + (p_i46081_2_ == null ? "normal" : p_i46081_2_)));
+        this(0, ModelResourceLocation.parsePathString(p_i46081_1_ + '#' + (p_i46081_2_ == null ? "normal" : p_i46081_2_)));
     }
 
     protected static String[] parsePathString(String p_177517_0_)
@@ -36,7 +36,7 @@ public class ModelResourceLocation extends ResourceLocation
 
         if (i >= 0)
         {
-            astring[2] = p_177517_0_.substring(i + 1, p_177517_0_.length());
+            astring[2] = p_177517_0_.substring(i + 1);
 
             if (i > 1)
             {
@@ -50,7 +50,7 @@ public class ModelResourceLocation extends ResourceLocation
 
     public String getVariant()
     {
-        return this.variant;
+        return variant;
     }
 
     public boolean equals(Object p_equals_1_)
@@ -62,7 +62,7 @@ public class ModelResourceLocation extends ResourceLocation
         else if (p_equals_1_ instanceof ModelResourceLocation && super.equals(p_equals_1_))
         {
             ModelResourceLocation modelresourcelocation = (ModelResourceLocation)p_equals_1_;
-            return this.variant.equals(modelresourcelocation.variant);
+            return variant.equals(modelresourcelocation.variant);
         }
         else
         {
@@ -72,11 +72,11 @@ public class ModelResourceLocation extends ResourceLocation
 
     public int hashCode()
     {
-        return 31 * super.hashCode() + this.variant.hashCode();
+        return 31 * super.hashCode() + variant.hashCode();
     }
 
     public String toString()
     {
-        return super.toString() + '#' + this.variant;
+        return super.toString() + '#' + variant;
     }
 }

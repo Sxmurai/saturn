@@ -19,14 +19,14 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
     public EntityTameable(World worldIn)
     {
         super(worldIn);
-        this.setupTamedAI();
+        setupTamedAI();
     }
 
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(17, "");
+        dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        dataWatcher.addObject(17, "");
     }
 
     /**
@@ -36,16 +36,16 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
     {
         super.writeEntityToNBT(tagCompound);
 
-        if (this.getOwnerId() == null)
+        if (getOwnerId() == null)
         {
             tagCompound.setString("OwnerUUID", "");
         }
         else
         {
-            tagCompound.setString("OwnerUUID", this.getOwnerId());
+            tagCompound.setString("OwnerUUID", getOwnerId());
         }
 
-        tagCompound.setBoolean("Sitting", this.isSitting());
+        tagCompound.setBoolean("Sitting", isSitting());
     }
 
     /**
@@ -68,12 +68,12 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
         if (s.length() > 0)
         {
-            this.setOwnerId(s);
-            this.setTamed(true);
+            setOwnerId(s);
+            setTamed(true);
         }
 
-        this.aiSit.setSitting(tagCompund.getBoolean("Sitting"));
-        this.setSitting(tagCompund.getBoolean("Sitting"));
+        aiSit.setSitting(tagCompund.getBoolean("Sitting"));
+        setSitting(tagCompund.getBoolean("Sitting"));
     }
 
     /**
@@ -90,10 +90,10 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
         for (int i = 0; i < 7; ++i)
         {
-            double d0 = this.rand.nextGaussian() * 0.02D;
-            double d1 = this.rand.nextGaussian() * 0.02D;
-            double d2 = this.rand.nextGaussian() * 0.02D;
-            this.worldObj.spawnParticle(enumparticletypes, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2, new int[0]);
+            double d0 = rand.nextGaussian() * 0.02D;
+            double d1 = rand.nextGaussian() * 0.02D;
+            double d2 = rand.nextGaussian() * 0.02D;
+            worldObj.spawnParticle(enumparticletypes, posX + (double)(rand.nextFloat() * width * 2.0F) - (double) width, posY + 0.5D + (double)(rand.nextFloat() * height), posZ + (double)(rand.nextFloat() * width * 2.0F) - (double) width, d0, d1, d2);
         }
     }
 
@@ -101,11 +101,11 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
     {
         if (id == 7)
         {
-            this.playTameEffect(true);
+            playTameEffect(true);
         }
         else if (id == 6)
         {
-            this.playTameEffect(false);
+            playTameEffect(false);
         }
         else
         {
@@ -115,23 +115,23 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
     public boolean isTamed()
     {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 4) != 0;
+        return (dataWatcher.getWatchableObjectByte(16) & 4) != 0;
     }
 
     public void setTamed(boolean tamed)
     {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = dataWatcher.getWatchableObjectByte(16);
 
         if (tamed)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 4)));
+            dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 4)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -5)));
+            dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -5)));
         }
 
-        this.setupTamedAI();
+        setupTamedAI();
     }
 
     protected void setupTamedAI()
@@ -140,39 +140,39 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
     public boolean isSitting()
     {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+        return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
 
     public void setSitting(boolean sitting)
     {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = dataWatcher.getWatchableObjectByte(16);
 
         if (sitting)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 1)));
+            dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 1)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -2)));
+            dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -2)));
         }
     }
 
     public String getOwnerId()
     {
-        return this.dataWatcher.getWatchableObjectString(17);
+        return dataWatcher.getWatchableObjectString(17);
     }
 
     public void setOwnerId(String ownerUuid)
     {
-        this.dataWatcher.updateObject(17, ownerUuid);
+        dataWatcher.updateObject(17, ownerUuid);
     }
 
     public EntityLivingBase getOwner()
     {
         try
         {
-            UUID uuid = UUID.fromString(this.getOwnerId());
-            return uuid == null ? null : this.worldObj.getPlayerEntityByUUID(uuid);
+            UUID uuid = UUID.fromString(getOwnerId());
+            return uuid == null ? null : worldObj.getPlayerEntityByUUID(uuid);
         }
         catch (IllegalArgumentException var2)
         {
@@ -182,7 +182,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
     public boolean isOwner(EntityLivingBase entityIn)
     {
-        return entityIn == this.getOwner();
+        return entityIn == getOwner();
     }
 
     /**
@@ -190,7 +190,7 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
      */
     public EntityAISit getAISit()
     {
-        return this.aiSit;
+        return aiSit;
     }
 
     public boolean shouldAttackEntity(EntityLivingBase p_142018_1_, EntityLivingBase p_142018_2_)
@@ -200,9 +200,9 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
     public Team getTeam()
     {
-        if (this.isTamed())
+        if (isTamed())
         {
-            EntityLivingBase entitylivingbase = this.getOwner();
+            EntityLivingBase entitylivingbase = getOwner();
 
             if (entitylivingbase != null)
             {
@@ -215,9 +215,9 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
 
     public boolean isOnSameTeam(EntityLivingBase otherEntity)
     {
-        if (this.isTamed())
+        if (isTamed())
         {
-            EntityLivingBase entitylivingbase = this.getOwner();
+            EntityLivingBase entitylivingbase = getOwner();
 
             if (otherEntity == entitylivingbase)
             {
@@ -238,9 +238,9 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
      */
     public void onDeath(DamageSource cause)
     {
-        if (!this.worldObj.isRemote && this.worldObj.getGameRules().getBoolean("showDeathMessages") && this.hasCustomName() && this.getOwner() instanceof EntityPlayerMP)
+        if (!worldObj.isRemote && worldObj.getGameRules().getBoolean("showDeathMessages") && hasCustomName() && getOwner() instanceof EntityPlayerMP)
         {
-            ((EntityPlayerMP)this.getOwner()).addChatMessage(this.getCombatTracker().getDeathMessage());
+            getOwner().addChatMessage(getCombatTracker().getDeathMessage());
         }
 
         super.onDeath(cause);

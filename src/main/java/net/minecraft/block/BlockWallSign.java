@@ -15,36 +15,36 @@ public class BlockWallSign extends BlockSign
 
     public BlockWallSign()
     {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        setDefaultState(blockState.getBaseState().withProperty(BlockWallSign.FACING, EnumFacing.NORTH));
     }
 
     @SuppressWarnings("incomplete-switch")
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
-        EnumFacing enumfacing = (EnumFacing)worldIn.getBlockState(pos).getValue(FACING);
+        EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(BlockWallSign.FACING);
         float f = 0.28125F;
         float f1 = 0.78125F;
         float f2 = 0.0F;
         float f3 = 1.0F;
         float f4 = 0.125F;
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 
         switch (enumfacing)
         {
             case NORTH:
-                this.setBlockBounds(f2, f, 1.0F - f4, f3, f1, 1.0F);
+                setBlockBounds(f2, f, 1.0F - f4, f3, f1, 1.0F);
                 break;
 
             case SOUTH:
-                this.setBlockBounds(f2, f, 0.0F, f3, f1, f4);
+                setBlockBounds(f2, f, 0.0F, f3, f1, f4);
                 break;
 
             case WEST:
-                this.setBlockBounds(1.0F - f4, f, f2, 1.0F, f1, f3);
+                setBlockBounds(1.0F - f4, f, f2, 1.0F, f1, f3);
                 break;
 
             case EAST:
-                this.setBlockBounds(0.0F, f, f2, f4, f1, f3);
+                setBlockBounds(0.0F, f, f2, f4, f1, f3);
         }
     }
 
@@ -53,11 +53,11 @@ public class BlockWallSign extends BlockSign
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+        EnumFacing enumfacing = state.getValue(BlockWallSign.FACING);
 
         if (!worldIn.getBlockState(pos.offset(enumfacing.getOpposite())).getBlock().getMaterial().isSolid())
         {
-            this.dropBlockAsItem(worldIn, pos, state, 0);
+            dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockToAir(pos);
         }
 
@@ -76,7 +76,7 @@ public class BlockWallSign extends BlockSign
             enumfacing = EnumFacing.NORTH;
         }
 
-        return this.getDefaultState().withProperty(FACING, enumfacing);
+        return getDefaultState().withProperty(BlockWallSign.FACING, enumfacing);
     }
 
     /**
@@ -84,11 +84,11 @@ public class BlockWallSign extends BlockSign
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((EnumFacing)state.getValue(FACING)).getIndex();
+        return state.getValue(BlockWallSign.FACING).getIndex();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {FACING});
+        return new BlockState(this, BlockWallSign.FACING);
     }
 }

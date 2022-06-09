@@ -13,15 +13,15 @@ public class UserListWhitelistEntry extends UserListEntry<GameProfile>
 
     public UserListWhitelistEntry(JsonObject p_i1130_1_)
     {
-        super(gameProfileFromJsonObject(p_i1130_1_), p_i1130_1_);
+        super(UserListWhitelistEntry.gameProfileFromJsonObject(p_i1130_1_), p_i1130_1_);
     }
 
     protected void onSerialization(JsonObject data)
     {
-        if (this.getValue() != null)
+        if (getValue() != null)
         {
-            data.addProperty("uuid", ((GameProfile)this.getValue()).getId() == null ? "" : ((GameProfile)this.getValue()).getId().toString());
-            data.addProperty("name", ((GameProfile)this.getValue()).getName());
+            data.addProperty("uuid", getValue().getId() == null ? "" : getValue().getId().toString());
+            data.addProperty("name", getValue().getName());
             super.onSerialization(data);
         }
     }

@@ -21,7 +21,7 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T>
     public RenderMinecart(RenderManager renderManagerIn)
     {
         super(renderManagerIn);
-        this.shadowSize = 0.5F;
+        shadowSize = 0.5F;
     }
 
     /**
@@ -33,7 +33,7 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T>
     public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
         GlStateManager.pushMatrix();
-        this.bindEntityTexture(entity);
+        bindEntityTexture(entity);
         long i = (long)entity.getEntityId() * 493286711L;
         i = i * i * 4392167121L + i * 98761L;
         float f = (((float)(i >> 16 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
@@ -97,18 +97,18 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T>
         if (iblockstate.getBlock().getRenderType() != -1)
         {
             GlStateManager.pushMatrix();
-            this.bindTexture(TextureMap.locationBlocksTexture);
+            bindTexture(TextureMap.locationBlocksTexture);
             float f4 = 0.75F;
             GlStateManager.scale(f4, f4, f4);
             GlStateManager.translate(-0.5F, (float)(j - 8) / 16.0F, 0.5F);
-            this.func_180560_a(entity, partialTicks, iblockstate);
+            func_180560_a(entity, partialTicks, iblockstate);
             GlStateManager.popMatrix();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.bindEntityTexture(entity);
+            bindEntityTexture(entity);
         }
 
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-        this.modelMinecart.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+        modelMinecart.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
@@ -118,7 +118,7 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T>
      */
     protected ResourceLocation getEntityTexture(T entity)
     {
-        return minecartTextures;
+        return RenderMinecart.minecartTextures;
     }
 
     protected void func_180560_a(T minecart, float partialTicks, IBlockState state)

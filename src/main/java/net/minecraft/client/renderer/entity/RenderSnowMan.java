@@ -12,7 +12,7 @@ public class RenderSnowMan extends RenderLiving<EntitySnowman>
     public RenderSnowMan(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelSnowMan(), 0.5F);
-        this.addLayer(new LayerSnowmanHead(this));
+        addLayer(new LayerSnowmanHead(this));
     }
 
     /**
@@ -20,7 +20,7 @@ public class RenderSnowMan extends RenderLiving<EntitySnowman>
      */
     protected ResourceLocation getEntityTexture(EntitySnowman entity)
     {
-        return snowManTextures;
+        return RenderSnowMan.snowManTextures;
     }
 
     public ModelSnowMan getMainModel()

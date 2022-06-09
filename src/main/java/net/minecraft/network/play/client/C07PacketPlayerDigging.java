@@ -21,9 +21,9 @@ public class C07PacketPlayerDigging implements Packet<INetHandlerPlayServer>
 
     public C07PacketPlayerDigging(C07PacketPlayerDigging.Action statusIn, BlockPos posIn, EnumFacing facingIn)
     {
-        this.status = statusIn;
-        this.position = posIn;
-        this.facing = facingIn;
+        status = statusIn;
+        position = posIn;
+        facing = facingIn;
     }
 
     /**
@@ -31,9 +31,9 @@ public class C07PacketPlayerDigging implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.status = (C07PacketPlayerDigging.Action)buf.readEnumValue(C07PacketPlayerDigging.Action.class);
-        this.position = buf.readBlockPos();
-        this.facing = EnumFacing.getFront(buf.readUnsignedByte());
+        status = buf.readEnumValue(Action.class);
+        position = buf.readBlockPos();
+        facing = EnumFacing.getFront(buf.readUnsignedByte());
     }
 
     /**
@@ -41,9 +41,9 @@ public class C07PacketPlayerDigging implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeEnumValue(this.status);
-        buf.writeBlockPos(this.position);
-        buf.writeByte(this.facing.getIndex());
+        buf.writeEnumValue(status);
+        buf.writeBlockPos(position);
+        buf.writeByte(facing.getIndex());
     }
 
     /**
@@ -56,17 +56,17 @@ public class C07PacketPlayerDigging implements Packet<INetHandlerPlayServer>
 
     public BlockPos getPosition()
     {
-        return this.position;
+        return position;
     }
 
     public EnumFacing getFacing()
     {
-        return this.facing;
+        return facing;
     }
 
     public C07PacketPlayerDigging.Action getStatus()
     {
-        return this.status;
+        return status;
     }
 
     public static enum Action
@@ -76,6 +76,6 @@ public class C07PacketPlayerDigging implements Packet<INetHandlerPlayServer>
         STOP_DESTROY_BLOCK,
         DROP_ALL_ITEMS,
         DROP_ITEM,
-        RELEASE_USE_ITEM;
+        RELEASE_USE_ITEM
     }
 }

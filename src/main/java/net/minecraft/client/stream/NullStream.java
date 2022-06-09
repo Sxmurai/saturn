@@ -10,7 +10,7 @@ public class NullStream implements IStream
 
     public NullStream(Throwable p_i1006_1_)
     {
-        this.field_152938_a = p_i1006_1_;
+        field_152938_a = p_i1006_1_;
     }
 
     /**
@@ -163,6 +163,6 @@ public class NullStream implements IStream
 
     public Throwable func_152937_a()
     {
-        return this.field_152938_a;
+        return field_152938_a;
     }
 }

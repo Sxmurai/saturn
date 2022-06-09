@@ -18,18 +18,18 @@ import net.minecraft.util.EnumFacing;
 public class TileEntityItemStackRenderer
 {
     public static TileEntityItemStackRenderer instance = new TileEntityItemStackRenderer();
-    private TileEntityChest field_147717_b = new TileEntityChest(0);
-    private TileEntityChest field_147718_c = new TileEntityChest(1);
-    private TileEntityEnderChest enderChest = new TileEntityEnderChest();
-    private TileEntityBanner banner = new TileEntityBanner();
-    private TileEntitySkull skull = new TileEntitySkull();
+    private final TileEntityChest field_147717_b = new TileEntityChest(0);
+    private final TileEntityChest field_147718_c = new TileEntityChest(1);
+    private final TileEntityEnderChest enderChest = new TileEntityEnderChest();
+    private final TileEntityBanner banner = new TileEntityBanner();
+    private final TileEntitySkull skull = new TileEntitySkull();
 
     public void renderByItem(ItemStack itemStackIn)
     {
         if (itemStackIn.getItem() == Items.banner)
         {
-            this.banner.setItemValues(itemStackIn);
-            TileEntityRendererDispatcher.instance.renderTileEntityAt(this.banner, 0.0D, 0.0D, 0.0D, 0.0F);
+            banner.setItemValues(itemStackIn);
+            TileEntityRendererDispatcher.instance.renderTileEntityAt(banner, 0.0D, 0.0D, 0.0D, 0.0F);
         }
         else if (itemStackIn.getItem() == Items.skull)
         {
@@ -45,7 +45,7 @@ public class TileEntityItemStackRenderer
                 }
                 else if (nbttagcompound.hasKey("SkullOwner", 8) && nbttagcompound.getString("SkullOwner").length() > 0)
                 {
-                    gameprofile = new GameProfile((UUID)null, nbttagcompound.getString("SkullOwner"));
+                    gameprofile = new GameProfile(null, nbttagcompound.getString("SkullOwner"));
                     gameprofile = TileEntitySkull.updateGameprofile(gameprofile);
                     nbttagcompound.removeTag("SkullOwner");
                     nbttagcompound.setTag("SkullOwner", NBTUtil.writeGameProfile(new NBTTagCompound(), gameprofile));
@@ -69,15 +69,15 @@ public class TileEntityItemStackRenderer
 
             if (block == Blocks.ender_chest)
             {
-                TileEntityRendererDispatcher.instance.renderTileEntityAt(this.enderChest, 0.0D, 0.0D, 0.0D, 0.0F);
+                TileEntityRendererDispatcher.instance.renderTileEntityAt(enderChest, 0.0D, 0.0D, 0.0D, 0.0F);
             }
             else if (block == Blocks.trapped_chest)
             {
-                TileEntityRendererDispatcher.instance.renderTileEntityAt(this.field_147718_c, 0.0D, 0.0D, 0.0D, 0.0F);
+                TileEntityRendererDispatcher.instance.renderTileEntityAt(field_147718_c, 0.0D, 0.0D, 0.0D, 0.0F);
             }
             else
             {
-                TileEntityRendererDispatcher.instance.renderTileEntityAt(this.field_147717_b, 0.0D, 0.0D, 0.0D, 0.0F);
+                TileEntityRendererDispatcher.instance.renderTileEntityAt(field_147717_b, 0.0D, 0.0D, 0.0D, 0.0F);
             }
         }
     }

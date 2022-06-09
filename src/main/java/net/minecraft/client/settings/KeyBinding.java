@@ -9,9 +9,9 @@ import net.minecraft.util.IntHashMap;
 
 public class KeyBinding implements Comparable<KeyBinding>
 {
-    private static final List<KeyBinding> keybindArray = Lists.<KeyBinding>newArrayList();
+    private static final List<KeyBinding> keybindArray = Lists.newArrayList();
     private static final IntHashMap<KeyBinding> hash = new IntHashMap();
-    private static final Set<String> keybindSet = Sets.<String>newHashSet();
+    private static final Set<String> keybindSet = Sets.newHashSet();
     private final String keyDescription;
     private final int keyCodeDefault;
     private final String keyCategory;
@@ -25,7 +25,7 @@ public class KeyBinding implements Comparable<KeyBinding>
     {
         if (keyCode != 0)
         {
-            KeyBinding keybinding = (KeyBinding)hash.lookup(keyCode);
+            KeyBinding keybinding = KeyBinding.hash.lookup(keyCode);
 
             if (keybinding != null)
             {
@@ -38,7 +38,7 @@ public class KeyBinding implements Comparable<KeyBinding>
     {
         if (keyCode != 0)
         {
-            KeyBinding keybinding = (KeyBinding)hash.lookup(keyCode);
+            KeyBinding keybinding = KeyBinding.hash.lookup(keyCode);
 
             if (keybinding != null)
             {
@@ -49,7 +49,7 @@ public class KeyBinding implements Comparable<KeyBinding>
 
     public static void unPressAllKeys()
     {
-        for (KeyBinding keybinding : keybindArray)
+        for (KeyBinding keybinding : KeyBinding.keybindArray)
         {
             keybinding.unpressKey();
         }
@@ -57,28 +57,28 @@ public class KeyBinding implements Comparable<KeyBinding>
 
     public static void resetKeyBindingArrayAndHash()
     {
-        hash.clearMap();
+        KeyBinding.hash.clearMap();
 
-        for (KeyBinding keybinding : keybindArray)
+        for (KeyBinding keybinding : KeyBinding.keybindArray)
         {
-            hash.addKey(keybinding.keyCode, keybinding);
+            KeyBinding.hash.addKey(keybinding.keyCode, keybinding);
         }
     }
 
     public static Set<String> getKeybinds()
     {
-        return keybindSet;
+        return KeyBinding.keybindSet;
     }
 
     public KeyBinding(String description, int keyCode, String category)
     {
-        this.keyDescription = description;
+        keyDescription = description;
         this.keyCode = keyCode;
-        this.keyCodeDefault = keyCode;
-        this.keyCategory = category;
-        keybindArray.add(this);
-        hash.addKey(keyCode, this);
-        keybindSet.add(category);
+        keyCodeDefault = keyCode;
+        keyCategory = category;
+        KeyBinding.keybindArray.add(this);
+        KeyBinding.hash.addKey(keyCode, this);
+        KeyBinding.keybindSet.add(category);
     }
 
     /**
@@ -86,12 +86,12 @@ public class KeyBinding implements Comparable<KeyBinding>
      */
     public boolean isKeyDown()
     {
-        return this.pressed;
+        return pressed;
     }
 
     public String getKeyCategory()
     {
-        return this.keyCategory;
+        return keyCategory;
     }
 
     /**
@@ -100,36 +100,36 @@ public class KeyBinding implements Comparable<KeyBinding>
      */
     public boolean isPressed()
     {
-        if (this.pressTime == 0)
+        if (pressTime == 0)
         {
             return false;
         }
         else
         {
-            --this.pressTime;
+            --pressTime;
             return true;
         }
     }
 
     private void unpressKey()
     {
-        this.pressTime = 0;
-        this.pressed = false;
+        pressTime = 0;
+        pressed = false;
     }
 
     public String getKeyDescription()
     {
-        return this.keyDescription;
+        return keyDescription;
     }
 
     public int getKeyCodeDefault()
     {
-        return this.keyCodeDefault;
+        return keyCodeDefault;
     }
 
     public int getKeyCode()
     {
-        return this.keyCode;
+        return keyCode;
     }
 
     public void setKeyCode(int keyCode)
@@ -139,11 +139,11 @@ public class KeyBinding implements Comparable<KeyBinding>
 
     public int compareTo(KeyBinding p_compareTo_1_)
     {
-        int i = I18n.format(this.keyCategory, new Object[0]).compareTo(I18n.format(p_compareTo_1_.keyCategory, new Object[0]));
+        int i = I18n.format(keyCategory).compareTo(I18n.format(p_compareTo_1_.keyCategory));
 
         if (i == 0)
         {
-            i = I18n.format(this.keyDescription, new Object[0]).compareTo(I18n.format(p_compareTo_1_.keyDescription, new Object[0]));
+            i = I18n.format(keyDescription).compareTo(I18n.format(p_compareTo_1_.keyDescription));
         }
 
         return i;

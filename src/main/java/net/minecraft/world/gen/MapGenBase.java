@@ -18,11 +18,11 @@ public class MapGenBase
 
     public void generate(IChunkProvider chunkProviderIn, World worldIn, int x, int z, ChunkPrimer chunkPrimerIn)
     {
-        int i = this.range;
-        this.worldObj = worldIn;
-        this.rand.setSeed(worldIn.getSeed());
-        long j = this.rand.nextLong();
-        long k = this.rand.nextLong();
+        int i = range;
+        worldObj = worldIn;
+        rand.setSeed(worldIn.getSeed());
+        long j = rand.nextLong();
+        long k = rand.nextLong();
 
         for (int l = x - i; l <= x + i; ++l)
         {
@@ -30,8 +30,8 @@ public class MapGenBase
             {
                 long j1 = (long)l * j;
                 long k1 = (long)i1 * k;
-                this.rand.setSeed(j1 ^ k1 ^ worldIn.getSeed());
-                this.recursiveGenerate(worldIn, l, i1, x, z, chunkPrimerIn);
+                rand.setSeed(j1 ^ k1 ^ worldIn.getSeed());
+                recursiveGenerate(worldIn, l, i1, x, z, chunkPrimerIn);
             }
         }
     }

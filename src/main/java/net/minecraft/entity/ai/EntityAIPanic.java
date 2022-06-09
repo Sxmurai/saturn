@@ -5,7 +5,7 @@ import net.minecraft.util.Vec3;
 
 public class EntityAIPanic extends EntityAIBase
 {
-    private EntityCreature theEntityCreature;
+    private final EntityCreature theEntityCreature;
     protected double speed;
     private double randPosX;
     private double randPosY;
@@ -13,9 +13,9 @@ public class EntityAIPanic extends EntityAIBase
 
     public EntityAIPanic(EntityCreature creature, double speedIn)
     {
-        this.theEntityCreature = creature;
-        this.speed = speedIn;
-        this.setMutexBits(1);
+        theEntityCreature = creature;
+        speed = speedIn;
+        setMutexBits(1);
     }
 
     /**
@@ -23,13 +23,13 @@ public class EntityAIPanic extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        if (this.theEntityCreature.getAITarget() == null && !this.theEntityCreature.isBurning())
+        if (theEntityCreature.getAITarget() == null && !theEntityCreature.isBurning())
         {
             return false;
         }
         else
         {
-            Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.theEntityCreature, 5, 4);
+            Vec3 vec3 = RandomPositionGenerator.findRandomTarget(theEntityCreature, 5, 4);
 
             if (vec3 == null)
             {
@@ -37,9 +37,9 @@ public class EntityAIPanic extends EntityAIBase
             }
             else
             {
-                this.randPosX = vec3.xCoord;
-                this.randPosY = vec3.yCoord;
-                this.randPosZ = vec3.zCoord;
+                randPosX = vec3.xCoord;
+                randPosY = vec3.yCoord;
+                randPosZ = vec3.zCoord;
                 return true;
             }
         }
@@ -50,7 +50,7 @@ public class EntityAIPanic extends EntityAIBase
      */
     public void startExecuting()
     {
-        this.theEntityCreature.getNavigator().tryMoveToXYZ(this.randPosX, this.randPosY, this.randPosZ, this.speed);
+        theEntityCreature.getNavigator().tryMoveToXYZ(randPosX, randPosY, randPosZ, speed);
     }
 
     /**
@@ -58,6 +58,6 @@ public class EntityAIPanic extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        return !this.theEntityCreature.getNavigator().noPath();
+        return !theEntityCreature.getNavigator().noPath();
     }
 }

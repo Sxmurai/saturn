@@ -16,29 +16,29 @@ public class ContainerFurnace extends Container
 
     public ContainerFurnace(InventoryPlayer playerInventory, IInventory furnaceInventory)
     {
-        this.tileFurnace = furnaceInventory;
-        this.addSlotToContainer(new Slot(furnaceInventory, 0, 56, 17));
-        this.addSlotToContainer(new SlotFurnaceFuel(furnaceInventory, 1, 56, 53));
-        this.addSlotToContainer(new SlotFurnaceOutput(playerInventory.player, furnaceInventory, 2, 116, 35));
+        tileFurnace = furnaceInventory;
+        addSlotToContainer(new Slot(furnaceInventory, 0, 56, 17));
+        addSlotToContainer(new SlotFurnaceFuel(furnaceInventory, 1, 56, 53));
+        addSlotToContainer(new SlotFurnaceOutput(playerInventory.player, furnaceInventory, 2, 116, 35));
 
         for (int i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
             {
-                this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
 
         for (int k = 0; k < 9; ++k)
         {
-            this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
+            addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
         }
     }
 
     public void onCraftGuiOpened(ICrafting listener)
     {
         super.onCraftGuiOpened(listener);
-        listener.func_175173_a(this, this.tileFurnace);
+        listener.func_175173_a(this, tileFurnace);
     }
 
     /**
@@ -48,45 +48,45 @@ public class ContainerFurnace extends Container
     {
         super.detectAndSendChanges();
 
-        for (int i = 0; i < this.crafters.size(); ++i)
+        for (int i = 0; i < crafters.size(); ++i)
         {
-            ICrafting icrafting = (ICrafting)this.crafters.get(i);
+            ICrafting icrafting = crafters.get(i);
 
-            if (this.field_178152_f != this.tileFurnace.getField(2))
+            if (field_178152_f != tileFurnace.getField(2))
             {
-                icrafting.sendProgressBarUpdate(this, 2, this.tileFurnace.getField(2));
+                icrafting.sendProgressBarUpdate(this, 2, tileFurnace.getField(2));
             }
 
-            if (this.field_178154_h != this.tileFurnace.getField(0))
+            if (field_178154_h != tileFurnace.getField(0))
             {
-                icrafting.sendProgressBarUpdate(this, 0, this.tileFurnace.getField(0));
+                icrafting.sendProgressBarUpdate(this, 0, tileFurnace.getField(0));
             }
 
-            if (this.field_178155_i != this.tileFurnace.getField(1))
+            if (field_178155_i != tileFurnace.getField(1))
             {
-                icrafting.sendProgressBarUpdate(this, 1, this.tileFurnace.getField(1));
+                icrafting.sendProgressBarUpdate(this, 1, tileFurnace.getField(1));
             }
 
-            if (this.field_178153_g != this.tileFurnace.getField(3))
+            if (field_178153_g != tileFurnace.getField(3))
             {
-                icrafting.sendProgressBarUpdate(this, 3, this.tileFurnace.getField(3));
+                icrafting.sendProgressBarUpdate(this, 3, tileFurnace.getField(3));
             }
         }
 
-        this.field_178152_f = this.tileFurnace.getField(2);
-        this.field_178154_h = this.tileFurnace.getField(0);
-        this.field_178155_i = this.tileFurnace.getField(1);
-        this.field_178153_g = this.tileFurnace.getField(3);
+        field_178152_f = tileFurnace.getField(2);
+        field_178154_h = tileFurnace.getField(0);
+        field_178155_i = tileFurnace.getField(1);
+        field_178153_g = tileFurnace.getField(3);
     }
 
     public void updateProgressBar(int id, int data)
     {
-        this.tileFurnace.setField(id, data);
+        tileFurnace.setField(id, data);
     }
 
     public boolean canInteractWith(EntityPlayer playerIn)
     {
-        return this.tileFurnace.isUseableByPlayer(playerIn);
+        return tileFurnace.isUseableByPlayer(playerIn);
     }
 
     /**
@@ -95,7 +95,7 @@ public class ContainerFurnace extends Container
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
         ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(index);
+        Slot slot = inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack())
         {
@@ -104,7 +104,7 @@ public class ContainerFurnace extends Container
 
             if (index == 2)
             {
-                if (!this.mergeItemStack(itemstack1, 3, 39, true))
+                if (!mergeItemStack(itemstack1, 3, 39, true))
                 {
                     return null;
                 }
@@ -115,38 +115,38 @@ public class ContainerFurnace extends Container
             {
                 if (FurnaceRecipes.instance().getSmeltingResult(itemstack1) != null)
                 {
-                    if (!this.mergeItemStack(itemstack1, 0, 1, false))
+                    if (!mergeItemStack(itemstack1, 0, 1, false))
                     {
                         return null;
                     }
                 }
                 else if (TileEntityFurnace.isItemFuel(itemstack1))
                 {
-                    if (!this.mergeItemStack(itemstack1, 1, 2, false))
+                    if (!mergeItemStack(itemstack1, 1, 2, false))
                     {
                         return null;
                     }
                 }
                 else if (index >= 3 && index < 30)
                 {
-                    if (!this.mergeItemStack(itemstack1, 30, 39, false))
+                    if (!mergeItemStack(itemstack1, 30, 39, false))
                     {
                         return null;
                     }
                 }
-                else if (index >= 30 && index < 39 && !this.mergeItemStack(itemstack1, 3, 30, false))
+                else if (index >= 30 && index < 39 && !mergeItemStack(itemstack1, 3, 30, false))
                 {
                     return null;
                 }
             }
-            else if (!this.mergeItemStack(itemstack1, 3, 39, false))
+            else if (!mergeItemStack(itemstack1, 3, 39, false))
             {
                 return null;
             }
 
             if (itemstack1.stackSize == 0)
             {
-                slot.putStack((ItemStack)null);
+                slot.putStack(null);
             }
             else
             {

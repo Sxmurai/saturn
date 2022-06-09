@@ -10,7 +10,7 @@ import net.minecraft.world.storage.ISaveHandler;
 
 public class WorldServerMulti extends WorldServer
 {
-    private WorldServer delegate;
+    private final WorldServer delegate;
 
     public WorldServerMulti(MinecraftServer server, ISaveHandler saveHandlerIn, int dimensionId, WorldServer delegate, Profiler profilerIn)
     {
@@ -20,31 +20,31 @@ public class WorldServerMulti extends WorldServer
         {
             public void onSizeChanged(WorldBorder border, double newSize)
             {
-                WorldServerMulti.this.getWorldBorder().setTransition(newSize);
+                getWorldBorder().setTransition(newSize);
             }
             public void onTransitionStarted(WorldBorder border, double oldSize, double newSize, long time)
             {
-                WorldServerMulti.this.getWorldBorder().setTransition(oldSize, newSize, time);
+                getWorldBorder().setTransition(oldSize, newSize, time);
             }
             public void onCenterChanged(WorldBorder border, double x, double z)
             {
-                WorldServerMulti.this.getWorldBorder().setCenter(x, z);
+                getWorldBorder().setCenter(x, z);
             }
             public void onWarningTimeChanged(WorldBorder border, int newTime)
             {
-                WorldServerMulti.this.getWorldBorder().setWarningTime(newTime);
+                getWorldBorder().setWarningTime(newTime);
             }
             public void onWarningDistanceChanged(WorldBorder border, int newDistance)
             {
-                WorldServerMulti.this.getWorldBorder().setWarningDistance(newDistance);
+                getWorldBorder().setWarningDistance(newDistance);
             }
             public void onDamageAmountChanged(WorldBorder border, double newAmount)
             {
-                WorldServerMulti.this.getWorldBorder().setDamageAmount(newAmount);
+                getWorldBorder().setDamageAmount(newAmount);
             }
             public void onDamageBufferChanged(WorldBorder border, double newSize)
             {
-                WorldServerMulti.this.getWorldBorder().setDamageBuffer(newSize);
+                getWorldBorder().setDamageBuffer(newSize);
             }
         });
     }
@@ -58,20 +58,20 @@ public class WorldServerMulti extends WorldServer
 
     public World init()
     {
-        this.mapStorage = this.delegate.getMapStorage();
-        this.worldScoreboard = this.delegate.getScoreboard();
-        String s = VillageCollection.fileNameForProvider(this.provider);
-        VillageCollection villagecollection = (VillageCollection)this.mapStorage.loadData(VillageCollection.class, s);
+        mapStorage = delegate.getMapStorage();
+        worldScoreboard = delegate.getScoreboard();
+        String s = VillageCollection.fileNameForProvider(provider);
+        VillageCollection villagecollection = (VillageCollection) mapStorage.loadData(VillageCollection.class, s);
 
         if (villagecollection == null)
         {
-            this.villageCollectionObj = new VillageCollection(this);
-            this.mapStorage.setData(s, this.villageCollectionObj);
+            villageCollectionObj = new VillageCollection(this);
+            mapStorage.setData(s, villageCollectionObj);
         }
         else
         {
-            this.villageCollectionObj = villagecollection;
-            this.villageCollectionObj.setWorldsForAll(this);
+            villageCollectionObj = villagecollection;
+            villageCollectionObj.setWorldsForAll(this);
         }
 
         return this;

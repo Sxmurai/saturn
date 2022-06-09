@@ -17,7 +17,7 @@ public class VillageDoorInfo
 
     public VillageDoorInfo(BlockPos p_i45871_1_, int p_i45871_2_, int p_i45871_3_, int p_i45871_4_)
     {
-        this(p_i45871_1_, getFaceDirection(p_i45871_2_, p_i45871_3_), p_i45871_4_);
+        this(p_i45871_1_, VillageDoorInfo.getFaceDirection(p_i45871_2_, p_i45871_3_), p_i45871_4_);
     }
 
     private static EnumFacing getFaceDirection(int deltaX, int deltaZ)
@@ -27,10 +27,10 @@ public class VillageDoorInfo
 
     public VillageDoorInfo(BlockPos p_i45872_1_, EnumFacing p_i45872_2_, int p_i45872_3_)
     {
-        this.doorBlockPos = p_i45872_1_;
-        this.insideDirection = p_i45872_2_;
-        this.insideBlock = p_i45872_1_.offset(p_i45872_2_, 2);
-        this.lastActivityTimestamp = p_i45872_3_;
+        doorBlockPos = p_i45872_1_;
+        insideDirection = p_i45872_2_;
+        insideBlock = p_i45872_1_.offset(p_i45872_2_, 2);
+        lastActivityTimestamp = p_i45872_3_;
     }
 
     /**
@@ -38,78 +38,78 @@ public class VillageDoorInfo
      */
     public int getDistanceSquared(int p_75474_1_, int p_75474_2_, int p_75474_3_)
     {
-        return (int)this.doorBlockPos.distanceSq((double)p_75474_1_, (double)p_75474_2_, (double)p_75474_3_);
+        return (int) doorBlockPos.distanceSq(p_75474_1_, p_75474_2_, p_75474_3_);
     }
 
     public int getDistanceToDoorBlockSq(BlockPos p_179848_1_)
     {
-        return (int)p_179848_1_.distanceSq(this.getDoorBlockPos());
+        return (int)p_179848_1_.distanceSq(getDoorBlockPos());
     }
 
     public int getDistanceToInsideBlockSq(BlockPos p_179846_1_)
     {
-        return (int)this.insideBlock.distanceSq(p_179846_1_);
+        return (int) insideBlock.distanceSq(p_179846_1_);
     }
 
     public boolean func_179850_c(BlockPos p_179850_1_)
     {
-        int i = p_179850_1_.getX() - this.doorBlockPos.getX();
-        int j = p_179850_1_.getZ() - this.doorBlockPos.getY();
-        return i * this.insideDirection.getFrontOffsetX() + j * this.insideDirection.getFrontOffsetZ() >= 0;
+        int i = p_179850_1_.getX() - doorBlockPos.getX();
+        int j = p_179850_1_.getZ() - doorBlockPos.getY();
+        return i * insideDirection.getFrontOffsetX() + j * insideDirection.getFrontOffsetZ() >= 0;
     }
 
     public void resetDoorOpeningRestrictionCounter()
     {
-        this.doorOpeningRestrictionCounter = 0;
+        doorOpeningRestrictionCounter = 0;
     }
 
     public void incrementDoorOpeningRestrictionCounter()
     {
-        ++this.doorOpeningRestrictionCounter;
+        ++doorOpeningRestrictionCounter;
     }
 
     public int getDoorOpeningRestrictionCounter()
     {
-        return this.doorOpeningRestrictionCounter;
+        return doorOpeningRestrictionCounter;
     }
 
     public BlockPos getDoorBlockPos()
     {
-        return this.doorBlockPos;
+        return doorBlockPos;
     }
 
     public BlockPos getInsideBlockPos()
     {
-        return this.insideBlock;
+        return insideBlock;
     }
 
     public int getInsideOffsetX()
     {
-        return this.insideDirection.getFrontOffsetX() * 2;
+        return insideDirection.getFrontOffsetX() * 2;
     }
 
     public int getInsideOffsetZ()
     {
-        return this.insideDirection.getFrontOffsetZ() * 2;
+        return insideDirection.getFrontOffsetZ() * 2;
     }
 
     public int getInsidePosY()
     {
-        return this.lastActivityTimestamp;
+        return lastActivityTimestamp;
     }
 
     public void func_179849_a(int p_179849_1_)
     {
-        this.lastActivityTimestamp = p_179849_1_;
+        lastActivityTimestamp = p_179849_1_;
     }
 
     public boolean getIsDetachedFromVillageFlag()
     {
-        return this.isDetachedFromVillageFlag;
+        return isDetachedFromVillageFlag;
     }
 
     public void setIsDetachedFromVillageFlag(boolean p_179853_1_)
     {
-        this.isDetachedFromVillageFlag = p_179853_1_;
+        isDetachedFromVillageFlag = p_179853_1_;
     }
 }

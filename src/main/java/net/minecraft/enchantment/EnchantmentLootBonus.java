@@ -10,15 +10,15 @@ public class EnchantmentLootBonus extends Enchantment
 
         if (p_i45767_4_ == EnumEnchantmentType.DIGGER)
         {
-            this.setName("lootBonusDigger");
+            setName("lootBonusDigger");
         }
         else if (p_i45767_4_ == EnumEnchantmentType.FISHING_ROD)
         {
-            this.setName("lootBonusFishing");
+            setName("lootBonusFishing");
         }
         else
         {
-            this.setName("lootBonus");
+            setName("lootBonus");
         }
     }
 
@@ -51,6 +51,6 @@ public class EnchantmentLootBonus extends Enchantment
      */
     public boolean canApplyTogether(Enchantment ench)
     {
-        return super.canApplyTogether(ench) && ench.effectId != silkTouch.effectId;
+        return super.canApplyTogether(ench) && ench.effectId != Enchantment.silkTouch.effectId;
     }
 }

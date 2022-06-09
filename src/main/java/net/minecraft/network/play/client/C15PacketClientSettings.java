@@ -20,11 +20,11 @@ public class C15PacketClientSettings implements Packet<INetHandlerPlayServer>
 
     public C15PacketClientSettings(String langIn, int viewIn, EntityPlayer.EnumChatVisibility chatVisibilityIn, boolean enableColorsIn, int modelPartFlagsIn)
     {
-        this.lang = langIn;
-        this.view = viewIn;
-        this.chatVisibility = chatVisibilityIn;
-        this.enableColors = enableColorsIn;
-        this.modelPartFlags = modelPartFlagsIn;
+        lang = langIn;
+        view = viewIn;
+        chatVisibility = chatVisibilityIn;
+        enableColors = enableColorsIn;
+        modelPartFlags = modelPartFlagsIn;
     }
 
     /**
@@ -32,11 +32,11 @@ public class C15PacketClientSettings implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.lang = buf.readStringFromBuffer(7);
-        this.view = buf.readByte();
-        this.chatVisibility = EntityPlayer.EnumChatVisibility.getEnumChatVisibility(buf.readByte());
-        this.enableColors = buf.readBoolean();
-        this.modelPartFlags = buf.readUnsignedByte();
+        lang = buf.readStringFromBuffer(7);
+        view = buf.readByte();
+        chatVisibility = EntityPlayer.EnumChatVisibility.getEnumChatVisibility(buf.readByte());
+        enableColors = buf.readBoolean();
+        modelPartFlags = buf.readUnsignedByte();
     }
 
     /**
@@ -44,11 +44,11 @@ public class C15PacketClientSettings implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeString(this.lang);
-        buf.writeByte(this.view);
-        buf.writeByte(this.chatVisibility.getChatVisibility());
-        buf.writeBoolean(this.enableColors);
-        buf.writeByte(this.modelPartFlags);
+        buf.writeString(lang);
+        buf.writeByte(view);
+        buf.writeByte(chatVisibility.getChatVisibility());
+        buf.writeBoolean(enableColors);
+        buf.writeByte(modelPartFlags);
     }
 
     /**
@@ -61,21 +61,21 @@ public class C15PacketClientSettings implements Packet<INetHandlerPlayServer>
 
     public String getLang()
     {
-        return this.lang;
+        return lang;
     }
 
     public EntityPlayer.EnumChatVisibility getChatVisibility()
     {
-        return this.chatVisibility;
+        return chatVisibility;
     }
 
     public boolean isColorsEnabled()
     {
-        return this.enableColors;
+        return enableColors;
     }
 
     public int getModelPartFlags()
     {
-        return this.modelPartFlags;
+        return modelPartFlags;
     }
 }

@@ -32,7 +32,7 @@ public class WorldVertexBufferUploader
 
                 if (flag)
                 {
-                    Reflector.callVoid(vertexformatelement$enumusage, Reflector.ForgeVertexFormatElementEnumUseage_preDraw, new Object[] {vertexformat, Integer.valueOf(j), Integer.valueOf(i), bytebuffer});
+                    Reflector.callVoid(vertexformatelement$enumusage, Reflector.ForgeVertexFormatElementEnumUseage_preDraw, vertexformat, Integer.valueOf(j), Integer.valueOf(i), bytebuffer);
                 }
                 else
                 {
@@ -88,7 +88,7 @@ public class WorldVertexBufferUploader
 
                 if (flag1)
                 {
-                    Reflector.callVoid(vertexformatelement$enumusage1, Reflector.ForgeVertexFormatElementEnumUseage_postDraw, new Object[] {vertexformat, Integer.valueOf(i1), Integer.valueOf(i), bytebuffer});
+                    Reflector.callVoid(vertexformatelement$enumusage1, Reflector.ForgeVertexFormatElementEnumUseage_postDraw, vertexformat, Integer.valueOf(i1), Integer.valueOf(i), bytebuffer);
                 }
                 else
                 {
@@ -130,38 +130,34 @@ public class WorldVertexBufferUploader
         {
             try
             {
-                field_178958_a[VertexFormatElement.EnumUsage.POSITION.ordinal()] = 1;
+                WorldVertexBufferUploader$1.field_178958_a[VertexFormatElement.EnumUsage.POSITION.ordinal()] = 1;
             }
             catch (NoSuchFieldError var4)
             {
-                ;
             }
 
             try
             {
-                field_178958_a[VertexFormatElement.EnumUsage.UV.ordinal()] = 2;
+                WorldVertexBufferUploader$1.field_178958_a[VertexFormatElement.EnumUsage.UV.ordinal()] = 2;
             }
             catch (NoSuchFieldError var3)
             {
-                ;
             }
 
             try
             {
-                field_178958_a[VertexFormatElement.EnumUsage.COLOR.ordinal()] = 3;
+                WorldVertexBufferUploader$1.field_178958_a[VertexFormatElement.EnumUsage.COLOR.ordinal()] = 3;
             }
             catch (NoSuchFieldError var2)
             {
-                ;
             }
 
             try
             {
-                field_178958_a[VertexFormatElement.EnumUsage.NORMAL.ordinal()] = 4;
+                WorldVertexBufferUploader$1.field_178958_a[VertexFormatElement.EnumUsage.NORMAL.ordinal()] = 4;
             }
             catch (NoSuchFieldError var1)
             {
-                ;
             }
         }
     }

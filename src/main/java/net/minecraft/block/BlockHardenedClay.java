@@ -10,7 +10,7 @@ public class BlockHardenedClay extends Block
     public BlockHardenedClay()
     {
         super(Material.rock);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**

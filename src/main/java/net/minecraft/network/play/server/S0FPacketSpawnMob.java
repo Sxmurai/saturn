@@ -32,14 +32,14 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient>
 
     public S0FPacketSpawnMob(EntityLivingBase entityIn)
     {
-        this.entityId = entityIn.getEntityId();
-        this.type = (byte)EntityList.getEntityID(entityIn);
-        this.x = MathHelper.floor_double(entityIn.posX * 32.0D);
-        this.y = MathHelper.floor_double(entityIn.posY * 32.0D);
-        this.z = MathHelper.floor_double(entityIn.posZ * 32.0D);
-        this.yaw = (byte)((int)(entityIn.rotationYaw * 256.0F / 360.0F));
-        this.pitch = (byte)((int)(entityIn.rotationPitch * 256.0F / 360.0F));
-        this.headPitch = (byte)((int)(entityIn.rotationYawHead * 256.0F / 360.0F));
+        entityId = entityIn.getEntityId();
+        type = (byte)EntityList.getEntityID(entityIn);
+        x = MathHelper.floor_double(entityIn.posX * 32.0D);
+        y = MathHelper.floor_double(entityIn.posY * 32.0D);
+        z = MathHelper.floor_double(entityIn.posZ * 32.0D);
+        yaw = (byte)((int)(entityIn.rotationYaw * 256.0F / 360.0F));
+        pitch = (byte)((int)(entityIn.rotationPitch * 256.0F / 360.0F));
+        headPitch = (byte)((int)(entityIn.rotationYawHead * 256.0F / 360.0F));
         double d0 = 3.9D;
         double d1 = entityIn.motionX;
         double d2 = entityIn.motionY;
@@ -75,10 +75,10 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient>
             d3 = d0;
         }
 
-        this.velocityX = (int)(d1 * 8000.0D);
-        this.velocityY = (int)(d2 * 8000.0D);
-        this.velocityZ = (int)(d3 * 8000.0D);
-        this.field_149043_l = entityIn.getDataWatcher();
+        velocityX = (int)(d1 * 8000.0D);
+        velocityY = (int)(d2 * 8000.0D);
+        velocityZ = (int)(d3 * 8000.0D);
+        field_149043_l = entityIn.getDataWatcher();
     }
 
     /**
@@ -86,18 +86,18 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
-        this.type = buf.readByte() & 255;
-        this.x = buf.readInt();
-        this.y = buf.readInt();
-        this.z = buf.readInt();
-        this.yaw = buf.readByte();
-        this.pitch = buf.readByte();
-        this.headPitch = buf.readByte();
-        this.velocityX = buf.readShort();
-        this.velocityY = buf.readShort();
-        this.velocityZ = buf.readShort();
-        this.watcher = DataWatcher.readWatchedListFromPacketBuffer(buf);
+        entityId = buf.readVarIntFromBuffer();
+        type = buf.readByte() & 255;
+        x = buf.readInt();
+        y = buf.readInt();
+        z = buf.readInt();
+        yaw = buf.readByte();
+        pitch = buf.readByte();
+        headPitch = buf.readByte();
+        velocityX = buf.readShort();
+        velocityY = buf.readShort();
+        velocityZ = buf.readShort();
+        watcher = DataWatcher.readWatchedListFromPacketBuffer(buf);
     }
 
     /**
@@ -105,18 +105,18 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        buf.writeByte(this.type & 255);
-        buf.writeInt(this.x);
-        buf.writeInt(this.y);
-        buf.writeInt(this.z);
-        buf.writeByte(this.yaw);
-        buf.writeByte(this.pitch);
-        buf.writeByte(this.headPitch);
-        buf.writeShort(this.velocityX);
-        buf.writeShort(this.velocityY);
-        buf.writeShort(this.velocityZ);
-        this.field_149043_l.writeTo(buf);
+        buf.writeVarIntToBuffer(entityId);
+        buf.writeByte(type & 255);
+        buf.writeInt(x);
+        buf.writeInt(y);
+        buf.writeInt(z);
+        buf.writeByte(yaw);
+        buf.writeByte(pitch);
+        buf.writeByte(headPitch);
+        buf.writeShort(velocityX);
+        buf.writeShort(velocityY);
+        buf.writeShort(velocityZ);
+        field_149043_l.writeTo(buf);
     }
 
     /**
@@ -129,66 +129,66 @@ public class S0FPacketSpawnMob implements Packet<INetHandlerPlayClient>
 
     public List<DataWatcher.WatchableObject> func_149027_c()
     {
-        if (this.watcher == null)
+        if (watcher == null)
         {
-            this.watcher = this.field_149043_l.getAllWatched();
+            watcher = field_149043_l.getAllWatched();
         }
 
-        return this.watcher;
+        return watcher;
     }
 
     public int getEntityID()
     {
-        return this.entityId;
+        return entityId;
     }
 
     public int getEntityType()
     {
-        return this.type;
+        return type;
     }
 
     public int getX()
     {
-        return this.x;
+        return x;
     }
 
     public int getY()
     {
-        return this.y;
+        return y;
     }
 
     public int getZ()
     {
-        return this.z;
+        return z;
     }
 
     public int getVelocityX()
     {
-        return this.velocityX;
+        return velocityX;
     }
 
     public int getVelocityY()
     {
-        return this.velocityY;
+        return velocityY;
     }
 
     public int getVelocityZ()
     {
-        return this.velocityZ;
+        return velocityZ;
     }
 
     public byte getYaw()
     {
-        return this.yaw;
+        return yaw;
     }
 
     public byte getPitch()
     {
-        return this.pitch;
+        return pitch;
     }
 
     public byte getHeadPitch()
     {
-        return this.headPitch;
+        return headPitch;
     }
 }

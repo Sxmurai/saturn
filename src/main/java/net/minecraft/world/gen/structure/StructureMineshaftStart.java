@@ -13,9 +13,9 @@ public class StructureMineshaftStart extends StructureStart
     {
         super(chunkX, chunkZ);
         StructureMineshaftPieces.Room structuremineshaftpieces$room = new StructureMineshaftPieces.Room(0, rand, (chunkX << 4) + 2, (chunkZ << 4) + 2);
-        this.components.add(structuremineshaftpieces$room);
-        structuremineshaftpieces$room.buildComponent(structuremineshaftpieces$room, this.components, rand);
-        this.updateBoundingBox();
-        this.markAvailableHeight(worldIn, rand, 10);
+        components.add(structuremineshaftpieces$room);
+        structuremineshaftpieces$room.buildComponent(structuremineshaftpieces$room, components, rand);
+        updateBoundingBox();
+        markAvailableHeight(worldIn, rand, 10);
     }
 }

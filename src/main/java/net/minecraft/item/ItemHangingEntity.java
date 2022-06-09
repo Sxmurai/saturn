@@ -15,8 +15,8 @@ public class ItemHangingEntity extends Item
 
     public ItemHangingEntity(Class <? extends EntityHanging > entityClass)
     {
-        this.hangingEntityClass = entityClass;
-        this.setCreativeTab(CreativeTabs.tabDecorations);
+        hangingEntityClass = entityClass;
+        setCreativeTab(CreativeTabs.tabDecorations);
     }
 
     /**
@@ -42,7 +42,7 @@ public class ItemHangingEntity extends Item
             }
             else
             {
-                EntityHanging entityhanging = this.createEntity(worldIn, blockpos, side);
+                EntityHanging entityhanging = createEntity(worldIn, blockpos, side);
 
                 if (entityhanging != null && entityhanging.onValidSurface())
                 {
@@ -61,6 +61,6 @@ public class ItemHangingEntity extends Item
 
     private EntityHanging createEntity(World worldIn, BlockPos pos, EnumFacing clickedSide)
     {
-        return (EntityHanging)(this.hangingEntityClass == EntityPainting.class ? new EntityPainting(worldIn, pos, clickedSide) : (this.hangingEntityClass == EntityItemFrame.class ? new EntityItemFrame(worldIn, pos, clickedSide) : null));
+        return hangingEntityClass == EntityPainting.class ? new EntityPainting(worldIn, pos, clickedSide) : (hangingEntityClass == EntityItemFrame.class ? new EntityItemFrame(worldIn, pos, clickedSide) : null);
     }
 }

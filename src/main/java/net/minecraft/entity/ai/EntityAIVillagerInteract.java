@@ -12,12 +12,12 @@ public class EntityAIVillagerInteract extends EntityAIWatchClosest2
 {
     /** The delay before the villager throws an itemstack (in ticks) */
     private int interactionDelay;
-    private EntityVillager villager;
+    private final EntityVillager villager;
 
     public EntityAIVillagerInteract(EntityVillager villagerIn)
     {
         super(villagerIn, EntityVillager.class, 3.0F, 0.02F);
-        this.villager = villagerIn;
+        villager = villagerIn;
     }
 
     /**
@@ -27,13 +27,13 @@ public class EntityAIVillagerInteract extends EntityAIWatchClosest2
     {
         super.startExecuting();
 
-        if (this.villager.canAbondonItems() && this.closestEntity instanceof EntityVillager && ((EntityVillager)this.closestEntity).func_175557_cr())
+        if (villager.canAbondonItems() && closestEntity instanceof EntityVillager && ((EntityVillager) closestEntity).func_175557_cr())
         {
-            this.interactionDelay = 10;
+            interactionDelay = 10;
         }
         else
         {
-            this.interactionDelay = 0;
+            interactionDelay = 0;
         }
     }
 
@@ -44,13 +44,13 @@ public class EntityAIVillagerInteract extends EntityAIWatchClosest2
     {
         super.updateTask();
 
-        if (this.interactionDelay > 0)
+        if (interactionDelay > 0)
         {
-            --this.interactionDelay;
+            --interactionDelay;
 
-            if (this.interactionDelay == 0)
+            if (interactionDelay == 0)
             {
-                InventoryBasic inventorybasic = this.villager.getVillagerInventory();
+                InventoryBasic inventorybasic = villager.getVillagerInventory();
 
                 for (int i = 0; i < inventorybasic.getSizeInventory(); ++i)
                 {
@@ -77,22 +77,22 @@ public class EntityAIVillagerInteract extends EntityAIWatchClosest2
 
                         if (itemstack.stackSize <= 0)
                         {
-                            inventorybasic.setInventorySlotContents(i, (ItemStack)null);
+                            inventorybasic.setInventorySlotContents(i, null);
                         }
                     }
 
                     if (itemstack1 != null)
                     {
-                        double d0 = this.villager.posY - 0.30000001192092896D + (double)this.villager.getEyeHeight();
-                        EntityItem entityitem = new EntityItem(this.villager.worldObj, this.villager.posX, d0, this.villager.posZ, itemstack1);
+                        double d0 = villager.posY - 0.30000001192092896D + (double) villager.getEyeHeight();
+                        EntityItem entityitem = new EntityItem(villager.worldObj, villager.posX, d0, villager.posZ, itemstack1);
                         float f = 0.3F;
-                        float f1 = this.villager.rotationYawHead;
-                        float f2 = this.villager.rotationPitch;
-                        entityitem.motionX = (double)(-MathHelper.sin(f1 / 180.0F * (float)Math.PI) * MathHelper.cos(f2 / 180.0F * (float)Math.PI) * f);
-                        entityitem.motionZ = (double)(MathHelper.cos(f1 / 180.0F * (float)Math.PI) * MathHelper.cos(f2 / 180.0F * (float)Math.PI) * f);
-                        entityitem.motionY = (double)(-MathHelper.sin(f2 / 180.0F * (float)Math.PI) * f + 0.1F);
+                        float f1 = villager.rotationYawHead;
+                        float f2 = villager.rotationPitch;
+                        entityitem.motionX = -MathHelper.sin(f1 / 180.0F * (float)Math.PI) * MathHelper.cos(f2 / 180.0F * (float)Math.PI) * f;
+                        entityitem.motionZ = MathHelper.cos(f1 / 180.0F * (float)Math.PI) * MathHelper.cos(f2 / 180.0F * (float)Math.PI) * f;
+                        entityitem.motionY = -MathHelper.sin(f2 / 180.0F * (float)Math.PI) * f + 0.1F;
                         entityitem.setDefaultPickupDelay();
-                        this.villager.worldObj.spawnEntityInWorld(entityitem);
+                        villager.worldObj.spawnEntityInWorld(entityitem);
                         break;
                     }
                 }

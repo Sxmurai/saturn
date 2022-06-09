@@ -11,7 +11,7 @@ public class ItemEmptyMap extends ItemMapBase
 {
     protected ItemEmptyMap()
     {
-        this.setCreativeTab(CreativeTabs.tabMisc);
+        setCreativeTab(CreativeTabs.tabMisc);
     }
 
     /**

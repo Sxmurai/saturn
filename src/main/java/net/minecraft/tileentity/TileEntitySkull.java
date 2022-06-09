@@ -20,13 +20,13 @@ public class TileEntitySkull extends TileEntity
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setByte("SkullType", (byte)(this.skullType & 255));
-        compound.setByte("Rot", (byte)(this.skullRotation & 255));
+        compound.setByte("SkullType", (byte)(skullType & 255));
+        compound.setByte("Rot", (byte)(skullRotation & 255));
 
-        if (this.playerProfile != null)
+        if (playerProfile != null)
         {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
-            NBTUtil.writeGameProfile(nbttagcompound, this.playerProfile);
+            NBTUtil.writeGameProfile(nbttagcompound, playerProfile);
             compound.setTag("Owner", nbttagcompound);
         }
     }
@@ -34,14 +34,14 @@ public class TileEntitySkull extends TileEntity
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        this.skullType = compound.getByte("SkullType");
-        this.skullRotation = compound.getByte("Rot");
+        skullType = compound.getByte("SkullType");
+        skullRotation = compound.getByte("Rot");
 
-        if (this.skullType == 3)
+        if (skullType == 3)
         {
             if (compound.hasKey("Owner", 10))
             {
-                this.playerProfile = NBTUtil.readGameProfileFromNBT(compound.getCompoundTag("Owner"));
+                playerProfile = NBTUtil.readGameProfileFromNBT(compound.getCompoundTag("Owner"));
             }
             else if (compound.hasKey("ExtraType", 8))
             {
@@ -49,8 +49,8 @@ public class TileEntitySkull extends TileEntity
 
                 if (!StringUtils.isNullOrEmpty(s))
                 {
-                    this.playerProfile = new GameProfile((UUID)null, s);
-                    this.updatePlayerProfile();
+                    playerProfile = new GameProfile(null, s);
+                    updatePlayerProfile();
                 }
             }
         }
@@ -58,7 +58,7 @@ public class TileEntitySkull extends TileEntity
 
     public GameProfile getPlayerProfile()
     {
-        return this.playerProfile;
+        return playerProfile;
     }
 
     /**
@@ -68,27 +68,27 @@ public class TileEntitySkull extends TileEntity
     public Packet getDescriptionPacket()
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        this.writeToNBT(nbttagcompound);
-        return new S35PacketUpdateTileEntity(this.pos, 4, nbttagcompound);
+        writeToNBT(nbttagcompound);
+        return new S35PacketUpdateTileEntity(pos, 4, nbttagcompound);
     }
 
     public void setType(int type)
     {
-        this.skullType = type;
-        this.playerProfile = null;
+        skullType = type;
+        playerProfile = null;
     }
 
     public void setPlayerProfile(GameProfile playerProfile)
     {
-        this.skullType = 3;
+        skullType = 3;
         this.playerProfile = playerProfile;
-        this.updatePlayerProfile();
+        updatePlayerProfile();
     }
 
     private void updatePlayerProfile()
     {
-        this.playerProfile = updateGameprofile(this.playerProfile);
-        this.markDirty();
+        playerProfile = TileEntitySkull.updateGameprofile(playerProfile);
+        markDirty();
     }
 
     public static GameProfile updateGameprofile(GameProfile input)
@@ -113,7 +113,7 @@ public class TileEntitySkull extends TileEntity
                 }
                 else
                 {
-                    Property property = (Property)Iterables.getFirst(gameprofile.getProperties().get("textures"), null);
+                    Property property = Iterables.getFirst(gameprofile.getProperties().get("textures"), null);
 
                     if (property == null)
                     {
@@ -132,16 +132,16 @@ public class TileEntitySkull extends TileEntity
 
     public int getSkullType()
     {
-        return this.skullType;
+        return skullType;
     }
 
     public int getSkullRotation()
     {
-        return this.skullRotation;
+        return skullRotation;
     }
 
     public void setSkullRotation(int rotation)
     {
-        this.skullRotation = rotation;
+        skullRotation = rotation;
     }
 }

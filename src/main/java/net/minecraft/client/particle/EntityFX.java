@@ -44,53 +44,53 @@ public class EntityFX extends Entity
     protected EntityFX(World worldIn, double posXIn, double posYIn, double posZIn)
     {
         super(worldIn);
-        this.particleAlpha = 1.0F;
-        this.setSize(0.2F, 0.2F);
-        this.setPosition(posXIn, posYIn, posZIn);
-        this.lastTickPosX = this.prevPosX = posXIn;
-        this.lastTickPosY = this.prevPosY = posYIn;
-        this.lastTickPosZ = this.prevPosZ = posZIn;
-        this.particleRed = this.particleGreen = this.particleBlue = 1.0F;
-        this.particleTextureJitterX = this.rand.nextFloat() * 3.0F;
-        this.particleTextureJitterY = this.rand.nextFloat() * 3.0F;
-        this.particleScale = (this.rand.nextFloat() * 0.5F + 0.5F) * 2.0F;
-        this.particleMaxAge = (int)(4.0F / (this.rand.nextFloat() * 0.9F + 0.1F));
-        this.particleAge = 0;
+        particleAlpha = 1.0F;
+        setSize(0.2F, 0.2F);
+        setPosition(posXIn, posYIn, posZIn);
+        lastTickPosX = prevPosX = posXIn;
+        lastTickPosY = prevPosY = posYIn;
+        lastTickPosZ = prevPosZ = posZIn;
+        particleRed = particleGreen = particleBlue = 1.0F;
+        particleTextureJitterX = rand.nextFloat() * 3.0F;
+        particleTextureJitterY = rand.nextFloat() * 3.0F;
+        particleScale = (rand.nextFloat() * 0.5F + 0.5F) * 2.0F;
+        particleMaxAge = (int)(4.0F / (rand.nextFloat() * 0.9F + 0.1F));
+        particleAge = 0;
     }
 
     public EntityFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn)
     {
         this(worldIn, xCoordIn, yCoordIn, zCoordIn);
-        this.motionX = xSpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
-        this.motionY = ySpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
-        this.motionZ = zSpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
+        motionX = xSpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
+        motionY = ySpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
+        motionZ = zSpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
         float f = (float)(Math.random() + Math.random() + 1.0D) * 0.15F;
-        float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-        this.motionX = this.motionX / (double)f1 * (double)f * 0.4000000059604645D;
-        this.motionY = this.motionY / (double)f1 * (double)f * 0.4000000059604645D + 0.10000000149011612D;
-        this.motionZ = this.motionZ / (double)f1 * (double)f * 0.4000000059604645D;
+        float f1 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+        motionX = motionX / (double)f1 * (double)f * 0.4000000059604645D;
+        motionY = motionY / (double)f1 * (double)f * 0.4000000059604645D + 0.10000000149011612D;
+        motionZ = motionZ / (double)f1 * (double)f * 0.4000000059604645D;
     }
 
     public EntityFX multiplyVelocity(float multiplier)
     {
-        this.motionX *= (double)multiplier;
-        this.motionY = (this.motionY - 0.10000000149011612D) * (double)multiplier + 0.10000000149011612D;
-        this.motionZ *= (double)multiplier;
+        motionX *= multiplier;
+        motionY = (motionY - 0.10000000149011612D) * (double)multiplier + 0.10000000149011612D;
+        motionZ *= multiplier;
         return this;
     }
 
     public EntityFX multipleParticleScaleBy(float p_70541_1_)
     {
-        this.setSize(0.2F * p_70541_1_, 0.2F * p_70541_1_);
-        this.particleScale *= p_70541_1_;
+        setSize(0.2F * p_70541_1_, 0.2F * p_70541_1_);
+        particleScale *= p_70541_1_;
         return this;
     }
 
     public void setRBGColorF(float particleRedIn, float particleGreenIn, float particleBlueIn)
     {
-        this.particleRed = particleRedIn;
-        this.particleGreen = particleGreenIn;
-        this.particleBlue = particleBlueIn;
+        particleRed = particleRedIn;
+        particleGreen = particleGreenIn;
+        particleBlue = particleBlueIn;
     }
 
     /**
@@ -98,36 +98,36 @@ public class EntityFX extends Entity
      */
     public void setAlphaF(float alpha)
     {
-        if (this.particleAlpha == 1.0F && alpha < 1.0F)
+        if (particleAlpha == 1.0F && alpha < 1.0F)
         {
             Minecraft.getMinecraft().effectRenderer.moveToAlphaLayer(this);
         }
-        else if (this.particleAlpha < 1.0F && alpha == 1.0F)
+        else if (particleAlpha < 1.0F && alpha == 1.0F)
         {
             Minecraft.getMinecraft().effectRenderer.moveToNoAlphaLayer(this);
         }
 
-        this.particleAlpha = alpha;
+        particleAlpha = alpha;
     }
 
     public float getRedColorF()
     {
-        return this.particleRed;
+        return particleRed;
     }
 
     public float getGreenColorF()
     {
-        return this.particleGreen;
+        return particleGreen;
     }
 
     public float getBlueColorF()
     {
-        return this.particleBlue;
+        return particleBlue;
     }
 
     public float getAlpha()
     {
-        return this.particleAlpha;
+        return particleAlpha;
     }
 
     /**
@@ -148,25 +148,25 @@ public class EntityFX extends Entity
      */
     public void onUpdate()
     {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
 
-        if (this.particleAge++ >= this.particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
-            this.setDead();
+            setDead();
         }
 
-        this.motionY -= 0.04D * (double)this.particleGravity;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.9800000190734863D;
-        this.motionY *= 0.9800000190734863D;
-        this.motionZ *= 0.9800000190734863D;
+        motionY -= 0.04D * (double) particleGravity;
+        moveEntity(motionX, motionY, motionZ);
+        motionX *= 0.9800000190734863D;
+        motionY *= 0.9800000190734863D;
+        motionZ *= 0.9800000190734863D;
 
-        if (this.onGround)
+        if (onGround)
         {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
+            motionX *= 0.699999988079071D;
+            motionZ *= 0.699999988079071D;
         }
     }
 
@@ -175,30 +175,30 @@ public class EntityFX extends Entity
      */
     public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
     {
-        float f = (float)this.particleTextureIndexX / 16.0F;
+        float f = (float) particleTextureIndexX / 16.0F;
         float f1 = f + 0.0624375F;
-        float f2 = (float)this.particleTextureIndexY / 16.0F;
+        float f2 = (float) particleTextureIndexY / 16.0F;
         float f3 = f2 + 0.0624375F;
-        float f4 = 0.1F * this.particleScale;
+        float f4 = 0.1F * particleScale;
 
-        if (this.particleIcon != null)
+        if (particleIcon != null)
         {
-            f = this.particleIcon.getMinU();
-            f1 = this.particleIcon.getMaxU();
-            f2 = this.particleIcon.getMinV();
-            f3 = this.particleIcon.getMaxV();
+            f = particleIcon.getMinU();
+            f1 = particleIcon.getMaxU();
+            f2 = particleIcon.getMinV();
+            f3 = particleIcon.getMaxV();
         }
 
-        float f5 = (float)(this.prevPosX + (this.posX - this.prevPosX) * (double)partialTicks - interpPosX);
-        float f6 = (float)(this.prevPosY + (this.posY - this.prevPosY) * (double)partialTicks - interpPosY);
-        float f7 = (float)(this.prevPosZ + (this.posZ - this.prevPosZ) * (double)partialTicks - interpPosZ);
-        int i = this.getBrightnessForRender(partialTicks);
+        float f5 = (float)(prevPosX + (posX - prevPosX) * (double)partialTicks - EntityFX.interpPosX);
+        float f6 = (float)(prevPosY + (posY - prevPosY) * (double)partialTicks - EntityFX.interpPosY);
+        float f7 = (float)(prevPosZ + (posZ - prevPosZ) * (double)partialTicks - EntityFX.interpPosZ);
+        int i = getBrightnessForRender(partialTicks);
         int j = i >> 16 & 65535;
         int k = i & 65535;
-        worldRendererIn.pos((double)(f5 - p_180434_4_ * f4 - p_180434_7_ * f4), (double)(f6 - p_180434_5_ * f4), (double)(f7 - p_180434_6_ * f4 - p_180434_8_ * f4)).tex((double)f1, (double)f3).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        worldRendererIn.pos((double)(f5 - p_180434_4_ * f4 + p_180434_7_ * f4), (double)(f6 + p_180434_5_ * f4), (double)(f7 - p_180434_6_ * f4 + p_180434_8_ * f4)).tex((double)f1, (double)f2).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        worldRendererIn.pos((double)(f5 + p_180434_4_ * f4 + p_180434_7_ * f4), (double)(f6 + p_180434_5_ * f4), (double)(f7 + p_180434_6_ * f4 + p_180434_8_ * f4)).tex((double)f, (double)f2).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        worldRendererIn.pos((double)(f5 + p_180434_4_ * f4 - p_180434_7_ * f4), (double)(f6 - p_180434_5_ * f4), (double)(f7 + p_180434_6_ * f4 - p_180434_8_ * f4)).tex((double)f, (double)f3).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+        worldRendererIn.pos(f5 - p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 - p_180434_6_ * f4 - p_180434_8_ * f4).tex(f1, f3).color(particleRed, particleGreen, particleBlue, particleAlpha).lightmap(j, k).endVertex();
+        worldRendererIn.pos(f5 - p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 - p_180434_6_ * f4 + p_180434_8_ * f4).tex(f1, f2).color(particleRed, particleGreen, particleBlue, particleAlpha).lightmap(j, k).endVertex();
+        worldRendererIn.pos(f5 + p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 + p_180434_6_ * f4 + p_180434_8_ * f4).tex(f, f2).color(particleRed, particleGreen, particleBlue, particleAlpha).lightmap(j, k).endVertex();
+        worldRendererIn.pos(f5 + p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 + p_180434_6_ * f4 - p_180434_8_ * f4).tex(f, f3).color(particleRed, particleGreen, particleBlue, particleAlpha).lightmap(j, k).endVertex();
     }
 
     public int getFXLayer()
@@ -225,11 +225,11 @@ public class EntityFX extends Entity
      */
     public void setParticleIcon(TextureAtlasSprite icon)
     {
-        int i = this.getFXLayer();
+        int i = getFXLayer();
 
         if (i == 1)
         {
-            this.particleIcon = icon;
+            particleIcon = icon;
         }
         else
         {
@@ -242,20 +242,20 @@ public class EntityFX extends Entity
      */
     public void setParticleTextureIndex(int particleTextureIndex)
     {
-        if (this.getFXLayer() != 0)
+        if (getFXLayer() != 0)
         {
             throw new RuntimeException("Invalid call to Particle.setMiscTex");
         }
         else
         {
-            this.particleTextureIndexX = particleTextureIndex % 16;
-            this.particleTextureIndexY = particleTextureIndex / 16;
+            particleTextureIndexX = particleTextureIndex % 16;
+            particleTextureIndexY = particleTextureIndex / 16;
         }
     }
 
     public void nextTextureIndexX()
     {
-        ++this.particleTextureIndexX;
+        ++particleTextureIndexX;
     }
 
     /**
@@ -268,6 +268,6 @@ public class EntityFX extends Entity
 
     public String toString()
     {
-        return this.getClass().getSimpleName() + ", Pos (" + this.posX + "," + this.posY + "," + this.posZ + "), RGBA (" + this.particleRed + "," + this.particleGreen + "," + this.particleBlue + "," + this.particleAlpha + "), Age " + this.particleAge;
+        return getClass().getSimpleName() + ", Pos (" + posX + "," + posY + "," + posZ + "), RGBA (" + particleRed + "," + particleGreen + "," + particleBlue + "," + particleAlpha + "), Age " + particleAge;
     }
 }

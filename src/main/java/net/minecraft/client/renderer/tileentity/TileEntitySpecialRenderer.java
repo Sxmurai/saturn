@@ -15,7 +15,7 @@ public abstract class TileEntitySpecialRenderer<T extends TileEntity>
 
     protected void bindTexture(ResourceLocation location)
     {
-        TextureManager texturemanager = this.rendererDispatcher.renderEngine;
+        TextureManager texturemanager = rendererDispatcher.renderEngine;
 
         if (texturemanager != null)
         {
@@ -25,17 +25,17 @@ public abstract class TileEntitySpecialRenderer<T extends TileEntity>
 
     protected World getWorld()
     {
-        return this.rendererDispatcher.worldObj;
+        return rendererDispatcher.worldObj;
     }
 
     public void setRendererDispatcher(TileEntityRendererDispatcher rendererDispatcherIn)
     {
-        this.rendererDispatcher = rendererDispatcherIn;
+        rendererDispatcher = rendererDispatcherIn;
     }
 
     public FontRenderer getFontRenderer()
     {
-        return this.rendererDispatcher.getFontRenderer();
+        return rendererDispatcher.getFontRenderer();
     }
 
     public boolean func_181055_a()

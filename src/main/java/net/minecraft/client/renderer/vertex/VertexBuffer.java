@@ -12,26 +12,26 @@ public class VertexBuffer
 
     public VertexBuffer(VertexFormat vertexFormatIn)
     {
-        this.vertexFormat = vertexFormatIn;
-        this.glBufferId = OpenGlHelper.glGenBuffers();
+        vertexFormat = vertexFormatIn;
+        glBufferId = OpenGlHelper.glGenBuffers();
     }
 
     public void bindBuffer()
     {
-        OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER, this.glBufferId);
+        OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER, glBufferId);
     }
 
     public void func_181722_a(ByteBuffer p_181722_1_)
     {
-        this.bindBuffer();
+        bindBuffer();
         OpenGlHelper.glBufferData(OpenGlHelper.GL_ARRAY_BUFFER, p_181722_1_, 35044);
-        this.unbindBuffer();
-        this.count = p_181722_1_.limit() / this.vertexFormat.getNextOffset();
+        unbindBuffer();
+        count = p_181722_1_.limit() / vertexFormat.getNextOffset();
     }
 
     public void drawArrays(int mode)
     {
-        GL11.glDrawArrays(mode, 0, this.count);
+        GL11.glDrawArrays(mode, 0, count);
     }
 
     public void unbindBuffer()
@@ -41,10 +41,10 @@ public class VertexBuffer
 
     public void deleteGlBuffers()
     {
-        if (this.glBufferId >= 0)
+        if (glBufferId >= 0)
         {
-            OpenGlHelper.glDeleteBuffers(this.glBufferId);
-            this.glBufferId = -1;
+            OpenGlHelper.glDeleteBuffers(glBufferId);
+            glBufferId = -1;
         }
     }
 }

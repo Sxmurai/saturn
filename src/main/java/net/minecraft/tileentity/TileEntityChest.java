@@ -51,12 +51,12 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 
     public TileEntityChest()
     {
-        this.cachedChestType = -1;
+        cachedChestType = -1;
     }
 
     public TileEntityChest(int chestType)
     {
-        this.cachedChestType = chestType;
+        cachedChestType = chestType;
     }
 
     /**
@@ -72,7 +72,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
      */
     public ItemStack getStackInSlot(int index)
     {
-        return this.chestContents[index];
+        return chestContents[index];
     }
 
     /**
@@ -80,25 +80,25 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
      */
     public ItemStack decrStackSize(int index, int count)
     {
-        if (this.chestContents[index] != null)
+        if (chestContents[index] != null)
         {
-            if (this.chestContents[index].stackSize <= count)
+            if (chestContents[index].stackSize <= count)
             {
-                ItemStack itemstack1 = this.chestContents[index];
-                this.chestContents[index] = null;
-                this.markDirty();
+                ItemStack itemstack1 = chestContents[index];
+                chestContents[index] = null;
+                markDirty();
                 return itemstack1;
             }
             else
             {
-                ItemStack itemstack = this.chestContents[index].splitStack(count);
+                ItemStack itemstack = chestContents[index].splitStack(count);
 
-                if (this.chestContents[index].stackSize == 0)
+                if (chestContents[index].stackSize == 0)
                 {
-                    this.chestContents[index] = null;
+                    chestContents[index] = null;
                 }
 
-                this.markDirty();
+                markDirty();
                 return itemstack;
             }
         }
@@ -113,10 +113,10 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
      */
     public ItemStack removeStackFromSlot(int index)
     {
-        if (this.chestContents[index] != null)
+        if (chestContents[index] != null)
         {
-            ItemStack itemstack = this.chestContents[index];
-            this.chestContents[index] = null;
+            ItemStack itemstack = chestContents[index];
+            chestContents[index] = null;
             return itemstack;
         }
         else
@@ -130,14 +130,14 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
      */
     public void setInventorySlotContents(int index, ItemStack stack)
     {
-        this.chestContents[index] = stack;
+        chestContents[index] = stack;
 
-        if (stack != null && stack.stackSize > this.getInventoryStackLimit())
+        if (stack != null && stack.stackSize > getInventoryStackLimit())
         {
-            stack.stackSize = this.getInventoryStackLimit();
+            stack.stackSize = getInventoryStackLimit();
         }
 
-        this.markDirty();
+        markDirty();
     }
 
     /**
@@ -145,7 +145,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
      */
     public String getName()
     {
-        return this.hasCustomName() ? this.customName : "container.chest";
+        return hasCustomName() ? customName : "container.chest";
     }
 
     /**
@@ -153,23 +153,23 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
      */
     public boolean hasCustomName()
     {
-        return this.customName != null && this.customName.length() > 0;
+        return customName != null && customName.length() > 0;
     }
 
     public void setCustomName(String name)
     {
-        this.customName = name;
+        customName = name;
     }
 
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
         NBTTagList nbttaglist = compound.getTagList("Items", 10);
-        this.chestContents = new ItemStack[this.getSizeInventory()];
+        chestContents = new ItemStack[getSizeInventory()];
 
         if (compound.hasKey("CustomName", 8))
         {
-            this.customName = compound.getString("CustomName");
+            customName = compound.getString("CustomName");
         }
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
@@ -177,9 +177,9 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
             NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound.getByte("Slot") & 255;
 
-            if (j >= 0 && j < this.chestContents.length)
+            if (j >= 0 && j < chestContents.length)
             {
-                this.chestContents[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
+                chestContents[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
             }
         }
     }
@@ -189,22 +189,22 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
         super.writeToNBT(compound);
         NBTTagList nbttaglist = new NBTTagList();
 
-        for (int i = 0; i < this.chestContents.length; ++i)
+        for (int i = 0; i < chestContents.length; ++i)
         {
-            if (this.chestContents[i] != null)
+            if (chestContents[i] != null)
             {
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setByte("Slot", (byte)i);
-                this.chestContents[i].writeToNBT(nbttagcompound);
+                chestContents[i].writeToNBT(nbttagcompound);
                 nbttaglist.appendTag(nbttagcompound);
             }
         }
 
         compound.setTag("Items", nbttaglist);
 
-        if (this.hasCustomName())
+        if (hasCustomName())
         {
-            compound.setString("CustomName", this.customName);
+            compound.setString("CustomName", customName);
         }
     }
 
@@ -221,13 +221,13 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
      */
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+        return worldObj.getTileEntity(pos) == this && player.getDistanceSq((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D;
     }
 
     public void updateContainingBlockInfo()
     {
         super.updateContainingBlockInfo();
-        this.adjacentChestChecked = false;
+        adjacentChestChecked = false;
     }
 
     @SuppressWarnings("incomplete-switch")
@@ -235,40 +235,40 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
     {
         if (chestTe.isInvalid())
         {
-            this.adjacentChestChecked = false;
+            adjacentChestChecked = false;
         }
-        else if (this.adjacentChestChecked)
+        else if (adjacentChestChecked)
         {
             switch (side)
             {
                 case NORTH:
-                    if (this.adjacentChestZNeg != chestTe)
+                    if (adjacentChestZNeg != chestTe)
                     {
-                        this.adjacentChestChecked = false;
+                        adjacentChestChecked = false;
                     }
 
                     break;
 
                 case SOUTH:
-                    if (this.adjacentChestZPos != chestTe)
+                    if (adjacentChestZPos != chestTe)
                     {
-                        this.adjacentChestChecked = false;
+                        adjacentChestChecked = false;
                     }
 
                     break;
 
                 case EAST:
-                    if (this.adjacentChestXPos != chestTe)
+                    if (adjacentChestXPos != chestTe)
                     {
-                        this.adjacentChestChecked = false;
+                        adjacentChestChecked = false;
                     }
 
                     break;
 
                 case WEST:
-                    if (this.adjacentChestXNeg != chestTe)
+                    if (adjacentChestXNeg != chestTe)
                     {
-                        this.adjacentChestChecked = false;
+                        adjacentChestChecked = false;
                     }
             }
         }
@@ -279,23 +279,23 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
      */
     public void checkForAdjacentChests()
     {
-        if (!this.adjacentChestChecked)
+        if (!adjacentChestChecked)
         {
-            this.adjacentChestChecked = true;
-            this.adjacentChestXNeg = this.getAdjacentChest(EnumFacing.WEST);
-            this.adjacentChestXPos = this.getAdjacentChest(EnumFacing.EAST);
-            this.adjacentChestZNeg = this.getAdjacentChest(EnumFacing.NORTH);
-            this.adjacentChestZPos = this.getAdjacentChest(EnumFacing.SOUTH);
+            adjacentChestChecked = true;
+            adjacentChestXNeg = getAdjacentChest(EnumFacing.WEST);
+            adjacentChestXPos = getAdjacentChest(EnumFacing.EAST);
+            adjacentChestZNeg = getAdjacentChest(EnumFacing.NORTH);
+            adjacentChestZPos = getAdjacentChest(EnumFacing.SOUTH);
         }
     }
 
     protected TileEntityChest getAdjacentChest(EnumFacing side)
     {
-        BlockPos blockpos = this.pos.offset(side);
+        BlockPos blockpos = pos.offset(side);
 
-        if (this.isChestAt(blockpos))
+        if (isChestAt(blockpos))
         {
-            TileEntity tileentity = this.worldObj.getTileEntity(blockpos);
+            TileEntity tileentity = worldObj.getTileEntity(blockpos);
 
             if (tileentity instanceof TileEntityChest)
             {
@@ -310,14 +310,14 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 
     private boolean isChestAt(BlockPos posIn)
     {
-        if (this.worldObj == null)
+        if (worldObj == null)
         {
             return false;
         }
         else
         {
-            Block block = this.worldObj.getBlockState(posIn).getBlock();
-            return block instanceof BlockChest && ((BlockChest)block).chestType == this.getChestType();
+            Block block = worldObj.getBlockState(posIn).getBlock();
+            return block instanceof BlockChest && ((BlockChest)block).chestType == getChestType();
         }
     }
 
@@ -326,18 +326,18 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
      */
     public void update()
     {
-        this.checkForAdjacentChests();
-        int i = this.pos.getX();
-        int j = this.pos.getY();
-        int k = this.pos.getZ();
-        ++this.ticksSinceSync;
+        checkForAdjacentChests();
+        int i = pos.getX();
+        int j = pos.getY();
+        int k = pos.getZ();
+        ++ticksSinceSync;
 
-        if (!this.worldObj.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + i + j + k) % 200 == 0)
+        if (!worldObj.isRemote && numPlayersUsing != 0 && (ticksSinceSync + i + j + k) % 200 == 0)
         {
-            this.numPlayersUsing = 0;
+            numPlayersUsing = 0;
             float f = 5.0F;
 
-            for (EntityPlayer entityplayer : this.worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double)((float)i - f), (double)((float)j - f), (double)((float)k - f), (double)((float)(i + 1) + f), (double)((float)(j + 1) + f), (double)((float)(k + 1) + f))))
+            for (EntityPlayer entityplayer : worldObj.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((float)i - f, (float)j - f, (float)k - f, (float)(i + 1) + f, (float)(j + 1) + f, (float)(k + 1) + f)))
             {
                 if (entityplayer.openContainer instanceof ContainerChest)
                 {
@@ -345,74 +345,74 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 
                     if (iinventory == this || iinventory instanceof InventoryLargeChest && ((InventoryLargeChest)iinventory).isPartOfLargeChest(this))
                     {
-                        ++this.numPlayersUsing;
+                        ++numPlayersUsing;
                     }
                 }
             }
         }
 
-        this.prevLidAngle = this.lidAngle;
+        prevLidAngle = lidAngle;
         float f1 = 0.1F;
 
-        if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F && this.adjacentChestZNeg == null && this.adjacentChestXNeg == null)
+        if (numPlayersUsing > 0 && lidAngle == 0.0F && adjacentChestZNeg == null && adjacentChestXNeg == null)
         {
             double d1 = (double)i + 0.5D;
             double d2 = (double)k + 0.5D;
 
-            if (this.adjacentChestZPos != null)
+            if (adjacentChestZPos != null)
             {
                 d2 += 0.5D;
             }
 
-            if (this.adjacentChestXPos != null)
+            if (adjacentChestXPos != null)
             {
                 d1 += 0.5D;
             }
 
-            this.worldObj.playSoundEffect(d1, (double)j + 0.5D, d2, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+            worldObj.playSoundEffect(d1, (double)j + 0.5D, d2, "random.chestopen", 0.5F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
         }
 
-        if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F)
+        if (numPlayersUsing == 0 && lidAngle > 0.0F || numPlayersUsing > 0 && lidAngle < 1.0F)
         {
-            float f2 = this.lidAngle;
+            float f2 = lidAngle;
 
-            if (this.numPlayersUsing > 0)
+            if (numPlayersUsing > 0)
             {
-                this.lidAngle += f1;
+                lidAngle += f1;
             }
             else
             {
-                this.lidAngle -= f1;
+                lidAngle -= f1;
             }
 
-            if (this.lidAngle > 1.0F)
+            if (lidAngle > 1.0F)
             {
-                this.lidAngle = 1.0F;
+                lidAngle = 1.0F;
             }
 
             float f3 = 0.5F;
 
-            if (this.lidAngle < f3 && f2 >= f3 && this.adjacentChestZNeg == null && this.adjacentChestXNeg == null)
+            if (lidAngle < f3 && f2 >= f3 && adjacentChestZNeg == null && adjacentChestXNeg == null)
             {
                 double d3 = (double)i + 0.5D;
                 double d0 = (double)k + 0.5D;
 
-                if (this.adjacentChestZPos != null)
+                if (adjacentChestZPos != null)
                 {
                     d0 += 0.5D;
                 }
 
-                if (this.adjacentChestXPos != null)
+                if (adjacentChestXPos != null)
                 {
                     d3 += 0.5D;
                 }
 
-                this.worldObj.playSoundEffect(d3, (double)j + 0.5D, d0, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+                worldObj.playSoundEffect(d3, (double)j + 0.5D, d0, "random.chestclosed", 0.5F, worldObj.rand.nextFloat() * 0.1F + 0.9F);
             }
 
-            if (this.lidAngle < 0.0F)
+            if (lidAngle < 0.0F)
             {
-                this.lidAngle = 0.0F;
+                lidAngle = 0.0F;
             }
         }
     }
@@ -421,7 +421,7 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
     {
         if (id == 1)
         {
-            this.numPlayersUsing = type;
+            numPlayersUsing = type;
             return true;
         }
         else
@@ -434,26 +434,26 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
     {
         if (!player.isSpectator())
         {
-            if (this.numPlayersUsing < 0)
+            if (numPlayersUsing < 0)
             {
-                this.numPlayersUsing = 0;
+                numPlayersUsing = 0;
             }
 
-            ++this.numPlayersUsing;
-            this.worldObj.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
-            this.worldObj.notifyNeighborsOfStateChange(this.pos, this.getBlockType());
-            this.worldObj.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType());
+            ++numPlayersUsing;
+            worldObj.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
+            worldObj.notifyNeighborsOfStateChange(pos, getBlockType());
+            worldObj.notifyNeighborsOfStateChange(pos.down(), getBlockType());
         }
     }
 
     public void closeInventory(EntityPlayer player)
     {
-        if (!player.isSpectator() && this.getBlockType() instanceof BlockChest)
+        if (!player.isSpectator() && getBlockType() instanceof BlockChest)
         {
-            --this.numPlayersUsing;
-            this.worldObj.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
-            this.worldObj.notifyNeighborsOfStateChange(this.pos, this.getBlockType());
-            this.worldObj.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType());
+            --numPlayersUsing;
+            worldObj.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
+            worldObj.notifyNeighborsOfStateChange(pos, getBlockType());
+            worldObj.notifyNeighborsOfStateChange(pos.down(), getBlockType());
         }
     }
 
@@ -471,23 +471,23 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
     public void invalidate()
     {
         super.invalidate();
-        this.updateContainingBlockInfo();
-        this.checkForAdjacentChests();
+        updateContainingBlockInfo();
+        checkForAdjacentChests();
     }
 
     public int getChestType()
     {
-        if (this.cachedChestType == -1)
+        if (cachedChestType == -1)
         {
-            if (this.worldObj == null || !(this.getBlockType() instanceof BlockChest))
+            if (worldObj == null || !(getBlockType() instanceof BlockChest))
             {
                 return 0;
             }
 
-            this.cachedChestType = ((BlockChest)this.getBlockType()).chestType;
+            cachedChestType = ((BlockChest) getBlockType()).chestType;
         }
 
-        return this.cachedChestType;
+        return cachedChestType;
     }
 
     public String getGuiID()
@@ -516,9 +516,9 @@ public class TileEntityChest extends TileEntityLockable implements ITickable, II
 
     public void clear()
     {
-        for (int i = 0; i < this.chestContents.length; ++i)
+        for (int i = 0; i < chestContents.length; ++i)
         {
-            this.chestContents[i] = null;
+            chestContents[i] = null;
         }
     }
 }

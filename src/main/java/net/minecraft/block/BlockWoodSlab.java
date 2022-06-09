@@ -17,20 +17,20 @@ import net.minecraft.world.World;
 
 public abstract class BlockWoodSlab extends BlockSlab
 {
-    public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.<BlockPlanks.EnumType>create("variant", BlockPlanks.EnumType.class);
+    public static final PropertyEnum<BlockPlanks.EnumType> VARIANT = PropertyEnum.create("variant", BlockPlanks.EnumType.class);
 
     public BlockWoodSlab()
     {
         super(Material.wood);
-        IBlockState iblockstate = this.blockState.getBaseState();
+        IBlockState iblockstate = blockState.getBaseState();
 
-        if (!this.isDouble())
+        if (!isDouble())
         {
-            iblockstate = iblockstate.withProperty(HALF, BlockSlab.EnumBlockHalf.BOTTOM);
+            iblockstate = iblockstate.withProperty(BlockSlab.HALF, BlockSlab.EnumBlockHalf.BOTTOM);
         }
 
-        this.setDefaultState(iblockstate.withProperty(VARIANT, BlockPlanks.EnumType.OAK));
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setDefaultState(iblockstate.withProperty(BlockWoodSlab.VARIANT, BlockPlanks.EnumType.OAK));
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**
@@ -38,7 +38,7 @@ public abstract class BlockWoodSlab extends BlockSlab
      */
     public MapColor getMapColor(IBlockState state)
     {
-        return ((BlockPlanks.EnumType)state.getValue(VARIANT)).func_181070_c();
+        return state.getValue(BlockWoodSlab.VARIANT).func_181070_c();
     }
 
     /**
@@ -64,7 +64,7 @@ public abstract class BlockWoodSlab extends BlockSlab
 
     public IProperty<?> getVariantProperty()
     {
-        return VARIANT;
+        return BlockWoodSlab.VARIANT;
     }
 
     public Object getVariant(ItemStack stack)
@@ -91,11 +91,11 @@ public abstract class BlockWoodSlab extends BlockSlab
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        IBlockState iblockstate = this.getDefaultState().withProperty(VARIANT, BlockPlanks.EnumType.byMetadata(meta & 7));
+        IBlockState iblockstate = getDefaultState().withProperty(BlockWoodSlab.VARIANT, BlockPlanks.EnumType.byMetadata(meta & 7));
 
-        if (!this.isDouble())
+        if (!isDouble())
         {
-            iblockstate = iblockstate.withProperty(HALF, (meta & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
+            iblockstate = iblockstate.withProperty(BlockSlab.HALF, (meta & 8) == 0 ? BlockSlab.EnumBlockHalf.BOTTOM : BlockSlab.EnumBlockHalf.TOP);
         }
 
         return iblockstate;
@@ -107,9 +107,9 @@ public abstract class BlockWoodSlab extends BlockSlab
     public int getMetaFromState(IBlockState state)
     {
         int i = 0;
-        i = i | ((BlockPlanks.EnumType)state.getValue(VARIANT)).getMetadata();
+        i = i | state.getValue(BlockWoodSlab.VARIANT).getMetadata();
 
-        if (!this.isDouble() && state.getValue(HALF) == BlockSlab.EnumBlockHalf.TOP)
+        if (!isDouble() && state.getValue(BlockSlab.HALF) == BlockSlab.EnumBlockHalf.TOP)
         {
             i |= 8;
         }
@@ -119,7 +119,7 @@ public abstract class BlockWoodSlab extends BlockSlab
 
     protected BlockState createBlockState()
     {
-        return this.isDouble() ? new BlockState(this, new IProperty[] {VARIANT}): new BlockState(this, new IProperty[] {HALF, VARIANT});
+        return isDouble() ? new BlockState(this, BlockWoodSlab.VARIANT): new BlockState(this, BlockSlab.HALF, BlockWoodSlab.VARIANT);
     }
 
     /**
@@ -128,6 +128,6 @@ public abstract class BlockWoodSlab extends BlockSlab
      */
     public int damageDropped(IBlockState state)
     {
-        return ((BlockPlanks.EnumType)state.getValue(VARIANT)).getMetadata();
+        return state.getValue(BlockWoodSlab.VARIANT).getMetadata();
     }
 }

@@ -25,49 +25,49 @@ public abstract class EntityFlying extends EntityLiving
      */
     public void moveEntityWithHeading(float strafe, float forward)
     {
-        if (this.isInWater())
+        if (isInWater())
         {
-            this.moveFlying(strafe, forward, 0.02F);
-            this.moveEntity(this.motionX, this.motionY, this.motionZ);
-            this.motionX *= 0.800000011920929D;
-            this.motionY *= 0.800000011920929D;
-            this.motionZ *= 0.800000011920929D;
+            moveFlying(strafe, forward, 0.02F);
+            moveEntity(motionX, motionY, motionZ);
+            motionX *= 0.800000011920929D;
+            motionY *= 0.800000011920929D;
+            motionZ *= 0.800000011920929D;
         }
-        else if (this.isInLava())
+        else if (isInLava())
         {
-            this.moveFlying(strafe, forward, 0.02F);
-            this.moveEntity(this.motionX, this.motionY, this.motionZ);
-            this.motionX *= 0.5D;
-            this.motionY *= 0.5D;
-            this.motionZ *= 0.5D;
+            moveFlying(strafe, forward, 0.02F);
+            moveEntity(motionX, motionY, motionZ);
+            motionX *= 0.5D;
+            motionY *= 0.5D;
+            motionZ *= 0.5D;
         }
         else
         {
             float f = 0.91F;
 
-            if (this.onGround)
+            if (onGround)
             {
-                f = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.91F;
+                f = worldObj.getBlockState(new BlockPos(MathHelper.floor_double(posX), MathHelper.floor_double(getEntityBoundingBox().minY) - 1, MathHelper.floor_double(posZ))).getBlock().slipperiness * 0.91F;
             }
 
             float f1 = 0.16277136F / (f * f * f);
-            this.moveFlying(strafe, forward, this.onGround ? 0.1F * f1 : 0.02F);
+            moveFlying(strafe, forward, onGround ? 0.1F * f1 : 0.02F);
             f = 0.91F;
 
-            if (this.onGround)
+            if (onGround)
             {
-                f = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.91F;
+                f = worldObj.getBlockState(new BlockPos(MathHelper.floor_double(posX), MathHelper.floor_double(getEntityBoundingBox().minY) - 1, MathHelper.floor_double(posZ))).getBlock().slipperiness * 0.91F;
             }
 
-            this.moveEntity(this.motionX, this.motionY, this.motionZ);
-            this.motionX *= (double)f;
-            this.motionY *= (double)f;
-            this.motionZ *= (double)f;
+            moveEntity(motionX, motionY, motionZ);
+            motionX *= f;
+            motionY *= f;
+            motionZ *= f;
         }
 
-        this.prevLimbSwingAmount = this.limbSwingAmount;
-        double d1 = this.posX - this.prevPosX;
-        double d0 = this.posZ - this.prevPosZ;
+        prevLimbSwingAmount = limbSwingAmount;
+        double d1 = posX - prevPosX;
+        double d0 = posZ - prevPosZ;
         float f2 = MathHelper.sqrt_double(d1 * d1 + d0 * d0) * 4.0F;
 
         if (f2 > 1.0F)
@@ -75,8 +75,8 @@ public abstract class EntityFlying extends EntityLiving
             f2 = 1.0F;
         }
 
-        this.limbSwingAmount += (f2 - this.limbSwingAmount) * 0.4F;
-        this.limbSwing += this.limbSwingAmount;
+        limbSwingAmount += (f2 - limbSwingAmount) * 0.4F;
+        limbSwing += limbSwingAmount;
     }
 
     /**

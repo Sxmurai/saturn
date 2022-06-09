@@ -24,14 +24,14 @@ public class EntityPainting extends EntityHanging
     public EntityPainting(World worldIn, BlockPos pos, EnumFacing facing)
     {
         super(worldIn, pos);
-        List<EntityPainting.EnumArt> list = Lists.<EntityPainting.EnumArt>newArrayList();
+        List<EntityPainting.EnumArt> list = Lists.newArrayList();
 
         for (EntityPainting.EnumArt entitypainting$enumart : EntityPainting.EnumArt.values())
         {
-            this.art = entitypainting$enumart;
-            this.updateFacingWithBoundingBox(facing);
+            art = entitypainting$enumart;
+            updateFacingWithBoundingBox(facing);
 
-            if (this.onValidSurface())
+            if (onValidSurface())
             {
                 list.add(entitypainting$enumart);
             }
@@ -39,10 +39,10 @@ public class EntityPainting extends EntityHanging
 
         if (!list.isEmpty())
         {
-            this.art = (EntityPainting.EnumArt)list.get(this.rand.nextInt(list.size()));
+            art = list.get(rand.nextInt(list.size()));
         }
 
-        this.updateFacingWithBoundingBox(facing);
+        updateFacingWithBoundingBox(facing);
     }
 
     public EntityPainting(World worldIn, BlockPos pos, EnumFacing facing, String title)
@@ -53,12 +53,12 @@ public class EntityPainting extends EntityHanging
         {
             if (entitypainting$enumart.title.equals(title))
             {
-                this.art = entitypainting$enumart;
+                art = entitypainting$enumart;
                 break;
             }
         }
 
-        this.updateFacingWithBoundingBox(facing);
+        updateFacingWithBoundingBox(facing);
     }
 
     /**
@@ -66,7 +66,7 @@ public class EntityPainting extends EntityHanging
      */
     public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
-        tagCompound.setString("Motive", this.art.title);
+        tagCompound.setString("Motive", art.title);
         super.writeEntityToNBT(tagCompound);
     }
 
@@ -81,13 +81,13 @@ public class EntityPainting extends EntityHanging
         {
             if (entitypainting$enumart.title.equals(s))
             {
-                this.art = entitypainting$enumart;
+                art = entitypainting$enumart;
             }
         }
 
-        if (this.art == null)
+        if (art == null)
         {
-            this.art = EntityPainting.EnumArt.KEBAB;
+            art = EntityPainting.EnumArt.KEBAB;
         }
 
         super.readEntityFromNBT(tagCompund);
@@ -95,12 +95,12 @@ public class EntityPainting extends EntityHanging
 
     public int getWidthPixels()
     {
-        return this.art.sizeX;
+        return art.sizeX;
     }
 
     public int getHeightPixels()
     {
-        return this.art.sizeY;
+        return art.sizeY;
     }
 
     /**
@@ -108,7 +108,7 @@ public class EntityPainting extends EntityHanging
      */
     public void onBroken(Entity brokenEntity)
     {
-        if (this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (worldObj.getGameRules().getBoolean("doEntityDrops"))
         {
             if (brokenEntity instanceof EntityPlayer)
             {
@@ -120,7 +120,7 @@ public class EntityPainting extends EntityHanging
                 }
             }
 
-            this.entityDropItem(new ItemStack(Items.painting), 0.0F);
+            entityDropItem(new ItemStack(Items.painting), 0.0F);
         }
     }
 
@@ -129,14 +129,14 @@ public class EntityPainting extends EntityHanging
      */
     public void setLocationAndAngles(double x, double y, double z, float yaw, float pitch)
     {
-        BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
-        this.setPosition((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
+        BlockPos blockpos = hangingPosition.add(x - posX, y - posY, z - posZ);
+        setPosition(blockpos.getX(), blockpos.getY(), blockpos.getZ());
     }
 
     public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean p_180426_10_)
     {
-        BlockPos blockpos = this.hangingPosition.add(x - this.posX, y - this.posY, z - this.posZ);
-        this.setPosition((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
+        BlockPos blockpos = hangingPosition.add(x - posX, y - posY, z - posZ);
+        setPosition(blockpos.getX(), blockpos.getY(), blockpos.getZ());
     }
 
     public static enum EnumArt
@@ -177,11 +177,11 @@ public class EntityPainting extends EntityHanging
 
         private EnumArt(String titleIn, int width, int height, int textureU, int textureV)
         {
-            this.title = titleIn;
-            this.sizeX = width;
-            this.sizeY = height;
-            this.offsetX = textureU;
-            this.offsetY = textureV;
+            title = titleIn;
+            sizeX = width;
+            sizeY = height;
+            offsetX = textureU;
+            offsetY = textureV;
         }
     }
 }

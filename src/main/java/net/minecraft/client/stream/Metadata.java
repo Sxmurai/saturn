@@ -14,33 +14,33 @@ public class Metadata
 
     public Metadata(String p_i46345_1_, String p_i46345_2_)
     {
-        this.name = p_i46345_1_;
-        this.description = p_i46345_2_;
+        name = p_i46345_1_;
+        description = p_i46345_2_;
     }
 
     public Metadata(String p_i1030_1_)
     {
-        this(p_i1030_1_, (String)null);
+        this(p_i1030_1_, null);
     }
 
     public void func_152807_a(String p_152807_1_)
     {
-        this.description = p_152807_1_;
+        description = p_152807_1_;
     }
 
     public String func_152809_a()
     {
-        return this.description == null ? this.name : this.description;
+        return description == null ? name : description;
     }
 
     public void func_152808_a(String p_152808_1_, String p_152808_2_)
     {
-        if (this.payload == null)
+        if (payload == null)
         {
-            this.payload = Maps.<String, String>newHashMap();
+            payload = Maps.newHashMap();
         }
 
-        if (this.payload.size() > 50)
+        if (payload.size() > 50)
         {
             throw new IllegalArgumentException("Metadata payload is full, cannot add more to it!");
         }
@@ -62,22 +62,22 @@ public class Metadata
         }
         else
         {
-            this.payload.put(p_152808_1_, p_152808_2_);
+            payload.put(p_152808_1_, p_152808_2_);
         }
     }
 
     public String func_152806_b()
     {
-        return this.payload != null && !this.payload.isEmpty() ? field_152811_a.toJson((Object)this.payload) : null;
+        return payload != null && !payload.isEmpty() ? Metadata.field_152811_a.toJson(payload) : null;
     }
 
     public String func_152810_c()
     {
-        return this.name;
+        return name;
     }
 
     public String toString()
     {
-        return Objects.toStringHelper(this).add("name", this.name).add("description", this.description).add("data", this.func_152806_b()).toString();
+        return Objects.toStringHelper(this).add("name", name).add("description", description).add("data", func_152806_b()).toString();
     }
 }

@@ -19,14 +19,14 @@ import net.minecraft.world.World;
 
 public class BlockDirt extends Block
 {
-    public static final PropertyEnum<BlockDirt.DirtType> VARIANT = PropertyEnum.<BlockDirt.DirtType>create("variant", BlockDirt.DirtType.class);
+    public static final PropertyEnum<BlockDirt.DirtType> VARIANT = PropertyEnum.create("variant", BlockDirt.DirtType.class);
     public static final PropertyBool SNOWY = PropertyBool.create("snowy");
 
     protected BlockDirt()
     {
         super(Material.ground);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockDirt.DirtType.DIRT).withProperty(SNOWY, Boolean.valueOf(false)));
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setDefaultState(blockState.getBaseState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.DIRT).withProperty(BlockDirt.SNOWY, Boolean.valueOf(false)));
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**
@@ -34,7 +34,7 @@ public class BlockDirt extends Block
      */
     public MapColor getMapColor(IBlockState state)
     {
-        return ((BlockDirt.DirtType)state.getValue(VARIANT)).func_181066_d();
+        return state.getValue(BlockDirt.VARIANT).func_181066_d();
     }
 
     /**
@@ -43,10 +43,10 @@ public class BlockDirt extends Block
      */
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
-        if (state.getValue(VARIANT) == BlockDirt.DirtType.PODZOL)
+        if (state.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.PODZOL)
         {
             Block block = worldIn.getBlockState(pos.up()).getBlock();
-            state = state.withProperty(SNOWY, Boolean.valueOf(block == Blocks.snow || block == Blocks.snow_layer));
+            state = state.withProperty(BlockDirt.SNOWY, Boolean.valueOf(block == Blocks.snow || block == Blocks.snow_layer));
         }
 
         return state;
@@ -65,7 +65,7 @@ public class BlockDirt extends Block
     public int getDamageValue(World worldIn, BlockPos pos)
     {
         IBlockState iblockstate = worldIn.getBlockState(pos);
-        return iblockstate.getBlock() != this ? 0 : ((BlockDirt.DirtType)iblockstate.getValue(VARIANT)).getMetadata();
+        return iblockstate.getBlock() != this ? 0 : iblockstate.getValue(BlockDirt.VARIANT).getMetadata();
     }
 
     /**
@@ -73,7 +73,7 @@ public class BlockDirt extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(VARIANT, BlockDirt.DirtType.byMetadata(meta));
+        return getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.byMetadata(meta));
     }
 
     /**
@@ -81,12 +81,12 @@ public class BlockDirt extends Block
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((BlockDirt.DirtType)state.getValue(VARIANT)).getMetadata();
+        return state.getValue(BlockDirt.VARIANT).getMetadata();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {VARIANT, SNOWY});
+        return new BlockState(this, BlockDirt.VARIANT, BlockDirt.SNOWY);
     }
 
     /**
@@ -95,7 +95,7 @@ public class BlockDirt extends Block
      */
     public int damageDropped(IBlockState state)
     {
-        BlockDirt.DirtType blockdirt$dirttype = (BlockDirt.DirtType)state.getValue(VARIANT);
+        BlockDirt.DirtType blockdirt$dirttype = state.getValue(BlockDirt.VARIANT);
 
         if (blockdirt$dirttype == BlockDirt.DirtType.PODZOL)
         {
@@ -111,7 +111,7 @@ public class BlockDirt extends Block
         COARSE_DIRT(1, "coarse_dirt", "coarse", MapColor.dirtColor),
         PODZOL(2, "podzol", MapColor.obsidianColor);
 
-        private static final BlockDirt.DirtType[] METADATA_LOOKUP = new BlockDirt.DirtType[values().length];
+        private static final BlockDirt.DirtType[] METADATA_LOOKUP = new BlockDirt.DirtType[DirtType.values().length];
         private final int metadata;
         private final String name;
         private final String unlocalizedName;
@@ -124,51 +124,51 @@ public class BlockDirt extends Block
 
         private DirtType(int p_i46397_3_, String p_i46397_4_, String p_i46397_5_, MapColor p_i46397_6_)
         {
-            this.metadata = p_i46397_3_;
-            this.name = p_i46397_4_;
-            this.unlocalizedName = p_i46397_5_;
-            this.field_181067_h = p_i46397_6_;
+            metadata = p_i46397_3_;
+            name = p_i46397_4_;
+            unlocalizedName = p_i46397_5_;
+            field_181067_h = p_i46397_6_;
         }
 
         public int getMetadata()
         {
-            return this.metadata;
+            return metadata;
         }
 
         public String getUnlocalizedName()
         {
-            return this.unlocalizedName;
+            return unlocalizedName;
         }
 
         public MapColor func_181066_d()
         {
-            return this.field_181067_h;
+            return field_181067_h;
         }
 
         public String toString()
         {
-            return this.name;
+            return name;
         }
 
         public static BlockDirt.DirtType byMetadata(int metadata)
         {
-            if (metadata < 0 || metadata >= METADATA_LOOKUP.length)
+            if (metadata < 0 || metadata >= DirtType.METADATA_LOOKUP.length)
             {
                 metadata = 0;
             }
 
-            return METADATA_LOOKUP[metadata];
+            return DirtType.METADATA_LOOKUP[metadata];
         }
 
         public String getName()
         {
-            return this.name;
+            return name;
         }
 
         static {
-            for (BlockDirt.DirtType blockdirt$dirttype : values())
+            for (BlockDirt.DirtType blockdirt$dirttype : DirtType.values())
             {
-                METADATA_LOOKUP[blockdirt$dirttype.getMetadata()] = blockdirt$dirttype;
+                DirtType.METADATA_LOOKUP[blockdirt$dirttype.getMetadata()] = blockdirt$dirttype;
             }
         }
     }

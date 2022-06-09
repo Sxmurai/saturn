@@ -38,7 +38,7 @@ public class EntityMinecartFurnace extends EntityMinecart
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, new Byte((byte)0));
+        dataWatcher.addObject(16, new Byte((byte)0));
     }
 
     /**
@@ -48,21 +48,21 @@ public class EntityMinecartFurnace extends EntityMinecart
     {
         super.onUpdate();
 
-        if (this.fuel > 0)
+        if (fuel > 0)
         {
-            --this.fuel;
+            --fuel;
         }
 
-        if (this.fuel <= 0)
+        if (fuel <= 0)
         {
-            this.pushX = this.pushZ = 0.0D;
+            pushX = pushZ = 0.0D;
         }
 
-        this.setMinecartPowered(this.fuel > 0);
+        setMinecartPowered(fuel > 0);
 
-        if (this.isMinecartPowered() && this.rand.nextInt(4) == 0)
+        if (isMinecartPowered() && rand.nextInt(4) == 0)
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX, this.posY + 0.8D, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+            worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX, posY + 0.8D, posZ, 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -78,58 +78,58 @@ public class EntityMinecartFurnace extends EntityMinecart
     {
         super.killMinecart(p_94095_1_);
 
-        if (!p_94095_1_.isExplosion() && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (!p_94095_1_.isExplosion() && worldObj.getGameRules().getBoolean("doEntityDrops"))
         {
-            this.entityDropItem(new ItemStack(Blocks.furnace, 1), 0.0F);
+            entityDropItem(new ItemStack(Blocks.furnace, 1), 0.0F);
         }
     }
 
     protected void func_180460_a(BlockPos p_180460_1_, IBlockState p_180460_2_)
     {
         super.func_180460_a(p_180460_1_, p_180460_2_);
-        double d0 = this.pushX * this.pushX + this.pushZ * this.pushZ;
+        double d0 = pushX * pushX + pushZ * pushZ;
 
-        if (d0 > 1.0E-4D && this.motionX * this.motionX + this.motionZ * this.motionZ > 0.001D)
+        if (d0 > 1.0E-4D && motionX * motionX + motionZ * motionZ > 0.001D)
         {
-            d0 = (double)MathHelper.sqrt_double(d0);
-            this.pushX /= d0;
-            this.pushZ /= d0;
+            d0 = MathHelper.sqrt_double(d0);
+            pushX /= d0;
+            pushZ /= d0;
 
-            if (this.pushX * this.motionX + this.pushZ * this.motionZ < 0.0D)
+            if (pushX * motionX + pushZ * motionZ < 0.0D)
             {
-                this.pushX = 0.0D;
-                this.pushZ = 0.0D;
+                pushX = 0.0D;
+                pushZ = 0.0D;
             }
             else
             {
-                double d1 = d0 / this.getMaximumSpeed();
-                this.pushX *= d1;
-                this.pushZ *= d1;
+                double d1 = d0 / getMaximumSpeed();
+                pushX *= d1;
+                pushZ *= d1;
             }
         }
     }
 
     protected void applyDrag()
     {
-        double d0 = this.pushX * this.pushX + this.pushZ * this.pushZ;
+        double d0 = pushX * pushX + pushZ * pushZ;
 
         if (d0 > 1.0E-4D)
         {
-            d0 = (double)MathHelper.sqrt_double(d0);
-            this.pushX /= d0;
-            this.pushZ /= d0;
+            d0 = MathHelper.sqrt_double(d0);
+            pushX /= d0;
+            pushZ /= d0;
             double d1 = 1.0D;
-            this.motionX *= 0.800000011920929D;
-            this.motionY *= 0.0D;
-            this.motionZ *= 0.800000011920929D;
-            this.motionX += this.pushX * d1;
-            this.motionZ += this.pushZ * d1;
+            motionX *= 0.800000011920929D;
+            motionY *= 0.0D;
+            motionZ *= 0.800000011920929D;
+            motionX += pushX * d1;
+            motionZ += pushZ * d1;
         }
         else
         {
-            this.motionX *= 0.9800000190734863D;
-            this.motionY *= 0.0D;
-            this.motionZ *= 0.9800000190734863D;
+            motionX *= 0.9800000190734863D;
+            motionY *= 0.0D;
+            motionZ *= 0.9800000190734863D;
         }
 
         super.applyDrag();
@@ -146,14 +146,14 @@ public class EntityMinecartFurnace extends EntityMinecart
         {
             if (!playerIn.capabilities.isCreativeMode && --itemstack.stackSize == 0)
             {
-                playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, (ItemStack)null);
+                playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
             }
 
-            this.fuel += 3600;
+            fuel += 3600;
         }
 
-        this.pushX = this.posX - playerIn.posX;
-        this.pushZ = this.posZ - playerIn.posZ;
+        pushX = posX - playerIn.posX;
+        pushZ = posZ - playerIn.posZ;
         return true;
     }
 
@@ -163,9 +163,9 @@ public class EntityMinecartFurnace extends EntityMinecart
     protected void writeEntityToNBT(NBTTagCompound tagCompound)
     {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setDouble("PushX", this.pushX);
-        tagCompound.setDouble("PushZ", this.pushZ);
-        tagCompound.setShort("Fuel", (short)this.fuel);
+        tagCompound.setDouble("PushX", pushX);
+        tagCompound.setDouble("PushZ", pushZ);
+        tagCompound.setShort("Fuel", (short) fuel);
     }
 
     /**
@@ -174,30 +174,30 @@ public class EntityMinecartFurnace extends EntityMinecart
     protected void readEntityFromNBT(NBTTagCompound tagCompund)
     {
         super.readEntityFromNBT(tagCompund);
-        this.pushX = tagCompund.getDouble("PushX");
-        this.pushZ = tagCompund.getDouble("PushZ");
-        this.fuel = tagCompund.getShort("Fuel");
+        pushX = tagCompund.getDouble("PushX");
+        pushZ = tagCompund.getDouble("PushZ");
+        fuel = tagCompund.getShort("Fuel");
     }
 
     protected boolean isMinecartPowered()
     {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+        return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
 
     protected void setMinecartPowered(boolean p_94107_1_)
     {
         if (p_94107_1_)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(this.dataWatcher.getWatchableObjectByte(16) | 1)));
+            dataWatcher.updateObject(16, Byte.valueOf((byte)(dataWatcher.getWatchableObjectByte(16) | 1)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(this.dataWatcher.getWatchableObjectByte(16) & -2)));
+            dataWatcher.updateObject(16, Byte.valueOf((byte)(dataWatcher.getWatchableObjectByte(16) & -2)));
         }
     }
 
     public IBlockState getDefaultDisplayTile()
     {
-        return (this.isMinecartPowered() ? Blocks.lit_furnace : Blocks.furnace).getDefaultState().withProperty(BlockFurnace.FACING, EnumFacing.NORTH);
+        return (isMinecartPowered() ? Blocks.lit_furnace : Blocks.furnace).getDefaultState().withProperty(BlockFurnace.FACING, EnumFacing.NORTH);
     }
 }

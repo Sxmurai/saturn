@@ -22,10 +22,10 @@ public class Slot
 
     public Slot(IInventory inventoryIn, int index, int xPosition, int yPosition)
     {
-        this.inventory = inventoryIn;
-        this.slotIndex = index;
-        this.xDisplayPosition = xPosition;
-        this.yDisplayPosition = yPosition;
+        inventory = inventoryIn;
+        slotIndex = index;
+        xDisplayPosition = xPosition;
+        yDisplayPosition = yPosition;
     }
 
     /**
@@ -41,7 +41,7 @@ public class Slot
 
                 if (i > 0)
                 {
-                    this.onCrafting(p_75220_1_, i);
+                    onCrafting(p_75220_1_, i);
                 }
             }
         }
@@ -64,7 +64,7 @@ public class Slot
 
     public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
     {
-        this.onSlotChanged();
+        onSlotChanged();
     }
 
     /**
@@ -80,7 +80,7 @@ public class Slot
      */
     public ItemStack getStack()
     {
-        return this.inventory.getStackInSlot(this.slotIndex);
+        return inventory.getStackInSlot(slotIndex);
     }
 
     /**
@@ -88,7 +88,7 @@ public class Slot
      */
     public boolean getHasStack()
     {
-        return this.getStack() != null;
+        return getStack() != null;
     }
 
     /**
@@ -96,8 +96,8 @@ public class Slot
      */
     public void putStack(ItemStack stack)
     {
-        this.inventory.setInventorySlotContents(this.slotIndex, stack);
-        this.onSlotChanged();
+        inventory.setInventorySlotContents(slotIndex, stack);
+        onSlotChanged();
     }
 
     /**
@@ -105,7 +105,7 @@ public class Slot
      */
     public void onSlotChanged()
     {
-        this.inventory.markDirty();
+        inventory.markDirty();
     }
 
     /**
@@ -114,12 +114,12 @@ public class Slot
      */
     public int getSlotStackLimit()
     {
-        return this.inventory.getInventoryStackLimit();
+        return inventory.getInventoryStackLimit();
     }
 
     public int getItemStackLimit(ItemStack stack)
     {
-        return this.getSlotStackLimit();
+        return getSlotStackLimit();
     }
 
     public String getSlotTexture()
@@ -133,7 +133,7 @@ public class Slot
      */
     public ItemStack decrStackSize(int amount)
     {
-        return this.inventory.decrStackSize(this.slotIndex, amount);
+        return inventory.decrStackSize(slotIndex, amount);
     }
 
     /**
@@ -141,7 +141,7 @@ public class Slot
      */
     public boolean isHere(IInventory inv, int slotIn)
     {
-        return inv == this.inventory && slotIn == this.slotIndex;
+        return inv == inventory && slotIn == slotIndex;
     }
 
     /**

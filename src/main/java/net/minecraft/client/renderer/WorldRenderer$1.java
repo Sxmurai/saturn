@@ -10,17 +10,17 @@ class WorldRenderer$1 implements Comparator
 
     WorldRenderer$1(WorldRenderer p_i46500_1_, float[] p_i46500_2_)
     {
-        this.field_181660_b = p_i46500_1_;
-        this.field_181659_a = p_i46500_2_;
+        field_181660_b = p_i46500_1_;
+        field_181659_a = p_i46500_2_;
     }
 
     public int compare(Integer p_compare_1_, Integer p_compare_2_)
     {
-        return Floats.compare(this.field_181659_a[p_compare_2_.intValue()], this.field_181659_a[p_compare_1_.intValue()]);
+        return Floats.compare(field_181659_a[p_compare_2_.intValue()], field_181659_a[p_compare_1_.intValue()]);
     }
 
     public int compare(Object p_compare_1_, Object p_compare_2_)
     {
-        return this.compare((Integer)p_compare_1_, (Integer)p_compare_2_);
+        return compare((Integer)p_compare_1_, (Integer)p_compare_2_);
     }
 }

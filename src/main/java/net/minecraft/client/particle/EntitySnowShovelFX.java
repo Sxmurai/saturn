@@ -17,19 +17,19 @@ public class EntitySnowShovelFX extends EntityFX
     protected EntitySnowShovelFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, float p_i1228_14_)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-        this.motionX *= 0.10000000149011612D;
-        this.motionY *= 0.10000000149011612D;
-        this.motionZ *= 0.10000000149011612D;
-        this.motionX += xSpeedIn;
-        this.motionY += ySpeedIn;
-        this.motionZ += zSpeedIn;
-        this.particleRed = this.particleGreen = this.particleBlue = 1.0F - (float)(Math.random() * 0.30000001192092896D);
-        this.particleScale *= 0.75F;
-        this.particleScale *= p_i1228_14_;
-        this.snowDigParticleScale = this.particleScale;
-        this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
-        this.particleMaxAge = (int)((float)this.particleMaxAge * p_i1228_14_);
-        this.noClip = false;
+        motionX *= 0.10000000149011612D;
+        motionY *= 0.10000000149011612D;
+        motionZ *= 0.10000000149011612D;
+        motionX += xSpeedIn;
+        motionY += ySpeedIn;
+        motionZ += zSpeedIn;
+        particleRed = particleGreen = particleBlue = 1.0F - (float)(Math.random() * 0.30000001192092896D);
+        particleScale *= 0.75F;
+        particleScale *= p_i1228_14_;
+        snowDigParticleScale = particleScale;
+        particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
+        particleMaxAge = (int)((float) particleMaxAge * p_i1228_14_);
+        noClip = false;
     }
 
     /**
@@ -37,9 +37,9 @@ public class EntitySnowShovelFX extends EntityFX
      */
     public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
     {
-        float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge * 32.0F;
+        float f = ((float) particleAge + partialTicks) / (float) particleMaxAge * 32.0F;
         f = MathHelper.clamp_float(f, 0.0F, 1.0F);
-        this.particleScale = this.snowDigParticleScale * f;
+        particleScale = snowDigParticleScale * f;
         super.renderParticle(worldRendererIn, entityIn, partialTicks, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);
     }
 
@@ -48,26 +48,26 @@ public class EntitySnowShovelFX extends EntityFX
      */
     public void onUpdate()
     {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
 
-        if (this.particleAge++ >= this.particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
-            this.setDead();
+            setDead();
         }
 
-        this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
-        this.motionY -= 0.03D;
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.motionX *= 0.9900000095367432D;
-        this.motionY *= 0.9900000095367432D;
-        this.motionZ *= 0.9900000095367432D;
+        setParticleTextureIndex(7 - particleAge * 8 / particleMaxAge);
+        motionY -= 0.03D;
+        moveEntity(motionX, motionY, motionZ);
+        motionX *= 0.9900000095367432D;
+        motionY *= 0.9900000095367432D;
+        motionZ *= 0.9900000095367432D;
 
-        if (this.onGround)
+        if (onGround)
         {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
+            motionX *= 0.699999988079071D;
+            motionZ *= 0.699999988079071D;
         }
     }
 

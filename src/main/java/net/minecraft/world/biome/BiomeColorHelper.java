@@ -46,17 +46,17 @@ public class BiomeColorHelper
 
     public static int getGrassColorAtPos(IBlockAccess p_180286_0_, BlockPos p_180286_1_)
     {
-        return func_180285_a(p_180286_0_, p_180286_1_, field_180291_a);
+        return BiomeColorHelper.func_180285_a(p_180286_0_, p_180286_1_, BiomeColorHelper.field_180291_a);
     }
 
     public static int getFoliageColorAtPos(IBlockAccess p_180287_0_, BlockPos p_180287_1_)
     {
-        return func_180285_a(p_180287_0_, p_180287_1_, field_180289_b);
+        return BiomeColorHelper.func_180285_a(p_180287_0_, p_180287_1_, BiomeColorHelper.field_180289_b);
     }
 
     public static int getWaterColorAtPos(IBlockAccess p_180288_0_, BlockPos p_180288_1_)
     {
-        return func_180285_a(p_180288_0_, p_180288_1_, field_180290_c);
+        return BiomeColorHelper.func_180285_a(p_180288_0_, p_180288_1_, BiomeColorHelper.field_180290_c);
     }
 
     interface ColorResolver

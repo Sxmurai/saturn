@@ -24,15 +24,15 @@ public class BlockFarmland extends Block
     protected BlockFarmland()
     {
         super(Material.ground);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(MOISTURE, Integer.valueOf(0)));
-        this.setTickRandomly(true);
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
-        this.setLightOpacity(255);
+        setDefaultState(blockState.getBaseState().withProperty(BlockFarmland.MOISTURE, Integer.valueOf(0)));
+        setTickRandomly(true);
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.9375F, 1.0F);
+        setLightOpacity(255);
     }
 
     public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
     {
-        return new AxisAlignedBB((double)pos.getX(), (double)pos.getY(), (double)pos.getZ(), (double)(pos.getX() + 1), (double)(pos.getY() + 1), (double)(pos.getZ() + 1));
+        return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1);
     }
 
     /**
@@ -50,22 +50,22 @@ public class BlockFarmland extends Block
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        int i = ((Integer)state.getValue(MOISTURE)).intValue();
+        int i = state.getValue(BlockFarmland.MOISTURE).intValue();
 
-        if (!this.hasWater(worldIn, pos) && !worldIn.canLightningStrike(pos.up()))
+        if (!hasWater(worldIn, pos) && !worldIn.canLightningStrike(pos.up()))
         {
             if (i > 0)
             {
-                worldIn.setBlockState(pos, state.withProperty(MOISTURE, Integer.valueOf(i - 1)), 2);
+                worldIn.setBlockState(pos, state.withProperty(BlockFarmland.MOISTURE, Integer.valueOf(i - 1)), 2);
             }
-            else if (!this.hasCrops(worldIn, pos))
+            else if (!hasCrops(worldIn, pos))
             {
                 worldIn.setBlockState(pos, Blocks.dirt.getDefaultState());
             }
         }
         else if (i < 7)
         {
-            worldIn.setBlockState(pos, state.withProperty(MOISTURE, Integer.valueOf(7)), 2);
+            worldIn.setBlockState(pos, state.withProperty(BlockFarmland.MOISTURE, Integer.valueOf(7)), 2);
         }
     }
 
@@ -159,7 +159,7 @@ public class BlockFarmland extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(MOISTURE, Integer.valueOf(meta & 7));
+        return getDefaultState().withProperty(BlockFarmland.MOISTURE, Integer.valueOf(meta & 7));
     }
 
     /**
@@ -167,11 +167,11 @@ public class BlockFarmland extends Block
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Integer)state.getValue(MOISTURE)).intValue();
+        return state.getValue(BlockFarmland.MOISTURE).intValue();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {MOISTURE});
+        return new BlockState(this, BlockFarmland.MOISTURE);
     }
 }

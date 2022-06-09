@@ -26,7 +26,7 @@ public class LayerCustomHead implements LayerRenderer<EntityLivingBase>
 
     public LayerCustomHead(ModelRenderer p_i46120_1_)
     {
-        this.field_177209_a = p_i46120_1_;
+        field_177209_a = p_i46120_1_;
     }
 
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
@@ -54,7 +54,7 @@ public class LayerCustomHead implements LayerRenderer<EntityLivingBase>
                 GlStateManager.translate(0.0F, 16.0F * scale, 0.0F);
             }
 
-            this.field_177209_a.postRender(0.0625F);
+            field_177209_a.postRender(0.0625F);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
             if (item instanceof ItemBlock)
@@ -97,7 +97,7 @@ public class LayerCustomHead implements LayerRenderer<EntityLivingBase>
 
                         if (!StringUtils.isNullOrEmpty(s))
                         {
-                            gameprofile = TileEntitySkull.updateGameprofile(new GameProfile((UUID)null, s));
+                            gameprofile = TileEntitySkull.updateGameprofile(new GameProfile(null, s));
                             nbttagcompound.setTag("SkullOwner", NBTUtil.writeGameProfile(new NBTTagCompound(), gameprofile));
                         }
                     }

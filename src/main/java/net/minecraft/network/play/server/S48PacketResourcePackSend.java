@@ -30,8 +30,8 @@ public class S48PacketResourcePackSend implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.url = buf.readStringFromBuffer(32767);
-        this.hash = buf.readStringFromBuffer(40);
+        url = buf.readStringFromBuffer(32767);
+        hash = buf.readStringFromBuffer(40);
     }
 
     /**
@@ -39,8 +39,8 @@ public class S48PacketResourcePackSend implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeString(this.url);
-        buf.writeString(this.hash);
+        buf.writeString(url);
+        buf.writeString(hash);
     }
 
     /**
@@ -53,11 +53,11 @@ public class S48PacketResourcePackSend implements Packet<INetHandlerPlayClient>
 
     public String getURL()
     {
-        return this.url;
+        return url;
     }
 
     public String getHash()
     {
-        return this.hash;
+        return hash;
     }
 }

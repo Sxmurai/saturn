@@ -12,9 +12,9 @@ public class MovingSoundMinecart extends MovingSound
     public MovingSoundMinecart(EntityMinecart minecartIn)
     {
         super(new ResourceLocation("minecraft:minecart.base"));
-        this.minecart = minecartIn;
-        this.repeat = true;
-        this.repeatDelay = 0;
+        minecart = minecartIn;
+        repeat = true;
+        repeatDelay = 0;
     }
 
     /**
@@ -22,26 +22,26 @@ public class MovingSoundMinecart extends MovingSound
      */
     public void update()
     {
-        if (this.minecart.isDead)
+        if (minecart.isDead)
         {
-            this.donePlaying = true;
+            donePlaying = true;
         }
         else
         {
-            this.xPosF = (float)this.minecart.posX;
-            this.yPosF = (float)this.minecart.posY;
-            this.zPosF = (float)this.minecart.posZ;
-            float f = MathHelper.sqrt_double(this.minecart.motionX * this.minecart.motionX + this.minecart.motionZ * this.minecart.motionZ);
+            xPosF = (float) minecart.posX;
+            yPosF = (float) minecart.posY;
+            zPosF = (float) minecart.posZ;
+            float f = MathHelper.sqrt_double(minecart.motionX * minecart.motionX + minecart.motionZ * minecart.motionZ);
 
             if ((double)f >= 0.01D)
             {
-                this.distance = MathHelper.clamp_float(this.distance + 0.0025F, 0.0F, 1.0F);
-                this.volume = 0.0F + MathHelper.clamp_float(f, 0.0F, 0.5F) * 0.7F;
+                distance = MathHelper.clamp_float(distance + 0.0025F, 0.0F, 1.0F);
+                volume = 0.0F + MathHelper.clamp_float(f, 0.0F, 0.5F) * 0.7F;
             }
             else
             {
-                this.distance = 0.0F;
-                this.volume = 0.0F;
+                distance = 0.0F;
+                volume = 0.0F;
             }
         }
     }

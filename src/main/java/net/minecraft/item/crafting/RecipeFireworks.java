@@ -19,7 +19,7 @@ public class RecipeFireworks implements IRecipe
      */
     public boolean matches(InventoryCrafting inv, World worldIn)
     {
-        this.field_92102_a = null;
+        field_92102_a = null;
         int i = 0;
         int j = 0;
         int k = 0;
@@ -87,7 +87,7 @@ public class RecipeFireworks implements IRecipe
         {
             if (j >= 1 && i == 1 && i1 == 0)
             {
-                this.field_92102_a = new ItemStack(Items.fireworks);
+                field_92102_a = new ItemStack(Items.fireworks);
 
                 if (l > 0)
                 {
@@ -108,18 +108,18 @@ public class RecipeFireworks implements IRecipe
                     nbttagcompound3.setTag("Explosions", nbttaglist);
                     nbttagcompound3.setByte("Flight", (byte)j);
                     nbttagcompound1.setTag("Fireworks", nbttagcompound3);
-                    this.field_92102_a.setTagCompound(nbttagcompound1);
+                    field_92102_a.setTagCompound(nbttagcompound1);
                 }
 
                 return true;
             }
             else if (j == 1 && i == 0 && l == 0 && k > 0 && j1 <= 1)
             {
-                this.field_92102_a = new ItemStack(Items.firework_charge);
+                field_92102_a = new ItemStack(Items.firework_charge);
                 NBTTagCompound nbttagcompound = new NBTTagCompound();
                 NBTTagCompound nbttagcompound2 = new NBTTagCompound();
                 byte b0 = 0;
-                List<Integer> list = Lists.<Integer>newArrayList();
+                List<Integer> list = Lists.newArrayList();
 
                 for (int l1 = 0; l1 < inv.getSizeInventory(); ++l1)
                 {
@@ -162,18 +162,18 @@ public class RecipeFireworks implements IRecipe
 
                 for (int l2 = 0; l2 < aint1.length; ++l2)
                 {
-                    aint1[l2] = ((Integer)list.get(l2)).intValue();
+                    aint1[l2] = list.get(l2).intValue();
                 }
 
                 nbttagcompound2.setIntArray("Colors", aint1);
                 nbttagcompound2.setByte("Type", b0);
                 nbttagcompound.setTag("Explosion", nbttagcompound2);
-                this.field_92102_a.setTagCompound(nbttagcompound);
+                field_92102_a.setTagCompound(nbttagcompound);
                 return true;
             }
             else if (j == 0 && i == 0 && l == 1 && k > 0 && k == i1)
             {
-                List<Integer> list1 = Lists.<Integer>newArrayList();
+                List<Integer> list1 = Lists.newArrayList();
 
                 for (int i2 = 0; i2 < inv.getSizeInventory(); ++i2)
                 {
@@ -187,8 +187,8 @@ public class RecipeFireworks implements IRecipe
                         }
                         else if (itemstack1.getItem() == Items.firework_charge)
                         {
-                            this.field_92102_a = itemstack1.copy();
-                            this.field_92102_a.stackSize = 1;
+                            field_92102_a = itemstack1.copy();
+                            field_92102_a.stackSize = 1;
                         }
                     }
                 }
@@ -197,12 +197,12 @@ public class RecipeFireworks implements IRecipe
 
                 for (int j2 = 0; j2 < aint.length; ++j2)
                 {
-                    aint[j2] = ((Integer)list1.get(j2)).intValue();
+                    aint[j2] = list1.get(j2).intValue();
                 }
 
-                if (this.field_92102_a != null && this.field_92102_a.hasTagCompound())
+                if (field_92102_a != null && field_92102_a.hasTagCompound())
                 {
-                    NBTTagCompound nbttagcompound4 = this.field_92102_a.getTagCompound().getCompoundTag("Explosion");
+                    NBTTagCompound nbttagcompound4 = field_92102_a.getTagCompound().getCompoundTag("Explosion");
 
                     if (nbttagcompound4 == null)
                     {
@@ -235,7 +235,7 @@ public class RecipeFireworks implements IRecipe
      */
     public ItemStack getCraftingResult(InventoryCrafting inv)
     {
-        return this.field_92102_a.copy();
+        return field_92102_a.copy();
     }
 
     /**
@@ -248,7 +248,7 @@ public class RecipeFireworks implements IRecipe
 
     public ItemStack getRecipeOutput()
     {
-        return this.field_92102_a;
+        return field_92102_a;
     }
 
     public ItemStack[] getRemainingItems(InventoryCrafting inv)

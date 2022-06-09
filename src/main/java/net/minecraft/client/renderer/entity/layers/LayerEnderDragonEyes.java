@@ -17,12 +17,12 @@ public class LayerEnderDragonEyes implements LayerRenderer
 
     public LayerEnderDragonEyes(RenderDragon dragonRendererIn)
     {
-        this.dragonRenderer = dragonRendererIn;
+        dragonRenderer = dragonRendererIn;
     }
 
     public void doRenderLayer(EntityDragon entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
-        this.dragonRenderer.bindTexture(TEXTURE);
+        dragonRenderer.bindTexture(LayerEnderDragonEyes.TEXTURE);
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();
         GlStateManager.blendFunc(1, 1);
@@ -40,8 +40,8 @@ public class LayerEnderDragonEyes implements LayerRenderer
             Shaders.beginSpiderEyes();
         }
 
-        this.dragonRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
-        this.dragonRenderer.func_177105_a(entitylivingbaseIn, partialTicks);
+        dragonRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+        dragonRenderer.func_177105_a(entitylivingbaseIn, partialTicks);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
         GlStateManager.depthFunc(515);
@@ -54,6 +54,6 @@ public class LayerEnderDragonEyes implements LayerRenderer
 
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
-        this.doRenderLayer((EntityDragon)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+        doRenderLayer((EntityDragon)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
     }
 }

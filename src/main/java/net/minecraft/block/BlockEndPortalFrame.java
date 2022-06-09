@@ -25,7 +25,7 @@ public class BlockEndPortalFrame extends Block
     public BlockEndPortalFrame()
     {
         super(Material.rock, MapColor.greenColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(EYE, Boolean.valueOf(false)));
+        setDefaultState(blockState.getBaseState().withProperty(BlockEndPortalFrame.FACING, EnumFacing.NORTH).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(false)));
     }
 
     /**
@@ -41,7 +41,7 @@ public class BlockEndPortalFrame extends Block
      */
     public void setBlockBoundsForItemRender()
     {
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.8125F, 1.0F);
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.8125F, 1.0F);
     }
 
     /**
@@ -49,16 +49,16 @@ public class BlockEndPortalFrame extends Block
      */
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity)
     {
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.8125F, 1.0F);
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.8125F, 1.0F);
         super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
 
-        if (((Boolean)worldIn.getBlockState(pos).getValue(EYE)).booleanValue())
+        if (worldIn.getBlockState(pos).getValue(BlockEndPortalFrame.EYE).booleanValue())
         {
-            this.setBlockBounds(0.3125F, 0.8125F, 0.3125F, 0.6875F, 1.0F, 0.6875F);
+            setBlockBounds(0.3125F, 0.8125F, 0.3125F, 0.6875F, 1.0F, 0.6875F);
             super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
         }
 
-        this.setBlockBoundsForItemRender();
+        setBlockBoundsForItemRender();
     }
 
     /**
@@ -75,7 +75,7 @@ public class BlockEndPortalFrame extends Block
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(EYE, Boolean.valueOf(false));
+        return getDefaultState().withProperty(BlockEndPortalFrame.FACING, placer.getHorizontalFacing().getOpposite()).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(false));
     }
 
     public boolean hasComparatorInputOverride()
@@ -85,7 +85,7 @@ public class BlockEndPortalFrame extends Block
 
     public int getComparatorInputOverride(World worldIn, BlockPos pos)
     {
-        return ((Boolean)worldIn.getBlockState(pos).getValue(EYE)).booleanValue() ? 15 : 0;
+        return worldIn.getBlockState(pos).getValue(BlockEndPortalFrame.EYE).booleanValue() ? 15 : 0;
     }
 
     /**
@@ -93,7 +93,7 @@ public class BlockEndPortalFrame extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(EYE, Boolean.valueOf((meta & 4) != 0)).withProperty(FACING, EnumFacing.getHorizontal(meta & 3));
+        return getDefaultState().withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf((meta & 4) != 0)).withProperty(BlockEndPortalFrame.FACING, EnumFacing.getHorizontal(meta & 3));
     }
 
     /**
@@ -102,9 +102,9 @@ public class BlockEndPortalFrame extends Block
     public int getMetaFromState(IBlockState state)
     {
         int i = 0;
-        i = i | ((EnumFacing)state.getValue(FACING)).getHorizontalIndex();
+        i = i | state.getValue(BlockEndPortalFrame.FACING).getHorizontalIndex();
 
-        if (((Boolean)state.getValue(EYE)).booleanValue())
+        if (state.getValue(BlockEndPortalFrame.EYE).booleanValue())
         {
             i |= 4;
         }
@@ -114,6 +114,6 @@ public class BlockEndPortalFrame extends Block
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {FACING, EYE});
+        return new BlockState(this, BlockEndPortalFrame.FACING, BlockEndPortalFrame.EYE);
     }
 }

@@ -15,7 +15,7 @@ public class C16PacketClientStatus implements Packet<INetHandlerPlayServer>
 
     public C16PacketClientStatus(C16PacketClientStatus.EnumState statusIn)
     {
-        this.status = statusIn;
+        status = statusIn;
     }
 
     /**
@@ -23,7 +23,7 @@ public class C16PacketClientStatus implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.status = (C16PacketClientStatus.EnumState)buf.readEnumValue(C16PacketClientStatus.EnumState.class);
+        status = buf.readEnumValue(EnumState.class);
     }
 
     /**
@@ -31,7 +31,7 @@ public class C16PacketClientStatus implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeEnumValue(this.status);
+        buf.writeEnumValue(status);
     }
 
     /**
@@ -44,13 +44,13 @@ public class C16PacketClientStatus implements Packet<INetHandlerPlayServer>
 
     public C16PacketClientStatus.EnumState getStatus()
     {
-        return this.status;
+        return status;
     }
 
     public static enum EnumState
     {
         PERFORM_RESPAWN,
         REQUEST_STATS,
-        OPEN_INVENTORY_ACHIEVEMENT;
+        OPEN_INVENTORY_ACHIEVEMENT
     }
 }

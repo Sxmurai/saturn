@@ -33,24 +33,24 @@ public class EntityEgg extends EntityThrowable
     {
         if (p_70184_1_.entityHit != null)
         {
-            p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
+            p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, getThrower()), 0.0F);
         }
 
-        if (!this.worldObj.isRemote && this.rand.nextInt(8) == 0)
+        if (!worldObj.isRemote && rand.nextInt(8) == 0)
         {
             int i = 1;
 
-            if (this.rand.nextInt(32) == 0)
+            if (rand.nextInt(32) == 0)
             {
                 i = 4;
             }
 
             for (int j = 0; j < i; ++j)
             {
-                EntityChicken entitychicken = new EntityChicken(this.worldObj);
+                EntityChicken entitychicken = new EntityChicken(worldObj);
                 entitychicken.setGrowingAge(-24000);
-                entitychicken.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
-                this.worldObj.spawnEntityInWorld(entitychicken);
+                entitychicken.setLocationAndAngles(posX, posY, posZ, rotationYaw, 0.0F);
+                worldObj.spawnEntityInWorld(entitychicken);
             }
         }
 
@@ -58,12 +58,12 @@ public class EntityEgg extends EntityThrowable
 
         for (int k = 0; k < 8; ++k)
         {
-            this.worldObj.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, ((double)this.rand.nextFloat() - 0.5D) * 0.08D, new int[] {Item.getIdFromItem(Items.egg)});
+            worldObj.spawnParticle(EnumParticleTypes.ITEM_CRACK, posX, posY, posZ, ((double) rand.nextFloat() - 0.5D) * 0.08D, ((double) rand.nextFloat() - 0.5D) * 0.08D, ((double) rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(Items.egg));
         }
 
-        if (!this.worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
-            this.setDead();
+            setDead();
         }
     }
 }

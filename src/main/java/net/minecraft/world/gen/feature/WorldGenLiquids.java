@@ -9,11 +9,11 @@ import net.minecraft.world.World;
 
 public class WorldGenLiquids extends WorldGenerator
 {
-    private Block block;
+    private final Block block;
 
     public WorldGenLiquids(Block p_i45465_1_)
     {
-        this.block = p_i45465_1_;
+        block = p_i45465_1_;
     }
 
     public boolean generate(World worldIn, Random rand, BlockPos position)
@@ -78,8 +78,8 @@ public class WorldGenLiquids extends WorldGenerator
 
             if (i == 3 && j == 1)
             {
-                worldIn.setBlockState(position, this.block.getDefaultState(), 2);
-                worldIn.forceBlockUpdateTick(this.block, position, rand);
+                worldIn.setBlockState(position, block.getDefaultState(), 2);
+                worldIn.forceBlockUpdateTick(block, position, rand);
             }
 
             return true;

@@ -12,9 +12,9 @@ public class BlockPartRotation
 
     public BlockPartRotation(Vector3f originIn, EnumFacing.Axis axisIn, float angleIn, boolean rescaleIn)
     {
-        this.origin = originIn;
-        this.axis = axisIn;
-        this.angle = angleIn;
-        this.rescale = rescaleIn;
+        origin = originIn;
+        axis = axisIn;
+        angle = angleIn;
+        rescale = rescaleIn;
     }
 }

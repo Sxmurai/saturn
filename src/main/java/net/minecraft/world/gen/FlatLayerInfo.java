@@ -20,16 +20,16 @@ public class FlatLayerInfo
 
     public FlatLayerInfo(int p_i45627_1_, int p_i45627_2_, Block p_i45627_3_)
     {
-        this.layerCount = 1;
-        this.field_175902_a = p_i45627_1_;
-        this.layerCount = p_i45627_2_;
-        this.field_175901_b = p_i45627_3_.getDefaultState();
+        layerCount = 1;
+        field_175902_a = p_i45627_1_;
+        layerCount = p_i45627_2_;
+        field_175901_b = p_i45627_3_.getDefaultState();
     }
 
     public FlatLayerInfo(int p_i45628_1_, int p_i45628_2_, Block p_i45628_3_, int p_i45628_4_)
     {
         this(p_i45628_1_, p_i45628_2_, p_i45628_3_);
-        this.field_175901_b = p_i45628_3_.getStateFromMeta(p_i45628_4_);
+        field_175901_b = p_i45628_3_.getStateFromMeta(p_i45628_4_);
     }
 
     /**
@@ -37,17 +37,17 @@ public class FlatLayerInfo
      */
     public int getLayerCount()
     {
-        return this.layerCount;
+        return layerCount;
     }
 
     public IBlockState func_175900_c()
     {
-        return this.field_175901_b;
+        return field_175901_b;
     }
 
     private Block func_151536_b()
     {
-        return this.field_175901_b.getBlock();
+        return field_175901_b.getBlock();
     }
 
     /**
@@ -55,7 +55,7 @@ public class FlatLayerInfo
      */
     private int getFillBlockMeta()
     {
-        return this.field_175901_b.getBlock().getMetaFromState(this.field_175901_b);
+        return field_175901_b.getBlock().getMetaFromState(field_175901_b);
     }
 
     /**
@@ -63,7 +63,7 @@ public class FlatLayerInfo
      */
     public int getMinY()
     {
-        return this.layerMinimumY;
+        return layerMinimumY;
     }
 
     /**
@@ -71,34 +71,34 @@ public class FlatLayerInfo
      */
     public void setMinY(int p_82660_1_)
     {
-        this.layerMinimumY = p_82660_1_;
+        layerMinimumY = p_82660_1_;
     }
 
     public String toString()
     {
         String s;
 
-        if (this.field_175902_a >= 3)
+        if (field_175902_a >= 3)
         {
-            ResourceLocation resourcelocation = (ResourceLocation)Block.blockRegistry.getNameForObject(this.func_151536_b());
+            ResourceLocation resourcelocation = Block.blockRegistry.getNameForObject(func_151536_b());
             s = resourcelocation == null ? "null" : resourcelocation.toString();
 
-            if (this.layerCount > 1)
+            if (layerCount > 1)
             {
-                s = this.layerCount + "*" + s;
+                s = layerCount + "*" + s;
             }
         }
         else
         {
-            s = Integer.toString(Block.getIdFromBlock(this.func_151536_b()));
+            s = Integer.toString(Block.getIdFromBlock(func_151536_b()));
 
-            if (this.layerCount > 1)
+            if (layerCount > 1)
             {
-                s = this.layerCount + "x" + s;
+                s = layerCount + "x" + s;
             }
         }
 
-        int i = this.getFillBlockMeta();
+        int i = getFillBlockMeta();
 
         if (i > 0)
         {

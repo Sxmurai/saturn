@@ -11,7 +11,7 @@ public class RenderCaveSpider extends RenderSpider<EntityCaveSpider>
     public RenderCaveSpider(RenderManager renderManagerIn)
     {
         super(renderManagerIn);
-        this.shadowSize *= 0.7F;
+        shadowSize *= 0.7F;
     }
 
     /**
@@ -28,6 +28,6 @@ public class RenderCaveSpider extends RenderSpider<EntityCaveSpider>
      */
     protected ResourceLocation getEntityTexture(EntityCaveSpider entity)
     {
-        return caveSpiderTextures;
+        return RenderCaveSpider.caveSpiderTextures;
     }
 }

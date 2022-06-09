@@ -34,35 +34,35 @@ public class ItemCameraTransforms
 
     public ItemCameraTransforms(ItemCameraTransforms p_i46443_1_)
     {
-        this.thirdPerson = p_i46443_1_.thirdPerson;
-        this.firstPerson = p_i46443_1_.firstPerson;
-        this.head = p_i46443_1_.head;
-        this.gui = p_i46443_1_.gui;
-        this.ground = p_i46443_1_.ground;
-        this.fixed = p_i46443_1_.fixed;
+        thirdPerson = p_i46443_1_.thirdPerson;
+        firstPerson = p_i46443_1_.firstPerson;
+        head = p_i46443_1_.head;
+        gui = p_i46443_1_.gui;
+        ground = p_i46443_1_.ground;
+        fixed = p_i46443_1_.fixed;
     }
 
     public ItemCameraTransforms(ItemTransformVec3f p_i46444_1_, ItemTransformVec3f p_i46444_2_, ItemTransformVec3f p_i46444_3_, ItemTransformVec3f p_i46444_4_, ItemTransformVec3f p_i46444_5_, ItemTransformVec3f p_i46444_6_)
     {
-        this.thirdPerson = p_i46444_1_;
-        this.firstPerson = p_i46444_2_;
-        this.head = p_i46444_3_;
-        this.gui = p_i46444_4_;
-        this.ground = p_i46444_5_;
-        this.fixed = p_i46444_6_;
+        thirdPerson = p_i46444_1_;
+        firstPerson = p_i46444_2_;
+        head = p_i46444_3_;
+        gui = p_i46444_4_;
+        ground = p_i46444_5_;
+        fixed = p_i46444_6_;
     }
 
     public void applyTransform(ItemCameraTransforms.TransformType p_181689_1_)
     {
-        ItemTransformVec3f itemtransformvec3f = this.getTransform(p_181689_1_);
+        ItemTransformVec3f itemtransformvec3f = getTransform(p_181689_1_);
 
         if (itemtransformvec3f != ItemTransformVec3f.DEFAULT)
         {
-            GlStateManager.translate(itemtransformvec3f.translation.x + field_181690_b, itemtransformvec3f.translation.y + field_181691_c, itemtransformvec3f.translation.z + field_181692_d);
-            GlStateManager.rotate(itemtransformvec3f.rotation.y + field_181694_f, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate(itemtransformvec3f.rotation.x + field_181693_e, 1.0F, 0.0F, 0.0F);
-            GlStateManager.rotate(itemtransformvec3f.rotation.z + field_181695_g, 0.0F, 0.0F, 1.0F);
-            GlStateManager.scale(itemtransformvec3f.scale.x + field_181696_h, itemtransformvec3f.scale.y + field_181697_i, itemtransformvec3f.scale.z + field_181698_j);
+            GlStateManager.translate(itemtransformvec3f.translation.x + ItemCameraTransforms.field_181690_b, itemtransformvec3f.translation.y + ItemCameraTransforms.field_181691_c, itemtransformvec3f.translation.z + ItemCameraTransforms.field_181692_d);
+            GlStateManager.rotate(itemtransformvec3f.rotation.y + ItemCameraTransforms.field_181694_f, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(itemtransformvec3f.rotation.x + ItemCameraTransforms.field_181693_e, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(itemtransformvec3f.rotation.z + ItemCameraTransforms.field_181695_g, 0.0F, 0.0F, 1.0F);
+            GlStateManager.scale(itemtransformvec3f.scale.x + ItemCameraTransforms.field_181696_h, itemtransformvec3f.scale.y + ItemCameraTransforms.field_181697_i, itemtransformvec3f.scale.z + ItemCameraTransforms.field_181698_j);
         }
     }
 
@@ -71,22 +71,22 @@ public class ItemCameraTransforms
         switch (p_181688_1_)
         {
             case THIRD_PERSON:
-                return this.thirdPerson;
+                return thirdPerson;
 
             case FIRST_PERSON:
-                return this.firstPerson;
+                return firstPerson;
 
             case HEAD:
-                return this.head;
+                return head;
 
             case GUI:
-                return this.gui;
+                return gui;
 
             case GROUND:
-                return this.ground;
+                return ground;
 
             case FIXED:
-                return this.fixed;
+                return fixed;
 
             default:
                 return ItemTransformVec3f.DEFAULT;
@@ -95,7 +95,7 @@ public class ItemCameraTransforms
 
     public boolean func_181687_c(ItemCameraTransforms.TransformType p_181687_1_)
     {
-        return !this.getTransform(p_181687_1_).equals(ItemTransformVec3f.DEFAULT);
+        return !getTransform(p_181687_1_).equals(ItemTransformVec3f.DEFAULT);
     }
 
     static class Deserializer implements JsonDeserializer<ItemCameraTransforms>
@@ -103,12 +103,12 @@ public class ItemCameraTransforms
         public ItemCameraTransforms deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException
         {
             JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
-            ItemTransformVec3f itemtransformvec3f = this.func_181683_a(p_deserialize_3_, jsonobject, "thirdperson");
-            ItemTransformVec3f itemtransformvec3f1 = this.func_181683_a(p_deserialize_3_, jsonobject, "firstperson");
-            ItemTransformVec3f itemtransformvec3f2 = this.func_181683_a(p_deserialize_3_, jsonobject, "head");
-            ItemTransformVec3f itemtransformvec3f3 = this.func_181683_a(p_deserialize_3_, jsonobject, "gui");
-            ItemTransformVec3f itemtransformvec3f4 = this.func_181683_a(p_deserialize_3_, jsonobject, "ground");
-            ItemTransformVec3f itemtransformvec3f5 = this.func_181683_a(p_deserialize_3_, jsonobject, "fixed");
+            ItemTransformVec3f itemtransformvec3f = func_181683_a(p_deserialize_3_, jsonobject, "thirdperson");
+            ItemTransformVec3f itemtransformvec3f1 = func_181683_a(p_deserialize_3_, jsonobject, "firstperson");
+            ItemTransformVec3f itemtransformvec3f2 = func_181683_a(p_deserialize_3_, jsonobject, "head");
+            ItemTransformVec3f itemtransformvec3f3 = func_181683_a(p_deserialize_3_, jsonobject, "gui");
+            ItemTransformVec3f itemtransformvec3f4 = func_181683_a(p_deserialize_3_, jsonobject, "ground");
+            ItemTransformVec3f itemtransformvec3f5 = func_181683_a(p_deserialize_3_, jsonobject, "fixed");
             return new ItemCameraTransforms(itemtransformvec3f, itemtransformvec3f1, itemtransformvec3f2, itemtransformvec3f3, itemtransformvec3f4, itemtransformvec3f5);
         }
 
@@ -126,6 +126,6 @@ public class ItemCameraTransforms
         HEAD,
         GUI,
         GROUND,
-        FIXED;
+        FIXED
     }
 }

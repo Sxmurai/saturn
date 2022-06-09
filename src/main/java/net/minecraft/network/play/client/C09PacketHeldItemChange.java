@@ -23,7 +23,7 @@ public class C09PacketHeldItemChange implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.slotId = buf.readShort();
+        slotId = buf.readShort();
     }
 
     /**
@@ -31,7 +31,7 @@ public class C09PacketHeldItemChange implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeShort(this.slotId);
+        buf.writeShort(slotId);
     }
 
     /**
@@ -44,6 +44,6 @@ public class C09PacketHeldItemChange implements Packet<INetHandlerPlayServer>
 
     public int getSlotId()
     {
-        return this.slotId;
+        return slotId;
     }
 }

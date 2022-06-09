@@ -23,8 +23,8 @@ public enum EnumDyeColor implements IStringSerializable
     RED(14, 1, "red", "red", MapColor.redColor, EnumChatFormatting.DARK_RED),
     BLACK(15, 0, "black", "black", MapColor.blackColor, EnumChatFormatting.BLACK);
 
-    private static final EnumDyeColor[] META_LOOKUP = new EnumDyeColor[values().length];
-    private static final EnumDyeColor[] DYE_DMG_LOOKUP = new EnumDyeColor[values().length];
+    private static final EnumDyeColor[] META_LOOKUP = new EnumDyeColor[EnumDyeColor.values().length];
+    private static final EnumDyeColor[] DYE_DMG_LOOKUP = new EnumDyeColor[EnumDyeColor.values().length];
     private final int meta;
     private final int dyeDamage;
     private final String name;
@@ -38,65 +38,65 @@ public enum EnumDyeColor implements IStringSerializable
         this.dyeDamage = dyeDamage;
         this.name = name;
         this.unlocalizedName = unlocalizedName;
-        this.mapColor = mapColorIn;
+        mapColor = mapColorIn;
         this.chatColor = chatColor;
     }
 
     public int getMetadata()
     {
-        return this.meta;
+        return meta;
     }
 
     public int getDyeDamage()
     {
-        return this.dyeDamage;
+        return dyeDamage;
     }
 
     public String getUnlocalizedName()
     {
-        return this.unlocalizedName;
+        return unlocalizedName;
     }
 
     public MapColor getMapColor()
     {
-        return this.mapColor;
+        return mapColor;
     }
 
     public static EnumDyeColor byDyeDamage(int damage)
     {
-        if (damage < 0 || damage >= DYE_DMG_LOOKUP.length)
+        if (damage < 0 || damage >= EnumDyeColor.DYE_DMG_LOOKUP.length)
         {
             damage = 0;
         }
 
-        return DYE_DMG_LOOKUP[damage];
+        return EnumDyeColor.DYE_DMG_LOOKUP[damage];
     }
 
     public static EnumDyeColor byMetadata(int meta)
     {
-        if (meta < 0 || meta >= META_LOOKUP.length)
+        if (meta < 0 || meta >= EnumDyeColor.META_LOOKUP.length)
         {
             meta = 0;
         }
 
-        return META_LOOKUP[meta];
+        return EnumDyeColor.META_LOOKUP[meta];
     }
 
     public String toString()
     {
-        return this.unlocalizedName;
+        return unlocalizedName;
     }
 
     public String getName()
     {
-        return this.name;
+        return name;
     }
 
     static {
-        for (EnumDyeColor enumdyecolor : values())
+        for (EnumDyeColor enumdyecolor : EnumDyeColor.values())
         {
-            META_LOOKUP[enumdyecolor.getMetadata()] = enumdyecolor;
-            DYE_DMG_LOOKUP[enumdyecolor.getDyeDamage()] = enumdyecolor;
+            EnumDyeColor.META_LOOKUP[enumdyecolor.getMetadata()] = enumdyecolor;
+            EnumDyeColor.DYE_DMG_LOOKUP[enumdyecolor.getDyeDamage()] = enumdyecolor;
         }
     }
 }

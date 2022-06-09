@@ -18,14 +18,14 @@ public class LayerWolfCollar implements LayerRenderer
 
     public LayerWolfCollar(RenderWolf wolfRendererIn)
     {
-        this.wolfRenderer = wolfRendererIn;
+        wolfRenderer = wolfRendererIn;
     }
 
     public void doRenderLayer(EntityWolf entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
         if (entitylivingbaseIn.isTamed() && !entitylivingbaseIn.isInvisible())
         {
-            this.wolfRenderer.bindTexture(WOLF_COLLAR);
+            wolfRenderer.bindTexture(LayerWolfCollar.WOLF_COLLAR);
             EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entitylivingbaseIn.getCollarColor().getMetadata());
             float[] afloat = EntitySheep.func_175513_a(enumdyecolor);
 
@@ -35,7 +35,7 @@ public class LayerWolfCollar implements LayerRenderer
             }
 
             GlStateManager.color(afloat[0], afloat[1], afloat[2]);
-            this.wolfRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+            wolfRenderer.getMainModel().render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
         }
     }
 
@@ -46,6 +46,6 @@ public class LayerWolfCollar implements LayerRenderer
 
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
-        this.doRenderLayer((EntityWolf)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+        doRenderLayer((EntityWolf)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
     }
 }

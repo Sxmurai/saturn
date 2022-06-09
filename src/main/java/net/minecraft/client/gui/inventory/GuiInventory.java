@@ -25,7 +25,7 @@ public class GuiInventory extends InventoryEffectRenderer
     public GuiInventory(EntityPlayer p_i1094_1_)
     {
         super(p_i1094_1_.inventoryContainer);
-        this.allowUserInput = true;
+        allowUserInput = true;
     }
 
     /**
@@ -33,12 +33,12 @@ public class GuiInventory extends InventoryEffectRenderer
      */
     public void updateScreen()
     {
-        if (this.mc.playerController.isInCreativeMode())
+        if (mc.playerController.isInCreativeMode())
         {
-            this.mc.displayGuiScreen(new GuiContainerCreative(this.mc.thePlayer));
+            mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
         }
 
-        this.updateActivePotionEffects();
+        updateActivePotionEffects();
     }
 
     /**
@@ -47,11 +47,11 @@ public class GuiInventory extends InventoryEffectRenderer
      */
     public void initGui()
     {
-        this.buttonList.clear();
+        buttonList.clear();
 
-        if (this.mc.playerController.isInCreativeMode())
+        if (mc.playerController.isInCreativeMode())
         {
-            this.mc.displayGuiScreen(new GuiContainerCreative(this.mc.thePlayer));
+            mc.displayGuiScreen(new GuiContainerCreative(mc.thePlayer));
         }
         else
         {
@@ -64,7 +64,7 @@ public class GuiInventory extends InventoryEffectRenderer
      */
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        this.fontRendererObj.drawString(I18n.format("container.crafting", new Object[0]), 86, 16, 4210752);
+        fontRendererObj.drawString(I18n.format("container.crafting"), 86, 16, 4210752);
     }
 
     /**
@@ -73,8 +73,8 @@ public class GuiInventory extends InventoryEffectRenderer
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        this.oldMouseX = (float)mouseX;
-        this.oldMouseY = (float)mouseY;
+        oldMouseX = (float)mouseX;
+        oldMouseY = (float)mouseY;
     }
 
     /**
@@ -83,11 +83,11 @@ public class GuiInventory extends InventoryEffectRenderer
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(inventoryBackground);
-        int i = this.guiLeft;
-        int j = this.guiTop;
-        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
-        drawEntityOnScreen(i + 51, j + 75, 30, (float)(i + 51) - this.oldMouseX, (float)(j + 75 - 50) - this.oldMouseY, this.mc.thePlayer);
+        mc.getTextureManager().bindTexture(GuiContainer.inventoryBackground);
+        int i = guiLeft;
+        int j = guiTop;
+        drawTexturedModalRect(i, j, 0, 0, xSize, ySize);
+        GuiInventory.drawEntityOnScreen(i + 51, j + 75, 30, (float)(i + 51) - oldMouseX, (float)(j + 75 - 50) - oldMouseY, mc.thePlayer);
     }
 
     /**
@@ -108,10 +108,10 @@ public class GuiInventory extends InventoryEffectRenderer
         GlStateManager.rotate(135.0F, 0.0F, 1.0F, 0.0F);
         RenderHelper.enableStandardItemLighting();
         GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(-((float)Math.atan((double)(mouseY / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
-        ent.renderYawOffset = (float)Math.atan((double)(mouseX / 40.0F)) * 20.0F;
-        ent.rotationYaw = (float)Math.atan((double)(mouseX / 40.0F)) * 40.0F;
-        ent.rotationPitch = -((float)Math.atan((double)(mouseY / 40.0F))) * 20.0F;
+        GlStateManager.rotate(-((float)Math.atan(mouseY / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
+        ent.renderYawOffset = (float)Math.atan(mouseX / 40.0F) * 20.0F;
+        ent.rotationYaw = (float)Math.atan(mouseX / 40.0F) * 40.0F;
+        ent.rotationPitch = -((float)Math.atan(mouseY / 40.0F)) * 20.0F;
         ent.rotationYawHead = ent.rotationYaw;
         ent.prevRotationYawHead = ent.rotationYaw;
         GlStateManager.translate(0.0F, 0.0F, 0.0F);
@@ -140,12 +140,12 @@ public class GuiInventory extends InventoryEffectRenderer
     {
         if (button.id == 0)
         {
-            this.mc.displayGuiScreen(new GuiAchievements(this, this.mc.thePlayer.getStatFileWriter()));
+            mc.displayGuiScreen(new GuiAchievements(this, mc.thePlayer.getStatFileWriter()));
         }
 
         if (button.id == 1)
         {
-            this.mc.displayGuiScreen(new GuiStats(this, this.mc.thePlayer.getStatFileWriter()));
+            mc.displayGuiScreen(new GuiStats(this, mc.thePlayer.getStatFileWriter()));
         }
     }
 }

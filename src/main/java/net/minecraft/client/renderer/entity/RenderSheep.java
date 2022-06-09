@@ -12,7 +12,7 @@ public class RenderSheep extends RenderLiving<EntitySheep>
     public RenderSheep(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn)
     {
         super(renderManagerIn, modelBaseIn, shadowSizeIn);
-        this.addLayer(new LayerSheepWool(this));
+        addLayer(new LayerSheepWool(this));
     }
 
     /**
@@ -20,6 +20,6 @@ public class RenderSheep extends RenderLiving<EntitySheep>
      */
     protected ResourceLocation getEntityTexture(EntitySheep entity)
     {
-        return shearedSheepTextures;
+        return RenderSheep.shearedSheepTextures;
     }
 }

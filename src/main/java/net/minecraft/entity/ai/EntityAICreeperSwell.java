@@ -15,8 +15,8 @@ public class EntityAICreeperSwell extends EntityAIBase
 
     public EntityAICreeperSwell(EntityCreeper entitycreeperIn)
     {
-        this.swellingCreeper = entitycreeperIn;
-        this.setMutexBits(1);
+        swellingCreeper = entitycreeperIn;
+        setMutexBits(1);
     }
 
     /**
@@ -24,8 +24,8 @@ public class EntityAICreeperSwell extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        EntityLivingBase entitylivingbase = this.swellingCreeper.getAttackTarget();
-        return this.swellingCreeper.getCreeperState() > 0 || entitylivingbase != null && this.swellingCreeper.getDistanceSqToEntity(entitylivingbase) < 9.0D;
+        EntityLivingBase entitylivingbase = swellingCreeper.getAttackTarget();
+        return swellingCreeper.getCreeperState() > 0 || entitylivingbase != null && swellingCreeper.getDistanceSqToEntity(entitylivingbase) < 9.0D;
     }
 
     /**
@@ -33,8 +33,8 @@ public class EntityAICreeperSwell extends EntityAIBase
      */
     public void startExecuting()
     {
-        this.swellingCreeper.getNavigator().clearPathEntity();
-        this.creeperAttackTarget = this.swellingCreeper.getAttackTarget();
+        swellingCreeper.getNavigator().clearPathEntity();
+        creeperAttackTarget = swellingCreeper.getAttackTarget();
     }
 
     /**
@@ -42,7 +42,7 @@ public class EntityAICreeperSwell extends EntityAIBase
      */
     public void resetTask()
     {
-        this.creeperAttackTarget = null;
+        creeperAttackTarget = null;
     }
 
     /**
@@ -50,21 +50,21 @@ public class EntityAICreeperSwell extends EntityAIBase
      */
     public void updateTask()
     {
-        if (this.creeperAttackTarget == null)
+        if (creeperAttackTarget == null)
         {
-            this.swellingCreeper.setCreeperState(-1);
+            swellingCreeper.setCreeperState(-1);
         }
-        else if (this.swellingCreeper.getDistanceSqToEntity(this.creeperAttackTarget) > 49.0D)
+        else if (swellingCreeper.getDistanceSqToEntity(creeperAttackTarget) > 49.0D)
         {
-            this.swellingCreeper.setCreeperState(-1);
+            swellingCreeper.setCreeperState(-1);
         }
-        else if (!this.swellingCreeper.getEntitySenses().canSee(this.creeperAttackTarget))
+        else if (!swellingCreeper.getEntitySenses().canSee(creeperAttackTarget))
         {
-            this.swellingCreeper.setCreeperState(-1);
+            swellingCreeper.setCreeperState(-1);
         }
         else
         {
-            this.swellingCreeper.setCreeperState(1);
+            swellingCreeper.setCreeperState(1);
         }
     }
 }

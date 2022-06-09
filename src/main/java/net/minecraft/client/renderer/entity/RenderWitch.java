@@ -14,7 +14,7 @@ public class RenderWitch extends RenderLiving<EntityWitch>
     public RenderWitch(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelWitch(0.0F), 0.5F);
-        this.addLayer(new LayerHeldItemWitch(this));
+        addLayer(new LayerHeldItemWitch(this));
     }
 
     /**
@@ -25,7 +25,7 @@ public class RenderWitch extends RenderLiving<EntityWitch>
      */
     public void doRender(EntityWitch entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        ((ModelWitch)this.mainModel).field_82900_g = entity.getHeldItem() != null;
+        ((ModelWitch) mainModel).field_82900_g = entity.getHeldItem() != null;
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
@@ -34,7 +34,7 @@ public class RenderWitch extends RenderLiving<EntityWitch>
      */
     protected ResourceLocation getEntityTexture(EntityWitch entity)
     {
-        return witchTextures;
+        return RenderWitch.witchTextures;
     }
 
     public void transformHeldFull3DItemLayer()

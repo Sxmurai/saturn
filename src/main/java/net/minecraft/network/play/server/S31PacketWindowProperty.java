@@ -17,9 +17,9 @@ public class S31PacketWindowProperty implements Packet<INetHandlerPlayClient>
 
     public S31PacketWindowProperty(int windowIdIn, int varIndexIn, int varValueIn)
     {
-        this.windowId = windowIdIn;
-        this.varIndex = varIndexIn;
-        this.varValue = varValueIn;
+        windowId = windowIdIn;
+        varIndex = varIndexIn;
+        varValue = varValueIn;
     }
 
     /**
@@ -35,9 +35,9 @@ public class S31PacketWindowProperty implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.windowId = buf.readUnsignedByte();
-        this.varIndex = buf.readShort();
-        this.varValue = buf.readShort();
+        windowId = buf.readUnsignedByte();
+        varIndex = buf.readShort();
+        varValue = buf.readShort();
     }
 
     /**
@@ -45,23 +45,23 @@ public class S31PacketWindowProperty implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeByte(this.windowId);
-        buf.writeShort(this.varIndex);
-        buf.writeShort(this.varValue);
+        buf.writeByte(windowId);
+        buf.writeShort(varIndex);
+        buf.writeShort(varValue);
     }
 
     public int getWindowId()
     {
-        return this.windowId;
+        return windowId;
     }
 
     public int getVarIndex()
     {
-        return this.varIndex;
+        return varIndex;
     }
 
     public int getVarValue()
     {
-        return this.varValue;
+        return varValue;
     }
 }

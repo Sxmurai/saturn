@@ -21,7 +21,7 @@ public abstract class BlockFlower extends BlockBush
 
     protected BlockFlower()
     {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(this.getTypeProperty(), this.getBlockType() == BlockFlower.EnumFlowerColor.RED ? BlockFlower.EnumFlowerType.POPPY : BlockFlower.EnumFlowerType.DANDELION));
+        setDefaultState(blockState.getBaseState().withProperty(getTypeProperty(), getBlockType() == BlockFlower.EnumFlowerColor.RED ? BlockFlower.EnumFlowerType.POPPY : BlockFlower.EnumFlowerType.DANDELION));
     }
 
     /**
@@ -30,7 +30,7 @@ public abstract class BlockFlower extends BlockBush
      */
     public int damageDropped(IBlockState state)
     {
-        return ((BlockFlower.EnumFlowerType)state.getValue(this.getTypeProperty())).getMeta();
+        return state.getValue(getTypeProperty()).getMeta();
     }
 
     /**
@@ -38,7 +38,7 @@ public abstract class BlockFlower extends BlockBush
      */
     public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list)
     {
-        for (BlockFlower.EnumFlowerType blockflower$enumflowertype : BlockFlower.EnumFlowerType.getTypes(this.getBlockType()))
+        for (BlockFlower.EnumFlowerType blockflower$enumflowertype : BlockFlower.EnumFlowerType.getTypes(getBlockType()))
         {
             list.add(new ItemStack(itemIn, 1, blockflower$enumflowertype.getMeta()));
         }
@@ -49,7 +49,7 @@ public abstract class BlockFlower extends BlockBush
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(this.getTypeProperty(), BlockFlower.EnumFlowerType.getType(this.getBlockType(), meta));
+        return getDefaultState().withProperty(getTypeProperty(), BlockFlower.EnumFlowerType.getType(getBlockType(), meta));
     }
 
     /**
@@ -59,18 +59,18 @@ public abstract class BlockFlower extends BlockBush
 
     public IProperty<BlockFlower.EnumFlowerType> getTypeProperty()
     {
-        if (this.type == null)
+        if (type == null)
         {
-            this.type = PropertyEnum.<BlockFlower.EnumFlowerType>create("type", BlockFlower.EnumFlowerType.class, new Predicate<BlockFlower.EnumFlowerType>()
+            type = PropertyEnum.create("type", BlockFlower.EnumFlowerType.class, new Predicate<BlockFlower.EnumFlowerType>()
             {
                 public boolean apply(BlockFlower.EnumFlowerType p_apply_1_)
                 {
-                    return p_apply_1_.getBlockType() == BlockFlower.this.getBlockType();
+                    return p_apply_1_.getBlockType() == getBlockType();
                 }
             });
         }
 
-        return this.type;
+        return type;
     }
 
     /**
@@ -78,12 +78,12 @@ public abstract class BlockFlower extends BlockBush
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((BlockFlower.EnumFlowerType)state.getValue(this.getTypeProperty())).getMeta();
+        return state.getValue(getTypeProperty()).getMeta();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {this.getTypeProperty()});
+        return new BlockState(this, getTypeProperty());
     }
 
     /**
@@ -101,7 +101,7 @@ public abstract class BlockFlower extends BlockBush
 
         public BlockFlower getBlock()
         {
-            return this == YELLOW ? Blocks.yellow_flower : Blocks.red_flower;
+            return this == EnumFlowerColor.YELLOW ? Blocks.yellow_flower : Blocks.red_flower;
         }
     }
 
@@ -139,17 +139,17 @@ public abstract class BlockFlower extends BlockBush
 
         public BlockFlower.EnumFlowerColor getBlockType()
         {
-            return this.blockType;
+            return blockType;
         }
 
         public int getMeta()
         {
-            return this.meta;
+            return meta;
         }
 
         public static BlockFlower.EnumFlowerType getType(BlockFlower.EnumFlowerColor blockType, int meta)
         {
-            BlockFlower.EnumFlowerType[] ablockflower$enumflowertype = TYPES_FOR_BLOCK[blockType.ordinal()];
+            BlockFlower.EnumFlowerType[] ablockflower$enumflowertype = EnumFlowerType.TYPES_FOR_BLOCK[blockType.ordinal()];
 
             if (meta < 0 || meta >= ablockflower$enumflowertype.length)
             {
@@ -161,35 +161,35 @@ public abstract class BlockFlower extends BlockBush
 
         public static BlockFlower.EnumFlowerType[] getTypes(BlockFlower.EnumFlowerColor flowerColor)
         {
-            return TYPES_FOR_BLOCK[flowerColor.ordinal()];
+            return EnumFlowerType.TYPES_FOR_BLOCK[flowerColor.ordinal()];
         }
 
         public String toString()
         {
-            return this.name;
+            return name;
         }
 
         public String getName()
         {
-            return this.name;
+            return name;
         }
 
         public String getUnlocalizedName()
         {
-            return this.unlocalizedName;
+            return unlocalizedName;
         }
 
         static {
             for (final BlockFlower.EnumFlowerColor blockflower$enumflowercolor : BlockFlower.EnumFlowerColor.values())
             {
-                Collection<BlockFlower.EnumFlowerType> collection = Collections2.<BlockFlower.EnumFlowerType>filter(Lists.newArrayList(values()), new Predicate<BlockFlower.EnumFlowerType>()
+                Collection<BlockFlower.EnumFlowerType> collection = Collections2.filter(Lists.newArrayList(EnumFlowerType.values()), new Predicate<BlockFlower.EnumFlowerType>()
                 {
                     public boolean apply(BlockFlower.EnumFlowerType p_apply_1_)
                     {
                         return p_apply_1_.getBlockType() == blockflower$enumflowercolor;
                     }
                 });
-                TYPES_FOR_BLOCK[blockflower$enumflowercolor.ordinal()] = (BlockFlower.EnumFlowerType[])collection.toArray(new BlockFlower.EnumFlowerType[collection.size()]);
+                EnumFlowerType.TYPES_FOR_BLOCK[blockflower$enumflowercolor.ordinal()] = collection.toArray(new EnumFlowerType[collection.size()]);
             }
         }
     }

@@ -12,7 +12,7 @@ public class TileEntityMobSpawnerRenderer extends TileEntitySpecialRenderer<Tile
     {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float)x + 0.5F, (float)y, (float)z + 0.5F);
-        renderMob(te.getSpawnerBaseLogic(), x, y, z, partialTicks);
+        TileEntityMobSpawnerRenderer.renderMob(te.getSpawnerBaseLogic(), x, y, z, partialTicks);
         GlStateManager.popMatrix();
     }
 

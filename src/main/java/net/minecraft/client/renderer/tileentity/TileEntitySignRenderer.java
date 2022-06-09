@@ -35,7 +35,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
             GlStateManager.translate((float)x + 0.5F, (float)y + 0.75F * f, (float)z + 0.5F);
             float f2 = (float)(te.getBlockMetadata() * 360) / 16.0F;
             GlStateManager.rotate(-f2, 0.0F, 1.0F, 0.0F);
-            this.model.signStick.showModel = true;
+            model.signStick.showModel = true;
         }
         else
         {
@@ -60,12 +60,12 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
             GlStateManager.translate((float)x + 0.5F, (float)y + 0.75F * f, (float)z + 0.5F);
             GlStateManager.rotate(-f1, 0.0F, 1.0F, 0.0F);
             GlStateManager.translate(0.0F, -0.3125F, -0.4375F);
-            this.model.signStick.showModel = false;
+            model.signStick.showModel = false;
         }
 
         if (destroyStage >= 0)
         {
-            this.bindTexture(DESTROY_STAGES[destroyStage]);
+            bindTexture(TileEntitySpecialRenderer.DESTROY_STAGES[destroyStage]);
             GlStateManager.matrixMode(5890);
             GlStateManager.pushMatrix();
             GlStateManager.scale(4.0F, 2.0F, 1.0F);
@@ -74,15 +74,15 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
         }
         else
         {
-            this.bindTexture(SIGN_TEXTURE);
+            bindTexture(TileEntitySignRenderer.SIGN_TEXTURE);
         }
 
         GlStateManager.enableRescaleNormal();
         GlStateManager.pushMatrix();
         GlStateManager.scale(f, -f, -f);
-        this.model.renderSign();
+        model.renderSign();
         GlStateManager.popMatrix();
-        FontRenderer fontrenderer = this.getFontRenderer();
+        FontRenderer fontrenderer = getFontRenderer();
         float f3 = 0.015625F * f;
         GlStateManager.translate(0.0F, 0.5F * f, 0.07F * f);
         GlStateManager.scale(f3, -f3, f3);
@@ -132,6 +132,6 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer
 
     public void renderTileEntityAt(TileEntity te, double x, double y, double z, float partialTicks, int destroyStage)
     {
-        this.renderTileEntityAt((TileEntitySign)te, x, y, z, partialTicks, destroyStage);
+        renderTileEntityAt((TileEntitySign)te, x, y, z, partialTicks, destroyStage);
     }
 }

@@ -15,11 +15,11 @@ import org.apache.logging.log4j.Logger;
 public class SharedMonsterAttributes
 {
     private static final Logger logger = LogManager.getLogger();
-    public static final IAttribute maxHealth = (new RangedAttribute((IAttribute)null, "generic.maxHealth", 20.0D, 0.0D, 1024.0D)).setDescription("Max Health").setShouldWatch(true);
-    public static final IAttribute followRange = (new RangedAttribute((IAttribute)null, "generic.followRange", 32.0D, 0.0D, 2048.0D)).setDescription("Follow Range");
-    public static final IAttribute knockbackResistance = (new RangedAttribute((IAttribute)null, "generic.knockbackResistance", 0.0D, 0.0D, 1.0D)).setDescription("Knockback Resistance");
-    public static final IAttribute movementSpeed = (new RangedAttribute((IAttribute)null, "generic.movementSpeed", 0.699999988079071D, 0.0D, 1024.0D)).setDescription("Movement Speed").setShouldWatch(true);
-    public static final IAttribute attackDamage = new RangedAttribute((IAttribute)null, "generic.attackDamage", 2.0D, 0.0D, 2048.0D);
+    public static final IAttribute maxHealth = (new RangedAttribute(null, "generic.maxHealth", 20.0D, 0.0D, 1024.0D)).setDescription("Max Health").setShouldWatch(true);
+    public static final IAttribute followRange = (new RangedAttribute(null, "generic.followRange", 32.0D, 0.0D, 2048.0D)).setDescription("Follow Range");
+    public static final IAttribute knockbackResistance = (new RangedAttribute(null, "generic.knockbackResistance", 0.0D, 0.0D, 1.0D)).setDescription("Knockback Resistance");
+    public static final IAttribute movementSpeed = (new RangedAttribute(null, "generic.movementSpeed", 0.699999988079071D, 0.0D, 1024.0D)).setDescription("Movement Speed").setShouldWatch(true);
+    public static final IAttribute attackDamage = new RangedAttribute(null, "generic.attackDamage", 2.0D, 0.0D, 2048.0D);
 
     /**
      * Creates an NBTTagList from a BaseAttributeMap, including all its AttributeInstances
@@ -30,7 +30,7 @@ public class SharedMonsterAttributes
 
         for (IAttributeInstance iattributeinstance : p_111257_0_.getAllAttributes())
         {
-            nbttaglist.appendTag(writeAttributeInstanceToNBT(iattributeinstance));
+            nbttaglist.appendTag(SharedMonsterAttributes.writeAttributeInstanceToNBT(iattributeinstance));
         }
 
         return nbttaglist;
@@ -55,7 +55,7 @@ public class SharedMonsterAttributes
             {
                 if (attributemodifier.isSaved())
                 {
-                    nbttaglist.appendTag(writeAttributeModifierToNBT(attributemodifier));
+                    nbttaglist.appendTag(SharedMonsterAttributes.writeAttributeModifierToNBT(attributemodifier));
                 }
             }
 
@@ -88,11 +88,11 @@ public class SharedMonsterAttributes
 
             if (iattributeinstance != null)
             {
-                applyModifiersToAttributeInstance(iattributeinstance, nbttagcompound);
+                SharedMonsterAttributes.applyModifiersToAttributeInstance(iattributeinstance, nbttagcompound);
             }
             else
             {
-                logger.warn("Ignoring unknown attribute \'" + nbttagcompound.getString("Name") + "\'");
+                SharedMonsterAttributes.logger.warn("Ignoring unknown attribute '" + nbttagcompound.getString("Name") + "'");
             }
         }
     }
@@ -107,7 +107,7 @@ public class SharedMonsterAttributes
 
             for (int i = 0; i < nbttaglist.tagCount(); ++i)
             {
-                AttributeModifier attributemodifier = readAttributeModifierFromNBT(nbttaglist.getCompoundTagAt(i));
+                AttributeModifier attributemodifier = SharedMonsterAttributes.readAttributeModifierFromNBT(nbttaglist.getCompoundTagAt(i));
 
                 if (attributemodifier != null)
                 {
@@ -137,7 +137,7 @@ public class SharedMonsterAttributes
         }
         catch (Exception exception)
         {
-            logger.warn("Unable to create attribute: " + exception.getMessage());
+            SharedMonsterAttributes.logger.warn("Unable to create attribute: " + exception.getMessage());
             return null;
         }
     }

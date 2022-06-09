@@ -21,12 +21,12 @@ public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient>
 
     public S22PacketMultiBlockChange(int p_i45181_1_, short[] crammedPositionsIn, Chunk chunkIn)
     {
-        this.chunkPosCoord = new ChunkCoordIntPair(chunkIn.xPosition, chunkIn.zPosition);
-        this.changedBlocks = new S22PacketMultiBlockChange.BlockUpdateData[p_i45181_1_];
+        chunkPosCoord = new ChunkCoordIntPair(chunkIn.xPosition, chunkIn.zPosition);
+        changedBlocks = new S22PacketMultiBlockChange.BlockUpdateData[p_i45181_1_];
 
-        for (int i = 0; i < this.changedBlocks.length; ++i)
+        for (int i = 0; i < changedBlocks.length; ++i)
         {
-            this.changedBlocks[i] = new S22PacketMultiBlockChange.BlockUpdateData(crammedPositionsIn[i], chunkIn);
+            changedBlocks[i] = new S22PacketMultiBlockChange.BlockUpdateData(crammedPositionsIn[i], chunkIn);
         }
     }
 
@@ -35,12 +35,12 @@ public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.chunkPosCoord = new ChunkCoordIntPair(buf.readInt(), buf.readInt());
-        this.changedBlocks = new S22PacketMultiBlockChange.BlockUpdateData[buf.readVarIntFromBuffer()];
+        chunkPosCoord = new ChunkCoordIntPair(buf.readInt(), buf.readInt());
+        changedBlocks = new S22PacketMultiBlockChange.BlockUpdateData[buf.readVarIntFromBuffer()];
 
-        for (int i = 0; i < this.changedBlocks.length; ++i)
+        for (int i = 0; i < changedBlocks.length; ++i)
         {
-            this.changedBlocks[i] = new S22PacketMultiBlockChange.BlockUpdateData(buf.readShort(), (IBlockState)Block.BLOCK_STATE_IDS.getByValue(buf.readVarIntFromBuffer()));
+            changedBlocks[i] = new S22PacketMultiBlockChange.BlockUpdateData(buf.readShort(), (IBlockState)Block.BLOCK_STATE_IDS.getByValue(buf.readVarIntFromBuffer()));
         }
     }
 
@@ -49,11 +49,11 @@ public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeInt(this.chunkPosCoord.chunkXPos);
-        buf.writeInt(this.chunkPosCoord.chunkZPos);
-        buf.writeVarIntToBuffer(this.changedBlocks.length);
+        buf.writeInt(chunkPosCoord.chunkXPos);
+        buf.writeInt(chunkPosCoord.chunkZPos);
+        buf.writeVarIntToBuffer(changedBlocks.length);
 
-        for (S22PacketMultiBlockChange.BlockUpdateData s22packetmultiblockchange$blockupdatedata : this.changedBlocks)
+        for (S22PacketMultiBlockChange.BlockUpdateData s22packetmultiblockchange$blockupdatedata : changedBlocks)
         {
             buf.writeShort(s22packetmultiblockchange$blockupdatedata.func_180089_b());
             buf.writeVarIntToBuffer(Block.BLOCK_STATE_IDS.get(s22packetmultiblockchange$blockupdatedata.getBlockState()));
@@ -70,7 +70,7 @@ public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient>
 
     public S22PacketMultiBlockChange.BlockUpdateData[] getChangedBlocks()
     {
-        return this.changedBlocks;
+        return changedBlocks;
     }
 
     public class BlockUpdateData
@@ -80,29 +80,29 @@ public class S22PacketMultiBlockChange implements Packet<INetHandlerPlayClient>
 
         public BlockUpdateData(short p_i45984_2_, IBlockState state)
         {
-            this.chunkPosCrammed = p_i45984_2_;
-            this.blockState = state;
+            chunkPosCrammed = p_i45984_2_;
+            blockState = state;
         }
 
         public BlockUpdateData(short p_i45985_2_, Chunk chunkIn)
         {
-            this.chunkPosCrammed = p_i45985_2_;
-            this.blockState = chunkIn.getBlockState(this.getPos());
+            chunkPosCrammed = p_i45985_2_;
+            blockState = chunkIn.getBlockState(getPos());
         }
 
         public BlockPos getPos()
         {
-            return new BlockPos(S22PacketMultiBlockChange.this.chunkPosCoord.getBlock(this.chunkPosCrammed >> 12 & 15, this.chunkPosCrammed & 255, this.chunkPosCrammed >> 8 & 15));
+            return new BlockPos(chunkPosCoord.getBlock(chunkPosCrammed >> 12 & 15, chunkPosCrammed & 255, chunkPosCrammed >> 8 & 15));
         }
 
         public short func_180089_b()
         {
-            return this.chunkPosCrammed;
+            return chunkPosCrammed;
         }
 
         public IBlockState getBlockState()
         {
-            return this.blockState;
+            return blockState;
         }
     }
 }

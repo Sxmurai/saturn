@@ -19,14 +19,14 @@ public class LayerSheepWool implements LayerRenderer
 
     public LayerSheepWool(RenderSheep sheepRendererIn)
     {
-        this.sheepRenderer = sheepRendererIn;
+        sheepRenderer = sheepRendererIn;
     }
 
     public void doRenderLayer(EntitySheep entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
         if (!entitylivingbaseIn.getSheared() && !entitylivingbaseIn.isInvisible())
         {
-            this.sheepRenderer.bindTexture(TEXTURE);
+            sheepRenderer.bindTexture(LayerSheepWool.TEXTURE);
 
             if (entitylivingbaseIn.hasCustomName() && "jeb_".equals(entitylivingbaseIn.getCustomNameTag()))
             {
@@ -59,9 +59,9 @@ public class LayerSheepWool implements LayerRenderer
                 GlStateManager.color(afloat[0], afloat[1], afloat[2]);
             }
 
-            this.sheepModel.setModelAttributes(this.sheepRenderer.getMainModel());
-            this.sheepModel.setLivingAnimations(entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks);
-            this.sheepModel.render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+            sheepModel.setModelAttributes(sheepRenderer.getMainModel());
+            sheepModel.setLivingAnimations(entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks);
+            sheepModel.render(entitylivingbaseIn, p_177141_2_, p_177141_3_, p_177141_5_, p_177141_6_, p_177141_7_, scale);
         }
     }
 
@@ -72,6 +72,6 @@ public class LayerSheepWool implements LayerRenderer
 
     public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
     {
-        this.doRenderLayer((EntitySheep)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
+        doRenderLayer((EntitySheep)entitylivingbaseIn, p_177141_2_, p_177141_3_, partialTicks, p_177141_5_, p_177141_6_, p_177141_7_, scale);
     }
 }

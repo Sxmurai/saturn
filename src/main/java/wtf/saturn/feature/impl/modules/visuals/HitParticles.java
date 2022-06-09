@@ -5,15 +5,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.util.EnumParticleTypes;
 import wtf.saturn.event.AttackEntityEvent;
-import wtf.saturn.feature.cache.impl.module.impl.annotations.Incompatible;
 import wtf.saturn.feature.cache.impl.module.impl.Module;
 import wtf.saturn.feature.cache.impl.module.impl.ModuleCategory;
-import wtf.saturn.feature.impl.modules.performance.NoParticles;
 import wtf.saturn.feature.impl.setting.Setting;
 import wtf.saturn.util.timing.Stopwatch;
 import wtf.saturn.util.timing.TimeFormat;
 
-@Incompatible(NoParticles.class)
 public class HitParticles extends Module {
     public HitParticles() {
         super("Hit Particles", ModuleCategory.VISUALS, "Shows more particles when hitting an entity");

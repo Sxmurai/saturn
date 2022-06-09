@@ -17,45 +17,45 @@ public class RegionRenderCache extends ChunkCache
 {
     private static final IBlockState DEFAULT_STATE = Blocks.air.getDefaultState();
     private final BlockPos position;
-    private int[] combinedLights;
-    private IBlockState[] blockStates;
+    private final int[] combinedLights;
+    private final IBlockState[] blockStates;
     private static final String __OBFID = "CL_00002565";
-    private static ArrayDeque<int[]> cacheLights = new ArrayDeque();
-    private static ArrayDeque<IBlockState[]> cacheStates = new ArrayDeque();
-    private static int maxCacheSize = Config.limit(Runtime.getRuntime().availableProcessors(), 1, 32);
+    private static final ArrayDeque<int[]> cacheLights = new ArrayDeque();
+    private static final ArrayDeque<IBlockState[]> cacheStates = new ArrayDeque();
+    private static final int maxCacheSize = Config.limit(Runtime.getRuntime().availableProcessors(), 1, 32);
 
     public RegionRenderCache(World worldIn, BlockPos posFromIn, BlockPos posToIn, int subIn)
     {
         super(worldIn, posFromIn, posToIn, subIn);
-        this.position = posFromIn.subtract(new Vec3i(subIn, subIn, subIn));
+        position = posFromIn.subtract(new Vec3i(subIn, subIn, subIn));
         boolean flag = true;
-        this.combinedLights = allocateLights(8000);
-        Arrays.fill((int[])this.combinedLights, (int) - 1);
-        this.blockStates = allocateStates(8000);
+        combinedLights = RegionRenderCache.allocateLights(8000);
+        Arrays.fill(combinedLights, - 1);
+        blockStates = RegionRenderCache.allocateStates(8000);
     }
 
     public TileEntity getTileEntity(BlockPos pos)
     {
-        int i = (pos.getX() >> 4) - this.chunkX;
-        int j = (pos.getZ() >> 4) - this.chunkZ;
-        return this.chunkArray[i][j].getTileEntity(pos, Chunk.EnumCreateEntityType.QUEUED);
+        int i = (pos.getX() >> 4) - chunkX;
+        int j = (pos.getZ() >> 4) - chunkZ;
+        return chunkArray[i][j].getTileEntity(pos, Chunk.EnumCreateEntityType.QUEUED);
     }
 
     public int getCombinedLight(BlockPos pos, int lightValue)
     {
-        int i = this.getPositionIndex(pos);
-        int j = this.combinedLights[i];
+        int i = getPositionIndex(pos);
+        int j = combinedLights[i];
 
         if (j == -1)
         {
             j = super.getCombinedLight(pos, lightValue);
 
-            if (Config.isDynamicLights() && !this.getBlockState(pos).getBlock().isOpaqueCube())
+            if (Config.isDynamicLights() && !getBlockState(pos).getBlock().isOpaqueCube())
             {
                 j = DynamicLights.getCombinedLight(pos, j);
             }
 
-            this.combinedLights[i] = j;
+            combinedLights[i] = j;
         }
 
         return j;
@@ -63,13 +63,13 @@ public class RegionRenderCache extends ChunkCache
 
     public IBlockState getBlockState(BlockPos pos)
     {
-        int i = this.getPositionIndex(pos);
-        IBlockState iblockstate = this.blockStates[i];
+        int i = getPositionIndex(pos);
+        IBlockState iblockstate = blockStates[i];
 
         if (iblockstate == null)
         {
-            iblockstate = this.getBlockStateRaw(pos);
-            this.blockStates[i] = iblockstate;
+            iblockstate = getBlockStateRaw(pos);
+            blockStates[i] = iblockstate;
         }
 
         return iblockstate;
@@ -79,35 +79,35 @@ public class RegionRenderCache extends ChunkCache
     {
         if (pos.getY() >= 0 && pos.getY() < 256)
         {
-            int i = (pos.getX() >> 4) - this.chunkX;
-            int j = (pos.getZ() >> 4) - this.chunkZ;
-            return this.chunkArray[i][j].getBlockState(pos);
+            int i = (pos.getX() >> 4) - chunkX;
+            int j = (pos.getZ() >> 4) - chunkZ;
+            return chunkArray[i][j].getBlockState(pos);
         }
         else
         {
-            return DEFAULT_STATE;
+            return RegionRenderCache.DEFAULT_STATE;
         }
     }
 
     private int getPositionIndex(BlockPos p_175630_1_)
     {
-        int i = p_175630_1_.getX() - this.position.getX();
-        int j = p_175630_1_.getY() - this.position.getY();
-        int k = p_175630_1_.getZ() - this.position.getZ();
+        int i = p_175630_1_.getX() - position.getX();
+        int j = p_175630_1_.getY() - position.getY();
+        int k = p_175630_1_.getZ() - position.getZ();
         return i * 400 + k * 20 + j;
     }
 
     public void freeBuffers()
     {
-        freeLights(this.combinedLights);
-        freeStates(this.blockStates);
+        RegionRenderCache.freeLights(combinedLights);
+        RegionRenderCache.freeStates(blockStates);
     }
 
     private static int[] allocateLights(int p_allocateLights_0_)
     {
-        synchronized (cacheLights)
+        synchronized (RegionRenderCache.cacheLights)
         {
-            int[] aint = (int[])cacheLights.pollLast();
+            int[] aint = RegionRenderCache.cacheLights.pollLast();
 
             if (aint == null || aint.length < p_allocateLights_0_)
             {
@@ -120,24 +120,24 @@ public class RegionRenderCache extends ChunkCache
 
     public static void freeLights(int[] p_freeLights_0_)
     {
-        synchronized (cacheLights)
+        synchronized (RegionRenderCache.cacheLights)
         {
-            if (cacheLights.size() < maxCacheSize)
+            if (RegionRenderCache.cacheLights.size() < RegionRenderCache.maxCacheSize)
             {
-                cacheLights.add(p_freeLights_0_);
+                RegionRenderCache.cacheLights.add(p_freeLights_0_);
             }
         }
     }
 
     private static IBlockState[] allocateStates(int p_allocateStates_0_)
     {
-        synchronized (cacheStates)
+        synchronized (RegionRenderCache.cacheStates)
         {
-            IBlockState[] aiblockstate = (IBlockState[])cacheStates.pollLast();
+            IBlockState[] aiblockstate = RegionRenderCache.cacheStates.pollLast();
 
             if (aiblockstate != null && aiblockstate.length >= p_allocateStates_0_)
             {
-                Arrays.fill(aiblockstate, (Object)null);
+                Arrays.fill(aiblockstate, null);
             }
             else
             {
@@ -150,11 +150,11 @@ public class RegionRenderCache extends ChunkCache
 
     public static void freeStates(IBlockState[] p_freeStates_0_)
     {
-        synchronized (cacheStates)
+        synchronized (RegionRenderCache.cacheStates)
         {
-            if (cacheStates.size() < maxCacheSize)
+            if (RegionRenderCache.cacheStates.size() < RegionRenderCache.maxCacheSize)
             {
-                cacheStates.add(p_freeStates_0_);
+                RegionRenderCache.cacheStates.add(p_freeStates_0_);
             }
         }
     }

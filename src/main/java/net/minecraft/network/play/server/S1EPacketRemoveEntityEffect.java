@@ -17,8 +17,8 @@ public class S1EPacketRemoveEntityEffect implements Packet<INetHandlerPlayClient
 
     public S1EPacketRemoveEntityEffect(int entityIdIn, PotionEffect effect)
     {
-        this.entityId = entityIdIn;
-        this.effectId = effect.getPotionID();
+        entityId = entityIdIn;
+        effectId = effect.getPotionID();
     }
 
     /**
@@ -26,8 +26,8 @@ public class S1EPacketRemoveEntityEffect implements Packet<INetHandlerPlayClient
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
-        this.effectId = buf.readUnsignedByte();
+        entityId = buf.readVarIntFromBuffer();
+        effectId = buf.readUnsignedByte();
     }
 
     /**
@@ -35,8 +35,8 @@ public class S1EPacketRemoveEntityEffect implements Packet<INetHandlerPlayClient
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        buf.writeByte(this.effectId);
+        buf.writeVarIntToBuffer(entityId);
+        buf.writeByte(effectId);
     }
 
     /**
@@ -49,11 +49,11 @@ public class S1EPacketRemoveEntityEffect implements Packet<INetHandlerPlayClient
 
     public int getEntityId()
     {
-        return this.entityId;
+        return entityId;
     }
 
     public int getEffectId()
     {
-        return this.effectId;
+        return effectId;
     }
 }

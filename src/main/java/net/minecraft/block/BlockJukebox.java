@@ -25,16 +25,16 @@ public class BlockJukebox extends BlockContainer
     protected BlockJukebox()
     {
         super(Material.wood, MapColor.dirtColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_RECORD, Boolean.valueOf(false)));
-        this.setCreativeTab(CreativeTabs.tabDecorations);
+        setDefaultState(blockState.getBaseState().withProperty(BlockJukebox.HAS_RECORD, Boolean.valueOf(false)));
+        setCreativeTab(CreativeTabs.tabDecorations);
     }
 
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-        if (((Boolean)state.getValue(HAS_RECORD)).booleanValue())
+        if (state.getValue(BlockJukebox.HAS_RECORD).booleanValue())
         {
-            this.dropRecord(worldIn, pos, state);
-            state = state.withProperty(HAS_RECORD, Boolean.valueOf(false));
+            dropRecord(worldIn, pos, state);
+            state = state.withProperty(BlockJukebox.HAS_RECORD, Boolean.valueOf(false));
             worldIn.setBlockState(pos, state, 2);
             return true;
         }
@@ -53,7 +53,7 @@ public class BlockJukebox extends BlockContainer
             if (tileentity instanceof BlockJukebox.TileEntityJukebox)
             {
                 ((BlockJukebox.TileEntityJukebox)tileentity).setRecord(new ItemStack(recordStack.getItem(), 1, recordStack.getMetadata()));
-                worldIn.setBlockState(pos, state.withProperty(HAS_RECORD, Boolean.valueOf(true)), 2);
+                worldIn.setBlockState(pos, state.withProperty(BlockJukebox.HAS_RECORD, Boolean.valueOf(true)), 2);
             }
         }
     }
@@ -72,8 +72,8 @@ public class BlockJukebox extends BlockContainer
                 if (itemstack != null)
                 {
                     worldIn.playAuxSFX(1005, pos, 0);
-                    worldIn.playRecord(pos, (String)null);
-                    blockjukebox$tileentityjukebox.setRecord((ItemStack)null);
+                    worldIn.playRecord(pos, null);
+                    blockjukebox$tileentityjukebox.setRecord(null);
                     float f = 0.7F;
                     double d0 = (double)(worldIn.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
                     double d1 = (double)(worldIn.rand.nextFloat() * f) + (double)(1.0F - f) * 0.2D + 0.6D;
@@ -89,7 +89,7 @@ public class BlockJukebox extends BlockContainer
 
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
-        this.dropRecord(worldIn, pos, state);
+        dropRecord(worldIn, pos, state);
         super.breakBlock(worldIn, pos, state);
     }
 
@@ -147,7 +147,7 @@ public class BlockJukebox extends BlockContainer
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(HAS_RECORD, Boolean.valueOf(meta > 0));
+        return getDefaultState().withProperty(BlockJukebox.HAS_RECORD, Boolean.valueOf(meta > 0));
     }
 
     /**
@@ -155,12 +155,12 @@ public class BlockJukebox extends BlockContainer
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((Boolean)state.getValue(HAS_RECORD)).booleanValue() ? 1 : 0;
+        return state.getValue(BlockJukebox.HAS_RECORD).booleanValue() ? 1 : 0;
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {HAS_RECORD});
+        return new BlockState(this, BlockJukebox.HAS_RECORD);
     }
 
     public static class TileEntityJukebox extends TileEntity
@@ -173,11 +173,11 @@ public class BlockJukebox extends BlockContainer
 
             if (compound.hasKey("RecordItem", 10))
             {
-                this.setRecord(ItemStack.loadItemStackFromNBT(compound.getCompoundTag("RecordItem")));
+                setRecord(ItemStack.loadItemStackFromNBT(compound.getCompoundTag("RecordItem")));
             }
             else if (compound.getInteger("Record") > 0)
             {
-                this.setRecord(new ItemStack(Item.getItemById(compound.getInteger("Record")), 1, 0));
+                setRecord(new ItemStack(Item.getItemById(compound.getInteger("Record")), 1, 0));
             }
         }
 
@@ -185,21 +185,21 @@ public class BlockJukebox extends BlockContainer
         {
             super.writeToNBT(compound);
 
-            if (this.getRecord() != null)
+            if (getRecord() != null)
             {
-                compound.setTag("RecordItem", this.getRecord().writeToNBT(new NBTTagCompound()));
+                compound.setTag("RecordItem", getRecord().writeToNBT(new NBTTagCompound()));
             }
         }
 
         public ItemStack getRecord()
         {
-            return this.record;
+            return record;
         }
 
         public void setRecord(ItemStack recordStack)
         {
-            this.record = recordStack;
-            this.markDirty();
+            record = recordStack;
+            markDirty();
         }
     }
 }

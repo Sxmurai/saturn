@@ -9,39 +9,39 @@ public class Language implements Comparable<Language>
 
     public Language(String languageCodeIn, String regionIn, String nameIn, boolean bidirectionalIn)
     {
-        this.languageCode = languageCodeIn;
-        this.region = regionIn;
-        this.name = nameIn;
-        this.bidirectional = bidirectionalIn;
+        languageCode = languageCodeIn;
+        region = regionIn;
+        name = nameIn;
+        bidirectional = bidirectionalIn;
     }
 
     public String getLanguageCode()
     {
-        return this.languageCode;
+        return languageCode;
     }
 
     public boolean isBidirectional()
     {
-        return this.bidirectional;
+        return bidirectional;
     }
 
     public String toString()
     {
-        return String.format("%s (%s)", new Object[] {this.name, this.region});
+        return String.format("%s (%s)", name, region);
     }
 
     public boolean equals(Object p_equals_1_)
     {
-        return this == p_equals_1_ ? true : (!(p_equals_1_ instanceof Language) ? false : this.languageCode.equals(((Language)p_equals_1_).languageCode));
+        return this == p_equals_1_ || (p_equals_1_ instanceof Language && languageCode.equals(((Language) p_equals_1_).languageCode));
     }
 
     public int hashCode()
     {
-        return this.languageCode.hashCode();
+        return languageCode.hashCode();
     }
 
     public int compareTo(Language p_compareTo_1_)
     {
-        return this.languageCode.compareTo(p_compareTo_1_.languageCode);
+        return languageCode.compareTo(p_compareTo_1_.languageCode);
     }
 }

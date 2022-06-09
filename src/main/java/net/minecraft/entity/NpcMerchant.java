@@ -11,25 +11,25 @@ import net.minecraft.village.MerchantRecipeList;
 public class NpcMerchant implements IMerchant
 {
     /** Instance of Merchants Inventory. */
-    private InventoryMerchant theMerchantInventory;
+    private final InventoryMerchant theMerchantInventory;
 
     /** This merchant's current player customer. */
-    private EntityPlayer customer;
+    private final EntityPlayer customer;
 
     /** The MerchantRecipeList instance. */
     private MerchantRecipeList recipeList;
-    private IChatComponent field_175548_d;
+    private final IChatComponent field_175548_d;
 
     public NpcMerchant(EntityPlayer p_i45817_1_, IChatComponent p_i45817_2_)
     {
-        this.customer = p_i45817_1_;
-        this.field_175548_d = p_i45817_2_;
-        this.theMerchantInventory = new InventoryMerchant(p_i45817_1_, this);
+        customer = p_i45817_1_;
+        field_175548_d = p_i45817_2_;
+        theMerchantInventory = new InventoryMerchant(p_i45817_1_, this);
     }
 
     public EntityPlayer getCustomer()
     {
-        return this.customer;
+        return customer;
     }
 
     public void setCustomer(EntityPlayer p_70932_1_)
@@ -38,7 +38,7 @@ public class NpcMerchant implements IMerchant
 
     public MerchantRecipeList getRecipes(EntityPlayer p_70934_1_)
     {
-        return this.recipeList;
+        return recipeList;
     }
 
     public void setRecipes(MerchantRecipeList recipeList)
@@ -64,6 +64,6 @@ public class NpcMerchant implements IMerchant
      */
     public IChatComponent getDisplayName()
     {
-        return (IChatComponent)(this.field_175548_d != null ? this.field_175548_d : new ChatComponentTranslation("entity.Villager.name", new Object[0]));
+        return field_175548_d != null ? field_175548_d : new ChatComponentTranslation("entity.Villager.name", new Object[0]);
     }
 }

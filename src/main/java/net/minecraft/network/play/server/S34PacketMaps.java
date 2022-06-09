@@ -25,20 +25,20 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient>
 
     public S34PacketMaps(int mapIdIn, byte scale, Collection<Vec4b> visiblePlayers, byte[] colors, int minX, int minY, int maxX, int maxY)
     {
-        this.mapId = mapIdIn;
-        this.mapScale = scale;
-        this.mapVisiblePlayersVec4b = (Vec4b[])visiblePlayers.toArray(new Vec4b[visiblePlayers.size()]);
-        this.mapMinX = minX;
-        this.mapMinY = minY;
-        this.mapMaxX = maxX;
-        this.mapMaxY = maxY;
-        this.mapDataBytes = new byte[maxX * maxY];
+        mapId = mapIdIn;
+        mapScale = scale;
+        mapVisiblePlayersVec4b = visiblePlayers.toArray(new Vec4b[visiblePlayers.size()]);
+        mapMinX = minX;
+        mapMinY = minY;
+        mapMaxX = maxX;
+        mapMaxY = maxY;
+        mapDataBytes = new byte[maxX * maxY];
 
         for (int i = 0; i < maxX; ++i)
         {
             for (int j = 0; j < maxY; ++j)
             {
-                this.mapDataBytes[i + j * maxX] = colors[minX + i + (minY + j) * 128];
+                mapDataBytes[i + j * maxX] = colors[minX + i + (minY + j) * 128];
             }
         }
     }
@@ -48,24 +48,24 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.mapId = buf.readVarIntFromBuffer();
-        this.mapScale = buf.readByte();
-        this.mapVisiblePlayersVec4b = new Vec4b[buf.readVarIntFromBuffer()];
+        mapId = buf.readVarIntFromBuffer();
+        mapScale = buf.readByte();
+        mapVisiblePlayersVec4b = new Vec4b[buf.readVarIntFromBuffer()];
 
-        for (int i = 0; i < this.mapVisiblePlayersVec4b.length; ++i)
+        for (int i = 0; i < mapVisiblePlayersVec4b.length; ++i)
         {
-            short short1 = (short)buf.readByte();
-            this.mapVisiblePlayersVec4b[i] = new Vec4b((byte)(short1 >> 4 & 15), buf.readByte(), buf.readByte(), (byte)(short1 & 15));
+            short short1 = buf.readByte();
+            mapVisiblePlayersVec4b[i] = new Vec4b((byte)(short1 >> 4 & 15), buf.readByte(), buf.readByte(), (byte)(short1 & 15));
         }
 
-        this.mapMaxX = buf.readUnsignedByte();
+        mapMaxX = buf.readUnsignedByte();
 
-        if (this.mapMaxX > 0)
+        if (mapMaxX > 0)
         {
-            this.mapMaxY = buf.readUnsignedByte();
-            this.mapMinX = buf.readUnsignedByte();
-            this.mapMinY = buf.readUnsignedByte();
-            this.mapDataBytes = buf.readByteArray();
+            mapMaxY = buf.readUnsignedByte();
+            mapMinX = buf.readUnsignedByte();
+            mapMinY = buf.readUnsignedByte();
+            mapDataBytes = buf.readByteArray();
         }
     }
 
@@ -74,25 +74,25 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.mapId);
-        buf.writeByte(this.mapScale);
-        buf.writeVarIntToBuffer(this.mapVisiblePlayersVec4b.length);
+        buf.writeVarIntToBuffer(mapId);
+        buf.writeByte(mapScale);
+        buf.writeVarIntToBuffer(mapVisiblePlayersVec4b.length);
 
-        for (Vec4b vec4b : this.mapVisiblePlayersVec4b)
+        for (Vec4b vec4b : mapVisiblePlayersVec4b)
         {
             buf.writeByte((vec4b.func_176110_a() & 15) << 4 | vec4b.func_176111_d() & 15);
             buf.writeByte(vec4b.func_176112_b());
             buf.writeByte(vec4b.func_176113_c());
         }
 
-        buf.writeByte(this.mapMaxX);
+        buf.writeByte(mapMaxX);
 
-        if (this.mapMaxX > 0)
+        if (mapMaxX > 0)
         {
-            buf.writeByte(this.mapMaxY);
-            buf.writeByte(this.mapMinX);
-            buf.writeByte(this.mapMinY);
-            buf.writeByteArray(this.mapDataBytes);
+            buf.writeByte(mapMaxY);
+            buf.writeByte(mapMinX);
+            buf.writeByte(mapMinY);
+            buf.writeByteArray(mapDataBytes);
         }
     }
 
@@ -106,7 +106,7 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient>
 
     public int getMapId()
     {
-        return this.mapId;
+        return mapId;
     }
 
     /**
@@ -114,20 +114,20 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient>
      */
     public void setMapdataTo(MapData mapdataIn)
     {
-        mapdataIn.scale = this.mapScale;
+        mapdataIn.scale = mapScale;
         mapdataIn.mapDecorations.clear();
 
-        for (int i = 0; i < this.mapVisiblePlayersVec4b.length; ++i)
+        for (int i = 0; i < mapVisiblePlayersVec4b.length; ++i)
         {
-            Vec4b vec4b = this.mapVisiblePlayersVec4b[i];
+            Vec4b vec4b = mapVisiblePlayersVec4b[i];
             mapdataIn.mapDecorations.put("icon-" + i, vec4b);
         }
 
-        for (int j = 0; j < this.mapMaxX; ++j)
+        for (int j = 0; j < mapMaxX; ++j)
         {
-            for (int k = 0; k < this.mapMaxY; ++k)
+            for (int k = 0; k < mapMaxY; ++k)
             {
-                mapdataIn.colors[this.mapMinX + j + (this.mapMinY + k) * 128] = this.mapDataBytes[j + k * this.mapMaxX];
+                mapdataIn.colors[mapMinX + j + (mapMinY + k) * 128] = mapDataBytes[j + k * mapMaxX];
             }
         }
     }

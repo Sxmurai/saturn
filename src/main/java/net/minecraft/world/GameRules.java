@@ -6,36 +6,36 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class GameRules
 {
-    private TreeMap theGameRules = new TreeMap();
+    private final TreeMap theGameRules = new TreeMap();
     private static final String __OBFID = "CL_00000136";
 
     public GameRules()
     {
-        this.addGameRule("doFireTick", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("mobGriefing", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("keepInventory", "false", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("doMobSpawning", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("doMobLoot", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("doTileDrops", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("doEntityDrops", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("commandBlockOutput", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("naturalRegeneration", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("doDaylightCycle", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("logAdminCommands", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("showDeathMessages", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("randomTickSpeed", "3", GameRules.ValueType.NUMERICAL_VALUE);
-        this.addGameRule("sendCommandFeedback", "true", GameRules.ValueType.BOOLEAN_VALUE);
-        this.addGameRule("reducedDebugInfo", "false", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("doFireTick", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("mobGriefing", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("keepInventory", "false", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("doMobSpawning", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("doMobLoot", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("doTileDrops", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("doEntityDrops", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("commandBlockOutput", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("naturalRegeneration", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("doDaylightCycle", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("logAdminCommands", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("showDeathMessages", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("randomTickSpeed", "3", GameRules.ValueType.NUMERICAL_VALUE);
+        addGameRule("sendCommandFeedback", "true", GameRules.ValueType.BOOLEAN_VALUE);
+        addGameRule("reducedDebugInfo", "false", GameRules.ValueType.BOOLEAN_VALUE);
     }
 
     public void addGameRule(String key, String value, GameRules.ValueType type)
     {
-        this.theGameRules.put(key, new GameRules.Value(value, type));
+        theGameRules.put(key, new GameRules.Value(value, type));
     }
 
     public void setOrCreateGameRule(String key, String ruleValue)
     {
-        GameRules.Value gamerules$value = (GameRules.Value)this.theGameRules.get(key);
+        GameRules.Value gamerules$value = (GameRules.Value) theGameRules.get(key);
 
         if (gamerules$value != null)
         {
@@ -43,7 +43,7 @@ public class GameRules
         }
         else
         {
-            this.addGameRule(key, ruleValue, GameRules.ValueType.ANY_VALUE);
+            addGameRule(key, ruleValue, GameRules.ValueType.ANY_VALUE);
         }
     }
 
@@ -52,7 +52,7 @@ public class GameRules
      */
     public String getString(String name)
     {
-        GameRules.Value gamerules$value = (GameRules.Value)this.theGameRules.get(name);
+        GameRules.Value gamerules$value = (GameRules.Value) theGameRules.get(name);
         return gamerules$value != null ? gamerules$value.getString() : "";
     }
 
@@ -61,13 +61,13 @@ public class GameRules
      */
     public boolean getBoolean(String name)
     {
-        GameRules.Value gamerules$value = (GameRules.Value)this.theGameRules.get(name);
-        return gamerules$value != null ? gamerules$value.getBoolean() : false;
+        GameRules.Value gamerules$value = (GameRules.Value) theGameRules.get(name);
+        return gamerules$value != null && gamerules$value.getBoolean();
     }
 
     public int getInt(String name)
     {
-        GameRules.Value gamerules$value = (GameRules.Value)this.theGameRules.get(name);
+        GameRules.Value gamerules$value = (GameRules.Value) theGameRules.get(name);
         return gamerules$value != null ? gamerules$value.getInt() : 0;
     }
 
@@ -78,9 +78,9 @@ public class GameRules
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-        for (Object s : this.theGameRules.keySet())
+        for (Object s : theGameRules.keySet())
         {
-            GameRules.Value gamerules$value = (GameRules.Value)this.theGameRules.get(s);
+            GameRules.Value gamerules$value = (GameRules.Value) theGameRules.get(s);
             nbttagcompound.setString((String) s, gamerules$value.getString());
         }
 
@@ -95,7 +95,7 @@ public class GameRules
         for (String s : nbt.getKeySet())
         {
             String s1 = nbt.getString(s);
-            this.setOrCreateGameRule(s, s1);
+            setOrCreateGameRule(s, s1);
         }
     }
 
@@ -104,8 +104,8 @@ public class GameRules
      */
     public String[] getRules()
     {
-        Set set = this.theGameRules.keySet();
-        return (String[])((String[])set.toArray(new String[set.size()]));
+        Set set = theGameRules.keySet();
+        return (String[]) set.toArray(new String[set.size()]);
     }
 
     /**
@@ -113,12 +113,12 @@ public class GameRules
      */
     public boolean hasRule(String name)
     {
-        return this.theGameRules.containsKey(name);
+        return theGameRules.containsKey(name);
     }
 
     public boolean areSameType(String key, GameRules.ValueType otherValue)
     {
-        GameRules.Value gamerules$value = (GameRules.Value)this.theGameRules.get(key);
+        GameRules.Value gamerules$value = (GameRules.Value) theGameRules.get(key);
         return gamerules$value != null && (gamerules$value.getType() == otherValue || otherValue == GameRules.ValueType.ANY_VALUE);
     }
 
@@ -134,68 +134,66 @@ public class GameRules
         public Value(String value, GameRules.ValueType type)
         {
             this.type = type;
-            this.setValue(value);
+            setValue(value);
         }
 
         public void setValue(String value)
         {
-            this.valueString = value;
+            valueString = value;
 
             if (value != null)
             {
                 if (value.equals("false"))
                 {
-                    this.valueBoolean = false;
+                    valueBoolean = false;
                     return;
                 }
 
                 if (value.equals("true"))
                 {
-                    this.valueBoolean = true;
+                    valueBoolean = true;
                     return;
                 }
             }
 
-            this.valueBoolean = Boolean.parseBoolean(value);
-            this.valueInteger = this.valueBoolean ? 1 : 0;
+            valueBoolean = Boolean.parseBoolean(value);
+            valueInteger = valueBoolean ? 1 : 0;
 
             try
             {
-                this.valueInteger = Integer.parseInt(value);
+                valueInteger = Integer.parseInt(value);
             }
             catch (NumberFormatException var4)
             {
-                ;
             }
 
             try
             {
-                this.valueDouble = Double.parseDouble(value);
+                valueDouble = Double.parseDouble(value);
             }
             catch (NumberFormatException var3)
             {
-                ;
             }
         }
 
         public String getString()
         {
-            return this.valueString;
+            return valueString;
         }
 
         public boolean getBoolean()
         {
-            return this.valueBoolean;
+            return valueBoolean;
         }
 
         public int getInt()
         {
-            return this.valueInteger;
+            return valueInteger;
         }
 
         public GameRules.ValueType getType()
         {
-            return this.type;
+            return type;
         }
     }
 
@@ -205,7 +203,7 @@ public class GameRules
         BOOLEAN_VALUE("BOOLEAN_VALUE", 1),
         NUMERICAL_VALUE("NUMERICAL_VALUE", 2);
 
-        private static final GameRules.ValueType[] $VALUES = new GameRules.ValueType[]{ANY_VALUE, BOOLEAN_VALUE, NUMERICAL_VALUE};
+        private static final GameRules.ValueType[] $VALUES = new GameRules.ValueType[]{ValueType.ANY_VALUE, ValueType.BOOLEAN_VALUE, ValueType.NUMERICAL_VALUE};
         private static final String __OBFID = "CL_00002151";
 
         private ValueType(String p_i19_3_, int p_i19_4_)

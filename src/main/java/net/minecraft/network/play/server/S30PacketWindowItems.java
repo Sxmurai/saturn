@@ -18,13 +18,13 @@ public class S30PacketWindowItems implements Packet<INetHandlerPlayClient>
 
     public S30PacketWindowItems(int windowIdIn, List<ItemStack> p_i45186_2_)
     {
-        this.windowId = windowIdIn;
-        this.itemStacks = new ItemStack[p_i45186_2_.size()];
+        windowId = windowIdIn;
+        itemStacks = new ItemStack[p_i45186_2_.size()];
 
-        for (int i = 0; i < this.itemStacks.length; ++i)
+        for (int i = 0; i < itemStacks.length; ++i)
         {
-            ItemStack itemstack = (ItemStack)p_i45186_2_.get(i);
-            this.itemStacks[i] = itemstack == null ? null : itemstack.copy();
+            ItemStack itemstack = p_i45186_2_.get(i);
+            itemStacks[i] = itemstack == null ? null : itemstack.copy();
         }
     }
 
@@ -33,13 +33,13 @@ public class S30PacketWindowItems implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.windowId = buf.readUnsignedByte();
+        windowId = buf.readUnsignedByte();
         int i = buf.readShort();
-        this.itemStacks = new ItemStack[i];
+        itemStacks = new ItemStack[i];
 
         for (int j = 0; j < i; ++j)
         {
-            this.itemStacks[j] = buf.readItemStackFromBuffer();
+            itemStacks[j] = buf.readItemStackFromBuffer();
         }
     }
 
@@ -48,10 +48,10 @@ public class S30PacketWindowItems implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeByte(this.windowId);
-        buf.writeShort(this.itemStacks.length);
+        buf.writeByte(windowId);
+        buf.writeShort(itemStacks.length);
 
-        for (ItemStack itemstack : this.itemStacks)
+        for (ItemStack itemstack : itemStacks)
         {
             buf.writeItemStackToBuffer(itemstack);
         }
@@ -67,11 +67,11 @@ public class S30PacketWindowItems implements Packet<INetHandlerPlayClient>
 
     public int func_148911_c()
     {
-        return this.windowId;
+        return windowId;
     }
 
     public ItemStack[] getItemStacks()
     {
-        return this.itemStacks;
+        return itemStacks;
     }
 }

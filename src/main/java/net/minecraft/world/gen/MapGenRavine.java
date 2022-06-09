@@ -10,19 +10,19 @@ import net.minecraft.world.chunk.ChunkPrimer;
 
 public class MapGenRavine extends MapGenBase
 {
-    private float[] field_75046_d = new float[1024];
+    private final float[] field_75046_d = new float[1024];
 
     protected void func_180707_a(long p_180707_1_, int p_180707_3_, int p_180707_4_, ChunkPrimer p_180707_5_, double p_180707_6_, double p_180707_8_, double p_180707_10_, float p_180707_12_, float p_180707_13_, float p_180707_14_, int p_180707_15_, int p_180707_16_, double p_180707_17_)
     {
         Random random = new Random(p_180707_1_);
-        double d0 = (double)(p_180707_3_ * 16 + 8);
-        double d1 = (double)(p_180707_4_ * 16 + 8);
+        double d0 = p_180707_3_ * 16 + 8;
+        double d1 = p_180707_4_ * 16 + 8;
         float f = 0.0F;
         float f1 = 0.0F;
 
         if (p_180707_16_ <= 0)
         {
-            int i = this.range * 16 - 16;
+            int i = range * 16 - 16;
             p_180707_16_ = i - random.nextInt(i / 4);
         }
 
@@ -43,7 +43,7 @@ public class MapGenRavine extends MapGenBase
                 f2 = 1.0F + random.nextFloat() * random.nextFloat() * 1.0F;
             }
 
-            this.field_75046_d[j] = f2 * f2;
+            field_75046_d[j] = f2 * f2;
         }
 
         for (; p_180707_15_ < p_180707_16_; ++p_180707_15_)
@@ -54,9 +54,9 @@ public class MapGenRavine extends MapGenBase
             d2 = d2 * ((double)random.nextFloat() * 0.25D + 0.75D);
             float f3 = MathHelper.cos(p_180707_14_);
             float f4 = MathHelper.sin(p_180707_14_);
-            p_180707_6_ += (double)(MathHelper.cos(p_180707_13_) * f3);
-            p_180707_8_ += (double)f4;
-            p_180707_10_ += (double)(MathHelper.sin(p_180707_13_) * f3);
+            p_180707_6_ += MathHelper.cos(p_180707_13_) * f3;
+            p_180707_8_ += f4;
+            p_180707_10_ += MathHelper.sin(p_180707_13_) * f3;
             p_180707_14_ = p_180707_14_ * 0.7F;
             p_180707_14_ = p_180707_14_ + f1 * 0.05F;
             p_180707_13_ += f * 0.05F;
@@ -69,8 +69,8 @@ public class MapGenRavine extends MapGenBase
             {
                 double d3 = p_180707_6_ - d0;
                 double d4 = p_180707_10_ - d1;
-                double d5 = (double)(p_180707_16_ - p_180707_15_);
-                double d6 = (double)(p_180707_12_ + 2.0F + 16.0F);
+                double d5 = p_180707_16_ - p_180707_15_;
+                double d6 = p_180707_12_ + 2.0F + 16.0F;
 
                 if (d3 * d3 + d4 * d4 - d5 * d5 > d6 * d6)
                 {
@@ -161,7 +161,7 @@ public class MapGenRavine extends MapGenBase
                                     {
                                         double d8 = ((double)(j2 - 1) + 0.5D - p_180707_8_) / d2;
 
-                                        if ((d10 * d10 + d7 * d7) * (double)this.field_75046_d[j2 - 1] + d8 * d8 / 6.0D < 1.0D)
+                                        if ((d10 * d10 + d7 * d7) * (double) field_75046_d[j2 - 1] + d8 * d8 / 6.0D < 1.0D)
                                         {
                                             IBlockState iblockstate1 = p_180707_5_.getBlockState(j3, j2, i2);
 
@@ -183,7 +183,7 @@ public class MapGenRavine extends MapGenBase
                                                     if (flag && p_180707_5_.getBlockState(j3, j2 - 1, i2).getBlock() == Blocks.dirt)
                                                     {
                                                         blockpos$mutableblockpos.func_181079_c(j3 + p_180707_3_ * 16, 0, i2 + p_180707_4_ * 16);
-                                                        p_180707_5_.setBlockState(j3, j2 - 1, i2, this.worldObj.getBiomeGenForCoords(blockpos$mutableblockpos).topBlock);
+                                                        p_180707_5_.setBlockState(j3, j2 - 1, i2, worldObj.getBiomeGenForCoords(blockpos$mutableblockpos).topBlock);
                                                     }
                                                 }
                                             }
@@ -208,19 +208,19 @@ public class MapGenRavine extends MapGenBase
      */
     protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_, ChunkPrimer chunkPrimerIn)
     {
-        if (this.rand.nextInt(50) == 0)
+        if (rand.nextInt(50) == 0)
         {
-            double d0 = (double)(chunkX * 16 + this.rand.nextInt(16));
-            double d1 = (double)(this.rand.nextInt(this.rand.nextInt(40) + 8) + 20);
-            double d2 = (double)(chunkZ * 16 + this.rand.nextInt(16));
+            double d0 = chunkX * 16 + rand.nextInt(16);
+            double d1 = rand.nextInt(rand.nextInt(40) + 8) + 20;
+            double d2 = chunkZ * 16 + rand.nextInt(16);
             int i = 1;
 
             for (int j = 0; j < i; ++j)
             {
-                float f = this.rand.nextFloat() * (float)Math.PI * 2.0F;
-                float f1 = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
-                float f2 = (this.rand.nextFloat() * 2.0F + this.rand.nextFloat()) * 2.0F;
-                this.func_180707_a(this.rand.nextLong(), p_180701_4_, p_180701_5_, chunkPrimerIn, d0, d1, d2, f2, f, f1, 0, 0, 3.0D);
+                float f = rand.nextFloat() * (float)Math.PI * 2.0F;
+                float f1 = (rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
+                float f2 = (rand.nextFloat() * 2.0F + rand.nextFloat()) * 2.0F;
+                func_180707_a(rand.nextLong(), p_180701_4_, p_180701_5_, chunkPrimerIn, d0, d1, d2, f2, f, f1, 0, 0, 3.0D);
             }
         }
     }

@@ -38,7 +38,7 @@ public class CommandXP extends CommandBase
     {
         if (args.length <= 0)
         {
-            throw new WrongUsageException("commands.xp.usage", new Object[0]);
+            throw new WrongUsageException("commands.xp.usage");
         }
         else
         {
@@ -50,7 +50,7 @@ public class CommandXP extends CommandBase
                 s = s.substring(0, s.length() - 1);
             }
 
-            int i = parseInt(s);
+            int i = CommandBase.parseInt(s);
             boolean flag1 = i < 0;
 
             if (flag1)
@@ -58,7 +58,7 @@ public class CommandXP extends CommandBase
                 i *= -1;
             }
 
-            EntityPlayer entityplayer = args.length > 1 ? getPlayer(sender, args[1]) : getCommandSenderAsPlayer(sender);
+            EntityPlayer entityplayer = args.length > 1 ? CommandBase.getPlayer(sender, args[1]) : CommandBase.getCommandSenderAsPlayer(sender);
 
             if (flag)
             {
@@ -67,12 +67,12 @@ public class CommandXP extends CommandBase
                 if (flag1)
                 {
                     entityplayer.addExperienceLevel(-i);
-                    notifyOperators(sender, this, "commands.xp.success.negative.levels", new Object[] {Integer.valueOf(i), entityplayer.getName()});
+                    CommandBase.notifyOperators(sender, this, "commands.xp.success.negative.levels", Integer.valueOf(i), entityplayer.getName());
                 }
                 else
                 {
                     entityplayer.addExperienceLevel(i);
-                    notifyOperators(sender, this, "commands.xp.success.levels", new Object[] {Integer.valueOf(i), entityplayer.getName()});
+                    CommandBase.notifyOperators(sender, this, "commands.xp.success.levels", Integer.valueOf(i), entityplayer.getName());
                 }
             }
             else
@@ -81,18 +81,18 @@ public class CommandXP extends CommandBase
 
                 if (flag1)
                 {
-                    throw new CommandException("commands.xp.failure.widthdrawXp", new Object[0]);
+                    throw new CommandException("commands.xp.failure.widthdrawXp");
                 }
 
                 entityplayer.addExperience(i);
-                notifyOperators(sender, this, "commands.xp.success", new Object[] {Integer.valueOf(i), entityplayer.getName()});
+                CommandBase.notifyOperators(sender, this, "commands.xp.success", Integer.valueOf(i), entityplayer.getName());
             }
         }
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 2 ? getListOfStringsMatchingLastWord(args, this.getAllUsernames()) : null;
+        return args.length == 2 ? CommandBase.getListOfStringsMatchingLastWord(args, getAllUsernames()) : null;
     }
 
     protected String[] getAllUsernames()

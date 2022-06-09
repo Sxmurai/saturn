@@ -9,9 +9,9 @@ public final class BossStatus
 
     public static void setBossStatus(IBossDisplayData displayData, boolean hasColorModifierIn)
     {
-        healthScale = displayData.getHealth() / displayData.getMaxHealth();
-        statusBarTime = 100;
-        bossName = displayData.getDisplayName().getFormattedText();
-        hasColorModifier = hasColorModifierIn;
+        BossStatus.healthScale = displayData.getHealth() / displayData.getMaxHealth();
+        BossStatus.statusBarTime = 100;
+        BossStatus.bossName = displayData.getDisplayName().getFormattedText();
+        BossStatus.hasColorModifier = hasColorModifierIn;
     }
 }

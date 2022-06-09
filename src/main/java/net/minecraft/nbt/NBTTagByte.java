@@ -23,13 +23,13 @@ public class NBTTagByte extends NBTBase.NBTPrimitive
      */
     void write(DataOutput output) throws IOException
     {
-        output.writeByte(this.data);
+        output.writeByte(data);
     }
 
     void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException
     {
         sizeTracker.read(72L);
-        this.data = input.readByte();
+        data = input.readByte();
     }
 
     /**
@@ -42,7 +42,7 @@ public class NBTTagByte extends NBTBase.NBTPrimitive
 
     public String toString()
     {
-        return "" + this.data + "b";
+        return "" + data + "b";
     }
 
     /**
@@ -50,7 +50,7 @@ public class NBTTagByte extends NBTBase.NBTPrimitive
      */
     public NBTBase copy()
     {
-        return new NBTTagByte(this.data);
+        return new NBTTagByte(data);
     }
 
     public boolean equals(Object p_equals_1_)
@@ -58,7 +58,7 @@ public class NBTTagByte extends NBTBase.NBTPrimitive
         if (super.equals(p_equals_1_))
         {
             NBTTagByte nbttagbyte = (NBTTagByte)p_equals_1_;
-            return this.data == nbttagbyte.data;
+            return data == nbttagbyte.data;
         }
         else
         {
@@ -68,36 +68,36 @@ public class NBTTagByte extends NBTBase.NBTPrimitive
 
     public int hashCode()
     {
-        return super.hashCode() ^ this.data;
+        return super.hashCode() ^ data;
     }
 
     public long getLong()
     {
-        return (long)this.data;
+        return data;
     }
 
     public int getInt()
     {
-        return this.data;
+        return data;
     }
 
     public short getShort()
     {
-        return (short)this.data;
+        return data;
     }
 
     public byte getByte()
     {
-        return this.data;
+        return data;
     }
 
     public double getDouble()
     {
-        return (double)this.data;
+        return data;
     }
 
     public float getFloat()
     {
-        return (float)this.data;
+        return data;
     }
 }

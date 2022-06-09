@@ -15,7 +15,7 @@ public class LayerMooshroomMushroom implements LayerRenderer<EntityMooshroom>
 
     public LayerMooshroomMushroom(RenderMooshroom mooshroomRendererIn)
     {
-        this.mooshroomRenderer = mooshroomRendererIn;
+        mooshroomRenderer = mooshroomRendererIn;
     }
 
     public void doRenderLayer(EntityMooshroom entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale)
@@ -23,7 +23,7 @@ public class LayerMooshroomMushroom implements LayerRenderer<EntityMooshroom>
         if (!entitylivingbaseIn.isChild() && !entitylivingbaseIn.isInvisible())
         {
             BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-            this.mooshroomRenderer.bindTexture(TextureMap.locationBlocksTexture);
+            mooshroomRenderer.bindTexture(TextureMap.locationBlocksTexture);
             GlStateManager.enableCull();
             GlStateManager.cullFace(1028);
             GlStateManager.pushMatrix();
@@ -42,7 +42,7 @@ public class LayerMooshroomMushroom implements LayerRenderer<EntityMooshroom>
             GlStateManager.popMatrix();
             GlStateManager.popMatrix();
             GlStateManager.pushMatrix();
-            ((ModelQuadruped)this.mooshroomRenderer.getMainModel()).head.postRender(0.0625F);
+            ((ModelQuadruped) mooshroomRenderer.getMainModel()).head.postRender(0.0625F);
             GlStateManager.scale(1.0F, -1.0F, 1.0F);
             GlStateManager.translate(0.0F, 0.7F, -0.2F);
             GlStateManager.rotate(12.0F, 0.0F, 1.0F, 0.0F);

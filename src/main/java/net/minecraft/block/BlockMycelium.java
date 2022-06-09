@@ -22,9 +22,9 @@ public class BlockMycelium extends Block
     protected BlockMycelium()
     {
         super(Material.grass, MapColor.purpleColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(SNOWY, Boolean.valueOf(false)));
-        this.setTickRandomly(true);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setDefaultState(blockState.getBaseState().withProperty(BlockMycelium.SNOWY, Boolean.valueOf(false)));
+        setTickRandomly(true);
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**
@@ -34,7 +34,7 @@ public class BlockMycelium extends Block
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
         Block block = worldIn.getBlockState(pos.up()).getBlock();
-        return state.withProperty(SNOWY, Boolean.valueOf(block == Blocks.snow || block == Blocks.snow_layer));
+        return state.withProperty(BlockMycelium.SNOWY, Boolean.valueOf(block == Blocks.snow || block == Blocks.snow_layer));
     }
 
     public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
@@ -57,7 +57,7 @@ public class BlockMycelium extends Block
 
                         if (iblockstate.getBlock() == Blocks.dirt && iblockstate.getValue(BlockDirt.VARIANT) == BlockDirt.DirtType.DIRT && worldIn.getLightFromNeighbors(blockpos.up()) >= 4 && block.getLightOpacity() <= 2)
                         {
-                            worldIn.setBlockState(blockpos, this.getDefaultState());
+                            worldIn.setBlockState(blockpos, getDefaultState());
                         }
                     }
                 }
@@ -71,7 +71,7 @@ public class BlockMycelium extends Block
 
         if (rand.nextInt(10) == 0)
         {
-            worldIn.spawnParticle(EnumParticleTypes.TOWN_AURA, (double)((float)pos.getX() + rand.nextFloat()), (double)((float)pos.getY() + 1.1F), (double)((float)pos.getZ() + rand.nextFloat()), 0.0D, 0.0D, 0.0D, new int[0]);
+            worldIn.spawnParticle(EnumParticleTypes.TOWN_AURA, (float)pos.getX() + rand.nextFloat(), (float)pos.getY() + 1.1F, (float)pos.getZ() + rand.nextFloat(), 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -93,6 +93,6 @@ public class BlockMycelium extends Block
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {SNOWY});
+        return new BlockState(this, BlockMycelium.SNOWY);
     }
 }

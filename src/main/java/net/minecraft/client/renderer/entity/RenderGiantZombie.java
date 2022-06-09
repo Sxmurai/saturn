@@ -13,19 +13,19 @@ public class RenderGiantZombie extends RenderLiving<EntityGiantZombie>
     private static final ResourceLocation zombieTextures = new ResourceLocation("textures/entity/zombie/zombie.png");
 
     /** Scale of the model to use */
-    private float scale;
+    private final float scale;
 
     public RenderGiantZombie(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn, float scaleIn)
     {
         super(renderManagerIn, modelBaseIn, shadowSizeIn * scaleIn);
-        this.scale = scaleIn;
-        this.addLayer(new LayerHeldItem(this));
-        this.addLayer(new LayerBipedArmor(this)
+        scale = scaleIn;
+        addLayer(new LayerHeldItem(this));
+        addLayer(new LayerBipedArmor(this)
         {
             protected void initArmor()
             {
-                this.field_177189_c = new ModelZombie(0.5F, true);
-                this.field_177186_d = new ModelZombie(1.0F, true);
+                field_177189_c = new ModelZombie(0.5F, true);
+                field_177186_d = new ModelZombie(1.0F, true);
             }
         });
     }
@@ -41,7 +41,7 @@ public class RenderGiantZombie extends RenderLiving<EntityGiantZombie>
      */
     protected void preRenderCallback(EntityGiantZombie entitylivingbaseIn, float partialTickTime)
     {
-        GlStateManager.scale(this.scale, this.scale, this.scale);
+        GlStateManager.scale(scale, scale, scale);
     }
 
     /**
@@ -49,6 +49,6 @@ public class RenderGiantZombie extends RenderLiving<EntityGiantZombie>
      */
     protected ResourceLocation getEntityTexture(EntityGiantZombie entity)
     {
-        return zombieTextures;
+        return RenderGiantZombie.zombieTextures;
     }
 }

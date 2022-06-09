@@ -7,8 +7,8 @@ public class ItemCloth extends ItemBlock
     public ItemCloth(Block block)
     {
         super(block);
-        this.setMaxDamage(0);
-        this.setHasSubtypes(true);
+        setMaxDamage(0);
+        setHasSubtypes(true);
     }
 
     /**

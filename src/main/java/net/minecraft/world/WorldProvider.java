@@ -50,11 +50,11 @@ public abstract class WorldProvider
      */
     public final void registerWorld(World worldIn)
     {
-        this.worldObj = worldIn;
-        this.terrainType = worldIn.getWorldInfo().getTerrainType();
-        this.generatorSettings = worldIn.getWorldInfo().getGeneratorOptions();
-        this.registerWorldChunkManager();
-        this.generateLightBrightnessTable();
+        worldObj = worldIn;
+        terrainType = worldIn.getWorldInfo().getTerrainType();
+        generatorSettings = worldIn.getWorldInfo().getGeneratorOptions();
+        registerWorldChunkManager();
+        generateLightBrightnessTable();
     }
 
     /**
@@ -67,7 +67,7 @@ public abstract class WorldProvider
         for (int i = 0; i <= 15; ++i)
         {
             float f1 = 1.0F - (float)i / 15.0F;
-            this.lightBrightnessTable[i] = (1.0F - f1) / (f1 * 3.0F + 1.0F) * (1.0F - f) + f;
+            lightBrightnessTable[i] = (1.0F - f1) / (f1 * 3.0F + 1.0F) * (1.0F - f) + f;
         }
     }
 
@@ -76,20 +76,20 @@ public abstract class WorldProvider
      */
     protected void registerWorldChunkManager()
     {
-        WorldType worldtype = this.worldObj.getWorldInfo().getTerrainType();
+        WorldType worldtype = worldObj.getWorldInfo().getTerrainType();
 
         if (worldtype == WorldType.FLAT)
         {
-            FlatGeneratorInfo flatgeneratorinfo = FlatGeneratorInfo.createFlatGeneratorFromString(this.worldObj.getWorldInfo().getGeneratorOptions());
-            this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.getBiomeFromBiomeList(flatgeneratorinfo.getBiome(), BiomeGenBase.field_180279_ad), 0.5F);
+            FlatGeneratorInfo flatgeneratorinfo = FlatGeneratorInfo.createFlatGeneratorFromString(worldObj.getWorldInfo().getGeneratorOptions());
+            worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.getBiomeFromBiomeList(flatgeneratorinfo.getBiome(), BiomeGenBase.field_180279_ad), 0.5F);
         }
         else if (worldtype == WorldType.DEBUG_WORLD)
         {
-            this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.plains, 0.0F);
+            worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.plains, 0.0F);
         }
         else
         {
-            this.worldChunkMgr = new WorldChunkManager(this.worldObj);
+            worldChunkMgr = new WorldChunkManager(worldObj);
         }
     }
 
@@ -98,7 +98,7 @@ public abstract class WorldProvider
      */
     public IChunkProvider createChunkGenerator()
     {
-        return (IChunkProvider)(this.terrainType == WorldType.FLAT ? new ChunkProviderFlat(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings) : (this.terrainType == WorldType.DEBUG_WORLD ? new ChunkProviderDebug(this.worldObj) : (this.terrainType == WorldType.CUSTOMIZED ? new ChunkProviderGenerate(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings) : new ChunkProviderGenerate(this.worldObj, this.worldObj.getSeed(), this.worldObj.getWorldInfo().isMapFeaturesEnabled(), this.generatorSettings))));
+        return terrainType == WorldType.FLAT ? new ChunkProviderFlat(worldObj, worldObj.getSeed(), worldObj.getWorldInfo().isMapFeaturesEnabled(), generatorSettings) : (terrainType == WorldType.DEBUG_WORLD ? new ChunkProviderDebug(worldObj) : (new ChunkProviderGenerate(worldObj, worldObj.getSeed(), worldObj.getWorldInfo().isMapFeaturesEnabled(), generatorSettings)));
     }
 
     /**
@@ -106,7 +106,7 @@ public abstract class WorldProvider
      */
     public boolean canCoordinateBeSpawn(int x, int z)
     {
-        return this.worldObj.getGroundAboveSeaLevel(new BlockPos(x, 0, z)) == Blocks.grass;
+        return worldObj.getGroundAboveSeaLevel(new BlockPos(x, 0, z)) == Blocks.grass;
     }
 
     /**
@@ -159,11 +159,11 @@ public abstract class WorldProvider
             float f3 = (f1 - f2) / f * 0.5F + 0.5F;
             float f4 = 1.0F - (1.0F - MathHelper.sin(f3 * (float)Math.PI)) * 0.99F;
             f4 = f4 * f4;
-            this.colorsSunriseSunset[0] = f3 * 0.3F + 0.7F;
-            this.colorsSunriseSunset[1] = f3 * f3 * 0.7F + 0.2F;
-            this.colorsSunriseSunset[2] = f3 * f3 * 0.0F + 0.2F;
-            this.colorsSunriseSunset[3] = f4;
-            return this.colorsSunriseSunset;
+            colorsSunriseSunset[0] = f3 * 0.3F + 0.7F;
+            colorsSunriseSunset[1] = f3 * f3 * 0.7F + 0.2F;
+            colorsSunriseSunset[2] = f3 * f3 * 0.0F + 0.2F;
+            colorsSunriseSunset[3] = f4;
+            return colorsSunriseSunset;
         }
         else
         {
@@ -184,7 +184,7 @@ public abstract class WorldProvider
         f1 = f1 * (f * 0.94F + 0.06F);
         f2 = f2 * (f * 0.94F + 0.06F);
         f3 = f3 * (f * 0.91F + 0.09F);
-        return new Vec3((double)f1, (double)f2, (double)f3);
+        return new Vec3(f1, f2, f3);
     }
 
     /**
@@ -197,7 +197,7 @@ public abstract class WorldProvider
 
     public static WorldProvider getProviderForDimension(int dimension)
     {
-        return (WorldProvider)(dimension == -1 ? new WorldProviderHell() : (dimension == 0 ? new WorldProviderSurface() : (dimension == 1 ? new WorldProviderEnd() : null)));
+        return dimension == -1 ? new WorldProviderHell() : (dimension == 0 ? new WorldProviderSurface() : (dimension == 1 ? new WorldProviderEnd() : null));
     }
 
     /**
@@ -220,7 +220,7 @@ public abstract class WorldProvider
 
     public int getAverageGroundLevel()
     {
-        return this.terrainType == WorldType.FLAT ? 4 : this.worldObj.func_181545_F() + 1;
+        return terrainType == WorldType.FLAT ? 4 : worldObj.func_181545_F() + 1;
     }
 
     /**
@@ -230,7 +230,7 @@ public abstract class WorldProvider
      */
     public double getVoidFogYFactor()
     {
-        return this.terrainType == WorldType.FLAT ? 1.0D : 0.03125D;
+        return terrainType == WorldType.FLAT ? 1.0D : 0.03125D;
     }
 
     /**
@@ -250,22 +250,22 @@ public abstract class WorldProvider
 
     public WorldChunkManager getWorldChunkManager()
     {
-        return this.worldChunkMgr;
+        return worldChunkMgr;
     }
 
     public boolean doesWaterVaporize()
     {
-        return this.isHellWorld;
+        return isHellWorld;
     }
 
     public boolean getHasNoSky()
     {
-        return this.hasNoSky;
+        return hasNoSky;
     }
 
     public float[] getLightBrightnessTable()
     {
-        return this.lightBrightnessTable;
+        return lightBrightnessTable;
     }
 
     /**
@@ -273,7 +273,7 @@ public abstract class WorldProvider
      */
     public int getDimensionId()
     {
-        return this.dimensionId;
+        return dimensionId;
     }
 
     public WorldBorder getWorldBorder()

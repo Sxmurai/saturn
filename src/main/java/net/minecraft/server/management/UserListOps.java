@@ -18,12 +18,12 @@ public class UserListOps extends UserList<GameProfile, UserListOpsEntry>
 
     public String[] getKeys()
     {
-        String[] astring = new String[this.getValues().size()];
+        String[] astring = new String[getValues().size()];
         int i = 0;
 
-        for (UserListOpsEntry userlistopsentry : this.getValues().values())
+        for (UserListOpsEntry userlistopsentry : getValues().values())
         {
-            astring[i++] = ((GameProfile)userlistopsentry.getValue()).getName();
+            astring[i++] = userlistopsentry.getValue().getName();
         }
 
         return astring;
@@ -31,8 +31,8 @@ public class UserListOps extends UserList<GameProfile, UserListOpsEntry>
 
     public boolean func_183026_b(GameProfile p_183026_1_)
     {
-        UserListOpsEntry userlistopsentry = (UserListOpsEntry)this.getEntry(p_183026_1_);
-        return userlistopsentry != null ? userlistopsentry.func_183024_b() : false;
+        UserListOpsEntry userlistopsentry = getEntry(p_183026_1_);
+        return userlistopsentry != null && userlistopsentry.func_183024_b();
     }
 
     /**
@@ -48,11 +48,11 @@ public class UserListOps extends UserList<GameProfile, UserListOpsEntry>
      */
     public GameProfile getGameProfileFromName(String username)
     {
-        for (UserListOpsEntry userlistopsentry : this.getValues().values())
+        for (UserListOpsEntry userlistopsentry : getValues().values())
         {
-            if (username.equalsIgnoreCase(((GameProfile)userlistopsentry.getValue()).getName()))
+            if (username.equalsIgnoreCase(userlistopsentry.getValue().getName()))
             {
-                return (GameProfile)userlistopsentry.getValue();
+                return userlistopsentry.getValue();
             }
         }
 

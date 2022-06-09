@@ -19,7 +19,7 @@ public class StringUtils
 
     public static String stripControlCodes(String p_76338_0_)
     {
-        return patternControlCode.matcher(p_76338_0_).replaceAll("");
+        return StringUtils.patternControlCode.matcher(p_76338_0_).replaceAll("");
     }
 
     /**

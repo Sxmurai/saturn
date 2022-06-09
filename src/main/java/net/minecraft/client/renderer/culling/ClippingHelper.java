@@ -27,9 +27,9 @@ public class ClippingHelper
 
         for (int i = 0; i < 6; ++i)
         {
-            float[] afloat = this.frustum[i];
+            float[] afloat = frustum[i];
 
-            if (this.dot(afloat, f, f1, f2) <= 0.0F && this.dot(afloat, f3, f1, f2) <= 0.0F && this.dot(afloat, f, f4, f2) <= 0.0F && this.dot(afloat, f3, f4, f2) <= 0.0F && this.dot(afloat, f, f1, f5) <= 0.0F && this.dot(afloat, f3, f1, f5) <= 0.0F && this.dot(afloat, f, f4, f5) <= 0.0F && this.dot(afloat, f3, f4, f5) <= 0.0F)
+            if (dot(afloat, f, f1, f2) <= 0.0F && dot(afloat, f3, f1, f2) <= 0.0F && dot(afloat, f, f4, f2) <= 0.0F && dot(afloat, f3, f4, f2) <= 0.0F && dot(afloat, f, f1, f5) <= 0.0F && dot(afloat, f3, f1, f5) <= 0.0F && dot(afloat, f, f4, f5) <= 0.0F && dot(afloat, f3, f4, f5) <= 0.0F)
             {
                 return false;
             }

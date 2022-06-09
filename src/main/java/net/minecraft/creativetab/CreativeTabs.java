@@ -51,7 +51,7 @@ public abstract class CreativeTabs
         {
             return Items.lava_bucket;
         }
-    }).setRelevantEnchantmentTypes(new EnumEnchantmentType[] {EnumEnchantmentType.ALL});
+    }).setRelevantEnchantmentTypes(EnumEnchantmentType.ALL);
     public static final CreativeTabs tabAllSearch = (new CreativeTabs(5, "search")
     {
         public Item getTabIconItem()
@@ -72,14 +72,14 @@ public abstract class CreativeTabs
         {
             return Items.iron_axe;
         }
-    }).setRelevantEnchantmentTypes(new EnumEnchantmentType[] {EnumEnchantmentType.DIGGER, EnumEnchantmentType.FISHING_ROD, EnumEnchantmentType.BREAKABLE});
+    }).setRelevantEnchantmentTypes(EnumEnchantmentType.DIGGER, EnumEnchantmentType.FISHING_ROD, EnumEnchantmentType.BREAKABLE);
     public static final CreativeTabs tabCombat = (new CreativeTabs(8, "combat")
     {
         public Item getTabIconItem()
         {
             return Items.golden_sword;
         }
-    }).setRelevantEnchantmentTypes(new EnumEnchantmentType[] {EnumEnchantmentType.ARMOR, EnumEnchantmentType.ARMOR_FEET, EnumEnchantmentType.ARMOR_HEAD, EnumEnchantmentType.ARMOR_LEGS, EnumEnchantmentType.ARMOR_TORSO, EnumEnchantmentType.BOW, EnumEnchantmentType.WEAPON});
+    }).setRelevantEnchantmentTypes(EnumEnchantmentType.ARMOR, EnumEnchantmentType.ARMOR_FEET, EnumEnchantmentType.ARMOR_HEAD, EnumEnchantmentType.ARMOR_LEGS, EnumEnchantmentType.ARMOR_TORSO, EnumEnchantmentType.BOW, EnumEnchantmentType.WEAPON);
     public static final CreativeTabs tabBrewing = new CreativeTabs(9, "brewing")
     {
         public Item getTabIconItem()
@@ -115,19 +115,19 @@ public abstract class CreativeTabs
 
     public CreativeTabs(int index, String label)
     {
-        this.tabIndex = index;
-        this.tabLabel = label;
-        creativeTabArray[index] = this;
+        tabIndex = index;
+        tabLabel = label;
+        CreativeTabs.creativeTabArray[index] = this;
     }
 
     public int getTabIndex()
     {
-        return this.tabIndex;
+        return tabIndex;
     }
 
     public String getTabLabel()
     {
-        return this.tabLabel;
+        return tabLabel;
     }
 
     /**
@@ -135,17 +135,17 @@ public abstract class CreativeTabs
      */
     public String getTranslatedTabLabel()
     {
-        return "itemGroup." + this.getTabLabel();
+        return "itemGroup." + getTabLabel();
     }
 
     public ItemStack getIconItemStack()
     {
-        if (this.iconItemStack == null)
+        if (iconItemStack == null)
         {
-            this.iconItemStack = new ItemStack(this.getTabIconItem(), 1, this.getIconItemDamage());
+            iconItemStack = new ItemStack(getTabIconItem(), 1, getIconItemDamage());
         }
 
-        return this.iconItemStack;
+        return iconItemStack;
     }
 
     public abstract Item getTabIconItem();
@@ -157,34 +157,34 @@ public abstract class CreativeTabs
 
     public String getBackgroundImageName()
     {
-        return this.theTexture;
+        return theTexture;
     }
 
     public CreativeTabs setBackgroundImageName(String texture)
     {
-        this.theTexture = texture;
+        theTexture = texture;
         return this;
     }
 
     public boolean drawInForegroundOfTab()
     {
-        return this.drawTitle;
+        return drawTitle;
     }
 
     public CreativeTabs setNoTitle()
     {
-        this.drawTitle = false;
+        drawTitle = false;
         return this;
     }
 
     public boolean shouldHidePlayerInventory()
     {
-        return this.hasScrollbar;
+        return hasScrollbar;
     }
 
     public CreativeTabs setNoScrollbar()
     {
-        this.hasScrollbar = false;
+        hasScrollbar = false;
         return this;
     }
 
@@ -193,7 +193,7 @@ public abstract class CreativeTabs
      */
     public int getTabColumn()
     {
-        return this.tabIndex % 6;
+        return tabIndex % 6;
     }
 
     /**
@@ -201,7 +201,7 @@ public abstract class CreativeTabs
      */
     public boolean isTabInFirstRow()
     {
-        return this.tabIndex < 6;
+        return tabIndex < 6;
     }
 
     /**
@@ -209,7 +209,7 @@ public abstract class CreativeTabs
      */
     public EnumEnchantmentType[] getRelevantEnchantmentTypes()
     {
-        return this.enchantmentTypes;
+        return enchantmentTypes;
     }
 
     /**
@@ -217,19 +217,19 @@ public abstract class CreativeTabs
      */
     public CreativeTabs setRelevantEnchantmentTypes(EnumEnchantmentType... types)
     {
-        this.enchantmentTypes = types;
+        enchantmentTypes = types;
         return this;
     }
 
     public boolean hasRelevantEnchantmentType(EnumEnchantmentType enchantmentType)
     {
-        if (this.enchantmentTypes == null)
+        if (enchantmentTypes == null)
         {
             return false;
         }
         else
         {
-            for (EnumEnchantmentType enumenchantmenttype : this.enchantmentTypes)
+            for (EnumEnchantmentType enumenchantmenttype : enchantmentTypes)
             {
                 if (enumenchantmenttype == enchantmentType)
                 {
@@ -254,9 +254,9 @@ public abstract class CreativeTabs
             }
         }
 
-        if (this.getRelevantEnchantmentTypes() != null)
+        if (getRelevantEnchantmentTypes() != null)
         {
-            this.addEnchantmentBooksToList(p_78018_1_, this.getRelevantEnchantmentTypes());
+            addEnchantmentBooksToList(p_78018_1_, getRelevantEnchantmentTypes());
         }
     }
 

@@ -16,8 +16,8 @@ public class RenderSnowball<T extends Entity> extends Render<T>
     public RenderSnowball(RenderManager renderManagerIn, Item p_i46137_2_, RenderItem p_i46137_3_)
     {
         super(renderManagerIn);
-        this.field_177084_a = p_i46137_2_;
-        this.field_177083_e = p_i46137_3_;
+        field_177084_a = p_i46137_2_;
+        field_177083_e = p_i46137_3_;
     }
 
     /**
@@ -32,10 +32,10 @@ public class RenderSnowball<T extends Entity> extends Render<T>
         GlStateManager.translate((float)x, (float)y, (float)z);
         GlStateManager.enableRescaleNormal();
         GlStateManager.scale(0.5F, 0.5F, 0.5F);
-        GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-        this.bindTexture(TextureMap.locationBlocksTexture);
-        this.field_177083_e.func_181564_a(this.func_177082_d(entity), ItemCameraTransforms.TransformType.GROUND);
+        GlStateManager.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+        bindTexture(TextureMap.locationBlocksTexture);
+        field_177083_e.func_181564_a(func_177082_d(entity), ItemCameraTransforms.TransformType.GROUND);
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
@@ -43,7 +43,7 @@ public class RenderSnowball<T extends Entity> extends Render<T>
 
     public ItemStack func_177082_d(T entityIn)
     {
-        return new ItemStack(this.field_177084_a, 1, 0);
+        return new ItemStack(field_177084_a, 1, 0);
     }
 
     /**

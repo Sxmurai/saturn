@@ -26,17 +26,17 @@ public class S27PacketExplosion implements Packet<INetHandlerPlayClient>
 
     public S27PacketExplosion(double p_i45193_1_, double y, double z, float strengthIn, List<BlockPos> affectedBlocksIn, Vec3 p_i45193_9_)
     {
-        this.posX = p_i45193_1_;
-        this.posY = y;
-        this.posZ = z;
-        this.strength = strengthIn;
-        this.affectedBlockPositions = Lists.newArrayList(affectedBlocksIn);
+        posX = p_i45193_1_;
+        posY = y;
+        posZ = z;
+        strength = strengthIn;
+        affectedBlockPositions = Lists.newArrayList(affectedBlocksIn);
 
         if (p_i45193_9_ != null)
         {
-            this.field_149152_f = (float)p_i45193_9_.xCoord;
-            this.field_149153_g = (float)p_i45193_9_.yCoord;
-            this.field_149159_h = (float)p_i45193_9_.zCoord;
+            field_149152_f = (float)p_i45193_9_.xCoord;
+            field_149153_g = (float)p_i45193_9_.yCoord;
+            field_149159_h = (float)p_i45193_9_.zCoord;
         }
     }
 
@@ -45,27 +45,27 @@ public class S27PacketExplosion implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.posX = (double)buf.readFloat();
-        this.posY = (double)buf.readFloat();
-        this.posZ = (double)buf.readFloat();
-        this.strength = buf.readFloat();
+        posX = buf.readFloat();
+        posY = buf.readFloat();
+        posZ = buf.readFloat();
+        strength = buf.readFloat();
         int i = buf.readInt();
-        this.affectedBlockPositions = Lists.<BlockPos>newArrayListWithCapacity(i);
-        int j = (int)this.posX;
-        int k = (int)this.posY;
-        int l = (int)this.posZ;
+        affectedBlockPositions = Lists.newArrayListWithCapacity(i);
+        int j = (int) posX;
+        int k = (int) posY;
+        int l = (int) posZ;
 
         for (int i1 = 0; i1 < i; ++i1)
         {
             int j1 = buf.readByte() + j;
             int k1 = buf.readByte() + k;
             int l1 = buf.readByte() + l;
-            this.affectedBlockPositions.add(new BlockPos(j1, k1, l1));
+            affectedBlockPositions.add(new BlockPos(j1, k1, l1));
         }
 
-        this.field_149152_f = buf.readFloat();
-        this.field_149153_g = buf.readFloat();
-        this.field_149159_h = buf.readFloat();
+        field_149152_f = buf.readFloat();
+        field_149153_g = buf.readFloat();
+        field_149159_h = buf.readFloat();
     }
 
     /**
@@ -73,16 +73,16 @@ public class S27PacketExplosion implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeFloat((float)this.posX);
-        buf.writeFloat((float)this.posY);
-        buf.writeFloat((float)this.posZ);
-        buf.writeFloat(this.strength);
-        buf.writeInt(this.affectedBlockPositions.size());
-        int i = (int)this.posX;
-        int j = (int)this.posY;
-        int k = (int)this.posZ;
+        buf.writeFloat((float) posX);
+        buf.writeFloat((float) posY);
+        buf.writeFloat((float) posZ);
+        buf.writeFloat(strength);
+        buf.writeInt(affectedBlockPositions.size());
+        int i = (int) posX;
+        int j = (int) posY;
+        int k = (int) posZ;
 
-        for (BlockPos blockpos : this.affectedBlockPositions)
+        for (BlockPos blockpos : affectedBlockPositions)
         {
             int l = blockpos.getX() - i;
             int i1 = blockpos.getY() - j;
@@ -92,9 +92,9 @@ public class S27PacketExplosion implements Packet<INetHandlerPlayClient>
             buf.writeByte(j1);
         }
 
-        buf.writeFloat(this.field_149152_f);
-        buf.writeFloat(this.field_149153_g);
-        buf.writeFloat(this.field_149159_h);
+        buf.writeFloat(field_149152_f);
+        buf.writeFloat(field_149153_g);
+        buf.writeFloat(field_149159_h);
     }
 
     /**
@@ -107,41 +107,41 @@ public class S27PacketExplosion implements Packet<INetHandlerPlayClient>
 
     public float func_149149_c()
     {
-        return this.field_149152_f;
+        return field_149152_f;
     }
 
     public float func_149144_d()
     {
-        return this.field_149153_g;
+        return field_149153_g;
     }
 
     public float func_149147_e()
     {
-        return this.field_149159_h;
+        return field_149159_h;
     }
 
     public double getX()
     {
-        return this.posX;
+        return posX;
     }
 
     public double getY()
     {
-        return this.posY;
+        return posY;
     }
 
     public double getZ()
     {
-        return this.posZ;
+        return posZ;
     }
 
     public float getStrength()
     {
-        return this.strength;
+        return strength;
     }
 
     public List<BlockPos> getAffectedBlockPositions()
     {
-        return this.affectedBlockPositions;
+        return affectedBlockPositions;
     }
 }

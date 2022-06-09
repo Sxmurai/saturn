@@ -17,7 +17,7 @@ public class GuiShareToLan extends GuiScreen
 
     public GuiShareToLan(GuiScreen p_i1055_1_)
     {
-        this.field_146598_a = p_i1055_1_;
+        field_146598_a = p_i1055_1_;
     }
 
     /**
@@ -26,26 +26,26 @@ public class GuiShareToLan extends GuiScreen
      */
     public void initGui()
     {
-        this.buttonList.clear();
-        this.buttonList.add(new GuiButton(101, this.width / 2 - 155, this.height - 28, 150, 20, I18n.format("lanServer.start", new Object[0])));
-        this.buttonList.add(new GuiButton(102, this.width / 2 + 5, this.height - 28, 150, 20, I18n.format("gui.cancel", new Object[0])));
-        this.buttonList.add(this.field_146597_g = new GuiButton(104, this.width / 2 - 155, 100, 150, 20, I18n.format("selectWorld.gameMode", new Object[0])));
-        this.buttonList.add(this.field_146596_f = new GuiButton(103, this.width / 2 + 5, 100, 150, 20, I18n.format("selectWorld.allowCommands", new Object[0])));
-        this.func_146595_g();
+        buttonList.clear();
+        buttonList.add(new GuiButton(101, width / 2 - 155, height - 28, 150, 20, I18n.format("lanServer.start")));
+        buttonList.add(new GuiButton(102, width / 2 + 5, height - 28, 150, 20, I18n.format("gui.cancel")));
+        buttonList.add(field_146597_g = new GuiButton(104, width / 2 - 155, 100, 150, 20, I18n.format("selectWorld.gameMode")));
+        buttonList.add(field_146596_f = new GuiButton(103, width / 2 + 5, 100, 150, 20, I18n.format("selectWorld.allowCommands")));
+        func_146595_g();
     }
 
     private void func_146595_g()
     {
-        this.field_146597_g.displayString = I18n.format("selectWorld.gameMode", new Object[0]) + " " + I18n.format("selectWorld.gameMode." + this.field_146599_h, new Object[0]);
-        this.field_146596_f.displayString = I18n.format("selectWorld.allowCommands", new Object[0]) + " ";
+        field_146597_g.displayString = I18n.format("selectWorld.gameMode") + " " + I18n.format("selectWorld.gameMode." + field_146599_h);
+        field_146596_f.displayString = I18n.format("selectWorld.allowCommands") + " ";
 
-        if (this.field_146600_i)
+        if (field_146600_i)
         {
-            this.field_146596_f.displayString = this.field_146596_f.displayString + I18n.format("options.on", new Object[0]);
+            field_146596_f.displayString = field_146596_f.displayString + I18n.format("options.on");
         }
         else
         {
-            this.field_146596_f.displayString = this.field_146596_f.displayString + I18n.format("options.off", new Object[0]);
+            field_146596_f.displayString = field_146596_f.displayString + I18n.format("options.off");
         }
     }
 
@@ -56,50 +56,50 @@ public class GuiShareToLan extends GuiScreen
     {
         if (button.id == 102)
         {
-            this.mc.displayGuiScreen(this.field_146598_a);
+            mc.displayGuiScreen(field_146598_a);
         }
         else if (button.id == 104)
         {
-            if (this.field_146599_h.equals("spectator"))
+            if (field_146599_h.equals("spectator"))
             {
-                this.field_146599_h = "creative";
+                field_146599_h = "creative";
             }
-            else if (this.field_146599_h.equals("creative"))
+            else if (field_146599_h.equals("creative"))
             {
-                this.field_146599_h = "adventure";
+                field_146599_h = "adventure";
             }
-            else if (this.field_146599_h.equals("adventure"))
+            else if (field_146599_h.equals("adventure"))
             {
-                this.field_146599_h = "survival";
+                field_146599_h = "survival";
             }
             else
             {
-                this.field_146599_h = "spectator";
+                field_146599_h = "spectator";
             }
 
-            this.func_146595_g();
+            func_146595_g();
         }
         else if (button.id == 103)
         {
-            this.field_146600_i = !this.field_146600_i;
-            this.func_146595_g();
+            field_146600_i = !field_146600_i;
+            func_146595_g();
         }
         else if (button.id == 101)
         {
-            this.mc.displayGuiScreen((GuiScreen)null);
-            String s = this.mc.getIntegratedServer().shareToLAN(WorldSettings.GameType.getByName(this.field_146599_h), this.field_146600_i);
+            mc.displayGuiScreen(null);
+            String s = mc.getIntegratedServer().shareToLAN(WorldSettings.GameType.getByName(field_146599_h), field_146600_i);
             IChatComponent ichatcomponent;
 
             if (s != null)
             {
-                ichatcomponent = new ChatComponentTranslation("commands.publish.started", new Object[] {s});
+                ichatcomponent = new ChatComponentTranslation("commands.publish.started", s);
             }
             else
             {
                 ichatcomponent = new ChatComponentText("commands.publish.failed");
             }
 
-            this.mc.ingameGUI.getChatGUI().printChatMessage(ichatcomponent);
+            mc.ingameGUI.getChatGUI().printChatMessage(ichatcomponent);
         }
     }
 
@@ -108,9 +108,9 @@ public class GuiShareToLan extends GuiScreen
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("lanServer.title", new Object[0]), this.width / 2, 50, 16777215);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("lanServer.otherPlayers", new Object[0]), this.width / 2, 82, 16777215);
+        drawDefaultBackground();
+        drawCenteredString(fontRendererObj, I18n.format("lanServer.title"), width / 2, 50, 16777215);
+        drawCenteredString(fontRendererObj, I18n.format("lanServer.otherPlayers"), width / 2, 82, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

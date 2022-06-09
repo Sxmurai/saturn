@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 
 public class TileEntityRendererDispatcher
 {
-    private Map < Class <? extends TileEntity > , TileEntitySpecialRenderer <? extends TileEntity >> mapSpecialRenderers = Maps. < Class <? extends TileEntity > , TileEntitySpecialRenderer <? extends TileEntity >> newHashMap();
+    private final Map < Class <? extends TileEntity > , TileEntitySpecialRenderer <? extends TileEntity >> mapSpecialRenderers = Maps.newHashMap();
     public static TileEntityRendererDispatcher instance = new TileEntityRendererDispatcher();
     private FontRenderer fontRenderer;
 
@@ -49,18 +49,18 @@ public class TileEntityRendererDispatcher
 
     private TileEntityRendererDispatcher()
     {
-        this.mapSpecialRenderers.put(TileEntitySign.class, new TileEntitySignRenderer());
-        this.mapSpecialRenderers.put(TileEntityMobSpawner.class, new TileEntityMobSpawnerRenderer());
-        this.mapSpecialRenderers.put(TileEntityPiston.class, new TileEntityPistonRenderer());
-        this.mapSpecialRenderers.put(TileEntityChest.class, new TileEntityChestRenderer());
-        this.mapSpecialRenderers.put(TileEntityEnderChest.class, new TileEntityEnderChestRenderer());
-        this.mapSpecialRenderers.put(TileEntityEnchantmentTable.class, new TileEntityEnchantmentTableRenderer());
-        this.mapSpecialRenderers.put(TileEntityEndPortal.class, new TileEntityEndPortalRenderer());
-        this.mapSpecialRenderers.put(TileEntityBeacon.class, new TileEntityBeaconRenderer());
-        this.mapSpecialRenderers.put(TileEntitySkull.class, new TileEntitySkullRenderer());
-        this.mapSpecialRenderers.put(TileEntityBanner.class, new TileEntityBannerRenderer());
+        mapSpecialRenderers.put(TileEntitySign.class, new TileEntitySignRenderer());
+        mapSpecialRenderers.put(TileEntityMobSpawner.class, new TileEntityMobSpawnerRenderer());
+        mapSpecialRenderers.put(TileEntityPiston.class, new TileEntityPistonRenderer());
+        mapSpecialRenderers.put(TileEntityChest.class, new TileEntityChestRenderer());
+        mapSpecialRenderers.put(TileEntityEnderChest.class, new TileEntityEnderChestRenderer());
+        mapSpecialRenderers.put(TileEntityEnchantmentTable.class, new TileEntityEnchantmentTableRenderer());
+        mapSpecialRenderers.put(TileEntityEndPortal.class, new TileEntityEndPortalRenderer());
+        mapSpecialRenderers.put(TileEntityBeacon.class, new TileEntityBeaconRenderer());
+        mapSpecialRenderers.put(TileEntitySkull.class, new TileEntitySkullRenderer());
+        mapSpecialRenderers.put(TileEntityBanner.class, new TileEntityBannerRenderer());
 
-        for (TileEntitySpecialRenderer<?> tileentityspecialrenderer : this.mapSpecialRenderers.values())
+        for (TileEntitySpecialRenderer<?> tileentityspecialrenderer : mapSpecialRenderers.values())
         {
             tileentityspecialrenderer.setRendererDispatcher(this);
         }
@@ -68,12 +68,12 @@ public class TileEntityRendererDispatcher
 
     public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRendererByClass(Class <? extends TileEntity > teClass)
     {
-        TileEntitySpecialRenderer <? extends TileEntity > tileentityspecialrenderer = (TileEntitySpecialRenderer)this.mapSpecialRenderers.get(teClass);
+        TileEntitySpecialRenderer <? extends TileEntity > tileentityspecialrenderer = mapSpecialRenderers.get(teClass);
 
         if (tileentityspecialrenderer == null && teClass != TileEntity.class)
         {
-            tileentityspecialrenderer = this.<TileEntity>getSpecialRendererByClass((Class <? extends TileEntity >)teClass.getSuperclass());
-            this.mapSpecialRenderers.put(teClass, tileentityspecialrenderer);
+            tileentityspecialrenderer = this.getSpecialRendererByClass((Class <? extends TileEntity >)teClass.getSuperclass());
+            mapSpecialRenderers.put(teClass, tileentityspecialrenderer);
         }
 
         return (TileEntitySpecialRenderer<T>)tileentityspecialrenderer;
@@ -81,37 +81,37 @@ public class TileEntityRendererDispatcher
 
     public <T extends TileEntity> TileEntitySpecialRenderer<T> getSpecialRenderer(TileEntity tileEntityIn)
     {
-        return (TileEntitySpecialRenderer<T>)(tileEntityIn == null ? null : this.getSpecialRendererByClass(tileEntityIn.getClass()));
+        return tileEntityIn == null ? null : getSpecialRendererByClass(tileEntityIn.getClass());
     }
 
     public void cacheActiveRenderInfo(World worldIn, TextureManager textureManagerIn, FontRenderer fontrendererIn, Entity entityIn, float partialTicks)
     {
-        if (this.worldObj != worldIn)
+        if (worldObj != worldIn)
         {
-            this.setWorld(worldIn);
+            setWorld(worldIn);
         }
 
-        this.renderEngine = textureManagerIn;
-        this.entity = entityIn;
-        this.fontRenderer = fontrendererIn;
-        this.entityYaw = entityIn.prevRotationYaw + (entityIn.rotationYaw - entityIn.prevRotationYaw) * partialTicks;
-        this.entityPitch = entityIn.prevRotationPitch + (entityIn.rotationPitch - entityIn.prevRotationPitch) * partialTicks;
-        this.entityX = entityIn.lastTickPosX + (entityIn.posX - entityIn.lastTickPosX) * (double)partialTicks;
-        this.entityY = entityIn.lastTickPosY + (entityIn.posY - entityIn.lastTickPosY) * (double)partialTicks;
-        this.entityZ = entityIn.lastTickPosZ + (entityIn.posZ - entityIn.lastTickPosZ) * (double)partialTicks;
+        renderEngine = textureManagerIn;
+        entity = entityIn;
+        fontRenderer = fontrendererIn;
+        entityYaw = entityIn.prevRotationYaw + (entityIn.rotationYaw - entityIn.prevRotationYaw) * partialTicks;
+        entityPitch = entityIn.prevRotationPitch + (entityIn.rotationPitch - entityIn.prevRotationPitch) * partialTicks;
+        entityX = entityIn.lastTickPosX + (entityIn.posX - entityIn.lastTickPosX) * (double)partialTicks;
+        entityY = entityIn.lastTickPosY + (entityIn.posY - entityIn.lastTickPosY) * (double)partialTicks;
+        entityZ = entityIn.lastTickPosZ + (entityIn.posZ - entityIn.lastTickPosZ) * (double)partialTicks;
     }
 
     public void renderTileEntity(TileEntity tileentityIn, float partialTicks, int destroyStage)
     {
-        if (tileentityIn.getDistanceSq(this.entityX, this.entityY, this.entityZ) < tileentityIn.getMaxRenderDistanceSquared())
+        if (tileentityIn.getDistanceSq(entityX, entityY, entityZ) < tileentityIn.getMaxRenderDistanceSquared())
         {
-            int i = this.worldObj.getCombinedLight(tileentityIn.getPos(), 0);
+            int i = worldObj.getCombinedLight(tileentityIn.getPos(), 0);
             int j = i % 65536;
             int k = i / 65536;
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, (float)j / 1.0F, (float)k / 1.0F);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             BlockPos blockpos = tileentityIn.getPos();
-            this.renderTileEntityAt(tileentityIn, (double)blockpos.getX() - staticPlayerX, (double)blockpos.getY() - staticPlayerY, (double)blockpos.getZ() - staticPlayerZ, partialTicks, destroyStage);
+            renderTileEntityAt(tileentityIn, (double)blockpos.getX() - TileEntityRendererDispatcher.staticPlayerX, (double)blockpos.getY() - TileEntityRendererDispatcher.staticPlayerY, (double)blockpos.getZ() - TileEntityRendererDispatcher.staticPlayerZ, partialTicks, destroyStage);
         }
     }
 
@@ -120,12 +120,12 @@ public class TileEntityRendererDispatcher
      */
     public void renderTileEntityAt(TileEntity tileEntityIn, double x, double y, double z, float partialTicks)
     {
-        this.renderTileEntityAt(tileEntityIn, x, y, z, partialTicks, -1);
+        renderTileEntityAt(tileEntityIn, x, y, z, partialTicks, -1);
     }
 
     public void renderTileEntityAt(TileEntity tileEntityIn, double x, double y, double z, float partialTicks, int destroyStage)
     {
-        TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = this.<TileEntity>getSpecialRenderer(tileEntityIn);
+        TileEntitySpecialRenderer<TileEntity> tileentityspecialrenderer = this.getSpecialRenderer(tileEntityIn);
 
         if (tileentityspecialrenderer != null)
         {
@@ -145,11 +145,11 @@ public class TileEntityRendererDispatcher
 
     public void setWorld(World worldIn)
     {
-        this.worldObj = worldIn;
+        worldObj = worldIn;
     }
 
     public FontRenderer getFontRenderer()
     {
-        return this.fontRenderer;
+        return fontRenderer;
     }
 }

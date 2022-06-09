@@ -16,12 +16,12 @@ import net.minecraft.world.World;
 
 public class BlockNote extends BlockContainer
 {
-    private static final List<String> INSTRUMENTS = Lists.newArrayList(new String[] {"harp", "bd", "snare", "hat", "bassattack"});
+    private static final List<String> INSTRUMENTS = Lists.newArrayList("harp", "bd", "snare", "hat", "bassattack");
 
     public BlockNote()
     {
         super(Material.wood);
-        this.setCreativeTab(CreativeTabs.tabRedstone);
+        setCreativeTab(CreativeTabs.tabRedstone);
     }
 
     /**
@@ -94,12 +94,12 @@ public class BlockNote extends BlockContainer
 
     private String getInstrument(int id)
     {
-        if (id < 0 || id >= INSTRUMENTS.size())
+        if (id < 0 || id >= BlockNote.INSTRUMENTS.size())
         {
             id = 0;
         }
 
-        return (String)INSTRUMENTS.get(id);
+        return BlockNote.INSTRUMENTS.get(id);
     }
 
     /**
@@ -108,8 +108,8 @@ public class BlockNote extends BlockContainer
     public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam)
     {
         float f = (float)Math.pow(2.0D, (double)(eventParam - 12) / 12.0D);
-        worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "note." + this.getInstrument(eventID), 3.0F, f);
-        worldIn.spawnParticle(EnumParticleTypes.NOTE, (double)pos.getX() + 0.5D, (double)pos.getY() + 1.2D, (double)pos.getZ() + 0.5D, (double)eventParam / 24.0D, 0.0D, 0.0D, new int[0]);
+        worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "note." + getInstrument(eventID), 3.0F, f);
+        worldIn.spawnParticle(EnumParticleTypes.NOTE, (double)pos.getX() + 0.5D, (double)pos.getY() + 1.2D, (double)pos.getZ() + 0.5D, (double)eventParam / 24.0D, 0.0D, 0.0D);
         return true;
     }
 

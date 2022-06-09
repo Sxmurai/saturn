@@ -22,7 +22,7 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer>
 
     public C03PacketPlayer(boolean isOnGround)
     {
-        this.onGround = isOnGround;
+        onGround = isOnGround;
     }
 
     /**
@@ -38,7 +38,7 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.onGround = buf.readUnsignedByte() != 0;
+        onGround = buf.readUnsignedByte() != 0;
     }
 
     /**
@@ -46,83 +46,83 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeByte(this.onGround ? 1 : 0);
+        buf.writeByte(onGround ? 1 : 0);
     }
 
     public double getPositionX()
     {
-        return this.x;
+        return x;
     }
 
     public double getPositionY()
     {
-        return this.y;
+        return y;
     }
 
     public double getPositionZ()
     {
-        return this.z;
+        return z;
     }
 
     public float getYaw()
     {
-        return this.yaw;
+        return yaw;
     }
 
     public float getPitch()
     {
-        return this.pitch;
+        return pitch;
     }
 
     public boolean isOnGround()
     {
-        return this.onGround;
+        return onGround;
     }
 
     public boolean isMoving()
     {
-        return this.moving;
+        return moving;
     }
 
     public boolean getRotating()
     {
-        return this.rotating;
+        return rotating;
     }
 
     public void setMoving(boolean isMoving)
     {
-        this.moving = isMoving;
+        moving = isMoving;
     }
 
     public static class C04PacketPlayerPosition extends C03PacketPlayer
     {
         public C04PacketPlayerPosition()
         {
-            this.moving = true;
+            moving = true;
         }
 
         public C04PacketPlayerPosition(double posX, double posY, double posZ, boolean isOnGround)
         {
-            this.x = posX;
-            this.y = posY;
-            this.z = posZ;
-            this.onGround = isOnGround;
-            this.moving = true;
+            x = posX;
+            y = posY;
+            z = posZ;
+            onGround = isOnGround;
+            moving = true;
         }
 
         public void readPacketData(PacketBuffer buf) throws IOException
         {
-            this.x = buf.readDouble();
-            this.y = buf.readDouble();
-            this.z = buf.readDouble();
+            x = buf.readDouble();
+            y = buf.readDouble();
+            z = buf.readDouble();
             super.readPacketData(buf);
         }
 
         public void writePacketData(PacketBuffer buf) throws IOException
         {
-            buf.writeDouble(this.x);
-            buf.writeDouble(this.y);
-            buf.writeDouble(this.z);
+            buf.writeDouble(x);
+            buf.writeDouble(y);
+            buf.writeDouble(z);
             super.writePacketData(buf);
         }
     }
@@ -131,28 +131,28 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer>
     {
         public C05PacketPlayerLook()
         {
-            this.rotating = true;
+            rotating = true;
         }
 
         public C05PacketPlayerLook(float playerYaw, float playerPitch, boolean isOnGround)
         {
-            this.yaw = playerYaw;
-            this.pitch = playerPitch;
-            this.onGround = isOnGround;
-            this.rotating = true;
+            yaw = playerYaw;
+            pitch = playerPitch;
+            onGround = isOnGround;
+            rotating = true;
         }
 
         public void readPacketData(PacketBuffer buf) throws IOException
         {
-            this.yaw = buf.readFloat();
-            this.pitch = buf.readFloat();
+            yaw = buf.readFloat();
+            pitch = buf.readFloat();
             super.readPacketData(buf);
         }
 
         public void writePacketData(PacketBuffer buf) throws IOException
         {
-            buf.writeFloat(this.yaw);
-            buf.writeFloat(this.pitch);
+            buf.writeFloat(yaw);
+            buf.writeFloat(pitch);
             super.writePacketData(buf);
         }
     }
@@ -161,39 +161,39 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer>
     {
         public C06PacketPlayerPosLook()
         {
-            this.moving = true;
-            this.rotating = true;
+            moving = true;
+            rotating = true;
         }
 
         public C06PacketPlayerPosLook(double playerX, double playerY, double playerZ, float playerYaw, float playerPitch, boolean playerIsOnGround)
         {
-            this.x = playerX;
-            this.y = playerY;
-            this.z = playerZ;
-            this.yaw = playerYaw;
-            this.pitch = playerPitch;
-            this.onGround = playerIsOnGround;
-            this.rotating = true;
-            this.moving = true;
+            x = playerX;
+            y = playerY;
+            z = playerZ;
+            yaw = playerYaw;
+            pitch = playerPitch;
+            onGround = playerIsOnGround;
+            rotating = true;
+            moving = true;
         }
 
         public void readPacketData(PacketBuffer buf) throws IOException
         {
-            this.x = buf.readDouble();
-            this.y = buf.readDouble();
-            this.z = buf.readDouble();
-            this.yaw = buf.readFloat();
-            this.pitch = buf.readFloat();
+            x = buf.readDouble();
+            y = buf.readDouble();
+            z = buf.readDouble();
+            yaw = buf.readFloat();
+            pitch = buf.readFloat();
             super.readPacketData(buf);
         }
 
         public void writePacketData(PacketBuffer buf) throws IOException
         {
-            buf.writeDouble(this.x);
-            buf.writeDouble(this.y);
-            buf.writeDouble(this.z);
-            buf.writeFloat(this.yaw);
-            buf.writeFloat(this.pitch);
+            buf.writeDouble(x);
+            buf.writeDouble(y);
+            buf.writeDouble(z);
+            buf.writeFloat(yaw);
+            buf.writeFloat(pitch);
             super.writePacketData(buf);
         }
     }

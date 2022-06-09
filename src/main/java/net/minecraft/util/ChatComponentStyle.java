@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class ChatComponentStyle implements IChatComponent
 {
-    protected List<IChatComponent> siblings = Lists.<IChatComponent>newArrayList();
+    protected List<IChatComponent> siblings = Lists.newArrayList();
     private ChatStyle style;
 
     /**
@@ -16,14 +16,14 @@ public abstract class ChatComponentStyle implements IChatComponent
      */
     public IChatComponent appendSibling(IChatComponent component)
     {
-        component.getChatStyle().setParentStyle(this.getChatStyle());
-        this.siblings.add(component);
+        component.getChatStyle().setParentStyle(getChatStyle());
+        siblings.add(component);
         return this;
     }
 
     public List<IChatComponent> getSiblings()
     {
-        return this.siblings;
+        return siblings;
     }
 
     /**
@@ -31,16 +31,16 @@ public abstract class ChatComponentStyle implements IChatComponent
      */
     public IChatComponent appendText(String text)
     {
-        return this.appendSibling(new ChatComponentText(text));
+        return appendSibling(new ChatComponentText(text));
     }
 
     public IChatComponent setChatStyle(ChatStyle style)
     {
         this.style = style;
 
-        for (IChatComponent ichatcomponent : this.siblings)
+        for (IChatComponent ichatcomponent : siblings)
         {
-            ichatcomponent.getChatStyle().setParentStyle(this.getChatStyle());
+            ichatcomponent.getChatStyle().setParentStyle(getChatStyle());
         }
 
         return this;
@@ -48,22 +48,22 @@ public abstract class ChatComponentStyle implements IChatComponent
 
     public ChatStyle getChatStyle()
     {
-        if (this.style == null)
+        if (style == null)
         {
-            this.style = new ChatStyle();
+            style = new ChatStyle();
 
-            for (IChatComponent ichatcomponent : this.siblings)
+            for (IChatComponent ichatcomponent : siblings)
             {
-                ichatcomponent.getChatStyle().setParentStyle(this.style);
+                ichatcomponent.getChatStyle().setParentStyle(style);
             }
         }
 
-        return this.style;
+        return style;
     }
 
     public Iterator<IChatComponent> iterator()
     {
-        return Iterators.<IChatComponent>concat(Iterators.<IChatComponent>forArray(new ChatComponentStyle[] {this}), createDeepCopyIterator(this.siblings));
+        return Iterators.concat(Iterators.<IChatComponent>forArray(new ChatComponentStyle[] {this}), ChatComponentStyle.createDeepCopyIterator(siblings));
     }
 
     /**
@@ -92,7 +92,7 @@ public abstract class ChatComponentStyle implements IChatComponent
         {
             stringbuilder.append(ichatcomponent.getChatStyle().getFormattingCode());
             stringbuilder.append(ichatcomponent.getUnformattedTextForChat());
-            stringbuilder.append((Object)EnumChatFormatting.RESET);
+            stringbuilder.append(EnumChatFormatting.RESET);
         }
 
         return stringbuilder.toString();
@@ -132,17 +132,17 @@ public abstract class ChatComponentStyle implements IChatComponent
         else
         {
             ChatComponentStyle chatcomponentstyle = (ChatComponentStyle)p_equals_1_;
-            return this.siblings.equals(chatcomponentstyle.siblings) && this.getChatStyle().equals(chatcomponentstyle.getChatStyle());
+            return siblings.equals(chatcomponentstyle.siblings) && getChatStyle().equals(chatcomponentstyle.getChatStyle());
         }
     }
 
     public int hashCode()
     {
-        return 31 * this.style.hashCode() + this.siblings.hashCode();
+        return 31 * style.hashCode() + siblings.hashCode();
     }
 
     public String toString()
     {
-        return "BaseComponent{style=" + this.style + ", siblings=" + this.siblings + '}';
+        return "BaseComponent{style=" + style + ", siblings=" + siblings + '}';
     }
 }

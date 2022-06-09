@@ -13,7 +13,7 @@ public class EnchantmentThorns extends Enchantment
     public EnchantmentThorns(int p_i45764_1_, ResourceLocation p_i45764_2_, int p_i45764_3_)
     {
         super(p_i45764_1_, p_i45764_2_, p_i45764_3_, EnumEnchantmentType.ARMOR_TORSO);
-        this.setName("thorns");
+        setName("thorns");
     }
 
     /**
@@ -45,7 +45,7 @@ public class EnchantmentThorns extends Enchantment
      */
     public boolean canApply(ItemStack stack)
     {
-        return stack.getItem() instanceof ItemArmor ? true : super.canApply(stack);
+        return stack.getItem() instanceof ItemArmor || super.canApply(stack);
     }
 
     /**
@@ -57,11 +57,11 @@ public class EnchantmentThorns extends Enchantment
         Random random = user.getRNG();
         ItemStack itemstack = EnchantmentHelper.getEnchantedItem(Enchantment.thorns, user);
 
-        if (func_92094_a(level, random))
+        if (EnchantmentThorns.func_92094_a(level, random))
         {
             if (attacker != null)
             {
-                attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), (float)func_92095_b(level, random));
+                attacker.attackEntityFrom(DamageSource.causeThornsDamage(user), (float) EnchantmentThorns.func_92095_b(level, random));
                 attacker.playSound("damage.thorns", 0.5F, 1.0F);
             }
 
@@ -78,7 +78,7 @@ public class EnchantmentThorns extends Enchantment
 
     public static boolean func_92094_a(int p_92094_0_, Random p_92094_1_)
     {
-        return p_92094_0_ <= 0 ? false : p_92094_1_.nextFloat() < 0.15F * (float)p_92094_0_;
+        return p_92094_0_ > 0 && p_92094_1_.nextFloat() < 0.15F * (float) p_92094_0_;
     }
 
     public static int func_92095_b(int p_92095_0_, Random p_92095_1_)

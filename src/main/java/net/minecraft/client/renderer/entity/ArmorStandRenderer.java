@@ -23,13 +23,13 @@ public class ArmorStandRenderer extends RendererLivingEntity<EntityArmorStand>
         {
             protected void initArmor()
             {
-                this.field_177189_c = new ModelArmorStandArmor(0.5F);
-                this.field_177186_d = new ModelArmorStandArmor(1.0F);
+                field_177189_c = new ModelArmorStandArmor(0.5F);
+                field_177186_d = new ModelArmorStandArmor(1.0F);
             }
         };
-        this.addLayer(layerbipedarmor);
-        this.addLayer(new LayerHeldItem(this));
-        this.addLayer(new LayerCustomHead(this.getMainModel().bipedHead));
+        addLayer(layerbipedarmor);
+        addLayer(new LayerHeldItem(this));
+        addLayer(new LayerCustomHead(getMainModel().bipedHead));
     }
 
     /**
@@ -37,7 +37,7 @@ public class ArmorStandRenderer extends RendererLivingEntity<EntityArmorStand>
      */
     protected ResourceLocation getEntityTexture(EntityArmorStand entity)
     {
-        return TEXTURE_ARMOR_STAND;
+        return ArmorStandRenderer.TEXTURE_ARMOR_STAND;
     }
 
     public ModelArmorStand getMainModel()

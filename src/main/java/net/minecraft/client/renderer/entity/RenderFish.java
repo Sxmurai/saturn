@@ -31,7 +31,7 @@ public class RenderFish extends Render<EntityFishHook>
         GlStateManager.translate((float)x, (float)y, (float)z);
         GlStateManager.enableRescaleNormal();
         GlStateManager.scale(0.5F, 0.5F, 0.5F);
-        this.bindEntityTexture(entity);
+        bindEntityTexture(entity);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         int i = 1;
@@ -43,8 +43,8 @@ public class RenderFish extends Render<EntityFishHook>
         float f4 = 1.0F;
         float f5 = 0.5F;
         float f6 = 0.5F;
-        GlStateManager.rotate(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+        GlStateManager.rotate(180.0F - renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(-renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_NORMAL);
         worldrenderer.pos(-0.5D, -0.5D, 0.0D).tex(0.0625D, 0.1875D).normal(0.0F, 1.0F, 0.0F).endVertex();
         worldrenderer.pos(0.5D, -0.5D, 0.0D).tex(0.125D, 0.1875D).normal(0.0F, 1.0F, 0.0F).endVertex();
@@ -66,13 +66,13 @@ public class RenderFish extends Render<EntityFishHook>
             double d0 = entity.angler.prevPosX + (entity.angler.posX - entity.angler.prevPosX) * (double)partialTicks + vec3.xCoord;
             double d1 = entity.angler.prevPosY + (entity.angler.posY - entity.angler.prevPosY) * (double)partialTicks + vec3.yCoord;
             double d2 = entity.angler.prevPosZ + (entity.angler.posZ - entity.angler.prevPosZ) * (double)partialTicks + vec3.zCoord;
-            double d3 = (double)entity.angler.getEyeHeight();
+            double d3 = entity.angler.getEyeHeight();
 
-            if (this.renderManager.options != null && this.renderManager.options.thirdPersonView > 0 || entity.angler != Minecraft.getMinecraft().thePlayer)
+            if (renderManager.options != null && renderManager.options.thirdPersonView > 0 || entity.angler != Minecraft.getMinecraft().thePlayer)
             {
                 float f9 = (entity.angler.prevRenderYawOffset + (entity.angler.renderYawOffset - entity.angler.prevRenderYawOffset) * partialTicks) * (float)Math.PI / 180.0F;
-                double d4 = (double)MathHelper.sin(f9);
-                double d6 = (double)MathHelper.cos(f9);
+                double d4 = MathHelper.sin(f9);
+                double d6 = MathHelper.cos(f9);
                 double d8 = 0.35D;
                 double d10 = 0.8D;
                 d0 = entity.angler.prevPosX + (entity.angler.posX - entity.angler.prevPosX) * (double)partialTicks - d6 * 0.35D - d4 * 0.8D;
@@ -84,9 +84,9 @@ public class RenderFish extends Render<EntityFishHook>
             double d13 = entity.prevPosX + (entity.posX - entity.prevPosX) * (double)partialTicks;
             double d5 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double)partialTicks + 0.25D;
             double d7 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double)partialTicks;
-            double d9 = (double)((float)(d0 - d13));
+            double d9 = (float)(d0 - d13);
             double d11 = (double)((float)(d1 - d5)) + d3;
-            double d12 = (double)((float)(d2 - d7));
+            double d12 = (float)(d2 - d7);
             GlStateManager.disableTexture2D();
             GlStateManager.disableLighting();
             worldrenderer.begin(3, DefaultVertexFormats.POSITION_COLOR);
@@ -110,6 +110,6 @@ public class RenderFish extends Render<EntityFishHook>
      */
     protected ResourceLocation getEntityTexture(EntityFishHook entity)
     {
-        return FISH_PARTICLES;
+        return RenderFish.FISH_PARTICLES;
     }
 }

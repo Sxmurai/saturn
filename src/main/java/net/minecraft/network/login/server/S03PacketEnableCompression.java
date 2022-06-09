@@ -15,7 +15,7 @@ public class S03PacketEnableCompression implements Packet<INetHandlerLoginClient
 
     public S03PacketEnableCompression(int compressionTresholdIn)
     {
-        this.compressionTreshold = compressionTresholdIn;
+        compressionTreshold = compressionTresholdIn;
     }
 
     /**
@@ -23,7 +23,7 @@ public class S03PacketEnableCompression implements Packet<INetHandlerLoginClient
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.compressionTreshold = buf.readVarIntFromBuffer();
+        compressionTreshold = buf.readVarIntFromBuffer();
     }
 
     /**
@@ -31,7 +31,7 @@ public class S03PacketEnableCompression implements Packet<INetHandlerLoginClient
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.compressionTreshold);
+        buf.writeVarIntToBuffer(compressionTreshold);
     }
 
     /**
@@ -44,6 +44,6 @@ public class S03PacketEnableCompression implements Packet<INetHandlerLoginClient
 
     public int getCompressionTreshold()
     {
-        return this.compressionTreshold;
+        return compressionTreshold;
     }
 }

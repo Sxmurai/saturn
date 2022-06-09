@@ -9,25 +9,25 @@ import net.minecraft.world.World;
 
 public class BlockRail extends BlockRailBase
 {
-    public static final PropertyEnum<BlockRailBase.EnumRailDirection> SHAPE = PropertyEnum.<BlockRailBase.EnumRailDirection>create("shape", BlockRailBase.EnumRailDirection.class);
+    public static final PropertyEnum<BlockRailBase.EnumRailDirection> SHAPE = PropertyEnum.create("shape", BlockRailBase.EnumRailDirection.class);
 
     protected BlockRail()
     {
         super(false);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(SHAPE, BlockRailBase.EnumRailDirection.NORTH_SOUTH));
+        setDefaultState(blockState.getBaseState().withProperty(BlockRail.SHAPE, BlockRailBase.EnumRailDirection.NORTH_SOUTH));
     }
 
     protected void onNeighborChangedInternal(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
         if (neighborBlock.canProvidePower() && (new BlockRailBase.Rail(worldIn, pos, state)).countAdjacentRails() == 3)
         {
-            this.func_176564_a(worldIn, pos, state, false);
+            func_176564_a(worldIn, pos, state, false);
         }
     }
 
     public IProperty<BlockRailBase.EnumRailDirection> getShapeProperty()
     {
-        return SHAPE;
+        return BlockRail.SHAPE;
     }
 
     /**
@@ -35,7 +35,7 @@ public class BlockRail extends BlockRailBase
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(SHAPE, BlockRailBase.EnumRailDirection.byMetadata(meta));
+        return getDefaultState().withProperty(BlockRail.SHAPE, BlockRailBase.EnumRailDirection.byMetadata(meta));
     }
 
     /**
@@ -43,11 +43,11 @@ public class BlockRail extends BlockRailBase
      */
     public int getMetaFromState(IBlockState state)
     {
-        return ((BlockRailBase.EnumRailDirection)state.getValue(SHAPE)).getMetadata();
+        return state.getValue(BlockRail.SHAPE).getMetadata();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {SHAPE});
+        return new BlockState(this, BlockRail.SHAPE);
     }
 }

@@ -15,13 +15,13 @@ public class RenderSkeleton extends RenderBiped<EntitySkeleton>
     public RenderSkeleton(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelSkeleton(), 0.5F);
-        this.addLayer(new LayerHeldItem(this));
-        this.addLayer(new LayerBipedArmor(this)
+        addLayer(new LayerHeldItem(this));
+        addLayer(new LayerBipedArmor(this)
         {
             protected void initArmor()
             {
-                this.field_177189_c = new ModelSkeleton(0.5F, true);
-                this.field_177186_d = new ModelSkeleton(1.0F, true);
+                field_177189_c = new ModelSkeleton(0.5F, true);
+                field_177186_d = new ModelSkeleton(1.0F, true);
             }
         });
     }
@@ -48,6 +48,6 @@ public class RenderSkeleton extends RenderBiped<EntitySkeleton>
      */
     protected ResourceLocation getEntityTexture(EntitySkeleton entity)
     {
-        return entity.getSkeletonType() == 1 ? witherSkeletonTextures : skeletonTextures;
+        return entity.getSkeletonType() == 1 ? RenderSkeleton.witherSkeletonTextures : RenderSkeleton.skeletonTextures;
     }
 }

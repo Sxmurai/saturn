@@ -8,8 +8,8 @@ public class FontMetadataSection implements IMetadataSection
 
     public FontMetadataSection(float[] p_i1310_1_, float[] p_i1310_2_, float[] p_i1310_3_)
     {
-        this.charWidths = p_i1310_1_;
-        this.charLefts = p_i1310_2_;
-        this.charSpacings = p_i1310_3_;
+        charWidths = p_i1310_1_;
+        charLefts = p_i1310_2_;
+        charSpacings = p_i1310_3_;
     }
 }

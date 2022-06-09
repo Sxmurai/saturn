@@ -18,17 +18,17 @@ public class UserListBans extends UserList<GameProfile, UserListBansEntry>
 
     public boolean isBanned(GameProfile profile)
     {
-        return this.hasEntry(profile);
+        return hasEntry(profile);
     }
 
     public String[] getKeys()
     {
-        String[] astring = new String[this.getValues().size()];
+        String[] astring = new String[getValues().size()];
         int i = 0;
 
-        for (UserListBansEntry userlistbansentry : this.getValues().values())
+        for (UserListBansEntry userlistbansentry : getValues().values())
         {
-            astring[i++] = ((GameProfile)userlistbansentry.getValue()).getName();
+            astring[i++] = userlistbansentry.getValue().getName();
         }
 
         return astring;
@@ -44,11 +44,11 @@ public class UserListBans extends UserList<GameProfile, UserListBansEntry>
 
     public GameProfile isUsernameBanned(String username)
     {
-        for (UserListBansEntry userlistbansentry : this.getValues().values())
+        for (UserListBansEntry userlistbansentry : getValues().values())
         {
-            if (username.equalsIgnoreCase(((GameProfile)userlistbansentry.getValue()).getName()))
+            if (username.equalsIgnoreCase(userlistbansentry.getValue().getName()))
             {
-                return (GameProfile)userlistbansentry.getValue();
+                return userlistbansentry.getValue();
             }
         }
 

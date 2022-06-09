@@ -14,7 +14,7 @@ public class RenderCreeper extends RenderLiving<EntityCreeper>
     public RenderCreeper(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelCreeper(), 0.5F);
-        this.addLayer(new LayerCreeperCharge(this));
+        addLayer(new LayerCreeperCharge(this));
     }
 
     /**
@@ -57,6 +57,6 @@ public class RenderCreeper extends RenderLiving<EntityCreeper>
      */
     protected ResourceLocation getEntityTexture(EntityCreeper entity)
     {
-        return creeperTextures;
+        return RenderCreeper.creeperTextures;
     }
 }

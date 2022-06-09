@@ -24,8 +24,8 @@ public class StringTranslate
     private static final Splitter equalSignSplitter = Splitter.on('=').limit(2);
 
     /** Is the private singleton instance of StringTranslate. */
-    private static StringTranslate instance = new StringTranslate();
-    private final Map<String, String> languageList = Maps.<String, String>newHashMap();
+    private static final StringTranslate instance = new StringTranslate();
+    private final Map<String, String> languageList = Maps.newHashMap();
 
     /**
      * The time, in milliseconds since epoch, that this instance was last updated
@@ -42,22 +42,21 @@ public class StringTranslate
             {
                 if (!s.isEmpty() && s.charAt(0) != 35)
                 {
-                    String[] astring = (String[])Iterables.toArray(equalSignSplitter.split(s), String.class);
+                    String[] astring = Iterables.toArray(StringTranslate.equalSignSplitter.split(s), String.class);
 
                     if (astring != null && astring.length == 2)
                     {
                         String s1 = astring[0];
-                        String s2 = numericVariablePattern.matcher(astring[1]).replaceAll("%$1s");
-                        this.languageList.put(s1, s2);
+                        String s2 = StringTranslate.numericVariablePattern.matcher(astring[1]).replaceAll("%$1s");
+                        languageList.put(s1, s2);
                     }
                 }
             }
 
-            this.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
+            lastUpdateTimeInMilliseconds = System.currentTimeMillis();
         }
         catch (IOException var7)
         {
-            ;
         }
     }
 
@@ -66,7 +65,7 @@ public class StringTranslate
      */
     static StringTranslate getInstance()
     {
-        return instance;
+        return StringTranslate.instance;
     }
 
     /**
@@ -75,9 +74,9 @@ public class StringTranslate
 
     public static synchronized void replaceWith(Map<String, String> p_135063_0_)
     {
-        instance.languageList.clear();
-        instance.languageList.putAll(p_135063_0_);
-        instance.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
+        StringTranslate.instance.languageList.clear();
+        StringTranslate.instance.languageList.putAll(p_135063_0_);
+        StringTranslate.instance.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
     }
 
     /**
@@ -86,7 +85,7 @@ public class StringTranslate
 
     public synchronized String translateKey(String key)
     {
-        return this.tryTranslateKey(key);
+        return tryTranslateKey(key);
     }
 
     /**
@@ -95,7 +94,7 @@ public class StringTranslate
 
     public synchronized String translateKeyFormat(String key, Object... format)
     {
-        String s = this.tryTranslateKey(key);
+        String s = tryTranslateKey(key);
 
         try
         {
@@ -112,7 +111,7 @@ public class StringTranslate
      */
     private String tryTranslateKey(String key)
     {
-        String s = (String)this.languageList.get(key);
+        String s = languageList.get(key);
         return s == null ? key : s;
     }
 
@@ -122,7 +121,7 @@ public class StringTranslate
 
     public synchronized boolean isKeyTranslated(String key)
     {
-        return this.languageList.containsKey(key);
+        return languageList.containsKey(key);
     }
 
     /**
@@ -130,6 +129,6 @@ public class StringTranslate
      */
     public long getLastUpdateTimeInMilliseconds()
     {
-        return this.lastUpdateTimeInMilliseconds;
+        return lastUpdateTimeInMilliseconds;
     }
 }

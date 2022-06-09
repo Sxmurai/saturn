@@ -18,7 +18,7 @@ public class Locale
     /** Splits on "=" */
     private static final Splitter splitter = Splitter.on('=').limit(2);
     private static final Pattern pattern = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
-    Map<String, String> properties = Maps.<String, String>newHashMap();
+    Map<String, String> properties = Maps.newHashMap();
     private boolean unicode;
 
     /**
@@ -27,40 +27,39 @@ public class Locale
 
     public synchronized void loadLocaleDataFiles(IResourceManager resourceManager, List<String> p_135022_2_)
     {
-        this.properties.clear();
+        properties.clear();
 
         for (String s : p_135022_2_)
         {
-            String s1 = String.format("lang/%s.lang", new Object[] {s});
+            String s1 = String.format("lang/%s.lang", s);
 
             for (String s2 : resourceManager.getResourceDomains())
             {
                 try
                 {
-                    this.loadLocaleData(resourceManager.getAllResources(new ResourceLocation(s2, s1)));
+                    loadLocaleData(resourceManager.getAllResources(new ResourceLocation(s2, s1)));
                 }
                 catch (IOException var9)
                 {
-                    ;
                 }
             }
         }
 
-        this.checkUnicode();
+        checkUnicode();
     }
 
     public boolean isUnicode()
     {
-        return this.unicode;
+        return unicode;
     }
 
     private void checkUnicode()
     {
-        this.unicode = false;
+        unicode = false;
         int i = 0;
         int j = 0;
 
-        for (String s : this.properties.values())
+        for (String s : properties.values())
         {
             int k = s.length();
             j += k;
@@ -75,7 +74,7 @@ public class Locale
         }
 
         float f = (float)i / (float)j;
-        this.unicode = (double)f > 0.1D;
+        unicode = (double)f > 0.1D;
     }
 
     /**
@@ -89,7 +88,7 @@ public class Locale
 
             try
             {
-                this.loadLocaleData(inputstream);
+                loadLocaleData(inputstream);
             }
             finally
             {
@@ -104,13 +103,13 @@ public class Locale
         {
             if (!s.isEmpty() && s.charAt(0) != 35)
             {
-                String[] astring = (String[])Iterables.toArray(splitter.split(s), String.class);
+                String[] astring = Iterables.toArray(Locale.splitter.split(s), String.class);
 
                 if (astring != null && astring.length == 2)
                 {
                     String s1 = astring[0];
-                    String s2 = pattern.matcher(astring[1]).replaceAll("%$1s");
-                    this.properties.put(s1, s2);
+                    String s2 = Locale.pattern.matcher(astring[1]).replaceAll("%$1s");
+                    properties.put(s1, s2);
                 }
             }
         }
@@ -121,7 +120,7 @@ public class Locale
      */
     private String translateKeyPrivate(String p_135026_1_)
     {
-        String s = (String)this.properties.get(p_135026_1_);
+        String s = properties.get(p_135026_1_);
         return s == null ? p_135026_1_ : s;
     }
 
@@ -130,7 +129,7 @@ public class Locale
      */
     public String formatMessage(String translateKey, Object[] parameters)
     {
-        String s = this.translateKeyPrivate(translateKey);
+        String s = translateKeyPrivate(translateKey);
 
         try
         {

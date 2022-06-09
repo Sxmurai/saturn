@@ -13,8 +13,8 @@ public abstract class ModelBase
     public float swingProgress;
     public boolean isRiding;
     public boolean isChild = true;
-    public List<ModelRenderer> boxList = Lists.<ModelRenderer>newArrayList();
-    private Map<String, TextureOffset> modelTextureMap = Maps.<String, TextureOffset>newHashMap();
+    public List<ModelRenderer> boxList = Lists.newArrayList();
+    private final Map<String, TextureOffset> modelTextureMap = Maps.newHashMap();
     public int textureWidth = 64;
     public int textureHeight = 32;
 
@@ -44,17 +44,17 @@ public abstract class ModelBase
 
     public ModelRenderer getRandomModelBox(Random rand)
     {
-        return (ModelRenderer)this.boxList.get(rand.nextInt(this.boxList.size()));
+        return boxList.get(rand.nextInt(boxList.size()));
     }
 
     protected void setTextureOffset(String partName, int x, int y)
     {
-        this.modelTextureMap.put(partName, new TextureOffset(x, y));
+        modelTextureMap.put(partName, new TextureOffset(x, y));
     }
 
     public TextureOffset getTextureOffset(String partName)
     {
-        return (TextureOffset)this.modelTextureMap.get(partName);
+        return modelTextureMap.get(partName);
     }
 
     /**
@@ -73,8 +73,8 @@ public abstract class ModelBase
 
     public void setModelAttributes(ModelBase model)
     {
-        this.swingProgress = model.swingProgress;
-        this.isRiding = model.isRiding;
-        this.isChild = model.isChild;
+        swingProgress = model.swingProgress;
+        isRiding = model.isRiding;
+        isChild = model.isChild;
     }
 }

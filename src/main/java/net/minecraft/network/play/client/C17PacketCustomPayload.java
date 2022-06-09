@@ -17,8 +17,8 @@ public class C17PacketCustomPayload implements Packet<INetHandlerPlayServer>
 
     public C17PacketCustomPayload(String channelIn, PacketBuffer dataIn)
     {
-        this.channel = channelIn;
-        this.data = dataIn;
+        channel = channelIn;
+        data = dataIn;
 
         if (dataIn.writerIndex() > 32767)
         {
@@ -31,12 +31,12 @@ public class C17PacketCustomPayload implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.channel = buf.readStringFromBuffer(20);
+        channel = buf.readStringFromBuffer(20);
         int i = buf.readableBytes();
 
         if (i >= 0 && i <= 32767)
         {
-            this.data = new PacketBuffer(buf.readBytes(i));
+            data = new PacketBuffer(buf.readBytes(i));
         }
         else
         {
@@ -49,8 +49,8 @@ public class C17PacketCustomPayload implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeString(this.channel);
-        buf.writeBytes((ByteBuf)this.data);
+        buf.writeString(channel);
+        buf.writeBytes(data);
     }
 
     /**
@@ -63,11 +63,11 @@ public class C17PacketCustomPayload implements Packet<INetHandlerPlayServer>
 
     public String getChannelName()
     {
-        return this.channel;
+        return channel;
     }
 
     public PacketBuffer getBufferData()
     {
-        return this.data;
+        return data;
     }
 }

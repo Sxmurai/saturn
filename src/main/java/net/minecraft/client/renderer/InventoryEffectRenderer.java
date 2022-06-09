@@ -24,20 +24,20 @@ public abstract class InventoryEffectRenderer extends GuiContainer
     public void initGui()
     {
         super.initGui();
-        this.updateActivePotionEffects();
+        updateActivePotionEffects();
     }
 
     protected void updateActivePotionEffects()
     {
-        if (!this.mc.thePlayer.getActivePotionEffects().isEmpty())
+        if (!mc.thePlayer.getActivePotionEffects().isEmpty())
         {
-            this.guiLeft = 160 + (this.width - this.xSize - 200) / 2;
-            this.hasActivePotionEffects = true;
+            guiLeft = 160 + (width - xSize - 200) / 2;
+            hasActivePotionEffects = true;
         }
         else
         {
-            this.guiLeft = (this.width - this.xSize) / 2;
-            this.hasActivePotionEffects = false;
+            guiLeft = (width - xSize) / 2;
+            hasActivePotionEffects = false;
         }
     }
 
@@ -48,9 +48,9 @@ public abstract class InventoryEffectRenderer extends GuiContainer
     {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        if (this.hasActivePotionEffects)
+        if (hasActivePotionEffects)
         {
-            this.drawActivePotionEffects();
+            drawActivePotionEffects();
         }
     }
 
@@ -59,10 +59,10 @@ public abstract class InventoryEffectRenderer extends GuiContainer
      */
     private void drawActivePotionEffects()
     {
-        int i = this.guiLeft - 124;
-        int j = this.guiTop;
+        int i = guiLeft - 124;
+        int j = guiTop;
         int k = 166;
-        Collection<PotionEffect> collection = this.mc.thePlayer.getActivePotionEffects();
+        Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
 
         if (!collection.isEmpty())
         {
@@ -75,37 +75,37 @@ public abstract class InventoryEffectRenderer extends GuiContainer
                 l = 132 / (collection.size() - 1);
             }
 
-            for (PotionEffect potioneffect : this.mc.thePlayer.getActivePotionEffects())
+            for (PotionEffect potioneffect : mc.thePlayer.getActivePotionEffects())
             {
                 Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                this.mc.getTextureManager().bindTexture(inventoryBackground);
-                this.drawTexturedModalRect(i, j, 0, 166, 140, 32);
+                mc.getTextureManager().bindTexture(GuiContainer.inventoryBackground);
+                drawTexturedModalRect(i, j, 0, 166, 140, 32);
 
                 if (potion.hasStatusIcon())
                 {
                     int i1 = potion.getStatusIconIndex();
-                    this.drawTexturedModalRect(i + 6, j + 7, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
+                    drawTexturedModalRect(i + 6, j + 7, 0 + i1 % 8 * 18, 198 + i1 / 8 * 18, 18, 18);
                 }
 
-                String s1 = I18n.format(potion.getName(), new Object[0]);
+                String s1 = I18n.format(potion.getName());
 
                 if (potioneffect.getAmplifier() == 1)
                 {
-                    s1 = s1 + " " + I18n.format("enchantment.level.2", new Object[0]);
+                    s1 = s1 + " " + I18n.format("enchantment.level.2");
                 }
                 else if (potioneffect.getAmplifier() == 2)
                 {
-                    s1 = s1 + " " + I18n.format("enchantment.level.3", new Object[0]);
+                    s1 = s1 + " " + I18n.format("enchantment.level.3");
                 }
                 else if (potioneffect.getAmplifier() == 3)
                 {
-                    s1 = s1 + " " + I18n.format("enchantment.level.4", new Object[0]);
+                    s1 = s1 + " " + I18n.format("enchantment.level.4");
                 }
 
-                this.fontRendererObj.drawStringWithShadow(s1, (float)(i + 10 + 18), (float)(j + 6), 16777215);
+                fontRendererObj.drawStringWithShadow(s1, (float)(i + 10 + 18), (float)(j + 6), 16777215);
                 String s = Potion.getDurationString(potioneffect);
-                this.fontRendererObj.drawStringWithShadow(s, (float)(i + 10 + 18), (float)(j + 6 + 10), 8355711);
+                fontRendererObj.drawStringWithShadow(s, (float)(i + 10 + 18), (float)(j + 6 + 10), 8355711);
                 j += l;
             }
         }

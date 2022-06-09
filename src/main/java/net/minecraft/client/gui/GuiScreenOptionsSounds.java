@@ -22,8 +22,8 @@ public class GuiScreenOptionsSounds extends GuiScreen
 
     public GuiScreenOptionsSounds(GuiScreen p_i45025_1_, GameSettings p_i45025_2_)
     {
-        this.field_146505_f = p_i45025_1_;
-        this.game_settings_4 = p_i45025_2_;
+        field_146505_f = p_i45025_1_;
+        game_settings_4 = p_i45025_2_;
     }
 
     /**
@@ -33,21 +33,21 @@ public class GuiScreenOptionsSounds extends GuiScreen
     public void initGui()
     {
         int i = 0;
-        this.field_146507_a = I18n.format("options.sounds.title", new Object[0]);
-        this.field_146508_h = I18n.format("options.off", new Object[0]);
-        this.buttonList.add(new GuiScreenOptionsSounds.Button(SoundCategory.MASTER.getCategoryId(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), SoundCategory.MASTER, true));
+        field_146507_a = I18n.format("options.sounds.title");
+        field_146508_h = I18n.format("options.off");
+        buttonList.add(new GuiScreenOptionsSounds.Button(SoundCategory.MASTER.getCategoryId(), width / 2 - 155 + i % 2 * 160, height / 6 - 12 + 24 * (i >> 1), SoundCategory.MASTER, true));
         i = i + 2;
 
         for (SoundCategory soundcategory : SoundCategory.values())
         {
             if (soundcategory != SoundCategory.MASTER)
             {
-                this.buttonList.add(new GuiScreenOptionsSounds.Button(soundcategory.getCategoryId(), this.width / 2 - 155 + i % 2 * 160, this.height / 6 - 12 + 24 * (i >> 1), soundcategory, false));
+                buttonList.add(new GuiScreenOptionsSounds.Button(soundcategory.getCategoryId(), width / 2 - 155 + i % 2 * 160, height / 6 - 12 + 24 * (i >> 1), soundcategory, false));
                 ++i;
             }
         }
 
-        this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done", new Object[0])));
+        buttonList.add(new GuiButton(200, width / 2 - 100, height / 6 + 168, I18n.format("gui.done")));
     }
 
     /**
@@ -59,8 +59,8 @@ public class GuiScreenOptionsSounds extends GuiScreen
         {
             if (button.id == 200)
             {
-                this.mc.gameSettings.saveOptions();
-                this.mc.displayGuiScreen(this.field_146505_f);
+                mc.gameSettings.saveOptions();
+                mc.displayGuiScreen(field_146505_f);
             }
         }
     }
@@ -70,15 +70,15 @@ public class GuiScreenOptionsSounds extends GuiScreen
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, this.field_146507_a, this.width / 2, 15, 16777215);
+        drawDefaultBackground();
+        drawCenteredString(fontRendererObj, field_146507_a, width / 2, 15, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     protected String getSoundVolume(SoundCategory p_146504_1_)
     {
-        float f = this.game_settings_4.getSoundLevel(p_146504_1_);
-        return f == 0.0F ? this.field_146508_h : (int)(f * 100.0F) + "%";
+        float f = game_settings_4.getSoundLevel(p_146504_1_);
+        return f == 0.0F ? field_146508_h : (int)(f * 100.0F) + "%";
     }
 
     class Button extends GuiButton
@@ -91,10 +91,10 @@ public class GuiScreenOptionsSounds extends GuiScreen
         public Button(int p_i45024_2_, int p_i45024_3_, int p_i45024_4_, SoundCategory p_i45024_5_, boolean p_i45024_6_)
         {
             super(p_i45024_2_, p_i45024_3_, p_i45024_4_, p_i45024_6_ ? 310 : 150, 20, "");
-            this.field_146153_r = p_i45024_5_;
-            this.field_146152_s = I18n.format("soundCategory." + p_i45024_5_.getCategoryName(), new Object[0]);
-            this.displayString = this.field_146152_s + ": " + GuiScreenOptionsSounds.this.getSoundVolume(p_i45024_5_);
-            this.field_146156_o = GuiScreenOptionsSounds.this.game_settings_4.getSoundLevel(p_i45024_5_);
+            field_146153_r = p_i45024_5_;
+            field_146152_s = I18n.format("soundCategory." + p_i45024_5_.getCategoryName());
+            displayString = field_146152_s + ": " + getSoundVolume(p_i45024_5_);
+            field_146156_o = game_settings_4.getSoundLevel(p_i45024_5_);
         }
 
         protected int getHoverState(boolean mouseOver)
@@ -104,20 +104,20 @@ public class GuiScreenOptionsSounds extends GuiScreen
 
         protected void mouseDragged(Minecraft mc, int mouseX, int mouseY)
         {
-            if (this.visible)
+            if (visible)
             {
-                if (this.field_146155_p)
+                if (field_146155_p)
                 {
-                    this.field_146156_o = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-                    this.field_146156_o = MathHelper.clamp_float(this.field_146156_o, 0.0F, 1.0F);
-                    mc.gameSettings.setSoundLevel(this.field_146153_r, this.field_146156_o);
+                    field_146156_o = (float)(mouseX - (xPosition + 4)) / (float)(width - 8);
+                    field_146156_o = MathHelper.clamp_float(field_146156_o, 0.0F, 1.0F);
+                    mc.gameSettings.setSoundLevel(field_146153_r, field_146156_o);
                     mc.gameSettings.saveOptions();
-                    this.displayString = this.field_146152_s + ": " + GuiScreenOptionsSounds.this.getSoundVolume(this.field_146153_r);
+                    displayString = field_146152_s + ": " + getSoundVolume(field_146153_r);
                 }
 
                 GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                this.drawTexturedModalRect(this.xPosition + (int)(this.field_146156_o * (float)(this.width - 8)), this.yPosition, 0, 66, 4, 20);
-                this.drawTexturedModalRect(this.xPosition + (int)(this.field_146156_o * (float)(this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
+                drawTexturedModalRect(xPosition + (int)(field_146156_o * (float)(width - 8)), yPosition, 0, 66, 4, 20);
+                drawTexturedModalRect(xPosition + (int)(field_146156_o * (float)(width - 8)) + 4, yPosition, 196, 66, 4, 20);
             }
         }
 
@@ -125,12 +125,12 @@ public class GuiScreenOptionsSounds extends GuiScreen
         {
             if (super.mousePressed(mc, mouseX, mouseY))
             {
-                this.field_146156_o = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
-                this.field_146156_o = MathHelper.clamp_float(this.field_146156_o, 0.0F, 1.0F);
-                mc.gameSettings.setSoundLevel(this.field_146153_r, this.field_146156_o);
+                field_146156_o = (float)(mouseX - (xPosition + 4)) / (float)(width - 8);
+                field_146156_o = MathHelper.clamp_float(field_146156_o, 0.0F, 1.0F);
+                mc.gameSettings.setSoundLevel(field_146153_r, field_146156_o);
                 mc.gameSettings.saveOptions();
-                this.displayString = this.field_146152_s + ": " + GuiScreenOptionsSounds.this.getSoundVolume(this.field_146153_r);
-                this.field_146155_p = true;
+                displayString = field_146152_s + ": " + getSoundVolume(field_146153_r);
+                field_146155_p = true;
                 return true;
             }
             else
@@ -145,21 +145,21 @@ public class GuiScreenOptionsSounds extends GuiScreen
 
         public void mouseReleased(int mouseX, int mouseY)
         {
-            if (this.field_146155_p)
+            if (field_146155_p)
             {
-                if (this.field_146153_r == SoundCategory.MASTER)
+                if (field_146153_r == SoundCategory.MASTER)
                 {
                     float f = 1.0F;
                 }
                 else
                 {
-                    GuiScreenOptionsSounds.this.game_settings_4.getSoundLevel(this.field_146153_r);
+                    game_settings_4.getSoundLevel(field_146153_r);
                 }
 
-                GuiScreenOptionsSounds.this.mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
+                mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
             }
 
-            this.field_146155_p = false;
+            field_146155_p = false;
         }
     }
 }

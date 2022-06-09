@@ -19,6 +19,6 @@ public enum EnumBorderStatus
      */
     public int getID()
     {
-        return this.id;
+        return id;
     }
 }

@@ -17,7 +17,7 @@ public class ItemFireworkCharge extends Item
         }
         else
         {
-            NBTBase nbtbase = getExplosionTag(stack, "Colors");
+            NBTBase nbtbase = ItemFireworkCharge.getExplosionTag(stack, "Colors");
 
             if (!(nbtbase instanceof NBTTagIntArray))
             {
@@ -80,7 +80,7 @@ public class ItemFireworkCharge extends Item
 
             if (nbttagcompound != null)
             {
-                addExplosionInfo(nbttagcompound, tooltip);
+                ItemFireworkCharge.addExplosionInfo(nbttagcompound, tooltip);
             }
         }
     }

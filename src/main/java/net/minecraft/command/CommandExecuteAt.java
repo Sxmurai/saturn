@@ -43,37 +43,37 @@ public class CommandExecuteAt extends CommandBase
     {
         if (args.length < 5)
         {
-            throw new WrongUsageException("commands.execute.usage", new Object[0]);
+            throw new WrongUsageException("commands.execute.usage");
         }
         else
         {
-            final Entity entity = getEntity(sender, args[0], Entity.class);
-            final double d0 = parseDouble(entity.posX, args[1], false);
-            final double d1 = parseDouble(entity.posY, args[2], false);
-            final double d2 = parseDouble(entity.posZ, args[3], false);
+            final Entity entity = CommandBase.getEntity(sender, args[0], Entity.class);
+            final double d0 = CommandBase.parseDouble(entity.posX, args[1], false);
+            final double d1 = CommandBase.parseDouble(entity.posY, args[2], false);
+            final double d2 = CommandBase.parseDouble(entity.posZ, args[3], false);
             final BlockPos blockpos = new BlockPos(d0, d1, d2);
             int i = 4;
 
             if ("detect".equals(args[4]) && args.length > 10)
             {
                 World world = entity.getEntityWorld();
-                double d3 = parseDouble(d0, args[5], false);
-                double d4 = parseDouble(d1, args[6], false);
-                double d5 = parseDouble(d2, args[7], false);
-                Block block = getBlockByText(sender, args[8]);
-                int k = parseInt(args[9], -1, 15);
+                double d3 = CommandBase.parseDouble(d0, args[5], false);
+                double d4 = CommandBase.parseDouble(d1, args[6], false);
+                double d5 = CommandBase.parseDouble(d2, args[7], false);
+                Block block = CommandBase.getBlockByText(sender, args[8]);
+                int k = CommandBase.parseInt(args[9], -1, 15);
                 BlockPos blockpos1 = new BlockPos(d3, d4, d5);
                 IBlockState iblockstate = world.getBlockState(blockpos1);
 
                 if (iblockstate.getBlock() != block || k >= 0 && iblockstate.getBlock().getMetaFromState(iblockstate) != k)
                 {
-                    throw new CommandException("commands.execute.failed", new Object[] {"detect", entity.getName()});
+                    throw new CommandException("commands.execute.failed", "detect", entity.getName());
                 }
 
                 i = 10;
             }
 
-            String s = buildString(args, i);
+            String s = CommandBase.buildString(args, i);
             ICommandSender icommandsender = new ICommandSender()
             {
                 public String getName()
@@ -126,19 +126,19 @@ public class CommandExecuteAt extends CommandBase
 
                 if (j < 1)
                 {
-                    throw new CommandException("commands.execute.allInvocationsFailed", new Object[] {s});
+                    throw new CommandException("commands.execute.allInvocationsFailed", s);
                 }
             }
             catch (Throwable var23)
             {
-                throw new CommandException("commands.execute.failed", new Object[] {s, entity.getName()});
+                throw new CommandException("commands.execute.failed", s, entity.getName());
             }
         }
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : (args.length > 1 && args.length <= 4 ? func_175771_a(args, 1, pos) : (args.length > 5 && args.length <= 8 && "detect".equals(args[4]) ? func_175771_a(args, 5, pos) : (args.length == 9 && "detect".equals(args[4]) ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : null)));
+        return args.length == 1 ? CommandBase.getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : (args.length > 1 && args.length <= 4 ? CommandBase.func_175771_a(args, 1, pos) : (args.length > 5 && args.length <= 8 && "detect".equals(args[4]) ? CommandBase.func_175771_a(args, 5, pos) : (args.length == 9 && "detect".equals(args[4]) ? CommandBase.getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : null)));
     }
 
     /**

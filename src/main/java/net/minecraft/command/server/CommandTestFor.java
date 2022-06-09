@@ -46,22 +46,22 @@ public class CommandTestFor extends CommandBase
     {
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.testfor.usage", new Object[0]);
+            throw new WrongUsageException("commands.testfor.usage");
         }
         else
         {
-            Entity entity = func_175768_b(sender, args[0]);
+            Entity entity = CommandBase.func_175768_b(sender, args[0]);
             NBTTagCompound nbttagcompound = null;
 
             if (args.length >= 2)
             {
                 try
                 {
-                    nbttagcompound = JsonToNBT.getTagFromJson(buildString(args, 1));
+                    nbttagcompound = JsonToNBT.getTagFromJson(CommandBase.buildString(args, 1));
                 }
                 catch (NBTException nbtexception)
                 {
-                    throw new CommandException("commands.testfor.tagError", new Object[] {nbtexception.getMessage()});
+                    throw new CommandException("commands.testfor.tagError", nbtexception.getMessage());
                 }
             }
 
@@ -72,11 +72,11 @@ public class CommandTestFor extends CommandBase
 
                 if (!NBTUtil.func_181123_a(nbttagcompound, nbttagcompound1, true))
                 {
-                    throw new CommandException("commands.testfor.failure", new Object[] {entity.getName()});
+                    throw new CommandException("commands.testfor.failure", entity.getName());
                 }
             }
 
-            notifyOperators(sender, this, "commands.testfor.success", new Object[] {entity.getName()});
+            CommandBase.notifyOperators(sender, this, "commands.testfor.success", entity.getName());
         }
     }
 
@@ -90,6 +90,6 @@ public class CommandTestFor extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
+        return args.length == 1 ? CommandBase.getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
     }
 }

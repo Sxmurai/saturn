@@ -53,7 +53,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.PixelFormat;
@@ -1486,24 +1485,29 @@ public class Config
         }
     }
 
-    public static byte[] readAll(InputStream p_readAll_0_) throws IOException
+    public static byte[] readAll(InputStream inputStream) throws IOException
     {
-        ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
-        byte[] abyte = new byte[1024];
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        byte[] bytes = new byte[1024];
 
-        while (true)
-        {
-            int i = p_readAll_0_.read(abyte);
-
-            if (i < 0)
-            {
-                p_readAll_0_.close();
-                byte[] abyte1 = bytearrayoutputstream.toByteArray();
-                return abyte1;
-            }
-
-            bytearrayoutputstream.write(abyte, 0, i);
+        int i;
+        while ((i = inputStream.read(bytes)) > 0) {
+            bao.write(bytes, 0, i);
         }
+
+        inputStream.close();
+        return bao.toByteArray();
+
+//        while (true) {
+//            int i = inputStream.read(bytes);
+//
+//            if (i < 0) {
+//                inputStream.close();
+//                return bao.toByteArray();
+//            }
+//
+//            bao.write(bytes, 0, i);
+//        }
     }
 
     public static GameSettings getGameSettings()

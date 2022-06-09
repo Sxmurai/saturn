@@ -17,9 +17,9 @@ public class S32PacketConfirmTransaction implements Packet<INetHandlerPlayClient
 
     public S32PacketConfirmTransaction(int windowIdIn, short actionNumberIn, boolean p_i45182_3_)
     {
-        this.windowId = windowIdIn;
-        this.actionNumber = actionNumberIn;
-        this.field_148893_c = p_i45182_3_;
+        windowId = windowIdIn;
+        actionNumber = actionNumberIn;
+        field_148893_c = p_i45182_3_;
     }
 
     /**
@@ -35,9 +35,9 @@ public class S32PacketConfirmTransaction implements Packet<INetHandlerPlayClient
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.windowId = buf.readUnsignedByte();
-        this.actionNumber = buf.readShort();
-        this.field_148893_c = buf.readBoolean();
+        windowId = buf.readUnsignedByte();
+        actionNumber = buf.readShort();
+        field_148893_c = buf.readBoolean();
     }
 
     /**
@@ -45,23 +45,23 @@ public class S32PacketConfirmTransaction implements Packet<INetHandlerPlayClient
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeByte(this.windowId);
-        buf.writeShort(this.actionNumber);
-        buf.writeBoolean(this.field_148893_c);
+        buf.writeByte(windowId);
+        buf.writeShort(actionNumber);
+        buf.writeBoolean(field_148893_c);
     }
 
     public int getWindowId()
     {
-        return this.windowId;
+        return windowId;
     }
 
     public short getActionNumber()
     {
-        return this.actionNumber;
+        return actionNumber;
     }
 
     public boolean func_148888_e()
     {
-        return this.field_148893_c;
+        return field_148893_c;
     }
 }

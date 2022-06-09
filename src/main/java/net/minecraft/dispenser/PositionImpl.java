@@ -8,23 +8,23 @@ public class PositionImpl implements IPosition
 
     public PositionImpl(double xCoord, double yCoord, double zCoord)
     {
-        this.x = xCoord;
-        this.y = yCoord;
-        this.z = zCoord;
+        x = xCoord;
+        y = yCoord;
+        z = zCoord;
     }
 
     public double getX()
     {
-        return this.x;
+        return x;
     }
 
     public double getY()
     {
-        return this.y;
+        return y;
     }
 
     public double getZ()
     {
-        return this.z;
+        return z;
     }
 }

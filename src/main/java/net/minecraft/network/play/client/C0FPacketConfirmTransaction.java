@@ -35,9 +35,9 @@ public class C0FPacketConfirmTransaction implements Packet<INetHandlerPlayServer
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.windowId = buf.readByte();
-        this.uid = buf.readShort();
-        this.accepted = buf.readByte() != 0;
+        windowId = buf.readByte();
+        uid = buf.readShort();
+        accepted = buf.readByte() != 0;
     }
 
     /**
@@ -45,18 +45,18 @@ public class C0FPacketConfirmTransaction implements Packet<INetHandlerPlayServer
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeByte(this.windowId);
-        buf.writeShort(this.uid);
-        buf.writeByte(this.accepted ? 1 : 0);
+        buf.writeByte(windowId);
+        buf.writeShort(uid);
+        buf.writeByte(accepted ? 1 : 0);
     }
 
     public int getWindowId()
     {
-        return this.windowId;
+        return windowId;
     }
 
     public short getUid()
     {
-        return this.uid;
+        return uid;
     }
 }

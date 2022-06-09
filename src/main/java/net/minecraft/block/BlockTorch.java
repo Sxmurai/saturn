@@ -32,9 +32,9 @@ public class BlockTorch extends Block
     protected BlockTorch()
     {
         super(Material.circuits);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.UP));
-        this.setTickRandomly(true);
-        this.setCreativeTab(CreativeTabs.tabDecorations);
+        setDefaultState(blockState.getBaseState().withProperty(BlockTorch.FACING, EnumFacing.UP));
+        setTickRandomly(true);
+        setCreativeTab(CreativeTabs.tabDecorations);
     }
 
     public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
@@ -70,9 +70,9 @@ public class BlockTorch extends Block
 
     public boolean canPlaceBlockAt(World worldIn, BlockPos pos)
     {
-        for (EnumFacing enumfacing : FACING.getAllowedValues())
+        for (EnumFacing enumfacing : BlockTorch.FACING.getAllowedValues())
         {
-            if (this.canPlaceAt(worldIn, pos, enumfacing))
+            if (canPlaceAt(worldIn, pos, enumfacing))
             {
                 return true;
             }
@@ -85,7 +85,7 @@ public class BlockTorch extends Block
     {
         BlockPos blockpos = pos.offset(facing.getOpposite());
         boolean flag = facing.getAxis().isHorizontal();
-        return flag && worldIn.isBlockNormalCube(blockpos, true) || facing.equals(EnumFacing.UP) && this.canPlaceOn(worldIn, blockpos);
+        return flag && worldIn.isBlockNormalCube(blockpos, true) || facing.equals(EnumFacing.UP) && canPlaceOn(worldIn, blockpos);
     }
 
     /**
@@ -94,9 +94,9 @@ public class BlockTorch extends Block
      */
     public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
     {
-        if (this.canPlaceAt(worldIn, pos, facing))
+        if (canPlaceAt(worldIn, pos, facing))
         {
-            return this.getDefaultState().withProperty(FACING, facing);
+            return getDefaultState().withProperty(BlockTorch.FACING, facing);
         }
         else
         {
@@ -104,17 +104,17 @@ public class BlockTorch extends Block
             {
                 if (worldIn.isBlockNormalCube(pos.offset(((EnumFacing) enumfacing).getOpposite()), true))
                 {
-                    return this.getDefaultState().withProperty(FACING, (EnumFacing) enumfacing);
+                    return getDefaultState().withProperty(BlockTorch.FACING, (EnumFacing) enumfacing);
                 }
             }
 
-            return this.getDefaultState();
+            return getDefaultState();
         }
     }
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        this.checkForDrop(worldIn, pos, state);
+        checkForDrop(worldIn, pos, state);
     }
 
     /**
@@ -122,18 +122,18 @@ public class BlockTorch extends Block
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        this.onNeighborChangeInternal(worldIn, pos, state);
+        onNeighborChangeInternal(worldIn, pos, state);
     }
 
     protected boolean onNeighborChangeInternal(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (!this.checkForDrop(worldIn, pos, state))
+        if (!checkForDrop(worldIn, pos, state))
         {
             return true;
         }
         else
         {
-            EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+            EnumFacing enumfacing = state.getValue(BlockTorch.FACING);
             EnumFacing.Axis enumfacing$axis = enumfacing.getAxis();
             EnumFacing enumfacing1 = enumfacing.getOpposite();
             boolean flag = false;
@@ -142,14 +142,14 @@ public class BlockTorch extends Block
             {
                 flag = true;
             }
-            else if (enumfacing$axis.isVertical() && !this.canPlaceOn(worldIn, pos.offset(enumfacing1)))
+            else if (enumfacing$axis.isVertical() && !canPlaceOn(worldIn, pos.offset(enumfacing1)))
             {
                 flag = true;
             }
 
             if (flag)
             {
-                this.dropBlockAsItem(worldIn, pos, state, 0);
+                dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);
                 return true;
             }
@@ -162,7 +162,7 @@ public class BlockTorch extends Block
 
     protected boolean checkForDrop(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (state.getBlock() == this && this.canPlaceAt(worldIn, pos, (EnumFacing)state.getValue(FACING)))
+        if (state.getBlock() == this && canPlaceAt(worldIn, pos, state.getValue(BlockTorch.FACING)))
         {
             return true;
         }
@@ -170,7 +170,7 @@ public class BlockTorch extends Block
         {
             if (worldIn.getBlockState(pos).getBlock() == this)
             {
-                this.dropBlockAsItem(worldIn, pos, state, 0);
+                dropBlockAsItem(worldIn, pos, state, 0);
                 worldIn.setBlockToAir(pos);
             }
 
@@ -183,29 +183,29 @@ public class BlockTorch extends Block
      */
     public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3 start, Vec3 end)
     {
-        EnumFacing enumfacing = (EnumFacing)worldIn.getBlockState(pos).getValue(FACING);
+        EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(BlockTorch.FACING);
         float f = 0.15F;
 
         if (enumfacing == EnumFacing.EAST)
         {
-            this.setBlockBounds(0.0F, 0.2F, 0.5F - f, f * 2.0F, 0.8F, 0.5F + f);
+            setBlockBounds(0.0F, 0.2F, 0.5F - f, f * 2.0F, 0.8F, 0.5F + f);
         }
         else if (enumfacing == EnumFacing.WEST)
         {
-            this.setBlockBounds(1.0F - f * 2.0F, 0.2F, 0.5F - f, 1.0F, 0.8F, 0.5F + f);
+            setBlockBounds(1.0F - f * 2.0F, 0.2F, 0.5F - f, 1.0F, 0.8F, 0.5F + f);
         }
         else if (enumfacing == EnumFacing.SOUTH)
         {
-            this.setBlockBounds(0.5F - f, 0.2F, 0.0F, 0.5F + f, 0.8F, f * 2.0F);
+            setBlockBounds(0.5F - f, 0.2F, 0.0F, 0.5F + f, 0.8F, f * 2.0F);
         }
         else if (enumfacing == EnumFacing.NORTH)
         {
-            this.setBlockBounds(0.5F - f, 0.2F, 1.0F - f * 2.0F, 0.5F + f, 0.8F, 1.0F);
+            setBlockBounds(0.5F - f, 0.2F, 1.0F - f * 2.0F, 0.5F + f, 0.8F, 1.0F);
         }
         else
         {
             f = 0.1F;
-            this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.6F, 0.5F + f);
+            setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.6F, 0.5F + f);
         }
 
         return super.collisionRayTrace(worldIn, pos, start, end);
@@ -213,7 +213,7 @@ public class BlockTorch extends Block
 
     public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        EnumFacing enumfacing = (EnumFacing)state.getValue(FACING);
+        EnumFacing enumfacing = state.getValue(BlockTorch.FACING);
         double d0 = (double)pos.getX() + 0.5D;
         double d1 = (double)pos.getY() + 0.7D;
         double d2 = (double)pos.getZ() + 0.5D;
@@ -223,13 +223,13 @@ public class BlockTorch extends Block
         if (enumfacing.getAxis().isHorizontal())
         {
             EnumFacing enumfacing1 = enumfacing.getOpposite();
-            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * (double)enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double)enumfacing1.getFrontOffsetZ(), 0.0D, 0.0D, 0.0D, new int[0]);
-            worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4 * (double)enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double)enumfacing1.getFrontOffsetZ(), 0.0D, 0.0D, 0.0D, new int[0]);
+            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4 * (double)enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double)enumfacing1.getFrontOffsetZ(), 0.0D, 0.0D, 0.0D);
+            worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4 * (double)enumfacing1.getFrontOffsetX(), d1 + d3, d2 + d4 * (double)enumfacing1.getFrontOffsetZ(), 0.0D, 0.0D, 0.0D);
         }
         else
         {
-            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
-            worldIn.spawnParticle(EnumParticleTypes.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D, new int[0]);
+            worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0, d1, d2, 0.0D, 0.0D, 0.0D);
+            worldIn.spawnParticle(EnumParticleTypes.FLAME, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         }
     }
 
@@ -243,29 +243,29 @@ public class BlockTorch extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        IBlockState iblockstate = this.getDefaultState();
+        IBlockState iblockstate = getDefaultState();
 
         switch (meta)
         {
             case 1:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.EAST);
+                iblockstate = iblockstate.withProperty(BlockTorch.FACING, EnumFacing.EAST);
                 break;
 
             case 2:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.WEST);
+                iblockstate = iblockstate.withProperty(BlockTorch.FACING, EnumFacing.WEST);
                 break;
 
             case 3:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.SOUTH);
+                iblockstate = iblockstate.withProperty(BlockTorch.FACING, EnumFacing.SOUTH);
                 break;
 
             case 4:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.NORTH);
+                iblockstate = iblockstate.withProperty(BlockTorch.FACING, EnumFacing.NORTH);
                 break;
 
             case 5:
             default:
-                iblockstate = iblockstate.withProperty(FACING, EnumFacing.UP);
+                iblockstate = iblockstate.withProperty(BlockTorch.FACING, EnumFacing.UP);
         }
 
         return iblockstate;
@@ -278,7 +278,7 @@ public class BlockTorch extends Block
     {
         int i = 0;
 
-        switch ((EnumFacing)state.getValue(FACING))
+        switch (state.getValue(BlockTorch.FACING))
         {
             case EAST:
                 i = i | 1;
@@ -307,6 +307,6 @@ public class BlockTorch extends Block
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {FACING});
+        return new BlockState(this, BlockTorch.FACING);
     }
 }

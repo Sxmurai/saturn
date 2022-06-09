@@ -17,16 +17,16 @@ public class TileEntityFlowerPot extends TileEntity
 
     public TileEntityFlowerPot(Item potItem, int potData)
     {
-        this.flowerPotItem = potItem;
-        this.flowerPotData = potData;
+        flowerPotItem = potItem;
+        flowerPotData = potData;
     }
 
     public void writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        ResourceLocation resourcelocation = (ResourceLocation)Item.itemRegistry.getNameForObject(this.flowerPotItem);
+        ResourceLocation resourcelocation = Item.itemRegistry.getNameForObject(flowerPotItem);
         compound.setString("Item", resourcelocation == null ? "" : resourcelocation.toString());
-        compound.setInteger("Data", this.flowerPotData);
+        compound.setInteger("Data", flowerPotData);
     }
 
     public void readFromNBT(NBTTagCompound compound)
@@ -35,14 +35,14 @@ public class TileEntityFlowerPot extends TileEntity
 
         if (compound.hasKey("Item", 8))
         {
-            this.flowerPotItem = Item.getByNameOrId(compound.getString("Item"));
+            flowerPotItem = Item.getByNameOrId(compound.getString("Item"));
         }
         else
         {
-            this.flowerPotItem = Item.getItemById(compound.getInteger("Item"));
+            flowerPotItem = Item.getItemById(compound.getInteger("Item"));
         }
 
-        this.flowerPotData = compound.getInteger("Data");
+        flowerPotData = compound.getInteger("Data");
     }
 
     /**
@@ -52,25 +52,25 @@ public class TileEntityFlowerPot extends TileEntity
     public Packet getDescriptionPacket()
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        this.writeToNBT(nbttagcompound);
+        writeToNBT(nbttagcompound);
         nbttagcompound.removeTag("Item");
-        nbttagcompound.setInteger("Item", Item.getIdFromItem(this.flowerPotItem));
-        return new S35PacketUpdateTileEntity(this.pos, 5, nbttagcompound);
+        nbttagcompound.setInteger("Item", Item.getIdFromItem(flowerPotItem));
+        return new S35PacketUpdateTileEntity(pos, 5, nbttagcompound);
     }
 
     public void setFlowerPotData(Item potItem, int potData)
     {
-        this.flowerPotItem = potItem;
-        this.flowerPotData = potData;
+        flowerPotItem = potItem;
+        flowerPotData = potData;
     }
 
     public Item getFlowerPotItem()
     {
-        return this.flowerPotItem;
+        return flowerPotItem;
     }
 
     public int getFlowerPotData()
     {
-        return this.flowerPotData;
+        return flowerPotData;
     }
 }

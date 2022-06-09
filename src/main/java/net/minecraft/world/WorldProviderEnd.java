@@ -15,9 +15,9 @@ public class WorldProviderEnd extends WorldProvider
      */
     public void registerWorldChunkManager()
     {
-        this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F);
-        this.dimensionId = 1;
-        this.hasNoSky = true;
+        worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F);
+        dimensionId = 1;
+        hasNoSky = true;
     }
 
     /**
@@ -25,7 +25,7 @@ public class WorldProviderEnd extends WorldProvider
      */
     public IChunkProvider createChunkGenerator()
     {
-        return new ChunkProviderEnd(this.worldObj, this.worldObj.getSeed());
+        return new ChunkProviderEnd(worldObj, worldObj.getSeed());
     }
 
     /**
@@ -58,7 +58,7 @@ public class WorldProviderEnd extends WorldProvider
         f1 = f1 * (f * 0.0F + 0.15F);
         f2 = f2 * (f * 0.0F + 0.15F);
         f3 = f3 * (f * 0.0F + 0.15F);
-        return new Vec3((double)f1, (double)f2, (double)f3);
+        return new Vec3(f1, f2, f3);
     }
 
     public boolean isSkyColored()
@@ -95,7 +95,7 @@ public class WorldProviderEnd extends WorldProvider
      */
     public boolean canCoordinateBeSpawn(int x, int z)
     {
-        return this.worldObj.getGroundAboveSeaLevel(new BlockPos(x, 0, z)).getMaterial().blocksMovement();
+        return worldObj.getGroundAboveSeaLevel(new BlockPos(x, 0, z)).getMaterial().blocksMovement();
     }
 
     public BlockPos getSpawnCoordinate()

@@ -15,7 +15,7 @@ import org.apache.commons.io.IOUtils;
 
 public class SimpleResource implements IResource
 {
-    private final Map<String, IMetadataSection> mapMetadataSections = Maps.<String, IMetadataSection>newHashMap();
+    private final Map<String, IMetadataSection> mapMetadataSections = Maps.newHashMap();
     private final String resourcePackName;
     private final ResourceLocation srResourceLocation;
     private final InputStream resourceInputStream;
@@ -26,57 +26,57 @@ public class SimpleResource implements IResource
 
     public SimpleResource(String resourcePackNameIn, ResourceLocation srResourceLocationIn, InputStream resourceInputStreamIn, InputStream mcmetaInputStreamIn, IMetadataSerializer srMetadataSerializerIn)
     {
-        this.resourcePackName = resourcePackNameIn;
-        this.srResourceLocation = srResourceLocationIn;
-        this.resourceInputStream = resourceInputStreamIn;
-        this.mcmetaInputStream = mcmetaInputStreamIn;
-        this.srMetadataSerializer = srMetadataSerializerIn;
+        resourcePackName = resourcePackNameIn;
+        srResourceLocation = srResourceLocationIn;
+        resourceInputStream = resourceInputStreamIn;
+        mcmetaInputStream = mcmetaInputStreamIn;
+        srMetadataSerializer = srMetadataSerializerIn;
     }
 
     public ResourceLocation getResourceLocation()
     {
-        return this.srResourceLocation;
+        return srResourceLocation;
     }
 
     public InputStream getInputStream()
     {
-        return this.resourceInputStream;
+        return resourceInputStream;
     }
 
     public boolean hasMetadata()
     {
-        return this.mcmetaInputStream != null;
+        return mcmetaInputStream != null;
     }
 
     public <T extends IMetadataSection> T getMetadata(String p_110526_1_)
     {
-        if (!this.hasMetadata())
+        if (!hasMetadata())
         {
-            return (T)null;
+            return null;
         }
         else
         {
-            if (this.mcmetaJson == null && !this.mcmetaJsonChecked)
+            if (mcmetaJson == null && !mcmetaJsonChecked)
             {
-                this.mcmetaJsonChecked = true;
+                mcmetaJsonChecked = true;
                 BufferedReader bufferedreader = null;
 
                 try
                 {
-                    bufferedreader = new BufferedReader(new InputStreamReader(this.mcmetaInputStream));
-                    this.mcmetaJson = (new JsonParser()).parse((Reader)bufferedreader).getAsJsonObject();
+                    bufferedreader = new BufferedReader(new InputStreamReader(mcmetaInputStream));
+                    mcmetaJson = (new JsonParser()).parse(bufferedreader).getAsJsonObject();
                 }
                 finally
                 {
-                    IOUtils.closeQuietly((Reader)bufferedreader);
+                    IOUtils.closeQuietly(bufferedreader);
                 }
             }
 
-            T t = (T)this.mapMetadataSections.get(p_110526_1_);
+            T t = (T) mapMetadataSections.get(p_110526_1_);
 
             if (t == null)
             {
-                t = this.srMetadataSerializer.parseMetadataSection(p_110526_1_, this.mcmetaJson);
+                t = srMetadataSerializer.parseMetadataSection(p_110526_1_, mcmetaJson);
             }
 
             return t;
@@ -85,7 +85,7 @@ public class SimpleResource implements IResource
 
     public String getResourcePackName()
     {
-        return this.resourcePackName;
+        return resourcePackName;
     }
 
     public boolean equals(Object p_equals_1_)
@@ -102,9 +102,9 @@ public class SimpleResource implements IResource
         {
             SimpleResource simpleresource = (SimpleResource)p_equals_1_;
 
-            if (this.srResourceLocation != null)
+            if (srResourceLocation != null)
             {
-                if (!this.srResourceLocation.equals(simpleresource.srResourceLocation))
+                if (!srResourceLocation.equals(simpleresource.srResourceLocation))
                 {
                     return false;
                 }
@@ -114,26 +114,18 @@ public class SimpleResource implements IResource
                 return false;
             }
 
-            if (this.resourcePackName != null)
+            if (resourcePackName != null)
             {
-                if (!this.resourcePackName.equals(simpleresource.resourcePackName))
-                {
-                    return false;
-                }
+                return resourcePackName.equals(simpleresource.resourcePackName);
             }
-            else if (simpleresource.resourcePackName != null)
-            {
-                return false;
-            }
-
-            return true;
+            else return simpleresource.resourcePackName == null;
         }
     }
 
     public int hashCode()
     {
-        int i = this.resourcePackName != null ? this.resourcePackName.hashCode() : 0;
-        i = 31 * i + (this.srResourceLocation != null ? this.srResourceLocation.hashCode() : 0);
+        int i = resourcePackName != null ? resourcePackName.hashCode() : 0;
+        i = 31 * i + (srResourceLocation != null ? srResourceLocation.hashCode() : 0);
         return i;
     }
 }

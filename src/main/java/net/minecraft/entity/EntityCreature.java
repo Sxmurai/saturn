@@ -12,12 +12,12 @@ import net.minecraft.world.World;
 public abstract class EntityCreature extends EntityLiving
 {
     public static final UUID FLEEING_SPEED_MODIFIER_UUID = UUID.fromString("E199AD21-BA8A-4C53-8D13-6182D5C69D3A");
-    public static final AttributeModifier FLEEING_SPEED_MODIFIER = (new AttributeModifier(FLEEING_SPEED_MODIFIER_UUID, "Fleeing speed bonus", 2.0D, 2)).setSaved(false);
+    public static final AttributeModifier FLEEING_SPEED_MODIFIER = (new AttributeModifier(EntityCreature.FLEEING_SPEED_MODIFIER_UUID, "Fleeing speed bonus", 2.0D, 2)).setSaved(false);
     private BlockPos homePosition = BlockPos.ORIGIN;
 
     /** If -1 there is no maximum distance */
     private float maximumHomeDistance = -1.0F;
-    private EntityAIBase aiBase = new EntityAIMoveTowardsRestriction(this, 1.0D);
+    private final EntityAIBase aiBase = new EntityAIMoveTowardsRestriction(this, 1.0D);
     private boolean isMovementAITaskSet;
 
     public EntityCreature(World worldIn)
@@ -35,7 +35,7 @@ public abstract class EntityCreature extends EntityLiving
      */
     public boolean getCanSpawnHere()
     {
-        return super.getCanSpawnHere() && this.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F;
+        return super.getCanSpawnHere() && getBlockPathWeight(new BlockPos(posX, getEntityBoundingBox().minY, posZ)) >= 0.0F;
     }
 
     /**
@@ -43,17 +43,17 @@ public abstract class EntityCreature extends EntityLiving
      */
     public boolean hasPath()
     {
-        return !this.navigator.noPath();
+        return !navigator.noPath();
     }
 
     public boolean isWithinHomeDistanceCurrentPosition()
     {
-        return this.isWithinHomeDistanceFromPosition(new BlockPos(this));
+        return isWithinHomeDistanceFromPosition(new BlockPos(this));
     }
 
     public boolean isWithinHomeDistanceFromPosition(BlockPos pos)
     {
-        return this.maximumHomeDistance == -1.0F ? true : this.homePosition.distanceSq(pos) < (double)(this.maximumHomeDistance * this.maximumHomeDistance);
+        return maximumHomeDistance == -1.0F || homePosition.distanceSq(pos) < (double) (maximumHomeDistance * maximumHomeDistance);
     }
 
     /**
@@ -61,23 +61,23 @@ public abstract class EntityCreature extends EntityLiving
      */
     public void setHomePosAndDistance(BlockPos pos, int distance)
     {
-        this.homePosition = pos;
-        this.maximumHomeDistance = (float)distance;
+        homePosition = pos;
+        maximumHomeDistance = (float)distance;
     }
 
     public BlockPos getHomePosition()
     {
-        return this.homePosition;
+        return homePosition;
     }
 
     public float getMaximumHomeDistance()
     {
-        return this.maximumHomeDistance;
+        return maximumHomeDistance;
     }
 
     public void detachHome()
     {
-        this.maximumHomeDistance = -1.0F;
+        maximumHomeDistance = -1.0F;
     }
 
     /**
@@ -85,7 +85,7 @@ public abstract class EntityCreature extends EntityLiving
      */
     public boolean hasHome()
     {
-        return this.maximumHomeDistance != -1.0F;
+        return maximumHomeDistance != -1.0F;
     }
 
     /**
@@ -95,67 +95,67 @@ public abstract class EntityCreature extends EntityLiving
     {
         super.updateLeashedState();
 
-        if (this.getLeashed() && this.getLeashedToEntity() != null && this.getLeashedToEntity().worldObj == this.worldObj)
+        if (getLeashed() && getLeashedToEntity() != null && getLeashedToEntity().worldObj == worldObj)
         {
-            Entity entity = this.getLeashedToEntity();
-            this.setHomePosAndDistance(new BlockPos((int)entity.posX, (int)entity.posY, (int)entity.posZ), 5);
-            float f = this.getDistanceToEntity(entity);
+            Entity entity = getLeashedToEntity();
+            setHomePosAndDistance(new BlockPos((int)entity.posX, (int)entity.posY, (int)entity.posZ), 5);
+            float f = getDistanceToEntity(entity);
 
             if (this instanceof EntityTameable && ((EntityTameable)this).isSitting())
             {
                 if (f > 10.0F)
                 {
-                    this.clearLeashed(true, true);
+                    clearLeashed(true, true);
                 }
 
                 return;
             }
 
-            if (!this.isMovementAITaskSet)
+            if (!isMovementAITaskSet)
             {
-                this.tasks.addTask(2, this.aiBase);
+                tasks.addTask(2, aiBase);
 
-                if (this.getNavigator() instanceof PathNavigateGround)
+                if (getNavigator() instanceof PathNavigateGround)
                 {
-                    ((PathNavigateGround)this.getNavigator()).setAvoidsWater(false);
+                    ((PathNavigateGround) getNavigator()).setAvoidsWater(false);
                 }
 
-                this.isMovementAITaskSet = true;
+                isMovementAITaskSet = true;
             }
 
-            this.func_142017_o(f);
+            func_142017_o(f);
 
             if (f > 4.0F)
             {
-                this.getNavigator().tryMoveToEntityLiving(entity, 1.0D);
+                getNavigator().tryMoveToEntityLiving(entity, 1.0D);
             }
 
             if (f > 6.0F)
             {
-                double d0 = (entity.posX - this.posX) / (double)f;
-                double d1 = (entity.posY - this.posY) / (double)f;
-                double d2 = (entity.posZ - this.posZ) / (double)f;
-                this.motionX += d0 * Math.abs(d0) * 0.4D;
-                this.motionY += d1 * Math.abs(d1) * 0.4D;
-                this.motionZ += d2 * Math.abs(d2) * 0.4D;
+                double d0 = (entity.posX - posX) / (double)f;
+                double d1 = (entity.posY - posY) / (double)f;
+                double d2 = (entity.posZ - posZ) / (double)f;
+                motionX += d0 * Math.abs(d0) * 0.4D;
+                motionY += d1 * Math.abs(d1) * 0.4D;
+                motionZ += d2 * Math.abs(d2) * 0.4D;
             }
 
             if (f > 10.0F)
             {
-                this.clearLeashed(true, true);
+                clearLeashed(true, true);
             }
         }
-        else if (!this.getLeashed() && this.isMovementAITaskSet)
+        else if (!getLeashed() && isMovementAITaskSet)
         {
-            this.isMovementAITaskSet = false;
-            this.tasks.removeTask(this.aiBase);
+            isMovementAITaskSet = false;
+            tasks.removeTask(aiBase);
 
-            if (this.getNavigator() instanceof PathNavigateGround)
+            if (getNavigator() instanceof PathNavigateGround)
             {
-                ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
+                ((PathNavigateGround) getNavigator()).setAvoidsWater(true);
             }
 
-            this.detachHome();
+            detachHome();
         }
     }
 

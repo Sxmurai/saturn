@@ -18,12 +18,12 @@ public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEn
 
     public String[] getKeys()
     {
-        String[] astring = new String[this.getValues().size()];
+        String[] astring = new String[getValues().size()];
         int i = 0;
 
-        for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values())
+        for (UserListWhitelistEntry userlistwhitelistentry : getValues().values())
         {
-            astring[i++] = ((GameProfile)userlistwhitelistentry.getValue()).getName();
+            astring[i++] = userlistwhitelistentry.getValue().getName();
         }
 
         return astring;
@@ -39,11 +39,11 @@ public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEn
 
     public GameProfile func_152706_a(String p_152706_1_)
     {
-        for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values())
+        for (UserListWhitelistEntry userlistwhitelistentry : getValues().values())
         {
-            if (p_152706_1_.equalsIgnoreCase(((GameProfile)userlistwhitelistentry.getValue()).getName()))
+            if (p_152706_1_.equalsIgnoreCase(userlistwhitelistentry.getValue().getName()))
             {
-                return (GameProfile)userlistwhitelistentry.getValue();
+                return userlistwhitelistentry.getValue();
             }
         }
 

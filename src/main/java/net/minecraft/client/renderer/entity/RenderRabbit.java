@@ -30,7 +30,7 @@ public class RenderRabbit extends RenderLiving<EntityRabbit>
 
         if (s != null && s.equals("Toast"))
         {
-            return TOAST;
+            return RenderRabbit.TOAST;
         }
         else
         {
@@ -38,25 +38,25 @@ public class RenderRabbit extends RenderLiving<EntityRabbit>
             {
                 case 0:
                 default:
-                    return BROWN;
+                    return RenderRabbit.BROWN;
 
                 case 1:
-                    return WHITE;
+                    return RenderRabbit.WHITE;
 
                 case 2:
-                    return BLACK;
+                    return RenderRabbit.BLACK;
 
                 case 3:
-                    return WHITE_SPLOTCHED;
+                    return RenderRabbit.WHITE_SPLOTCHED;
 
                 case 4:
-                    return GOLD;
+                    return RenderRabbit.GOLD;
 
                 case 5:
-                    return SALT;
+                    return RenderRabbit.SALT;
 
                 case 99:
-                    return CAERBANNOG;
+                    return RenderRabbit.CAERBANNOG;
             }
         }
     }

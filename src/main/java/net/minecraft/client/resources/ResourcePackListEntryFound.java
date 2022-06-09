@@ -9,31 +9,31 @@ public class ResourcePackListEntryFound extends ResourcePackListEntry
     public ResourcePackListEntryFound(GuiScreenResourcePacks resourcePacksGUIIn, ResourcePackRepository.Entry p_i45053_2_)
     {
         super(resourcePacksGUIIn);
-        this.field_148319_c = p_i45053_2_;
+        field_148319_c = p_i45053_2_;
     }
 
     protected void func_148313_c()
     {
-        this.field_148319_c.bindTexturePackIcon(this.mc.getTextureManager());
+        field_148319_c.bindTexturePackIcon(mc.getTextureManager());
     }
 
     protected int func_183019_a()
     {
-        return this.field_148319_c.func_183027_f();
+        return field_148319_c.func_183027_f();
     }
 
     protected String func_148311_a()
     {
-        return this.field_148319_c.getTexturePackDescription();
+        return field_148319_c.getTexturePackDescription();
     }
 
     protected String func_148312_b()
     {
-        return this.field_148319_c.getResourcePackName();
+        return field_148319_c.getResourcePackName();
     }
 
     public ResourcePackRepository.Entry func_148318_i()
     {
-        return this.field_148319_c;
+        return field_148319_c;
     }
 }

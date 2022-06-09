@@ -24,23 +24,23 @@ public class EntityCow extends EntityAnimal
     public EntityCow(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.9F, 1.3F);
-        ((PathNavigateGround)this.getNavigator()).setAvoidsWater(true);
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
-        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, Items.wheat, false));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25D));
-        this.tasks.addTask(5, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
+        setSize(0.9F, 1.3F);
+        ((PathNavigateGround) getNavigator()).setAvoidsWater(true);
+        tasks.addTask(0, new EntityAISwimming(this));
+        tasks.addTask(1, new EntityAIPanic(this, 2.0D));
+        tasks.addTask(2, new EntityAIMate(this, 1.0D));
+        tasks.addTask(3, new EntityAITempt(this, 1.25D, Items.wheat, false));
+        tasks.addTask(4, new EntityAIFollowParent(this, 1.25D));
+        tasks.addTask(5, new EntityAIWander(this, 1.0D));
+        tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        tasks.addTask(7, new EntityAILookIdle(this));
     }
 
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
+        getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
+        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
     }
 
     /**
@@ -69,7 +69,7 @@ public class EntityCow extends EntityAnimal
 
     protected void playStepSound(BlockPos pos, Block blockIn)
     {
-        this.playSound("mob.cow.step", 0.15F, 1.0F);
+        playSound("mob.cow.step", 0.15F, 1.0F);
     }
 
     /**
@@ -90,24 +90,24 @@ public class EntityCow extends EntityAnimal
      */
     protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
-        int i = this.rand.nextInt(3) + this.rand.nextInt(1 + p_70628_2_);
+        int i = rand.nextInt(3) + rand.nextInt(1 + p_70628_2_);
 
         for (int j = 0; j < i; ++j)
         {
-            this.dropItem(Items.leather, 1);
+            dropItem(Items.leather, 1);
         }
 
-        i = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + p_70628_2_);
+        i = rand.nextInt(3) + 1 + rand.nextInt(1 + p_70628_2_);
 
         for (int k = 0; k < i; ++k)
         {
-            if (this.isBurning())
+            if (isBurning())
             {
-                this.dropItem(Items.cooked_beef, 1);
+                dropItem(Items.cooked_beef, 1);
             }
             else
             {
-                this.dropItem(Items.beef, 1);
+                dropItem(Items.beef, 1);
             }
         }
     }
@@ -119,7 +119,7 @@ public class EntityCow extends EntityAnimal
     {
         ItemStack itemstack = player.inventory.getCurrentItem();
 
-        if (itemstack != null && itemstack.getItem() == Items.bucket && !player.capabilities.isCreativeMode && !this.isChild())
+        if (itemstack != null && itemstack.getItem() == Items.bucket && !player.capabilities.isCreativeMode && !isChild())
         {
             if (itemstack.stackSize-- == 1)
             {
@@ -140,11 +140,11 @@ public class EntityCow extends EntityAnimal
 
     public EntityCow createChild(EntityAgeable ageable)
     {
-        return new EntityCow(this.worldObj);
+        return new EntityCow(worldObj);
     }
 
     public float getEyeHeight()
     {
-        return this.height;
+        return height;
     }
 }

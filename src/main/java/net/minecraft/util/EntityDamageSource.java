@@ -17,7 +17,7 @@ public class EntityDamageSource extends DamageSource
     public EntityDamageSource(String p_i1567_1_, Entity damageSourceEntityIn)
     {
         super(p_i1567_1_);
-        this.damageSourceEntity = damageSourceEntityIn;
+        damageSourceEntity = damageSourceEntityIn;
     }
 
     /**
@@ -25,18 +25,18 @@ public class EntityDamageSource extends DamageSource
      */
     public EntityDamageSource setIsThornsDamage()
     {
-        this.isThornsDamage = true;
+        isThornsDamage = true;
         return this;
     }
 
     public boolean getIsThornsDamage()
     {
-        return this.isThornsDamage;
+        return isThornsDamage;
     }
 
     public Entity getEntity()
     {
-        return this.damageSourceEntity;
+        return damageSourceEntity;
     }
 
     /**
@@ -44,10 +44,10 @@ public class EntityDamageSource extends DamageSource
      */
     public IChatComponent getDeathMessage(EntityLivingBase p_151519_1_)
     {
-        ItemStack itemstack = this.damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase)this.damageSourceEntity).getHeldItem() : null;
-        String s = "death.attack." + this.damageType;
+        ItemStack itemstack = damageSourceEntity instanceof EntityLivingBase ? ((EntityLivingBase) damageSourceEntity).getHeldItem() : null;
+        String s = "death.attack." + damageType;
         String s1 = s + ".item";
-        return itemstack != null && itemstack.hasDisplayName() && StatCollector.canTranslate(s1) ? new ChatComponentTranslation(s1, new Object[] {p_151519_1_.getDisplayName(), this.damageSourceEntity.getDisplayName(), itemstack.getChatComponent()}): new ChatComponentTranslation(s, new Object[] {p_151519_1_.getDisplayName(), this.damageSourceEntity.getDisplayName()});
+        return itemstack != null && itemstack.hasDisplayName() && StatCollector.canTranslate(s1) ? new ChatComponentTranslation(s1, p_151519_1_.getDisplayName(), damageSourceEntity.getDisplayName(), itemstack.getChatComponent()): new ChatComponentTranslation(s, p_151519_1_.getDisplayName(), damageSourceEntity.getDisplayName());
     }
 
     /**
@@ -55,6 +55,6 @@ public class EntityDamageSource extends DamageSource
      */
     public boolean isDifficultyScaled()
     {
-        return this.damageSourceEntity != null && this.damageSourceEntity instanceof EntityLivingBase && !(this.damageSourceEntity instanceof EntityPlayer);
+        return damageSourceEntity != null && damageSourceEntity instanceof EntityLivingBase && !(damageSourceEntity instanceof EntityPlayer);
     }
 }

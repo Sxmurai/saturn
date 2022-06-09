@@ -24,15 +24,15 @@ public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient>
 
     public S44PacketWorldBorder(WorldBorder border, S44PacketWorldBorder.Action actionIn)
     {
-        this.action = actionIn;
-        this.centerX = border.getCenterX();
-        this.centerZ = border.getCenterZ();
-        this.diameter = border.getDiameter();
-        this.targetSize = border.getTargetSize();
-        this.timeUntilTarget = border.getTimeUntilTarget();
-        this.size = border.getSize();
-        this.warningDistance = border.getWarningDistance();
-        this.warningTime = border.getWarningTime();
+        action = actionIn;
+        centerX = border.getCenterX();
+        centerZ = border.getCenterZ();
+        diameter = border.getDiameter();
+        targetSize = border.getTargetSize();
+        timeUntilTarget = border.getTimeUntilTarget();
+        size = border.getSize();
+        warningDistance = border.getWarningDistance();
+        warningTime = border.getWarningTime();
     }
 
     /**
@@ -40,42 +40,42 @@ public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.action = (S44PacketWorldBorder.Action)buf.readEnumValue(S44PacketWorldBorder.Action.class);
+        action = buf.readEnumValue(Action.class);
 
-        switch (this.action)
+        switch (action)
         {
             case SET_SIZE:
-                this.targetSize = buf.readDouble();
+                targetSize = buf.readDouble();
                 break;
 
             case LERP_SIZE:
-                this.diameter = buf.readDouble();
-                this.targetSize = buf.readDouble();
-                this.timeUntilTarget = buf.readVarLong();
+                diameter = buf.readDouble();
+                targetSize = buf.readDouble();
+                timeUntilTarget = buf.readVarLong();
                 break;
 
             case SET_CENTER:
-                this.centerX = buf.readDouble();
-                this.centerZ = buf.readDouble();
+                centerX = buf.readDouble();
+                centerZ = buf.readDouble();
                 break;
 
             case SET_WARNING_BLOCKS:
-                this.warningDistance = buf.readVarIntFromBuffer();
+                warningDistance = buf.readVarIntFromBuffer();
                 break;
 
             case SET_WARNING_TIME:
-                this.warningTime = buf.readVarIntFromBuffer();
+                warningTime = buf.readVarIntFromBuffer();
                 break;
 
             case INITIALIZE:
-                this.centerX = buf.readDouble();
-                this.centerZ = buf.readDouble();
-                this.diameter = buf.readDouble();
-                this.targetSize = buf.readDouble();
-                this.timeUntilTarget = buf.readVarLong();
-                this.size = buf.readVarIntFromBuffer();
-                this.warningDistance = buf.readVarIntFromBuffer();
-                this.warningTime = buf.readVarIntFromBuffer();
+                centerX = buf.readDouble();
+                centerZ = buf.readDouble();
+                diameter = buf.readDouble();
+                targetSize = buf.readDouble();
+                timeUntilTarget = buf.readVarLong();
+                size = buf.readVarIntFromBuffer();
+                warningDistance = buf.readVarIntFromBuffer();
+                warningTime = buf.readVarIntFromBuffer();
         }
     }
 
@@ -84,42 +84,42 @@ public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeEnumValue(this.action);
+        buf.writeEnumValue(action);
 
-        switch (this.action)
+        switch (action)
         {
             case SET_SIZE:
-                buf.writeDouble(this.targetSize);
+                buf.writeDouble(targetSize);
                 break;
 
             case LERP_SIZE:
-                buf.writeDouble(this.diameter);
-                buf.writeDouble(this.targetSize);
-                buf.writeVarLong(this.timeUntilTarget);
+                buf.writeDouble(diameter);
+                buf.writeDouble(targetSize);
+                buf.writeVarLong(timeUntilTarget);
                 break;
 
             case SET_CENTER:
-                buf.writeDouble(this.centerX);
-                buf.writeDouble(this.centerZ);
+                buf.writeDouble(centerX);
+                buf.writeDouble(centerZ);
                 break;
 
             case SET_WARNING_BLOCKS:
-                buf.writeVarIntToBuffer(this.warningDistance);
+                buf.writeVarIntToBuffer(warningDistance);
                 break;
 
             case SET_WARNING_TIME:
-                buf.writeVarIntToBuffer(this.warningTime);
+                buf.writeVarIntToBuffer(warningTime);
                 break;
 
             case INITIALIZE:
-                buf.writeDouble(this.centerX);
-                buf.writeDouble(this.centerZ);
-                buf.writeDouble(this.diameter);
-                buf.writeDouble(this.targetSize);
-                buf.writeVarLong(this.timeUntilTarget);
-                buf.writeVarIntToBuffer(this.size);
-                buf.writeVarIntToBuffer(this.warningDistance);
-                buf.writeVarIntToBuffer(this.warningTime);
+                buf.writeDouble(centerX);
+                buf.writeDouble(centerZ);
+                buf.writeDouble(diameter);
+                buf.writeDouble(targetSize);
+                buf.writeVarLong(timeUntilTarget);
+                buf.writeVarIntToBuffer(size);
+                buf.writeVarIntToBuffer(warningDistance);
+                buf.writeVarIntToBuffer(warningTime);
         }
     }
 
@@ -133,43 +133,43 @@ public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient>
 
     public void func_179788_a(WorldBorder border)
     {
-        switch (this.action)
+        switch (action)
         {
             case SET_SIZE:
-                border.setTransition(this.targetSize);
+                border.setTransition(targetSize);
                 break;
 
             case LERP_SIZE:
-                border.setTransition(this.diameter, this.targetSize, this.timeUntilTarget);
+                border.setTransition(diameter, targetSize, timeUntilTarget);
                 break;
 
             case SET_CENTER:
-                border.setCenter(this.centerX, this.centerZ);
+                border.setCenter(centerX, centerZ);
                 break;
 
             case SET_WARNING_BLOCKS:
-                border.setWarningDistance(this.warningDistance);
+                border.setWarningDistance(warningDistance);
                 break;
 
             case SET_WARNING_TIME:
-                border.setWarningTime(this.warningTime);
+                border.setWarningTime(warningTime);
                 break;
 
             case INITIALIZE:
-                border.setCenter(this.centerX, this.centerZ);
+                border.setCenter(centerX, centerZ);
 
-                if (this.timeUntilTarget > 0L)
+                if (timeUntilTarget > 0L)
                 {
-                    border.setTransition(this.diameter, this.targetSize, this.timeUntilTarget);
+                    border.setTransition(diameter, targetSize, timeUntilTarget);
                 }
                 else
                 {
-                    border.setTransition(this.targetSize);
+                    border.setTransition(targetSize);
                 }
 
-                border.setSize(this.size);
-                border.setWarningDistance(this.warningDistance);
-                border.setWarningTime(this.warningTime);
+                border.setSize(size);
+                border.setWarningDistance(warningDistance);
+                border.setWarningTime(warningTime);
         }
     }
 
@@ -180,6 +180,6 @@ public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient>
         SET_CENTER,
         INITIALIZE,
         SET_WARNING_TIME,
-        SET_WARNING_BLOCKS;
+        SET_WARNING_BLOCKS
     }
 }

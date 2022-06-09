@@ -9,7 +9,7 @@ public class ItemSoup extends ItemFood
     public ItemSoup(int healAmount)
     {
         super(healAmount, false);
-        this.setMaxStackSize(1);
+        setMaxStackSize(1);
     }
 
     /**

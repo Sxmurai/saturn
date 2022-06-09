@@ -9,13 +9,13 @@ import java.util.Map;
 
 public class RegionFileCache
 {
-    private static final Map<File, RegionFile> regionsByFilename = Maps.<File, RegionFile>newHashMap();
+    private static final Map<File, RegionFile> regionsByFilename = Maps.newHashMap();
 
     public static synchronized RegionFile createOrLoadRegionFile(File worldDir, int chunkX, int chunkZ)
     {
         File file1 = new File(worldDir, "region");
         File file2 = new File(file1, "r." + (chunkX >> 5) + "." + (chunkZ >> 5) + ".mca");
-        RegionFile regionfile = (RegionFile)regionsByFilename.get(file2);
+        RegionFile regionfile = RegionFileCache.regionsByFilename.get(file2);
 
         if (regionfile != null)
         {
@@ -28,13 +28,13 @@ public class RegionFileCache
                 file1.mkdirs();
             }
 
-            if (regionsByFilename.size() >= 256)
+            if (RegionFileCache.regionsByFilename.size() >= 256)
             {
-                clearRegionFileReferences();
+                RegionFileCache.clearRegionFileReferences();
             }
 
             RegionFile regionfile1 = new RegionFile(file2);
-            regionsByFilename.put(file2, regionfile1);
+            RegionFileCache.regionsByFilename.put(file2, regionfile1);
             return regionfile1;
         }
     }
@@ -45,7 +45,7 @@ public class RegionFileCache
 
     public static synchronized void clearRegionFileReferences()
     {
-        for (RegionFile regionfile : regionsByFilename.values())
+        for (RegionFile regionfile : RegionFileCache.regionsByFilename.values())
         {
             try
             {
@@ -60,7 +60,7 @@ public class RegionFileCache
             }
         }
 
-        regionsByFilename.clear();
+        RegionFileCache.regionsByFilename.clear();
     }
 
     /**
@@ -68,7 +68,7 @@ public class RegionFileCache
      */
     public static DataInputStream getChunkInputStream(File worldDir, int chunkX, int chunkZ)
     {
-        RegionFile regionfile = createOrLoadRegionFile(worldDir, chunkX, chunkZ);
+        RegionFile regionfile = RegionFileCache.createOrLoadRegionFile(worldDir, chunkX, chunkZ);
         return regionfile.getChunkDataInputStream(chunkX & 31, chunkZ & 31);
     }
 
@@ -77,7 +77,7 @@ public class RegionFileCache
      */
     public static DataOutputStream getChunkOutputStream(File worldDir, int chunkX, int chunkZ)
     {
-        RegionFile regionfile = createOrLoadRegionFile(worldDir, chunkX, chunkZ);
+        RegionFile regionfile = RegionFileCache.createOrLoadRegionFile(worldDir, chunkX, chunkZ);
         return regionfile.getChunkDataOutputStream(chunkX & 31, chunkZ & 31);
     }
 }

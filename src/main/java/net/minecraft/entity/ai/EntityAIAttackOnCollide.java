@@ -36,16 +36,16 @@ public class EntityAIAttackOnCollide extends EntityAIBase
     public EntityAIAttackOnCollide(EntityCreature creature, Class <? extends Entity > targetClass, double speedIn, boolean useLongMemory)
     {
         this(creature, speedIn, useLongMemory);
-        this.classTarget = targetClass;
+        classTarget = targetClass;
     }
 
     public EntityAIAttackOnCollide(EntityCreature creature, double speedIn, boolean useLongMemory)
     {
-        this.attacker = creature;
-        this.worldObj = creature.worldObj;
-        this.speedTowardsTarget = speedIn;
-        this.longMemory = useLongMemory;
-        this.setMutexBits(3);
+        attacker = creature;
+        worldObj = creature.worldObj;
+        speedTowardsTarget = speedIn;
+        longMemory = useLongMemory;
+        setMutexBits(3);
     }
 
     /**
@@ -53,7 +53,7 @@ public class EntityAIAttackOnCollide extends EntityAIBase
      */
     public boolean shouldExecute()
     {
-        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
+        EntityLivingBase entitylivingbase = attacker.getAttackTarget();
 
         if (entitylivingbase == null)
         {
@@ -63,14 +63,14 @@ public class EntityAIAttackOnCollide extends EntityAIBase
         {
             return false;
         }
-        else if (this.classTarget != null && !this.classTarget.isAssignableFrom(entitylivingbase.getClass()))
+        else if (classTarget != null && !classTarget.isAssignableFrom(entitylivingbase.getClass()))
         {
             return false;
         }
         else
         {
-            this.entityPathEntity = this.attacker.getNavigator().getPathToEntityLiving(entitylivingbase);
-            return this.entityPathEntity != null;
+            entityPathEntity = attacker.getNavigator().getPathToEntityLiving(entitylivingbase);
+            return entityPathEntity != null;
         }
     }
 
@@ -79,8 +79,8 @@ public class EntityAIAttackOnCollide extends EntityAIBase
      */
     public boolean continueExecuting()
     {
-        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
-        return entitylivingbase == null ? false : (!entitylivingbase.isEntityAlive() ? false : (!this.longMemory ? !this.attacker.getNavigator().noPath() : this.attacker.isWithinHomeDistanceFromPosition(new BlockPos(entitylivingbase))));
+        EntityLivingBase entitylivingbase = attacker.getAttackTarget();
+        return entitylivingbase != null && (entitylivingbase.isEntityAlive() && (!longMemory ? !attacker.getNavigator().noPath() : attacker.isWithinHomeDistanceFromPosition(new BlockPos(entitylivingbase))));
     }
 
     /**
@@ -88,8 +88,8 @@ public class EntityAIAttackOnCollide extends EntityAIBase
      */
     public void startExecuting()
     {
-        this.attacker.getNavigator().setPath(this.entityPathEntity, this.speedTowardsTarget);
-        this.delayCounter = 0;
+        attacker.getNavigator().setPath(entityPathEntity, speedTowardsTarget);
+        delayCounter = 0;
     }
 
     /**
@@ -97,7 +97,7 @@ public class EntityAIAttackOnCollide extends EntityAIBase
      */
     public void resetTask()
     {
-        this.attacker.getNavigator().clearPathEntity();
+        attacker.getNavigator().clearPathEntity();
     }
 
     /**
@@ -105,51 +105,51 @@ public class EntityAIAttackOnCollide extends EntityAIBase
      */
     public void updateTask()
     {
-        EntityLivingBase entitylivingbase = this.attacker.getAttackTarget();
-        this.attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
-        double d0 = this.attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ);
-        double d1 = this.func_179512_a(entitylivingbase);
-        --this.delayCounter;
+        EntityLivingBase entitylivingbase = attacker.getAttackTarget();
+        attacker.getLookHelper().setLookPositionWithEntity(entitylivingbase, 30.0F, 30.0F);
+        double d0 = attacker.getDistanceSq(entitylivingbase.posX, entitylivingbase.getEntityBoundingBox().minY, entitylivingbase.posZ);
+        double d1 = func_179512_a(entitylivingbase);
+        --delayCounter;
 
-        if ((this.longMemory || this.attacker.getEntitySenses().canSee(entitylivingbase)) && this.delayCounter <= 0 && (this.targetX == 0.0D && this.targetY == 0.0D && this.targetZ == 0.0D || entitylivingbase.getDistanceSq(this.targetX, this.targetY, this.targetZ) >= 1.0D || this.attacker.getRNG().nextFloat() < 0.05F))
+        if ((longMemory || attacker.getEntitySenses().canSee(entitylivingbase)) && delayCounter <= 0 && (targetX == 0.0D && targetY == 0.0D && targetZ == 0.0D || entitylivingbase.getDistanceSq(targetX, targetY, targetZ) >= 1.0D || attacker.getRNG().nextFloat() < 0.05F))
         {
-            this.targetX = entitylivingbase.posX;
-            this.targetY = entitylivingbase.getEntityBoundingBox().minY;
-            this.targetZ = entitylivingbase.posZ;
-            this.delayCounter = 4 + this.attacker.getRNG().nextInt(7);
+            targetX = entitylivingbase.posX;
+            targetY = entitylivingbase.getEntityBoundingBox().minY;
+            targetZ = entitylivingbase.posZ;
+            delayCounter = 4 + attacker.getRNG().nextInt(7);
 
             if (d0 > 1024.0D)
             {
-                this.delayCounter += 10;
+                delayCounter += 10;
             }
             else if (d0 > 256.0D)
             {
-                this.delayCounter += 5;
+                delayCounter += 5;
             }
 
-            if (!this.attacker.getNavigator().tryMoveToEntityLiving(entitylivingbase, this.speedTowardsTarget))
+            if (!attacker.getNavigator().tryMoveToEntityLiving(entitylivingbase, speedTowardsTarget))
             {
-                this.delayCounter += 15;
+                delayCounter += 15;
             }
         }
 
-        this.attackTick = Math.max(this.attackTick - 1, 0);
+        attackTick = Math.max(attackTick - 1, 0);
 
-        if (d0 <= d1 && this.attackTick <= 0)
+        if (d0 <= d1 && attackTick <= 0)
         {
-            this.attackTick = 20;
+            attackTick = 20;
 
-            if (this.attacker.getHeldItem() != null)
+            if (attacker.getHeldItem() != null)
             {
-                this.attacker.swingItem();
+                attacker.swingItem();
             }
 
-            this.attacker.attackEntityAsMob(entitylivingbase);
+            attacker.attackEntityAsMob(entitylivingbase);
         }
     }
 
     protected double func_179512_a(EntityLivingBase attackTarget)
     {
-        return (double)(this.attacker.width * 2.0F * this.attacker.width * 2.0F + attackTarget.width);
+        return attacker.width * 2.0F * attacker.width * 2.0F + attackTarget.width;
     }
 }

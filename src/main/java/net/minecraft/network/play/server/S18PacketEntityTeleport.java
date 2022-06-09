@@ -23,24 +23,24 @@ public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient>
 
     public S18PacketEntityTeleport(Entity entityIn)
     {
-        this.entityId = entityIn.getEntityId();
-        this.posX = MathHelper.floor_double(entityIn.posX * 32.0D);
-        this.posY = MathHelper.floor_double(entityIn.posY * 32.0D);
-        this.posZ = MathHelper.floor_double(entityIn.posZ * 32.0D);
-        this.yaw = (byte)((int)(entityIn.rotationYaw * 256.0F / 360.0F));
-        this.pitch = (byte)((int)(entityIn.rotationPitch * 256.0F / 360.0F));
-        this.onGround = entityIn.onGround;
+        entityId = entityIn.getEntityId();
+        posX = MathHelper.floor_double(entityIn.posX * 32.0D);
+        posY = MathHelper.floor_double(entityIn.posY * 32.0D);
+        posZ = MathHelper.floor_double(entityIn.posZ * 32.0D);
+        yaw = (byte)((int)(entityIn.rotationYaw * 256.0F / 360.0F));
+        pitch = (byte)((int)(entityIn.rotationPitch * 256.0F / 360.0F));
+        onGround = entityIn.onGround;
     }
 
     public S18PacketEntityTeleport(int entityIdIn, int posXIn, int posYIn, int posZIn, byte yawIn, byte pitchIn, boolean onGroundIn)
     {
-        this.entityId = entityIdIn;
-        this.posX = posXIn;
-        this.posY = posYIn;
-        this.posZ = posZIn;
-        this.yaw = yawIn;
-        this.pitch = pitchIn;
-        this.onGround = onGroundIn;
+        entityId = entityIdIn;
+        posX = posXIn;
+        posY = posYIn;
+        posZ = posZIn;
+        yaw = yawIn;
+        pitch = pitchIn;
+        onGround = onGroundIn;
     }
 
     /**
@@ -48,13 +48,13 @@ public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
-        this.posX = buf.readInt();
-        this.posY = buf.readInt();
-        this.posZ = buf.readInt();
-        this.yaw = buf.readByte();
-        this.pitch = buf.readByte();
-        this.onGround = buf.readBoolean();
+        entityId = buf.readVarIntFromBuffer();
+        posX = buf.readInt();
+        posY = buf.readInt();
+        posZ = buf.readInt();
+        yaw = buf.readByte();
+        pitch = buf.readByte();
+        onGround = buf.readBoolean();
     }
 
     /**
@@ -62,13 +62,13 @@ public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        buf.writeInt(this.posX);
-        buf.writeInt(this.posY);
-        buf.writeInt(this.posZ);
-        buf.writeByte(this.yaw);
-        buf.writeByte(this.pitch);
-        buf.writeBoolean(this.onGround);
+        buf.writeVarIntToBuffer(entityId);
+        buf.writeInt(posX);
+        buf.writeInt(posY);
+        buf.writeInt(posZ);
+        buf.writeByte(yaw);
+        buf.writeByte(pitch);
+        buf.writeBoolean(onGround);
     }
 
     /**
@@ -81,36 +81,36 @@ public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient>
 
     public int getEntityId()
     {
-        return this.entityId;
+        return entityId;
     }
 
     public int getX()
     {
-        return this.posX;
+        return posX;
     }
 
     public int getY()
     {
-        return this.posY;
+        return posY;
     }
 
     public int getZ()
     {
-        return this.posZ;
+        return posZ;
     }
 
     public byte getYaw()
     {
-        return this.yaw;
+        return yaw;
     }
 
     public byte getPitch()
     {
-        return this.pitch;
+        return pitch;
     }
 
     public boolean getOnGround()
     {
-        return this.onGround;
+        return onGround;
     }
 }

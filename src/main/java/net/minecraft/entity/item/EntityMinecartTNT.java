@@ -44,23 +44,23 @@ public class EntityMinecartTNT extends EntityMinecart
     {
         super.onUpdate();
 
-        if (this.minecartTNTFuse > 0)
+        if (minecartTNTFuse > 0)
         {
-            --this.minecartTNTFuse;
-            this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, this.posX, this.posY + 0.5D, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+            --minecartTNTFuse;
+            worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, posX, posY + 0.5D, posZ, 0.0D, 0.0D, 0.0D);
         }
-        else if (this.minecartTNTFuse == 0)
+        else if (minecartTNTFuse == 0)
         {
-            this.explodeCart(this.motionX * this.motionX + this.motionZ * this.motionZ);
+            explodeCart(motionX * motionX + motionZ * motionZ);
         }
 
-        if (this.isCollidedHorizontally)
+        if (isCollidedHorizontally)
         {
-            double d0 = this.motionX * this.motionX + this.motionZ * this.motionZ;
+            double d0 = motionX * motionX + motionZ * motionZ;
 
             if (d0 >= 0.009999999776482582D)
             {
-                this.explodeCart(d0);
+                explodeCart(d0);
             }
         }
     }
@@ -78,7 +78,7 @@ public class EntityMinecartTNT extends EntityMinecart
 
             if (entityarrow.isBurning())
             {
-                this.explodeCart(entityarrow.motionX * entityarrow.motionX + entityarrow.motionY * entityarrow.motionY + entityarrow.motionZ * entityarrow.motionZ);
+                explodeCart(entityarrow.motionX * entityarrow.motionX + entityarrow.motionY * entityarrow.motionY + entityarrow.motionZ * entityarrow.motionZ);
             }
         }
 
@@ -88,16 +88,16 @@ public class EntityMinecartTNT extends EntityMinecart
     public void killMinecart(DamageSource p_94095_1_)
     {
         super.killMinecart(p_94095_1_);
-        double d0 = this.motionX * this.motionX + this.motionZ * this.motionZ;
+        double d0 = motionX * motionX + motionZ * motionZ;
 
-        if (!p_94095_1_.isExplosion() && this.worldObj.getGameRules().getBoolean("doEntityDrops"))
+        if (!p_94095_1_.isExplosion() && worldObj.getGameRules().getBoolean("doEntityDrops"))
         {
-            this.entityDropItem(new ItemStack(Blocks.tnt, 1), 0.0F);
+            entityDropItem(new ItemStack(Blocks.tnt, 1), 0.0F);
         }
 
         if (p_94095_1_.isFireDamage() || p_94095_1_.isExplosion() || d0 >= 0.009999999776482582D)
         {
-            this.explodeCart(d0);
+            explodeCart(d0);
         }
     }
 
@@ -106,7 +106,7 @@ public class EntityMinecartTNT extends EntityMinecart
      */
     protected void explodeCart(double p_94103_1_)
     {
-        if (!this.worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
             double d0 = Math.sqrt(p_94103_1_);
 
@@ -115,8 +115,8 @@ public class EntityMinecartTNT extends EntityMinecart
                 d0 = 5.0D;
             }
 
-            this.worldObj.createExplosion(this, this.posX, this.posY, this.posZ, (float)(4.0D + this.rand.nextDouble() * 1.5D * d0), true);
-            this.setDead();
+            worldObj.createExplosion(this, posX, posY, posZ, (float)(4.0D + rand.nextDouble() * 1.5D * d0), true);
+            setDead();
         }
     }
 
@@ -125,7 +125,7 @@ public class EntityMinecartTNT extends EntityMinecart
         if (distance >= 3.0F)
         {
             float f = distance / 10.0F;
-            this.explodeCart((double)(f * f));
+            explodeCart(f * f);
         }
 
         super.fall(distance, damageMultiplier);
@@ -136,9 +136,9 @@ public class EntityMinecartTNT extends EntityMinecart
      */
     public void onActivatorRailPass(int x, int y, int z, boolean receivingPower)
     {
-        if (receivingPower && this.minecartTNTFuse < 0)
+        if (receivingPower && minecartTNTFuse < 0)
         {
-            this.ignite();
+            ignite();
         }
     }
 
@@ -146,7 +146,7 @@ public class EntityMinecartTNT extends EntityMinecart
     {
         if (id == 10)
         {
-            this.ignite();
+            ignite();
         }
         else
         {
@@ -159,15 +159,15 @@ public class EntityMinecartTNT extends EntityMinecart
      */
     public void ignite()
     {
-        this.minecartTNTFuse = 80;
+        minecartTNTFuse = 80;
 
-        if (!this.worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
-            this.worldObj.setEntityState(this, (byte)10);
+            worldObj.setEntityState(this, (byte)10);
 
-            if (!this.isSilent())
+            if (!isSilent())
             {
-                this.worldObj.playSoundAtEntity(this, "game.tnt.primed", 1.0F, 1.0F);
+                worldObj.playSoundAtEntity(this, "game.tnt.primed", 1.0F, 1.0F);
             }
         }
     }
@@ -177,7 +177,7 @@ public class EntityMinecartTNT extends EntityMinecart
      */
     public int getFuseTicks()
     {
-        return this.minecartTNTFuse;
+        return minecartTNTFuse;
     }
 
     /**
@@ -185,7 +185,7 @@ public class EntityMinecartTNT extends EntityMinecart
      */
     public boolean isIgnited()
     {
-        return this.minecartTNTFuse > -1;
+        return minecartTNTFuse > -1;
     }
 
     /**
@@ -193,12 +193,12 @@ public class EntityMinecartTNT extends EntityMinecart
      */
     public float getExplosionResistance(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn)
     {
-        return !this.isIgnited() || !BlockRailBase.isRailBlock(blockStateIn) && !BlockRailBase.isRailBlock(worldIn, pos.up()) ? super.getExplosionResistance(explosionIn, worldIn, pos, blockStateIn) : 0.0F;
+        return !isIgnited() || !BlockRailBase.isRailBlock(blockStateIn) && !BlockRailBase.isRailBlock(worldIn, pos.up()) ? super.getExplosionResistance(explosionIn, worldIn, pos, blockStateIn) : 0.0F;
     }
 
     public boolean verifyExplosion(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn, float p_174816_5_)
     {
-        return !this.isIgnited() || !BlockRailBase.isRailBlock(blockStateIn) && !BlockRailBase.isRailBlock(worldIn, pos.up()) ? super.verifyExplosion(explosionIn, worldIn, pos, blockStateIn, p_174816_5_) : false;
+        return (!isIgnited() || !BlockRailBase.isRailBlock(blockStateIn) && !BlockRailBase.isRailBlock(worldIn, pos.up())) && super.verifyExplosion(explosionIn, worldIn, pos, blockStateIn, p_174816_5_);
     }
 
     /**
@@ -210,7 +210,7 @@ public class EntityMinecartTNT extends EntityMinecart
 
         if (tagCompund.hasKey("TNTFuse", 99))
         {
-            this.minecartTNTFuse = tagCompund.getInteger("TNTFuse");
+            minecartTNTFuse = tagCompund.getInteger("TNTFuse");
         }
     }
 
@@ -220,6 +220,6 @@ public class EntityMinecartTNT extends EntityMinecart
     protected void writeEntityToNBT(NBTTagCompound tagCompound)
     {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setInteger("TNTFuse", this.minecartTNTFuse);
+        tagCompound.setInteger("TNTFuse", minecartTNTFuse);
     }
 }

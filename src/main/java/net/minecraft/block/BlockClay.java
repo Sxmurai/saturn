@@ -12,7 +12,7 @@ public class BlockClay extends Block
     public BlockClay()
     {
         super(Material.clay);
-        this.setCreativeTab(CreativeTabs.tabBlock);
+        setCreativeTab(CreativeTabs.tabBlock);
     }
 
     /**

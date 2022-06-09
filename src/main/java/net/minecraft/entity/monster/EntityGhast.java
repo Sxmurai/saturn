@@ -29,29 +29,29 @@ public class EntityGhast extends EntityFlying implements IMob
     public EntityGhast(World worldIn)
     {
         super(worldIn);
-        this.setSize(4.0F, 4.0F);
-        this.isImmuneToFire = true;
-        this.experienceValue = 5;
-        this.moveHelper = new EntityGhast.GhastMoveHelper(this);
-        this.tasks.addTask(5, new EntityGhast.AIRandomFly(this));
-        this.tasks.addTask(7, new EntityGhast.AILookAround(this));
-        this.tasks.addTask(7, new EntityGhast.AIFireballAttack(this));
-        this.targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
+        setSize(4.0F, 4.0F);
+        isImmuneToFire = true;
+        experienceValue = 5;
+        moveHelper = new EntityGhast.GhastMoveHelper(this);
+        tasks.addTask(5, new EntityGhast.AIRandomFly(this));
+        tasks.addTask(7, new EntityGhast.AILookAround(this));
+        tasks.addTask(7, new EntityGhast.AIFireballAttack(this));
+        targetTasks.addTask(1, new EntityAIFindEntityNearestPlayer(this));
     }
 
     public boolean isAttacking()
     {
-        return this.dataWatcher.getWatchableObjectByte(16) != 0;
+        return dataWatcher.getWatchableObjectByte(16) != 0;
     }
 
     public void setAttacking(boolean p_175454_1_)
     {
-        this.dataWatcher.updateObject(16, Byte.valueOf((byte)(p_175454_1_ ? 1 : 0)));
+        dataWatcher.updateObject(16, Byte.valueOf((byte)(p_175454_1_ ? 1 : 0)));
     }
 
     public int getFireballStrength()
     {
-        return this.explosionStrength;
+        return explosionStrength;
     }
 
     /**
@@ -61,9 +61,9 @@ public class EntityGhast extends EntityFlying implements IMob
     {
         super.onUpdate();
 
-        if (!this.worldObj.isRemote && this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
+        if (!worldObj.isRemote && worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
         {
-            this.setDead();
+            setDead();
         }
     }
 
@@ -72,7 +72,7 @@ public class EntityGhast extends EntityFlying implements IMob
      */
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-        if (this.isEntityInvulnerable(source))
+        if (isEntityInvulnerable(source))
         {
             return false;
         }
@@ -91,14 +91,14 @@ public class EntityGhast extends EntityFlying implements IMob
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
+        dataWatcher.addObject(16, Byte.valueOf((byte)0));
     }
 
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(100.0D);
+        getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(10.0D);
+        getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(100.0D);
     }
 
     /**
@@ -135,18 +135,18 @@ public class EntityGhast extends EntityFlying implements IMob
      */
     protected void dropFewItems(boolean p_70628_1_, int p_70628_2_)
     {
-        int i = this.rand.nextInt(2) + this.rand.nextInt(1 + p_70628_2_);
+        int i = rand.nextInt(2) + rand.nextInt(1 + p_70628_2_);
 
         for (int j = 0; j < i; ++j)
         {
-            this.dropItem(Items.ghast_tear, 1);
+            dropItem(Items.ghast_tear, 1);
         }
 
-        i = this.rand.nextInt(3) + this.rand.nextInt(1 + p_70628_2_);
+        i = rand.nextInt(3) + rand.nextInt(1 + p_70628_2_);
 
         for (int k = 0; k < i; ++k)
         {
-            this.dropItem(Items.gunpowder, 1);
+            dropItem(Items.gunpowder, 1);
         }
     }
 
@@ -163,7 +163,7 @@ public class EntityGhast extends EntityFlying implements IMob
      */
     public boolean getCanSpawnHere()
     {
-        return this.rand.nextInt(20) == 0 && super.getCanSpawnHere() && this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL;
+        return rand.nextInt(20) == 0 && super.getCanSpawnHere() && worldObj.getDifficulty() != EnumDifficulty.PEACEFUL;
     }
 
     /**
@@ -180,7 +180,7 @@ public class EntityGhast extends EntityFlying implements IMob
     public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setInteger("ExplosionPower", this.explosionStrength);
+        tagCompound.setInteger("ExplosionPower", explosionStrength);
     }
 
     /**
@@ -192,7 +192,7 @@ public class EntityGhast extends EntityFlying implements IMob
 
         if (tagCompund.hasKey("ExplosionPower", 99))
         {
-            this.explosionStrength = tagCompund.getInteger("ExplosionPower");
+            explosionStrength = tagCompund.getInteger("ExplosionPower");
         }
     }
 
@@ -203,78 +203,78 @@ public class EntityGhast extends EntityFlying implements IMob
 
     static class AIFireballAttack extends EntityAIBase
     {
-        private EntityGhast parentEntity;
+        private final EntityGhast parentEntity;
         public int attackTimer;
 
         public AIFireballAttack(EntityGhast p_i45837_1_)
         {
-            this.parentEntity = p_i45837_1_;
+            parentEntity = p_i45837_1_;
         }
 
         public boolean shouldExecute()
         {
-            return this.parentEntity.getAttackTarget() != null;
+            return parentEntity.getAttackTarget() != null;
         }
 
         public void startExecuting()
         {
-            this.attackTimer = 0;
+            attackTimer = 0;
         }
 
         public void resetTask()
         {
-            this.parentEntity.setAttacking(false);
+            parentEntity.setAttacking(false);
         }
 
         public void updateTask()
         {
-            EntityLivingBase entitylivingbase = this.parentEntity.getAttackTarget();
+            EntityLivingBase entitylivingbase = parentEntity.getAttackTarget();
             double d0 = 64.0D;
 
-            if (entitylivingbase.getDistanceSqToEntity(this.parentEntity) < d0 * d0 && this.parentEntity.canEntityBeSeen(entitylivingbase))
+            if (entitylivingbase.getDistanceSqToEntity(parentEntity) < d0 * d0 && parentEntity.canEntityBeSeen(entitylivingbase))
             {
-                World world = this.parentEntity.worldObj;
-                ++this.attackTimer;
+                World world = parentEntity.worldObj;
+                ++attackTimer;
 
-                if (this.attackTimer == 10)
+                if (attackTimer == 10)
                 {
-                    world.playAuxSFXAtEntity((EntityPlayer)null, 1007, new BlockPos(this.parentEntity), 0);
+                    world.playAuxSFXAtEntity(null, 1007, new BlockPos(parentEntity), 0);
                 }
 
-                if (this.attackTimer == 20)
+                if (attackTimer == 20)
                 {
                     double d1 = 4.0D;
-                    Vec3 vec3 = this.parentEntity.getLook(1.0F);
-                    double d2 = entitylivingbase.posX - (this.parentEntity.posX + vec3.xCoord * d1);
-                    double d3 = entitylivingbase.getEntityBoundingBox().minY + (double)(entitylivingbase.height / 2.0F) - (0.5D + this.parentEntity.posY + (double)(this.parentEntity.height / 2.0F));
-                    double d4 = entitylivingbase.posZ - (this.parentEntity.posZ + vec3.zCoord * d1);
-                    world.playAuxSFXAtEntity((EntityPlayer)null, 1008, new BlockPos(this.parentEntity), 0);
-                    EntityLargeFireball entitylargefireball = new EntityLargeFireball(world, this.parentEntity, d2, d3, d4);
-                    entitylargefireball.explosionPower = this.parentEntity.getFireballStrength();
-                    entitylargefireball.posX = this.parentEntity.posX + vec3.xCoord * d1;
-                    entitylargefireball.posY = this.parentEntity.posY + (double)(this.parentEntity.height / 2.0F) + 0.5D;
-                    entitylargefireball.posZ = this.parentEntity.posZ + vec3.zCoord * d1;
+                    Vec3 vec3 = parentEntity.getLook(1.0F);
+                    double d2 = entitylivingbase.posX - (parentEntity.posX + vec3.xCoord * d1);
+                    double d3 = entitylivingbase.getEntityBoundingBox().minY + (double)(entitylivingbase.height / 2.0F) - (0.5D + parentEntity.posY + (double)(parentEntity.height / 2.0F));
+                    double d4 = entitylivingbase.posZ - (parentEntity.posZ + vec3.zCoord * d1);
+                    world.playAuxSFXAtEntity(null, 1008, new BlockPos(parentEntity), 0);
+                    EntityLargeFireball entitylargefireball = new EntityLargeFireball(world, parentEntity, d2, d3, d4);
+                    entitylargefireball.explosionPower = parentEntity.getFireballStrength();
+                    entitylargefireball.posX = parentEntity.posX + vec3.xCoord * d1;
+                    entitylargefireball.posY = parentEntity.posY + (double)(parentEntity.height / 2.0F) + 0.5D;
+                    entitylargefireball.posZ = parentEntity.posZ + vec3.zCoord * d1;
                     world.spawnEntityInWorld(entitylargefireball);
-                    this.attackTimer = -40;
+                    attackTimer = -40;
                 }
             }
-            else if (this.attackTimer > 0)
+            else if (attackTimer > 0)
             {
-                --this.attackTimer;
+                --attackTimer;
             }
 
-            this.parentEntity.setAttacking(this.attackTimer > 10);
+            parentEntity.setAttacking(attackTimer > 10);
         }
     }
 
     static class AILookAround extends EntityAIBase
     {
-        private EntityGhast parentEntity;
+        private final EntityGhast parentEntity;
 
         public AILookAround(EntityGhast p_i45839_1_)
         {
-            this.parentEntity = p_i45839_1_;
-            this.setMutexBits(2);
+            parentEntity = p_i45839_1_;
+            setMutexBits(2);
         }
 
         public boolean shouldExecute()
@@ -284,20 +284,20 @@ public class EntityGhast extends EntityFlying implements IMob
 
         public void updateTask()
         {
-            if (this.parentEntity.getAttackTarget() == null)
+            if (parentEntity.getAttackTarget() == null)
             {
-                this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw = -((float)MathHelper.func_181159_b(this.parentEntity.motionX, this.parentEntity.motionZ)) * 180.0F / (float)Math.PI;
+                parentEntity.renderYawOffset = parentEntity.rotationYaw = -((float)MathHelper.func_181159_b(parentEntity.motionX, parentEntity.motionZ)) * 180.0F / (float)Math.PI;
             }
             else
             {
-                EntityLivingBase entitylivingbase = this.parentEntity.getAttackTarget();
+                EntityLivingBase entitylivingbase = parentEntity.getAttackTarget();
                 double d0 = 64.0D;
 
-                if (entitylivingbase.getDistanceSqToEntity(this.parentEntity) < d0 * d0)
+                if (entitylivingbase.getDistanceSqToEntity(parentEntity) < d0 * d0)
                 {
-                    double d1 = entitylivingbase.posX - this.parentEntity.posX;
-                    double d2 = entitylivingbase.posZ - this.parentEntity.posZ;
-                    this.parentEntity.renderYawOffset = this.parentEntity.rotationYaw = -((float)MathHelper.func_181159_b(d1, d2)) * 180.0F / (float)Math.PI;
+                    double d1 = entitylivingbase.posX - parentEntity.posX;
+                    double d2 = entitylivingbase.posZ - parentEntity.posZ;
+                    parentEntity.renderYawOffset = parentEntity.rotationYaw = -((float)MathHelper.func_181159_b(d1, d2)) * 180.0F / (float)Math.PI;
                 }
             }
         }
@@ -305,17 +305,17 @@ public class EntityGhast extends EntityFlying implements IMob
 
     static class AIRandomFly extends EntityAIBase
     {
-        private EntityGhast parentEntity;
+        private final EntityGhast parentEntity;
 
         public AIRandomFly(EntityGhast p_i45836_1_)
         {
-            this.parentEntity = p_i45836_1_;
-            this.setMutexBits(1);
+            parentEntity = p_i45836_1_;
+            setMutexBits(1);
         }
 
         public boolean shouldExecute()
         {
-            EntityMoveHelper entitymovehelper = this.parentEntity.getMoveHelper();
+            EntityMoveHelper entitymovehelper = parentEntity.getMoveHelper();
 
             if (!entitymovehelper.isUpdating())
             {
@@ -323,9 +323,9 @@ public class EntityGhast extends EntityFlying implements IMob
             }
             else
             {
-                double d0 = entitymovehelper.getX() - this.parentEntity.posX;
-                double d1 = entitymovehelper.getY() - this.parentEntity.posY;
-                double d2 = entitymovehelper.getZ() - this.parentEntity.posZ;
+                double d0 = entitymovehelper.getX() - parentEntity.posX;
+                double d1 = entitymovehelper.getY() - parentEntity.posY;
+                double d2 = entitymovehelper.getZ() - parentEntity.posZ;
                 double d3 = d0 * d0 + d1 * d1 + d2 * d2;
                 return d3 < 1.0D || d3 > 3600.0D;
             }
@@ -338,48 +338,48 @@ public class EntityGhast extends EntityFlying implements IMob
 
         public void startExecuting()
         {
-            Random random = this.parentEntity.getRNG();
-            double d0 = this.parentEntity.posX + (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-            double d1 = this.parentEntity.posY + (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-            double d2 = this.parentEntity.posZ + (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
-            this.parentEntity.getMoveHelper().setMoveTo(d0, d1, d2, 1.0D);
+            Random random = parentEntity.getRNG();
+            double d0 = parentEntity.posX + (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
+            double d1 = parentEntity.posY + (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
+            double d2 = parentEntity.posZ + (double)((random.nextFloat() * 2.0F - 1.0F) * 16.0F);
+            parentEntity.getMoveHelper().setMoveTo(d0, d1, d2, 1.0D);
         }
     }
 
     static class GhastMoveHelper extends EntityMoveHelper
     {
-        private EntityGhast parentEntity;
+        private final EntityGhast parentEntity;
         private int courseChangeCooldown;
 
         public GhastMoveHelper(EntityGhast p_i45838_1_)
         {
             super(p_i45838_1_);
-            this.parentEntity = p_i45838_1_;
+            parentEntity = p_i45838_1_;
         }
 
         public void onUpdateMoveHelper()
         {
-            if (this.update)
+            if (update)
             {
-                double d0 = this.posX - this.parentEntity.posX;
-                double d1 = this.posY - this.parentEntity.posY;
-                double d2 = this.posZ - this.parentEntity.posZ;
+                double d0 = posX - parentEntity.posX;
+                double d1 = posY - parentEntity.posY;
+                double d2 = posZ - parentEntity.posZ;
                 double d3 = d0 * d0 + d1 * d1 + d2 * d2;
 
-                if (this.courseChangeCooldown-- <= 0)
+                if (courseChangeCooldown-- <= 0)
                 {
-                    this.courseChangeCooldown += this.parentEntity.getRNG().nextInt(5) + 2;
-                    d3 = (double)MathHelper.sqrt_double(d3);
+                    courseChangeCooldown += parentEntity.getRNG().nextInt(5) + 2;
+                    d3 = MathHelper.sqrt_double(d3);
 
-                    if (this.isNotColliding(this.posX, this.posY, this.posZ, d3))
+                    if (isNotColliding(posX, posY, posZ, d3))
                     {
-                        this.parentEntity.motionX += d0 / d3 * 0.1D;
-                        this.parentEntity.motionY += d1 / d3 * 0.1D;
-                        this.parentEntity.motionZ += d2 / d3 * 0.1D;
+                        parentEntity.motionX += d0 / d3 * 0.1D;
+                        parentEntity.motionY += d1 / d3 * 0.1D;
+                        parentEntity.motionZ += d2 / d3 * 0.1D;
                     }
                     else
                     {
-                        this.update = false;
+                        update = false;
                     }
                 }
             }
@@ -387,16 +387,16 @@ public class EntityGhast extends EntityFlying implements IMob
 
         private boolean isNotColliding(double p_179926_1_, double p_179926_3_, double p_179926_5_, double p_179926_7_)
         {
-            double d0 = (p_179926_1_ - this.parentEntity.posX) / p_179926_7_;
-            double d1 = (p_179926_3_ - this.parentEntity.posY) / p_179926_7_;
-            double d2 = (p_179926_5_ - this.parentEntity.posZ) / p_179926_7_;
-            AxisAlignedBB axisalignedbb = this.parentEntity.getEntityBoundingBox();
+            double d0 = (p_179926_1_ - parentEntity.posX) / p_179926_7_;
+            double d1 = (p_179926_3_ - parentEntity.posY) / p_179926_7_;
+            double d2 = (p_179926_5_ - parentEntity.posZ) / p_179926_7_;
+            AxisAlignedBB axisalignedbb = parentEntity.getEntityBoundingBox();
 
             for (int i = 1; (double)i < p_179926_7_; ++i)
             {
                 axisalignedbb = axisalignedbb.offset(d0, d1, d2);
 
-                if (!this.parentEntity.worldObj.getCollidingBoundingBoxes(this.parentEntity, axisalignedbb).isEmpty())
+                if (!parentEntity.worldObj.getCollidingBoundingBoxes(parentEntity, axisalignedbb).isEmpty())
                 {
                     return false;
                 }

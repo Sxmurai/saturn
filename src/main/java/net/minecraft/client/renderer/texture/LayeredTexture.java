@@ -18,17 +18,17 @@ public class LayeredTexture extends AbstractTexture
 
     public LayeredTexture(String... textureNames)
     {
-        this.layeredTextureNames = Lists.newArrayList(textureNames);
+        layeredTextureNames = Lists.newArrayList(textureNames);
     }
 
     public void loadTexture(IResourceManager resourceManager) throws IOException
     {
-        this.deleteGlTexture();
+        deleteGlTexture();
         BufferedImage bufferedimage = null;
 
         try
         {
-            for (String s : this.layeredTextureNames)
+            for (String s : layeredTextureNames)
             {
                 if (s != null)
                 {
@@ -40,16 +40,16 @@ public class LayeredTexture extends AbstractTexture
                         bufferedimage = new BufferedImage(bufferedimage1.getWidth(), bufferedimage1.getHeight(), 2);
                     }
 
-                    bufferedimage.getGraphics().drawImage(bufferedimage1, 0, 0, (ImageObserver)null);
+                    bufferedimage.getGraphics().drawImage(bufferedimage1, 0, 0, null);
                 }
             }
         }
         catch (IOException ioexception)
         {
-            logger.error((String)"Couldn\'t load layered image", (Throwable)ioexception);
+            LayeredTexture.logger.error("Couldn't load layered image", ioexception);
             return;
         }
 
-        TextureUtil.uploadTextureImage(this.getGlTextureId(), bufferedimage);
+        TextureUtil.uploadTextureImage(getGlTextureId(), bufferedimage);
     }
 }

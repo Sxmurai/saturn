@@ -28,8 +28,8 @@ public class BlockPistonMoving extends BlockContainer
     public BlockPistonMoving()
     {
         super(Material.piston);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(TYPE, BlockPistonExtension.EnumPistonType.DEFAULT));
-        this.setHardness(-1.0F);
+        setDefaultState(blockState.getBaseState().withProperty(BlockPistonMoving.FACING, EnumFacing.NORTH).withProperty(BlockPistonMoving.TYPE, BlockPistonExtension.EnumPistonType.DEFAULT));
+        setHardness(-1.0F);
     }
 
     /**
@@ -77,10 +77,10 @@ public class BlockPistonMoving extends BlockContainer
      */
     public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state)
     {
-        BlockPos blockpos = pos.offset(((EnumFacing)state.getValue(FACING)).getOpposite());
+        BlockPos blockpos = pos.offset(state.getValue(BlockPistonMoving.FACING).getOpposite());
         IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-        if (iblockstate.getBlock() instanceof BlockPistonBase && ((Boolean)iblockstate.getValue(BlockPistonBase.EXTENDED)).booleanValue())
+        if (iblockstate.getBlock() instanceof BlockPistonBase && iblockstate.getValue(BlockPistonBase.EXTENDED).booleanValue())
         {
             worldIn.setBlockToAir(blockpos);
         }
@@ -127,7 +127,7 @@ public class BlockPistonMoving extends BlockContainer
     {
         if (!worldIn.isRemote)
         {
-            TileEntityPiston tileentitypiston = this.getTileEntity(worldIn, pos);
+            TileEntityPiston tileentitypiston = getTileEntity(worldIn, pos);
 
             if (tileentitypiston != null)
             {
@@ -158,7 +158,7 @@ public class BlockPistonMoving extends BlockContainer
 
     public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
     {
-        TileEntityPiston tileentitypiston = this.getTileEntity(worldIn, pos);
+        TileEntityPiston tileentitypiston = getTileEntity(worldIn, pos);
 
         if (tileentitypiston == null)
         {
@@ -173,13 +173,13 @@ public class BlockPistonMoving extends BlockContainer
                 f = 1.0F - f;
             }
 
-            return this.getBoundingBox(worldIn, pos, tileentitypiston.getPistonState(), f, tileentitypiston.getFacing());
+            return getBoundingBox(worldIn, pos, tileentitypiston.getPistonState(), f, tileentitypiston.getFacing());
         }
     }
 
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
-        TileEntityPiston tileentitypiston = this.getTileEntity(worldIn, pos);
+        TileEntityPiston tileentitypiston = getTileEntity(worldIn, pos);
 
         if (tileentitypiston != null)
         {
@@ -206,12 +206,12 @@ public class BlockPistonMoving extends BlockContainer
             }
 
             EnumFacing enumfacing = tileentitypiston.getFacing();
-            this.minX = block.getBlockBoundsMinX() - (double)((float)enumfacing.getFrontOffsetX() * f);
-            this.minY = block.getBlockBoundsMinY() - (double)((float)enumfacing.getFrontOffsetY() * f);
-            this.minZ = block.getBlockBoundsMinZ() - (double)((float)enumfacing.getFrontOffsetZ() * f);
-            this.maxX = block.getBlockBoundsMaxX() - (double)((float)enumfacing.getFrontOffsetX() * f);
-            this.maxY = block.getBlockBoundsMaxY() - (double)((float)enumfacing.getFrontOffsetY() * f);
-            this.maxZ = block.getBlockBoundsMaxZ() - (double)((float)enumfacing.getFrontOffsetZ() * f);
+            minX = block.getBlockBoundsMinX() - (double)((float)enumfacing.getFrontOffsetX() * f);
+            minY = block.getBlockBoundsMinY() - (double)((float)enumfacing.getFrontOffsetY() * f);
+            minZ = block.getBlockBoundsMinZ() - (double)((float)enumfacing.getFrontOffsetZ() * f);
+            maxX = block.getBlockBoundsMaxX() - (double)((float)enumfacing.getFrontOffsetX() * f);
+            maxY = block.getBlockBoundsMaxY() - (double)((float)enumfacing.getFrontOffsetY() * f);
+            maxZ = block.getBlockBoundsMaxZ() - (double)((float)enumfacing.getFrontOffsetZ() * f);
         }
     }
 
@@ -236,29 +236,29 @@ public class BlockPistonMoving extends BlockContainer
 
                 if (direction.getFrontOffsetX() < 0)
                 {
-                    d0 -= (double)((float)direction.getFrontOffsetX() * progress);
+                    d0 -= (float)direction.getFrontOffsetX() * progress;
                 }
                 else
                 {
-                    d3 -= (double)((float)direction.getFrontOffsetX() * progress);
+                    d3 -= (float)direction.getFrontOffsetX() * progress;
                 }
 
                 if (direction.getFrontOffsetY() < 0)
                 {
-                    d1 -= (double)((float)direction.getFrontOffsetY() * progress);
+                    d1 -= (float)direction.getFrontOffsetY() * progress;
                 }
                 else
                 {
-                    d4 -= (double)((float)direction.getFrontOffsetY() * progress);
+                    d4 -= (float)direction.getFrontOffsetY() * progress;
                 }
 
                 if (direction.getFrontOffsetZ() < 0)
                 {
-                    d2 -= (double)((float)direction.getFrontOffsetZ() * progress);
+                    d2 -= (float)direction.getFrontOffsetZ() * progress;
                 }
                 else
                 {
-                    d5 -= (double)((float)direction.getFrontOffsetZ() * progress);
+                    d5 -= (float)direction.getFrontOffsetZ() * progress;
                 }
 
                 return new AxisAlignedBB(d0, d1, d2, d3, d4, d5);
@@ -286,7 +286,7 @@ public class BlockPistonMoving extends BlockContainer
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(FACING, BlockPistonExtension.getFacing(meta)).withProperty(TYPE, (meta & 8) > 0 ? BlockPistonExtension.EnumPistonType.STICKY : BlockPistonExtension.EnumPistonType.DEFAULT);
+        return getDefaultState().withProperty(BlockPistonMoving.FACING, BlockPistonExtension.getFacing(meta)).withProperty(BlockPistonMoving.TYPE, (meta & 8) > 0 ? BlockPistonExtension.EnumPistonType.STICKY : BlockPistonExtension.EnumPistonType.DEFAULT);
     }
 
     /**
@@ -295,9 +295,9 @@ public class BlockPistonMoving extends BlockContainer
     public int getMetaFromState(IBlockState state)
     {
         int i = 0;
-        i = i | ((EnumFacing)state.getValue(FACING)).getIndex();
+        i = i | state.getValue(BlockPistonMoving.FACING).getIndex();
 
-        if (state.getValue(TYPE) == BlockPistonExtension.EnumPistonType.STICKY)
+        if (state.getValue(BlockPistonMoving.TYPE) == BlockPistonExtension.EnumPistonType.STICKY)
         {
             i |= 8;
         }
@@ -307,6 +307,6 @@ public class BlockPistonMoving extends BlockContainer
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {FACING, TYPE});
+        return new BlockState(this, BlockPistonMoving.FACING, BlockPistonMoving.TYPE);
     }
 }

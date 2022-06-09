@@ -10,7 +10,7 @@ public class TupleIntJsonSerializable
      */
     public int getIntegerValue()
     {
-        return this.integerValue;
+        return integerValue;
     }
 
     /**
@@ -18,12 +18,12 @@ public class TupleIntJsonSerializable
      */
     public void setIntegerValue(int integerValueIn)
     {
-        this.integerValue = integerValueIn;
+        integerValue = integerValueIn;
     }
 
     public <T extends IJsonSerializable> T getJsonSerializableValue()
     {
-        return (T)this.jsonSerializableValue;
+        return (T) jsonSerializableValue;
     }
 
     /**
@@ -31,6 +31,6 @@ public class TupleIntJsonSerializable
      */
     public void setJsonSerializableValue(IJsonSerializable jsonSerializableValueIn)
     {
-        this.jsonSerializableValue = jsonSerializableValueIn;
+        jsonSerializableValue = jsonSerializableValueIn;
     }
 }

@@ -31,7 +31,7 @@ public class C0DPacketCloseWindow implements Packet<INetHandlerPlayServer>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.windowId = buf.readByte();
+        windowId = buf.readByte();
     }
 
     /**
@@ -39,6 +39,6 @@ public class C0DPacketCloseWindow implements Packet<INetHandlerPlayServer>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeByte(this.windowId);
+        buf.writeByte(windowId);
     }
 }

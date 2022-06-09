@@ -8,7 +8,7 @@ import net.minecraft.server.management.LowerStringMap;
 
 public class ServersideAttributeMap extends BaseAttributeMap
 {
-    private final Set<IAttributeInstance> attributeInstanceSet = Sets.<IAttributeInstance>newHashSet();
+    private final Set<IAttributeInstance> attributeInstanceSet = Sets.newHashSet();
     protected final Map<String, IAttributeInstance> descriptionToAttributeInstanceMap = new LowerStringMap();
 
     public ModifiableAttributeInstance getAttributeInstance(IAttribute attribute)
@@ -22,7 +22,7 @@ public class ServersideAttributeMap extends BaseAttributeMap
 
         if (iattributeinstance == null)
         {
-            iattributeinstance = (IAttributeInstance)this.descriptionToAttributeInstanceMap.get(attributeName);
+            iattributeinstance = descriptionToAttributeInstanceMap.get(attributeName);
         }
 
         return (ModifiableAttributeInstance)iattributeinstance;
@@ -37,7 +37,7 @@ public class ServersideAttributeMap extends BaseAttributeMap
 
         if (attribute instanceof RangedAttribute && ((RangedAttribute)attribute).getDescription() != null)
         {
-            this.descriptionToAttributeInstanceMap.put(((RangedAttribute)attribute).getDescription(), iattributeinstance);
+            descriptionToAttributeInstanceMap.put(((RangedAttribute)attribute).getDescription(), iattributeinstance);
         }
 
         return iattributeinstance;
@@ -52,12 +52,12 @@ public class ServersideAttributeMap extends BaseAttributeMap
     {
         if (p_180794_1_.getAttribute().getShouldWatch())
         {
-            this.attributeInstanceSet.add(p_180794_1_);
+            attributeInstanceSet.add(p_180794_1_);
         }
 
-        for (IAttribute iattribute : this.field_180377_c.get(p_180794_1_.getAttribute()))
+        for (IAttribute iattribute : field_180377_c.get(p_180794_1_.getAttribute()))
         {
-            ModifiableAttributeInstance modifiableattributeinstance = this.getAttributeInstance(iattribute);
+            ModifiableAttributeInstance modifiableattributeinstance = getAttributeInstance(iattribute);
 
             if (modifiableattributeinstance != null)
             {
@@ -68,14 +68,14 @@ public class ServersideAttributeMap extends BaseAttributeMap
 
     public Set<IAttributeInstance> getAttributeInstanceSet()
     {
-        return this.attributeInstanceSet;
+        return attributeInstanceSet;
     }
 
     public Collection<IAttributeInstance> getWatchedAttributes()
     {
-        Set<IAttributeInstance> set = Sets.<IAttributeInstance>newHashSet();
+        Set<IAttributeInstance> set = Sets.newHashSet();
 
-        for (IAttributeInstance iattributeinstance : this.getAllAttributes())
+        for (IAttributeInstance iattributeinstance : getAllAttributes())
         {
             if (iattributeinstance.getAttribute().getShouldWatch())
             {

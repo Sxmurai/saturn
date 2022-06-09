@@ -13,18 +13,18 @@ public class ServerAddress
 
     private ServerAddress(String p_i1192_1_, int p_i1192_2_)
     {
-        this.ipAddress = p_i1192_1_;
-        this.serverPort = p_i1192_2_;
+        ipAddress = p_i1192_1_;
+        serverPort = p_i1192_2_;
     }
 
     public String getIP()
     {
-        return IDN.toASCII(this.ipAddress);
+        return IDN.toASCII(ipAddress);
     }
 
     public int getPort()
     {
-        return this.serverPort;
+        return serverPort;
     }
 
     public static ServerAddress func_78860_a(String p_78860_0_)
@@ -64,13 +64,13 @@ public class ServerAddress
             }
 
             String s2 = astring[0];
-            int j = astring.length > 1 ? parseIntWithDefault(astring[1], 25565) : 25565;
+            int j = astring.length > 1 ? ServerAddress.parseIntWithDefault(astring[1], 25565) : 25565;
 
             if (j == 25565)
             {
-                String[] astring1 = getServerAddress(s2);
+                String[] astring1 = ServerAddress.getServerAddress(s2);
                 s2 = astring1[0];
-                j = parseIntWithDefault(astring1[1], 25565);
+                j = ServerAddress.parseIntWithDefault(astring1[1], 25565);
             }
 
             return new ServerAddress(s2, j);

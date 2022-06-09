@@ -48,7 +48,7 @@ public class CommandDebug extends CommandBase
     {
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.debug.usage", new Object[0]);
+            throw new WrongUsageException("commands.debug.usage");
         }
         else
         {
@@ -56,38 +56,38 @@ public class CommandDebug extends CommandBase
             {
                 if (args.length != 1)
                 {
-                    throw new WrongUsageException("commands.debug.usage", new Object[0]);
+                    throw new WrongUsageException("commands.debug.usage");
                 }
 
-                notifyOperators(sender, this, "commands.debug.start", new Object[0]);
+                CommandBase.notifyOperators(sender, this, "commands.debug.start");
                 MinecraftServer.getServer().enableProfiling();
-                this.field_147206_b = MinecraftServer.getCurrentTimeMillis();
-                this.field_147207_c = MinecraftServer.getServer().getTickCounter();
+                field_147206_b = MinecraftServer.getCurrentTimeMillis();
+                field_147207_c = MinecraftServer.getServer().getTickCounter();
             }
             else
             {
                 if (!args[0].equals("stop"))
                 {
-                    throw new WrongUsageException("commands.debug.usage", new Object[0]);
+                    throw new WrongUsageException("commands.debug.usage");
                 }
 
                 if (args.length != 1)
                 {
-                    throw new WrongUsageException("commands.debug.usage", new Object[0]);
+                    throw new WrongUsageException("commands.debug.usage");
                 }
 
                 if (!MinecraftServer.getServer().theProfiler.profilingEnabled)
                 {
-                    throw new CommandException("commands.debug.notStarted", new Object[0]);
+                    throw new CommandException("commands.debug.notStarted");
                 }
 
                 long i = MinecraftServer.getCurrentTimeMillis();
                 int j = MinecraftServer.getServer().getTickCounter();
-                long k = i - this.field_147206_b;
-                int l = j - this.field_147207_c;
-                this.func_147205_a(k, l);
+                long k = i - field_147206_b;
+                int l = j - field_147207_c;
+                func_147205_a(k, l);
                 MinecraftServer.getServer().theProfiler.profilingEnabled = false;
-                notifyOperators(sender, this, "commands.debug.stop", new Object[] {Float.valueOf((float)k / 1000.0F), Integer.valueOf(l)});
+                CommandBase.notifyOperators(sender, this, "commands.debug.stop", Float.valueOf((float)k / 1000.0F), Integer.valueOf(l));
             }
         }
     }
@@ -100,12 +100,12 @@ public class CommandDebug extends CommandBase
         try
         {
             FileWriter filewriter = new FileWriter(file1);
-            filewriter.write(this.func_147204_b(p_147205_1_, p_147205_3_));
+            filewriter.write(func_147204_b(p_147205_1_, p_147205_3_));
             filewriter.close();
         }
         catch (Throwable throwable)
         {
-            logger.error("Could not save profiler results to " + file1, throwable);
+            CommandDebug.logger.error("Could not save profiler results to " + file1, throwable);
         }
     }
 
@@ -114,13 +114,13 @@ public class CommandDebug extends CommandBase
         StringBuilder stringbuilder = new StringBuilder();
         stringbuilder.append("---- Minecraft Profiler Results ----\n");
         stringbuilder.append("// ");
-        stringbuilder.append(func_147203_d());
+        stringbuilder.append(CommandDebug.func_147203_d());
         stringbuilder.append("\n\n");
         stringbuilder.append("Time span: ").append(p_147204_1_).append(" ms\n");
         stringbuilder.append("Tick span: ").append(p_147204_3_).append(" ticks\n");
-        stringbuilder.append("// This is approximately ").append(String.format("%.2f", new Object[] {Float.valueOf((float)p_147204_3_ / ((float)p_147204_1_ / 1000.0F))})).append(" ticks per second. It should be ").append((int)20).append(" ticks per second\n\n");
+        stringbuilder.append("// This is approximately ").append(String.format("%.2f", Float.valueOf((float)p_147204_3_ / ((float)p_147204_1_ / 1000.0F)))).append(" ticks per second. It should be ").append(20).append(" ticks per second\n\n");
         stringbuilder.append("--- BEGIN PROFILE DUMP ---\n\n");
-        this.func_147202_a(0, "root", stringbuilder);
+        func_147202_a(0, "root", stringbuilder);
         stringbuilder.append("--- END PROFILE DUMP ---\n\n");
         return stringbuilder.toString();
     }
@@ -133,25 +133,25 @@ public class CommandDebug extends CommandBase
         {
             for (int i = 1; i < list.size(); ++i)
             {
-                Profiler.Result profiler$result = (Profiler.Result)list.get(i);
-                p_147202_3_.append(String.format("[%02d] ", new Object[] {Integer.valueOf(p_147202_1_)}));
+                Profiler.Result profiler$result = list.get(i);
+                p_147202_3_.append(String.format("[%02d] ", Integer.valueOf(p_147202_1_)));
 
                 for (int j = 0; j < p_147202_1_; ++j)
                 {
                     p_147202_3_.append(" ");
                 }
 
-                p_147202_3_.append(profiler$result.field_76331_c).append(" - ").append(String.format("%.2f", new Object[] {Double.valueOf(profiler$result.field_76332_a)})).append("%/").append(String.format("%.2f", new Object[] {Double.valueOf(profiler$result.field_76330_b)})).append("%\n");
+                p_147202_3_.append(profiler$result.field_76331_c).append(" - ").append(String.format("%.2f", Double.valueOf(profiler$result.field_76332_a))).append("%/").append(String.format("%.2f", Double.valueOf(profiler$result.field_76330_b))).append("%\n");
 
                 if (!profiler$result.field_76331_c.equals("unspecified"))
                 {
                     try
                     {
-                        this.func_147202_a(p_147202_1_ + 1, p_147202_2_ + "." + profiler$result.field_76331_c, p_147202_3_);
+                        func_147202_a(p_147202_1_ + 1, p_147202_2_ + "." + profiler$result.field_76331_c, p_147202_3_);
                     }
                     catch (Exception exception)
                     {
-                        p_147202_3_.append("[[ EXCEPTION ").append((Object)exception).append(" ]]");
+                        p_147202_3_.append("[[ EXCEPTION ").append(exception).append(" ]]");
                     }
                 }
             }
@@ -160,7 +160,7 @@ public class CommandDebug extends CommandBase
 
     private static String func_147203_d()
     {
-        String[] astring = new String[] {"Shiny numbers!", "Am I not running fast enough? :(", "I\'m working as hard as I can!", "Will I ever be good enough for you? :(", "Speedy. Zoooooom!", "Hello world", "40% better than a crash report.", "Now with extra numbers", "Now with less numbers", "Now with the same numbers", "You should add flames to things, it makes them go faster!", "Do you feel the need for... optimization?", "*cracks redstone whip*", "Maybe if you treated it better then it\'ll have more motivation to work faster! Poor server."};
+        String[] astring = new String[] {"Shiny numbers!", "Am I not running fast enough? :(", "I'm working as hard as I can!", "Will I ever be good enough for you? :(", "Speedy. Zoooooom!", "Hello world", "40% better than a crash report.", "Now with extra numbers", "Now with less numbers", "Now with the same numbers", "You should add flames to things, it makes them go faster!", "Do you feel the need for... optimization?", "*cracks redstone whip*", "Maybe if you treated it better then it'll have more motivation to work faster! Poor server."};
 
         try
         {
@@ -174,6 +174,6 @@ public class CommandDebug extends CommandBase
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {"start", "stop"}): null;
+        return args.length == 1 ? CommandBase.getListOfStringsMatchingLastWord(args, "start", "stop"): null;
     }
 }

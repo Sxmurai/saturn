@@ -17,12 +17,12 @@ public class ListedRenderChunk extends RenderChunk
 
     public int getDisplayList(EnumWorldBlockLayer layer, CompiledChunk p_178600_2_)
     {
-        return !p_178600_2_.isLayerEmpty(layer) ? this.baseDisplayList + layer.ordinal() : -1;
+        return !p_178600_2_.isLayerEmpty(layer) ? baseDisplayList + layer.ordinal() : -1;
     }
 
     public void deleteGlResources()
     {
         super.deleteGlResources();
-        GLAllocation.deleteDisplayLists(this.baseDisplayList, EnumWorldBlockLayer.values().length);
+        GLAllocation.deleteDisplayLists(baseDisplayList, EnumWorldBlockLayer.values().length);
     }
 }

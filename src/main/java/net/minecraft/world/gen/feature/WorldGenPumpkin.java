@@ -1,6 +1,8 @@
 package net.minecraft.world.gen.feature;
 
 import java.util.Random;
+
+import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockPumpkin;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -17,7 +19,7 @@ public class WorldGenPumpkin extends WorldGenerator
 
             if (worldIn.isAirBlock(blockpos) && worldIn.getBlockState(blockpos.down()).getBlock() == Blocks.grass && Blocks.pumpkin.canPlaceBlockAt(worldIn, blockpos))
             {
-                worldIn.setBlockState(blockpos, Blocks.pumpkin.getDefaultState().withProperty(BlockPumpkin.FACING, EnumFacing.Plane.HORIZONTAL.random(rand)), 2);
+                worldIn.setBlockState(blockpos, Blocks.pumpkin.getDefaultState().withProperty(BlockDirectional.FACING, EnumFacing.Plane.HORIZONTAL.random(rand)), 2);
             }
         }
 

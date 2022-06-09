@@ -17,16 +17,16 @@ public class EntityHeartFX extends EntityFX
     protected EntityHeartFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double p_i46354_8_, double p_i46354_10_, double p_i46354_12_, float scale)
     {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0D, 0.0D, 0.0D);
-        this.motionX *= 0.009999999776482582D;
-        this.motionY *= 0.009999999776482582D;
-        this.motionZ *= 0.009999999776482582D;
-        this.motionY += 0.1D;
-        this.particleScale *= 0.75F;
-        this.particleScale *= scale;
-        this.particleScaleOverTime = this.particleScale;
-        this.particleMaxAge = 16;
-        this.noClip = false;
-        this.setParticleTextureIndex(80);
+        motionX *= 0.009999999776482582D;
+        motionY *= 0.009999999776482582D;
+        motionZ *= 0.009999999776482582D;
+        motionY += 0.1D;
+        particleScale *= 0.75F;
+        particleScale *= scale;
+        particleScaleOverTime = particleScale;
+        particleMaxAge = 16;
+        noClip = false;
+        setParticleTextureIndex(80);
     }
 
     /**
@@ -34,9 +34,9 @@ public class EntityHeartFX extends EntityFX
      */
     public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
     {
-        float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge * 32.0F;
+        float f = ((float) particleAge + partialTicks) / (float) particleMaxAge * 32.0F;
         f = MathHelper.clamp_float(f, 0.0F, 1.0F);
-        this.particleScale = this.particleScaleOverTime * f;
+        particleScale = particleScaleOverTime * f;
         super.renderParticle(worldRendererIn, entityIn, partialTicks, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);
     }
 
@@ -45,31 +45,31 @@ public class EntityHeartFX extends EntityFX
      */
     public void onUpdate()
     {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+        prevPosX = posX;
+        prevPosY = posY;
+        prevPosZ = posZ;
 
-        if (this.particleAge++ >= this.particleMaxAge)
+        if (particleAge++ >= particleMaxAge)
         {
-            this.setDead();
+            setDead();
         }
 
-        this.moveEntity(this.motionX, this.motionY, this.motionZ);
+        moveEntity(motionX, motionY, motionZ);
 
-        if (this.posY == this.prevPosY)
+        if (posY == prevPosY)
         {
-            this.motionX *= 1.1D;
-            this.motionZ *= 1.1D;
+            motionX *= 1.1D;
+            motionZ *= 1.1D;
         }
 
-        this.motionX *= 0.8600000143051147D;
-        this.motionY *= 0.8600000143051147D;
-        this.motionZ *= 0.8600000143051147D;
+        motionX *= 0.8600000143051147D;
+        motionY *= 0.8600000143051147D;
+        motionZ *= 0.8600000143051147D;
 
-        if (this.onGround)
+        if (onGround)
         {
-            this.motionX *= 0.699999988079071D;
-            this.motionZ *= 0.699999988079071D;
+            motionX *= 0.699999988079071D;
+            motionZ *= 0.699999988079071D;
         }
     }
 

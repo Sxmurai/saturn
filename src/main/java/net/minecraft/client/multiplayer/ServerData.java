@@ -35,9 +35,9 @@ public class ServerData
 
     public ServerData(String p_i46420_1_, String p_i46420_2_, boolean p_i46420_3_)
     {
-        this.serverName = p_i46420_1_;
-        this.serverIP = p_i46420_2_;
-        this.field_181042_l = p_i46420_3_;
+        serverName = p_i46420_1_;
+        serverIP = p_i46420_2_;
+        field_181042_l = p_i46420_3_;
     }
 
     /**
@@ -46,19 +46,19 @@ public class ServerData
     public NBTTagCompound getNBTCompound()
     {
         NBTTagCompound nbttagcompound = new NBTTagCompound();
-        nbttagcompound.setString("name", this.serverName);
-        nbttagcompound.setString("ip", this.serverIP);
+        nbttagcompound.setString("name", serverName);
+        nbttagcompound.setString("ip", serverIP);
 
-        if (this.serverIcon != null)
+        if (serverIcon != null)
         {
-            nbttagcompound.setString("icon", this.serverIcon);
+            nbttagcompound.setString("icon", serverIcon);
         }
 
-        if (this.resourceMode == ServerData.ServerResourceMode.ENABLED)
+        if (resourceMode == ServerData.ServerResourceMode.ENABLED)
         {
             nbttagcompound.setBoolean("acceptTextures", true);
         }
-        else if (this.resourceMode == ServerData.ServerResourceMode.DISABLED)
+        else if (resourceMode == ServerData.ServerResourceMode.DISABLED)
         {
             nbttagcompound.setBoolean("acceptTextures", false);
         }
@@ -68,12 +68,12 @@ public class ServerData
 
     public ServerData.ServerResourceMode getResourceMode()
     {
-        return this.resourceMode;
+        return resourceMode;
     }
 
     public void setResourceMode(ServerData.ServerResourceMode mode)
     {
-        this.resourceMode = mode;
+        resourceMode = mode;
     }
 
     /**
@@ -112,26 +112,26 @@ public class ServerData
      */
     public String getBase64EncodedIconData()
     {
-        return this.serverIcon;
+        return serverIcon;
     }
 
     public void setBase64EncodedIconData(String icon)
     {
-        this.serverIcon = icon;
+        serverIcon = icon;
     }
 
     public boolean func_181041_d()
     {
-        return this.field_181042_l;
+        return field_181042_l;
     }
 
     public void copyFrom(ServerData serverDataIn)
     {
-        this.serverIP = serverDataIn.serverIP;
-        this.serverName = serverDataIn.serverName;
-        this.setResourceMode(serverDataIn.getResourceMode());
-        this.serverIcon = serverDataIn.serverIcon;
-        this.field_181042_l = serverDataIn.field_181042_l;
+        serverIP = serverDataIn.serverIP;
+        serverName = serverDataIn.serverName;
+        setResourceMode(serverDataIn.getResourceMode());
+        serverIcon = serverDataIn.serverIcon;
+        field_181042_l = serverDataIn.field_181042_l;
     }
 
     public static enum ServerResourceMode
@@ -144,12 +144,12 @@ public class ServerData
 
         private ServerResourceMode(String p_i1053_3_)
         {
-            this.motd = new ChatComponentTranslation("addServer.resourcePack." + p_i1053_3_, new Object[0]);
+            motd = new ChatComponentTranslation("addServer.resourcePack." + p_i1053_3_);
         }
 
         public IChatComponent getMotd()
         {
-            return this.motd;
+            return motd;
         }
     }
 }

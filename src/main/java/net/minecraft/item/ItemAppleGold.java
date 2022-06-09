@@ -12,7 +12,7 @@ public class ItemAppleGold extends ItemFood
     public ItemAppleGold(int amount, float saturation, boolean isWolfFood)
     {
         super(amount, saturation, isWolfFood);
-        this.setHasSubtypes(true);
+        setHasSubtypes(true);
     }
 
     public boolean hasEffect(ItemStack stack)

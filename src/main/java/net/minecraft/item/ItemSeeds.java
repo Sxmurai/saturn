@@ -9,16 +9,16 @@ import net.minecraft.world.World;
 
 public class ItemSeeds extends Item
 {
-    private Block crops;
+    private final Block crops;
 
     /** BlockID of the block the seeds can be planted on. */
-    private Block soilBlockID;
+    private final Block soilBlockID;
 
     public ItemSeeds(Block crops, Block soil)
     {
         this.crops = crops;
-        this.soilBlockID = soil;
-        this.setCreativeTab(CreativeTabs.tabMaterials);
+        soilBlockID = soil;
+        setCreativeTab(CreativeTabs.tabMaterials);
     }
 
     /**
@@ -34,9 +34,9 @@ public class ItemSeeds extends Item
         {
             return false;
         }
-        else if (worldIn.getBlockState(pos).getBlock() == this.soilBlockID && worldIn.isAirBlock(pos.up()))
+        else if (worldIn.getBlockState(pos).getBlock() == soilBlockID && worldIn.isAirBlock(pos.up()))
         {
-            worldIn.setBlockState(pos.up(), this.crops.getDefaultState());
+            worldIn.setBlockState(pos.up(), crops.getDefaultState());
             --stack.stackSize;
             return true;
         }

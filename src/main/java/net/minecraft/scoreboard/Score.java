@@ -22,68 +22,68 @@ public class Score
 
     public Score(Scoreboard theScoreboardIn, ScoreObjective theScoreObjectiveIn, String scorePlayerNameIn)
     {
-        this.theScoreboard = theScoreboardIn;
-        this.theScoreObjective = theScoreObjectiveIn;
-        this.scorePlayerName = scorePlayerNameIn;
-        this.field_178818_g = true;
+        theScoreboard = theScoreboardIn;
+        theScoreObjective = theScoreObjectiveIn;
+        scorePlayerName = scorePlayerNameIn;
+        field_178818_g = true;
     }
 
     public void increseScore(int amount)
     {
-        if (this.theScoreObjective.getCriteria().isReadOnly())
+        if (theScoreObjective.getCriteria().isReadOnly())
         {
             throw new IllegalStateException("Cannot modify read-only score");
         }
         else
         {
-            this.setScorePoints(this.getScorePoints() + amount);
+            setScorePoints(getScorePoints() + amount);
         }
     }
 
     public void decreaseScore(int amount)
     {
-        if (this.theScoreObjective.getCriteria().isReadOnly())
+        if (theScoreObjective.getCriteria().isReadOnly())
         {
             throw new IllegalStateException("Cannot modify read-only score");
         }
         else
         {
-            this.setScorePoints(this.getScorePoints() - amount);
+            setScorePoints(getScorePoints() - amount);
         }
     }
 
     public void func_96648_a()
     {
-        if (this.theScoreObjective.getCriteria().isReadOnly())
+        if (theScoreObjective.getCriteria().isReadOnly())
         {
             throw new IllegalStateException("Cannot modify read-only score");
         }
         else
         {
-            this.increseScore(1);
+            increseScore(1);
         }
     }
 
     public int getScorePoints()
     {
-        return this.scorePoints;
+        return scorePoints;
     }
 
     public void setScorePoints(int points)
     {
-        int i = this.scorePoints;
-        this.scorePoints = points;
+        int i = scorePoints;
+        scorePoints = points;
 
-        if (i != points || this.field_178818_g)
+        if (i != points || field_178818_g)
         {
-            this.field_178818_g = false;
-            this.getScoreScoreboard().func_96536_a(this);
+            field_178818_g = false;
+            getScoreScoreboard().func_96536_a(this);
         }
     }
 
     public ScoreObjective getObjective()
     {
-        return this.theScoreObjective;
+        return theScoreObjective;
     }
 
     /**
@@ -91,17 +91,17 @@ public class Score
      */
     public String getPlayerName()
     {
-        return this.scorePlayerName;
+        return scorePlayerName;
     }
 
     public Scoreboard getScoreScoreboard()
     {
-        return this.theScoreboard;
+        return theScoreboard;
     }
 
     public boolean isLocked()
     {
-        return this.locked;
+        return locked;
     }
 
     public void setLocked(boolean locked)
@@ -111,6 +111,6 @@ public class Score
 
     public void func_96651_a(List<EntityPlayer> p_96651_1_)
     {
-        this.setScorePoints(this.theScoreObjective.getCriteria().func_96635_a(p_96651_1_));
+        setScorePoints(theScoreObjective.getCriteria().func_96635_a(p_96651_1_));
     }
 }

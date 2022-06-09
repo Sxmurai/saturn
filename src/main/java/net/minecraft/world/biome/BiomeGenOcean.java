@@ -9,7 +9,7 @@ public class BiomeGenOcean extends BiomeGenBase
     public BiomeGenOcean(int p_i1985_1_)
     {
         super(p_i1985_1_);
-        this.spawnableCreatureList.clear();
+        spawnableCreatureList.clear();
     }
 
     public BiomeGenBase.TempCategory getTempCategory()

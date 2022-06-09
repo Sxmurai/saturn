@@ -16,7 +16,7 @@ public class DefaultPlayerSkin
      */
     public static ResourceLocation getDefaultSkinLegacy()
     {
-        return TEXTURE_STEVE;
+        return DefaultPlayerSkin.TEXTURE_STEVE;
     }
 
     /**
@@ -24,7 +24,7 @@ public class DefaultPlayerSkin
      */
     public static ResourceLocation getDefaultSkin(UUID playerUUID)
     {
-        return isSlimSkin(playerUUID) ? TEXTURE_ALEX : TEXTURE_STEVE;
+        return DefaultPlayerSkin.isSlimSkin(playerUUID) ? DefaultPlayerSkin.TEXTURE_ALEX : DefaultPlayerSkin.TEXTURE_STEVE;
     }
 
     /**
@@ -32,7 +32,7 @@ public class DefaultPlayerSkin
      */
     public static String getSkinType(UUID playerUUID)
     {
-        return isSlimSkin(playerUUID) ? "slim" : "default";
+        return DefaultPlayerSkin.isSlimSkin(playerUUID) ? "slim" : "default";
     }
 
     /**

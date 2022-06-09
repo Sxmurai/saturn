@@ -25,22 +25,22 @@ import net.minecraft.world.biome.BiomeColorHelper;
 
 public class BlockDoublePlant extends BlockBush implements IGrowable
 {
-    public static final PropertyEnum<BlockDoublePlant.EnumPlantType> VARIANT = PropertyEnum.<BlockDoublePlant.EnumPlantType>create("variant", BlockDoublePlant.EnumPlantType.class);
-    public static final PropertyEnum<BlockDoublePlant.EnumBlockHalf> HALF = PropertyEnum.<BlockDoublePlant.EnumBlockHalf>create("half", BlockDoublePlant.EnumBlockHalf.class);
+    public static final PropertyEnum<BlockDoublePlant.EnumPlantType> VARIANT = PropertyEnum.create("variant", BlockDoublePlant.EnumPlantType.class);
+    public static final PropertyEnum<BlockDoublePlant.EnumBlockHalf> HALF = PropertyEnum.create("half", BlockDoublePlant.EnumBlockHalf.class);
     public static final PropertyEnum<EnumFacing> field_181084_N = BlockDirectional.FACING;
 
     public BlockDoublePlant()
     {
         super(Material.vine);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockDoublePlant.EnumPlantType.SUNFLOWER).withProperty(HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(field_181084_N, EnumFacing.NORTH));
-        this.setHardness(0.0F);
-        this.setStepSound(soundTypeGrass);
-        this.setUnlocalizedName("doublePlant");
+        setDefaultState(blockState.getBaseState().withProperty(BlockDoublePlant.VARIANT, BlockDoublePlant.EnumPlantType.SUNFLOWER).withProperty(BlockDoublePlant.HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(BlockDoublePlant.field_181084_N, EnumFacing.NORTH));
+        setHardness(0.0F);
+        setStepSound(Block.soundTypeGrass);
+        setUnlocalizedName("doublePlant");
     }
 
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
 
     public BlockDoublePlant.EnumPlantType getVariant(IBlockAccess worldIn, BlockPos pos)
@@ -49,8 +49,8 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
         if (iblockstate.getBlock() == this)
         {
-            iblockstate = this.getActualState(iblockstate, worldIn, pos);
-            return (BlockDoublePlant.EnumPlantType)iblockstate.getValue(VARIANT);
+            iblockstate = getActualState(iblockstate, worldIn, pos);
+            return iblockstate.getValue(BlockDoublePlant.VARIANT);
         }
         else
         {
@@ -76,20 +76,20 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         }
         else
         {
-            BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = (BlockDoublePlant.EnumPlantType)this.getActualState(iblockstate, worldIn, pos).getValue(VARIANT);
+            BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = getActualState(iblockstate, worldIn, pos).getValue(BlockDoublePlant.VARIANT);
             return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN || blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS;
         }
     }
 
     protected void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (!this.canBlockStay(worldIn, pos, state))
+        if (!canBlockStay(worldIn, pos, state))
         {
-            boolean flag = state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER;
+            boolean flag = state.getValue(BlockDoublePlant.HALF) == BlockDoublePlant.EnumBlockHalf.UPPER;
             BlockPos blockpos = flag ? pos : pos.up();
             BlockPos blockpos1 = flag ? pos.down() : pos;
-            Block block = (Block)(flag ? this : worldIn.getBlockState(blockpos).getBlock());
-            Block block1 = (Block)(flag ? worldIn.getBlockState(blockpos1).getBlock() : this);
+            Block block = flag ? this : worldIn.getBlockState(blockpos).getBlock();
+            Block block1 = flag ? worldIn.getBlockState(blockpos1).getBlock() : this;
 
             if (block == this)
             {
@@ -102,7 +102,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
                 if (!flag)
                 {
-                    this.dropBlockAsItem(worldIn, blockpos1, state, 0);
+                    dropBlockAsItem(worldIn, blockpos1, state, 0);
                 }
             }
         }
@@ -110,7 +110,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
     public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state)
     {
-        if (state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER)
+        if (state.getValue(BlockDoublePlant.HALF) == BlockDoublePlant.EnumBlockHalf.UPPER)
         {
             return worldIn.getBlockState(pos.down()).getBlock() == this;
         }
@@ -126,13 +126,13 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
      */
     public Item getItemDropped(IBlockState state, Random rand, int fortune)
     {
-        if (state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER)
+        if (state.getValue(BlockDoublePlant.HALF) == BlockDoublePlant.EnumBlockHalf.UPPER)
         {
             return null;
         }
         else
         {
-            BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = (BlockDoublePlant.EnumPlantType)state.getValue(VARIANT);
+            BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = state.getValue(BlockDoublePlant.VARIANT);
             return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN ? null : (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS ? (rand.nextInt(8) == 0 ? Items.wheat_seeds : null) : Item.getItemFromBlock(this));
         }
     }
@@ -143,19 +143,19 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
      */
     public int damageDropped(IBlockState state)
     {
-        return state.getValue(HALF) != BlockDoublePlant.EnumBlockHalf.UPPER && state.getValue(VARIANT) != BlockDoublePlant.EnumPlantType.GRASS ? ((BlockDoublePlant.EnumPlantType)state.getValue(VARIANT)).getMeta() : 0;
+        return state.getValue(BlockDoublePlant.HALF) != BlockDoublePlant.EnumBlockHalf.UPPER && state.getValue(BlockDoublePlant.VARIANT) != BlockDoublePlant.EnumPlantType.GRASS ? state.getValue(BlockDoublePlant.VARIANT).getMeta() : 0;
     }
 
     public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass)
     {
-        BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = this.getVariant(worldIn, pos);
+        BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = getVariant(worldIn, pos);
         return blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.GRASS && blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.FERN ? 16777215 : BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
     }
 
     public void placeAt(World worldIn, BlockPos lowerPos, BlockDoublePlant.EnumPlantType variant, int flags)
     {
-        worldIn.setBlockState(lowerPos, this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(VARIANT, variant), flags);
-        worldIn.setBlockState(lowerPos.up(), this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.UPPER), flags);
+        worldIn.setBlockState(lowerPos, getDefaultState().withProperty(BlockDoublePlant.HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(BlockDoublePlant.VARIANT, variant), flags);
+        worldIn.setBlockState(lowerPos.up(), getDefaultState().withProperty(BlockDoublePlant.HALF, BlockDoublePlant.EnumBlockHalf.UPPER), flags);
     }
 
     /**
@@ -163,12 +163,12 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
      */
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack)
     {
-        worldIn.setBlockState(pos.up(), this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.UPPER), 2);
+        worldIn.setBlockState(pos.up(), getDefaultState().withProperty(BlockDoublePlant.HALF, BlockDoublePlant.EnumBlockHalf.UPPER), 2);
     }
 
     public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te)
     {
-        if (worldIn.isRemote || player.getCurrentEquippedItem() == null || player.getCurrentEquippedItem().getItem() != Items.shears || state.getValue(HALF) != BlockDoublePlant.EnumBlockHalf.LOWER || !this.onHarvest(worldIn, pos, state, player))
+        if (worldIn.isRemote || player.getCurrentEquippedItem() == null || player.getCurrentEquippedItem().getItem() != Items.shears || state.getValue(BlockDoublePlant.HALF) != BlockDoublePlant.EnumBlockHalf.LOWER || !onHarvest(worldIn, pos, state, player))
         {
             super.harvestBlock(worldIn, player, pos, state, te);
         }
@@ -176,14 +176,14 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        if (state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER)
+        if (state.getValue(BlockDoublePlant.HALF) == BlockDoublePlant.EnumBlockHalf.UPPER)
         {
             if (worldIn.getBlockState(pos.down()).getBlock() == this)
             {
                 if (!player.capabilities.isCreativeMode)
                 {
                     IBlockState iblockstate = worldIn.getBlockState(pos.down());
-                    BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = (BlockDoublePlant.EnumPlantType)iblockstate.getValue(VARIANT);
+                    BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = iblockstate.getValue(BlockDoublePlant.VARIANT);
 
                     if (blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.FERN && blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.GRASS)
                     {
@@ -193,7 +193,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
                     {
                         if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears)
                         {
-                            this.onHarvest(worldIn, pos, iblockstate, player);
+                            onHarvest(worldIn, pos, iblockstate, player);
                             worldIn.setBlockToAir(pos.down());
                         }
                         else
@@ -222,7 +222,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
     private boolean onHarvest(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = (BlockDoublePlant.EnumPlantType)state.getValue(VARIANT);
+        BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = state.getValue(BlockDoublePlant.VARIANT);
 
         if (blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.FERN && blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.GRASS)
         {
@@ -232,7 +232,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         {
             player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
             int i = (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS ? BlockTallGrass.EnumType.GRASS : BlockTallGrass.EnumType.FERN).getMeta();
-            spawnAsEntity(worldIn, pos, new ItemStack(Blocks.tallgrass, 2, i));
+            Block.spawnAsEntity(worldIn, pos, new ItemStack(Blocks.tallgrass, 2, i));
             return true;
         }
     }
@@ -250,7 +250,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
     public int getDamageValue(World worldIn, BlockPos pos)
     {
-        return this.getVariant(worldIn, pos).getMeta();
+        return getVariant(worldIn, pos).getMeta();
     }
 
     /**
@@ -258,7 +258,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
      */
     public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient)
     {
-        BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = this.getVariant(worldIn, pos);
+        BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = getVariant(worldIn, pos);
         return blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.GRASS && blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.FERN;
     }
 
@@ -269,7 +269,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
     public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state)
     {
-        spawnAsEntity(worldIn, pos, new ItemStack(this, 1, this.getVariant(worldIn, pos).getMeta()));
+        Block.spawnAsEntity(worldIn, pos, new ItemStack(this, 1, getVariant(worldIn, pos).getMeta()));
     }
 
     /**
@@ -277,7 +277,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return (meta & 8) > 0 ? this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.UPPER) : this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(VARIANT, BlockDoublePlant.EnumPlantType.byMetadata(meta & 7));
+        return (meta & 8) > 0 ? getDefaultState().withProperty(BlockDoublePlant.HALF, BlockDoublePlant.EnumBlockHalf.UPPER) : getDefaultState().withProperty(BlockDoublePlant.HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(BlockDoublePlant.VARIANT, BlockDoublePlant.EnumPlantType.byMetadata(meta & 7));
     }
 
     /**
@@ -286,13 +286,13 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
      */
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
-        if (state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER)
+        if (state.getValue(BlockDoublePlant.HALF) == BlockDoublePlant.EnumBlockHalf.UPPER)
         {
             IBlockState iblockstate = worldIn.getBlockState(pos.down());
 
             if (iblockstate.getBlock() == this)
             {
-                state = state.withProperty(VARIANT, iblockstate.getValue(VARIANT));
+                state = state.withProperty(BlockDoublePlant.VARIANT, iblockstate.getValue(BlockDoublePlant.VARIANT));
             }
         }
 
@@ -304,12 +304,12 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
      */
     public int getMetaFromState(IBlockState state)
     {
-        return state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER ? 8 | ((EnumFacing)state.getValue(field_181084_N)).getHorizontalIndex() : ((BlockDoublePlant.EnumPlantType)state.getValue(VARIANT)).getMeta();
+        return state.getValue(BlockDoublePlant.HALF) == BlockDoublePlant.EnumBlockHalf.UPPER ? 8 | state.getValue(BlockDoublePlant.field_181084_N).getHorizontalIndex() : state.getValue(BlockDoublePlant.VARIANT).getMeta();
     }
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {HALF, VARIANT, field_181084_N});
+        return new BlockState(this, BlockDoublePlant.HALF, BlockDoublePlant.VARIANT, BlockDoublePlant.field_181084_N);
     }
 
     /**
@@ -327,12 +327,12 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
         public String toString()
         {
-            return this.getName();
+            return getName();
         }
 
         public String getName()
         {
-            return this == UPPER ? "upper" : "lower";
+            return this == EnumBlockHalf.UPPER ? "upper" : "lower";
         }
     }
 
@@ -345,7 +345,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
         ROSE(4, "double_rose", "rose"),
         PAEONIA(5, "paeonia");
 
-        private static final BlockDoublePlant.EnumPlantType[] META_LOOKUP = new BlockDoublePlant.EnumPlantType[values().length];
+        private static final BlockDoublePlant.EnumPlantType[] META_LOOKUP = new BlockDoublePlant.EnumPlantType[EnumPlantType.values().length];
         private final int meta;
         private final String name;
         private final String unlocalizedName;
@@ -364,38 +364,38 @@ public class BlockDoublePlant extends BlockBush implements IGrowable
 
         public int getMeta()
         {
-            return this.meta;
+            return meta;
         }
 
         public String toString()
         {
-            return this.name;
+            return name;
         }
 
         public static BlockDoublePlant.EnumPlantType byMetadata(int meta)
         {
-            if (meta < 0 || meta >= META_LOOKUP.length)
+            if (meta < 0 || meta >= EnumPlantType.META_LOOKUP.length)
             {
                 meta = 0;
             }
 
-            return META_LOOKUP[meta];
+            return EnumPlantType.META_LOOKUP[meta];
         }
 
         public String getName()
         {
-            return this.name;
+            return name;
         }
 
         public String getUnlocalizedName()
         {
-            return this.unlocalizedName;
+            return unlocalizedName;
         }
 
         static {
-            for (BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype : values())
+            for (BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype : EnumPlantType.values())
             {
-                META_LOOKUP[blockdoubleplant$enumplanttype.getMeta()] = blockdoubleplant$enumplanttype;
+                EnumPlantType.META_LOOKUP[blockdoubleplant$enumplanttype.getMeta()] = blockdoubleplant$enumplanttype;
             }
         }
     }

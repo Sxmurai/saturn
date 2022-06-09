@@ -61,7 +61,7 @@ public class CryptManager
         catch (NoSuchAlgorithmException nosuchalgorithmexception)
         {
             nosuchalgorithmexception.printStackTrace();
-            LOGGER.error("Key pair generation failed!");
+            CryptManager.LOGGER.error("Key pair generation failed!");
             return null;
         }
     }
@@ -73,7 +73,7 @@ public class CryptManager
     {
         try
         {
-            return digestOperation("SHA-1", new byte[][] {serverId.getBytes("ISO_8859_1"), secretKey.getEncoded(), publicKey.getEncoded()});
+            return CryptManager.digestOperation("SHA-1", serverId.getBytes("ISO_8859_1"), secretKey.getEncoded(), publicKey.getEncoded());
         }
         catch (UnsupportedEncodingException unsupportedencodingexception)
         {
@@ -118,14 +118,12 @@ public class CryptManager
         }
         catch (NoSuchAlgorithmException var3)
         {
-            ;
         }
         catch (InvalidKeySpecException var4)
         {
-            ;
         }
 
-        LOGGER.error("Public key reconstitute failed!");
+        CryptManager.LOGGER.error("Public key reconstitute failed!");
         return null;
     }
 
@@ -134,7 +132,7 @@ public class CryptManager
      */
     public static SecretKey decryptSharedKey(PrivateKey key, byte[] secretKeyEncrypted)
     {
-        return new SecretKeySpec(decryptData(key, secretKeyEncrypted), "AES");
+        return new SecretKeySpec(CryptManager.decryptData(key, secretKeyEncrypted), "AES");
     }
 
     /**
@@ -142,7 +140,7 @@ public class CryptManager
      */
     public static byte[] encryptData(Key key, byte[] data)
     {
-        return cipherOperation(1, key, data);
+        return CryptManager.cipherOperation(1, key, data);
     }
 
     /**
@@ -150,7 +148,7 @@ public class CryptManager
      */
     public static byte[] decryptData(Key key, byte[] data)
     {
-        return cipherOperation(2, key, data);
+        return CryptManager.cipherOperation(2, key, data);
     }
 
     /**
@@ -160,7 +158,7 @@ public class CryptManager
     {
         try
         {
-            return createTheCipherInstance(opMode, key.getAlgorithm(), key).doFinal(data);
+            return CryptManager.createTheCipherInstance(opMode, key.getAlgorithm(), key).doFinal(data);
         }
         catch (IllegalBlockSizeException illegalblocksizeexception)
         {
@@ -171,7 +169,7 @@ public class CryptManager
             badpaddingexception.printStackTrace();
         }
 
-        LOGGER.error("Cipher data failed!");
+        CryptManager.LOGGER.error("Cipher data failed!");
         return null;
     }
 
@@ -199,7 +197,7 @@ public class CryptManager
             nosuchpaddingexception.printStackTrace();
         }
 
-        LOGGER.error("Cipher creation failed!");
+        CryptManager.LOGGER.error("Cipher creation failed!");
         return null;
     }
 
@@ -211,7 +209,7 @@ public class CryptManager
         try
         {
             Cipher cipher = Cipher.getInstance("AES/CFB8/NoPadding");
-            cipher.init(opMode, (Key)key, (AlgorithmParameterSpec)(new IvParameterSpec(key.getEncoded())));
+            cipher.init(opMode, key, new IvParameterSpec(key.getEncoded()));
             return cipher;
         }
         catch (GeneralSecurityException generalsecurityexception)

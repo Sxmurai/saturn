@@ -21,22 +21,22 @@ public class Teleporter
     /** A private Random() function in Teleporter */
     private final Random random;
     private final LongHashMap destinationCoordinateCache = new LongHashMap();
-    private final List<Long> destinationCoordinateKeys = Lists.<Long>newArrayList();
+    private final List<Long> destinationCoordinateKeys = Lists.newArrayList();
 
     public Teleporter(WorldServer worldIn)
     {
-        this.worldServerInstance = worldIn;
-        this.random = new Random(worldIn.getSeed());
+        worldServerInstance = worldIn;
+        random = new Random(worldIn.getSeed());
     }
 
     public void placeInPortal(Entity entityIn, float rotationYaw)
     {
-        if (this.worldServerInstance.provider.getDimensionId() != 1)
+        if (worldServerInstance.provider.getDimensionId() != 1)
         {
-            if (!this.placeInExistingPortal(entityIn, rotationYaw))
+            if (!placeInExistingPortal(entityIn, rotationYaw))
             {
-                this.makePortal(entityIn);
-                this.placeInExistingPortal(entityIn, rotationYaw);
+                makePortal(entityIn);
+                placeInExistingPortal(entityIn, rotationYaw);
             }
         }
         else
@@ -57,12 +57,12 @@ public class Teleporter
                         int j2 = j + l1;
                         int k2 = k + k1 * i1 - j1 * l;
                         boolean flag = l1 < 0;
-                        this.worldServerInstance.setBlockState(new BlockPos(i2, j2, k2), flag ? Blocks.obsidian.getDefaultState() : Blocks.air.getDefaultState());
+                        worldServerInstance.setBlockState(new BlockPos(i2, j2, k2), flag ? Blocks.obsidian.getDefaultState() : Blocks.air.getDefaultState());
                     }
                 }
             }
 
-            entityIn.setLocationAndAngles((double)i, (double)j, (double)k, entityIn.rotationYaw, 0.0F);
+            entityIn.setLocationAndAngles(i, j, k, entityIn.rotationYaw, 0.0F);
             entityIn.motionX = entityIn.motionY = entityIn.motionZ = 0.0D;
         }
     }
@@ -77,12 +77,12 @@ public class Teleporter
         BlockPos blockpos = BlockPos.ORIGIN;
         long l = ChunkCoordIntPair.chunkXZ2Int(j, k);
 
-        if (this.destinationCoordinateCache.containsItem(l))
+        if (destinationCoordinateCache.containsItem(l))
         {
-            Teleporter.PortalPosition teleporter$portalposition = (Teleporter.PortalPosition)this.destinationCoordinateCache.getValueByKey(l);
+            Teleporter.PortalPosition teleporter$portalposition = (Teleporter.PortalPosition) destinationCoordinateCache.getValueByKey(l);
             d0 = 0.0D;
             blockpos = teleporter$portalposition;
-            teleporter$portalposition.lastUpdateTime = this.worldServerInstance.getTotalWorldTime();
+            teleporter$portalposition.lastUpdateTime = worldServerInstance.getTotalWorldTime();
             flag = false;
         }
         else
@@ -95,13 +95,13 @@ public class Teleporter
 
                 for (int j1 = -128; j1 <= 128; ++j1)
                 {
-                    for (BlockPos blockpos1 = blockpos3.add(i1, this.worldServerInstance.getActualHeight() - 1 - blockpos3.getY(), j1); blockpos1.getY() >= 0; blockpos1 = blockpos2)
+                    for (BlockPos blockpos1 = blockpos3.add(i1, worldServerInstance.getActualHeight() - 1 - blockpos3.getY(), j1); blockpos1.getY() >= 0; blockpos1 = blockpos2)
                     {
                         blockpos2 = blockpos1.down();
 
-                        if (this.worldServerInstance.getBlockState(blockpos1).getBlock() == Blocks.portal)
+                        if (worldServerInstance.getBlockState(blockpos1).getBlock() == Blocks.portal)
                         {
-                            while (this.worldServerInstance.getBlockState(blockpos2 = blockpos1.down()).getBlock() == Blocks.portal)
+                            while (worldServerInstance.getBlockState(blockpos2 = blockpos1.down()).getBlock() == Blocks.portal)
                             {
                                 blockpos1 = blockpos2;
                             }
@@ -123,14 +123,14 @@ public class Teleporter
         {
             if (flag)
             {
-                this.destinationCoordinateCache.add(l, new Teleporter.PortalPosition(blockpos, this.worldServerInstance.getTotalWorldTime()));
-                this.destinationCoordinateKeys.add(Long.valueOf(l));
+                destinationCoordinateCache.add(l, new Teleporter.PortalPosition(blockpos, worldServerInstance.getTotalWorldTime()));
+                destinationCoordinateKeys.add(Long.valueOf(l));
             }
 
             double d5 = (double)blockpos.getX() + 0.5D;
             double d6 = (double)blockpos.getY() + 0.5D;
             double d7 = (double)blockpos.getZ() + 0.5D;
-            BlockPattern.PatternHelper blockpattern$patternhelper = Blocks.portal.func_181089_f(this.worldServerInstance, blockpos);
+            BlockPattern.PatternHelper blockpattern$patternhelper = Blocks.portal.func_181089_f(worldServerInstance, blockpos);
             boolean flag1 = blockpattern$patternhelper.getFinger().rotateY().getAxisDirection() == EnumFacing.AxisDirection.NEGATIVE;
             double d2 = blockpattern$patternhelper.getFinger().getAxis() == EnumFacing.Axis.X ? (double)blockpattern$patternhelper.func_181117_a().getZ() : (double)blockpattern$patternhelper.func_181117_a().getX();
             d6 = (double)(blockpattern$patternhelper.func_181117_a().getY() + 1) - entityIn.func_181014_aG().yCoord * (double)blockpattern$patternhelper.func_181119_e();
@@ -200,7 +200,7 @@ public class Teleporter
         int j1 = k;
         int k1 = l;
         int l1 = 0;
-        int i2 = this.random.nextInt(4);
+        int i2 = random.nextInt(4);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
         for (int j2 = j - i; j2 <= j + i; ++j2)
@@ -212,11 +212,11 @@ public class Teleporter
                 double d2 = (double)l2 + 0.5D - p_85188_1_.posZ;
                 label142:
 
-                for (int j3 = this.worldServerInstance.getActualHeight() - 1; j3 >= 0; --j3)
+                for (int j3 = worldServerInstance.getActualHeight() - 1; j3 >= 0; --j3)
                 {
-                    if (this.worldServerInstance.isAirBlock(blockpos$mutableblockpos.func_181079_c(j2, j3, l2)))
+                    if (worldServerInstance.isAirBlock(blockpos$mutableblockpos.func_181079_c(j2, j3, l2)))
                     {
-                        while (j3 > 0 && this.worldServerInstance.isAirBlock(blockpos$mutableblockpos.func_181079_c(j2, j3 - 1, l2)))
+                        while (j3 > 0 && worldServerInstance.isAirBlock(blockpos$mutableblockpos.func_181079_c(j2, j3 - 1, l2)))
                         {
                             --j3;
                         }
@@ -243,7 +243,7 @@ public class Teleporter
                                         int k5 = l2 + (k4 - 1) * i4 - j4 * l3;
                                         blockpos$mutableblockpos.func_181079_c(i5, j5, k5);
 
-                                        if (l4 < 0 && !this.worldServerInstance.getBlockState(blockpos$mutableblockpos).getBlock().getMaterial().isSolid() || l4 >= 0 && !this.worldServerInstance.isAirBlock(blockpos$mutableblockpos))
+                                        if (l4 < 0 && !worldServerInstance.getBlockState(blockpos$mutableblockpos).getBlock().getMaterial().isSolid() || l4 >= 0 && !worldServerInstance.isAirBlock(blockpos$mutableblockpos))
                                         {
                                             continue label142;
                                         }
@@ -279,11 +279,11 @@ public class Teleporter
                     double d4 = (double)j6 + 0.5D - p_85188_1_.posZ;
                     label562:
 
-                    for (int i7 = this.worldServerInstance.getActualHeight() - 1; i7 >= 0; --i7)
+                    for (int i7 = worldServerInstance.getActualHeight() - 1; i7 >= 0; --i7)
                     {
-                        if (this.worldServerInstance.isAirBlock(blockpos$mutableblockpos.func_181079_c(l5, i7, j6)))
+                        if (worldServerInstance.isAirBlock(blockpos$mutableblockpos.func_181079_c(l5, i7, j6)))
                         {
-                            while (i7 > 0 && this.worldServerInstance.isAirBlock(blockpos$mutableblockpos.func_181079_c(l5, i7 - 1, j6)))
+                            while (i7 > 0 && worldServerInstance.isAirBlock(blockpos$mutableblockpos.func_181079_c(l5, i7 - 1, j6)))
                             {
                                 --i7;
                             }
@@ -302,7 +302,7 @@ public class Teleporter
                                         int j13 = j6 + (j10 - 1) * j9;
                                         blockpos$mutableblockpos.func_181079_c(j12, i13, j13);
 
-                                        if (j11 < 0 && !this.worldServerInstance.getBlockState(blockpos$mutableblockpos).getBlock().getMaterial().isSolid() || j11 >= 0 && !this.worldServerInstance.isAirBlock(blockpos$mutableblockpos))
+                                        if (j11 < 0 && !worldServerInstance.getBlockState(blockpos$mutableblockpos).getBlock().getMaterial().isSolid() || j11 >= 0 && !worldServerInstance.isAirBlock(blockpos$mutableblockpos))
                                         {
                                             continue label562;
                                         }
@@ -341,7 +341,7 @@ public class Teleporter
 
         if (d0 < 0.0D)
         {
-            j1 = MathHelper.clamp_int(j1, 70, this.worldServerInstance.getActualHeight() - 10);
+            j1 = MathHelper.clamp_int(j1, 70, worldServerInstance.getActualHeight() - 10);
             k2 = j1;
 
             for (int j7 = -1; j7 <= 1; ++j7)
@@ -354,7 +354,7 @@ public class Teleporter
                         int k10 = k2 + k8;
                         int k11 = k6 + (l7 - 1) * i3 - j7 * l6;
                         boolean flag = k8 < 0;
-                        this.worldServerInstance.setBlockState(new BlockPos(k9, k10, k11), flag ? Blocks.obsidian.getDefaultState() : Blocks.air.getDefaultState());
+                        worldServerInstance.setBlockState(new BlockPos(k9, k10, k11), flag ? Blocks.obsidian.getDefaultState() : Blocks.air.getDefaultState());
                     }
                 }
             }
@@ -372,7 +372,7 @@ public class Teleporter
                     int l11 = k2 + l9;
                     int k12 = k6 + (l8 - 1) * i3;
                     boolean flag1 = l8 == 0 || l8 == 3 || l9 == -1 || l9 == 3;
-                    this.worldServerInstance.setBlockState(new BlockPos(l10, l11, k12), flag1 ? Blocks.obsidian.getDefaultState() : iblockstate, 2);
+                    worldServerInstance.setBlockState(new BlockPos(l10, l11, k12), flag1 ? Blocks.obsidian.getDefaultState() : iblockstate, 2);
                 }
             }
 
@@ -384,7 +384,7 @@ public class Teleporter
                     int i12 = k2 + i10;
                     int l12 = k6 + (i9 - 1) * i3;
                     BlockPos blockpos = new BlockPos(i11, i12, l12);
-                    this.worldServerInstance.notifyNeighborsOfStateChange(blockpos, this.worldServerInstance.getBlockState(blockpos).getBlock());
+                    worldServerInstance.notifyNeighborsOfStateChange(blockpos, worldServerInstance.getBlockState(blockpos).getBlock());
                 }
             }
         }
@@ -400,18 +400,18 @@ public class Teleporter
     {
         if (worldTime % 100L == 0L)
         {
-            Iterator<Long> iterator = this.destinationCoordinateKeys.iterator();
+            Iterator<Long> iterator = destinationCoordinateKeys.iterator();
             long i = worldTime - 300L;
 
             while (iterator.hasNext())
             {
-                Long olong = (Long)iterator.next();
-                Teleporter.PortalPosition teleporter$portalposition = (Teleporter.PortalPosition)this.destinationCoordinateCache.getValueByKey(olong.longValue());
+                Long olong = iterator.next();
+                Teleporter.PortalPosition teleporter$portalposition = (Teleporter.PortalPosition) destinationCoordinateCache.getValueByKey(olong.longValue());
 
                 if (teleporter$portalposition == null || teleporter$portalposition.lastUpdateTime < i)
                 {
                     iterator.remove();
-                    this.destinationCoordinateCache.remove(olong.longValue());
+                    destinationCoordinateCache.remove(olong.longValue());
                 }
             }
         }
@@ -424,7 +424,7 @@ public class Teleporter
         public PortalPosition(BlockPos pos, long lastUpdate)
         {
             super(pos.getX(), pos.getY(), pos.getZ());
-            this.lastUpdateTime = lastUpdate;
+            lastUpdateTime = lastUpdate;
         }
     }
 }

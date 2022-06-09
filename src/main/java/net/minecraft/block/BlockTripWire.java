@@ -33,9 +33,9 @@ public class BlockTripWire extends Block
     public BlockTripWire()
     {
         super(Material.circuits);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(POWERED, Boolean.valueOf(false)).withProperty(SUSPENDED, Boolean.valueOf(false)).withProperty(ATTACHED, Boolean.valueOf(false)).withProperty(DISARMED, Boolean.valueOf(false)).withProperty(NORTH, Boolean.valueOf(false)).withProperty(EAST, Boolean.valueOf(false)).withProperty(SOUTH, Boolean.valueOf(false)).withProperty(WEST, Boolean.valueOf(false)));
-        this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.15625F, 1.0F);
-        this.setTickRandomly(true);
+        setDefaultState(blockState.getBaseState().withProperty(BlockTripWire.POWERED, Boolean.valueOf(false)).withProperty(BlockTripWire.SUSPENDED, Boolean.valueOf(false)).withProperty(BlockTripWire.ATTACHED, Boolean.valueOf(false)).withProperty(BlockTripWire.DISARMED, Boolean.valueOf(false)).withProperty(BlockTripWire.NORTH, Boolean.valueOf(false)).withProperty(BlockTripWire.EAST, Boolean.valueOf(false)).withProperty(BlockTripWire.SOUTH, Boolean.valueOf(false)).withProperty(BlockTripWire.WEST, Boolean.valueOf(false)));
+        setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.15625F, 1.0F);
+        setTickRandomly(true);
     }
 
     /**
@@ -44,7 +44,7 @@ public class BlockTripWire extends Block
      */
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos)
     {
-        return state.withProperty(NORTH, Boolean.valueOf(isConnectedTo(worldIn, pos, state, EnumFacing.NORTH))).withProperty(EAST, Boolean.valueOf(isConnectedTo(worldIn, pos, state, EnumFacing.EAST))).withProperty(SOUTH, Boolean.valueOf(isConnectedTo(worldIn, pos, state, EnumFacing.SOUTH))).withProperty(WEST, Boolean.valueOf(isConnectedTo(worldIn, pos, state, EnumFacing.WEST)));
+        return state.withProperty(BlockTripWire.NORTH, Boolean.valueOf(BlockTripWire.isConnectedTo(worldIn, pos, state, EnumFacing.NORTH))).withProperty(BlockTripWire.EAST, Boolean.valueOf(BlockTripWire.isConnectedTo(worldIn, pos, state, EnumFacing.EAST))).withProperty(BlockTripWire.SOUTH, Boolean.valueOf(BlockTripWire.isConnectedTo(worldIn, pos, state, EnumFacing.SOUTH))).withProperty(BlockTripWire.WEST, Boolean.valueOf(BlockTripWire.isConnectedTo(worldIn, pos, state, EnumFacing.WEST)));
     }
 
     public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state)
@@ -88,12 +88,12 @@ public class BlockTripWire extends Block
      */
     public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock)
     {
-        boolean flag = ((Boolean)state.getValue(SUSPENDED)).booleanValue();
+        boolean flag = state.getValue(BlockTripWire.SUSPENDED).booleanValue();
         boolean flag1 = !World.doesBlockHaveSolidTopSurface(worldIn, pos.down());
 
         if (flag != flag1)
         {
-            this.dropBlockAsItem(worldIn, pos, state, 0);
+            dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockToAir(pos);
         }
     }
@@ -101,33 +101,33 @@ public class BlockTripWire extends Block
     public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos)
     {
         IBlockState iblockstate = worldIn.getBlockState(pos);
-        boolean flag = ((Boolean)iblockstate.getValue(ATTACHED)).booleanValue();
-        boolean flag1 = ((Boolean)iblockstate.getValue(SUSPENDED)).booleanValue();
+        boolean flag = iblockstate.getValue(BlockTripWire.ATTACHED).booleanValue();
+        boolean flag1 = iblockstate.getValue(BlockTripWire.SUSPENDED).booleanValue();
 
         if (!flag1)
         {
-            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.09375F, 1.0F);
+            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.09375F, 1.0F);
         }
         else if (!flag)
         {
-            this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
+            setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.5F, 1.0F);
         }
         else
         {
-            this.setBlockBounds(0.0F, 0.0625F, 0.0F, 1.0F, 0.15625F, 1.0F);
+            setBlockBounds(0.0F, 0.0625F, 0.0F, 1.0F, 0.15625F, 1.0F);
         }
     }
 
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        state = state.withProperty(SUSPENDED, Boolean.valueOf(!World.doesBlockHaveSolidTopSurface(worldIn, pos.down())));
+        state = state.withProperty(BlockTripWire.SUSPENDED, Boolean.valueOf(!World.doesBlockHaveSolidTopSurface(worldIn, pos.down())));
         worldIn.setBlockState(pos, state, 3);
-        this.notifyHook(worldIn, pos, state);
+        notifyHook(worldIn, pos, state);
     }
 
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
-        this.notifyHook(worldIn, pos, state.withProperty(POWERED, Boolean.valueOf(true)));
+        notifyHook(worldIn, pos, state.withProperty(BlockTripWire.POWERED, Boolean.valueOf(true)));
     }
 
     public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player)
@@ -136,7 +136,7 @@ public class BlockTripWire extends Block
         {
             if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Items.shears)
             {
-                worldIn.setBlockState(pos, state.withProperty(DISARMED, Boolean.valueOf(true)), 4);
+                worldIn.setBlockState(pos, state.withProperty(BlockTripWire.DISARMED, Boolean.valueOf(true)), 4);
             }
         }
     }
@@ -175,9 +175,9 @@ public class BlockTripWire extends Block
     {
         if (!worldIn.isRemote)
         {
-            if (!((Boolean)state.getValue(POWERED)).booleanValue())
+            if (!state.getValue(BlockTripWire.POWERED).booleanValue())
             {
-                this.updateState(worldIn, pos);
+                updateState(worldIn, pos);
             }
         }
     }
@@ -193,9 +193,9 @@ public class BlockTripWire extends Block
     {
         if (!worldIn.isRemote)
         {
-            if (((Boolean)worldIn.getBlockState(pos).getValue(POWERED)).booleanValue())
+            if (worldIn.getBlockState(pos).getValue(BlockTripWire.POWERED).booleanValue())
             {
-                this.updateState(worldIn, pos);
+                updateState(worldIn, pos);
             }
         }
     }
@@ -203,9 +203,9 @@ public class BlockTripWire extends Block
     private void updateState(World worldIn, BlockPos pos)
     {
         IBlockState iblockstate = worldIn.getBlockState(pos);
-        boolean flag = ((Boolean)iblockstate.getValue(POWERED)).booleanValue();
+        boolean flag = iblockstate.getValue(BlockTripWire.POWERED).booleanValue();
         boolean flag1 = false;
-        List <? extends Entity > list = worldIn.getEntitiesWithinAABBExcludingEntity((Entity)null, new AxisAlignedBB((double)pos.getX() + this.minX, (double)pos.getY() + this.minY, (double)pos.getZ() + this.minZ, (double)pos.getX() + this.maxX, (double)pos.getY() + this.maxY, (double)pos.getZ() + this.maxZ));
+        List <? extends Entity > list = worldIn.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB((double)pos.getX() + minX, (double)pos.getY() + minY, (double)pos.getZ() + minZ, (double)pos.getX() + maxX, (double)pos.getY() + maxY, (double)pos.getZ() + maxZ));
 
         if (!list.isEmpty())
         {
@@ -221,14 +221,14 @@ public class BlockTripWire extends Block
 
         if (flag1 != flag)
         {
-            iblockstate = iblockstate.withProperty(POWERED, Boolean.valueOf(flag1));
+            iblockstate = iblockstate.withProperty(BlockTripWire.POWERED, Boolean.valueOf(flag1));
             worldIn.setBlockState(pos, iblockstate, 3);
-            this.notifyHook(worldIn, pos, iblockstate);
+            notifyHook(worldIn, pos, iblockstate);
         }
 
         if (flag1)
         {
-            worldIn.scheduleUpdate(pos, this, this.tickRate(worldIn));
+            worldIn.scheduleUpdate(pos, this, tickRate(worldIn));
         }
     }
 
@@ -245,8 +245,8 @@ public class BlockTripWire extends Block
         }
         else if (block == Blocks.tripwire)
         {
-            boolean flag = ((Boolean)state.getValue(SUSPENDED)).booleanValue();
-            boolean flag1 = ((Boolean)iblockstate.getValue(SUSPENDED)).booleanValue();
+            boolean flag = state.getValue(BlockTripWire.SUSPENDED).booleanValue();
+            boolean flag1 = iblockstate.getValue(BlockTripWire.SUSPENDED).booleanValue();
             return flag == flag1;
         }
         else
@@ -260,7 +260,7 @@ public class BlockTripWire extends Block
      */
     public IBlockState getStateFromMeta(int meta)
     {
-        return this.getDefaultState().withProperty(POWERED, Boolean.valueOf((meta & 1) > 0)).withProperty(SUSPENDED, Boolean.valueOf((meta & 2) > 0)).withProperty(ATTACHED, Boolean.valueOf((meta & 4) > 0)).withProperty(DISARMED, Boolean.valueOf((meta & 8) > 0));
+        return getDefaultState().withProperty(BlockTripWire.POWERED, Boolean.valueOf((meta & 1) > 0)).withProperty(BlockTripWire.SUSPENDED, Boolean.valueOf((meta & 2) > 0)).withProperty(BlockTripWire.ATTACHED, Boolean.valueOf((meta & 4) > 0)).withProperty(BlockTripWire.DISARMED, Boolean.valueOf((meta & 8) > 0));
     }
 
     /**
@@ -270,22 +270,22 @@ public class BlockTripWire extends Block
     {
         int i = 0;
 
-        if (((Boolean)state.getValue(POWERED)).booleanValue())
+        if (state.getValue(BlockTripWire.POWERED).booleanValue())
         {
             i |= 1;
         }
 
-        if (((Boolean)state.getValue(SUSPENDED)).booleanValue())
+        if (state.getValue(BlockTripWire.SUSPENDED).booleanValue())
         {
             i |= 2;
         }
 
-        if (((Boolean)state.getValue(ATTACHED)).booleanValue())
+        if (state.getValue(BlockTripWire.ATTACHED).booleanValue())
         {
             i |= 4;
         }
 
-        if (((Boolean)state.getValue(DISARMED)).booleanValue())
+        if (state.getValue(BlockTripWire.DISARMED).booleanValue())
         {
             i |= 8;
         }
@@ -295,6 +295,6 @@ public class BlockTripWire extends Block
 
     protected BlockState createBlockState()
     {
-        return new BlockState(this, new IProperty[] {POWERED, SUSPENDED, ATTACHED, DISARMED, NORTH, EAST, WEST, SOUTH});
+        return new BlockState(this, BlockTripWire.POWERED, BlockTripWire.SUSPENDED, BlockTripWire.ATTACHED, BlockTripWire.DISARMED, BlockTripWire.NORTH, BlockTripWire.EAST, BlockTripWire.WEST, BlockTripWire.SOUTH);
     }
 }

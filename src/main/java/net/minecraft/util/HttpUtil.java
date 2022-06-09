@@ -19,7 +19,6 @@ import java.net.ServerSocket;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.server.MinecraftServer;
@@ -43,7 +42,7 @@ public class HttpUtil
     {
         StringBuilder stringbuilder = new StringBuilder();
 
-        for (Entry<String, Object> entry : data.entrySet())
+        for (Map.Entry<String, Object> entry : data.entrySet())
         {
             if (stringbuilder.length() > 0)
             {
@@ -52,7 +51,7 @@ public class HttpUtil
 
             try
             {
-                stringbuilder.append(URLEncoder.encode((String)entry.getKey(), "UTF-8"));
+                stringbuilder.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
             }
             catch (UnsupportedEncodingException unsupportedencodingexception1)
             {
@@ -82,7 +81,7 @@ public class HttpUtil
      */
     public static String postMap(URL url, Map<String, Object> data, boolean skipLoggingErrors)
     {
-        return post(url, buildPostString(data), skipLoggingErrors);
+        return HttpUtil.post(url, HttpUtil.buildPostString(data), skipLoggingErrors);
     }
 
     /**
@@ -128,7 +127,7 @@ public class HttpUtil
         {
             if (!skipLoggingErrors)
             {
-                logger.error((String)("Could not post to " + url), (Throwable)exception);
+                HttpUtil.logger.error("Could not post to " + url, exception);
             }
 
             return "";
@@ -137,7 +136,7 @@ public class HttpUtil
 
     public static ListenableFuture<Object> downloadResourcePack(final File saveFile, final String packUrl, final Map<String, String> p_180192_2_, final int maxSize, final IProgressUpdate p_180192_4_, final Proxy p_180192_5_)
     {
-        ListenableFuture<?> listenablefuture = field_180193_a.submit(new Runnable()
+        ListenableFuture<?> listenablefuture = HttpUtil.field_180193_a.submit(new Runnable()
         {
             public void run()
             {
@@ -161,9 +160,9 @@ public class HttpUtil
                         float f = 0.0F;
                         float f1 = (float)p_180192_2_.entrySet().size();
 
-                        for (Entry<String, String> entry : p_180192_2_.entrySet())
+                        for (Map.Entry<String, String> entry : p_180192_2_.entrySet())
                         {
-                            httpurlconnection.setRequestProperty((String)entry.getKey(), (String)entry.getValue());
+                            httpurlconnection.setRequestProperty(entry.getKey(), entry.getValue());
 
                             if (p_180192_4_ != null)
                             {
@@ -177,7 +176,7 @@ public class HttpUtil
 
                         if (p_180192_4_ != null)
                         {
-                            p_180192_4_.displayLoadingString(String.format("Downloading file (%.2f MB)...", new Object[] {Float.valueOf(f1 / 1000.0F / 1000.0F)}));
+                            p_180192_4_.displayLoadingString(String.format("Downloading file (%.2f MB)...", Float.valueOf(f1 / 1000.0F / 1000.0F)));
                         }
 
                         if (saveFile.exists())
@@ -312,7 +311,6 @@ public class HttpUtil
             }
             catch (IOException var8)
             {
-                ;
             }
         }
 

@@ -16,7 +16,7 @@ public class RenderWolf extends RenderLiving<EntityWolf>
     public RenderWolf(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn)
     {
         super(renderManagerIn, modelBaseIn, shadowSizeIn);
-        this.addLayer(new LayerWolfCollar(this));
+        addLayer(new LayerWolfCollar(this));
     }
 
     /**
@@ -49,6 +49,6 @@ public class RenderWolf extends RenderLiving<EntityWolf>
      */
     protected ResourceLocation getEntityTexture(EntityWolf entity)
     {
-        return entity.isTamed() ? tamedWolfTextures : (entity.isAngry() ? anrgyWolfTextures : wolfTextures);
+        return entity.isTamed() ? RenderWolf.tamedWolfTextures : (entity.isAngry() ? RenderWolf.anrgyWolfTextures : RenderWolf.wolfTextures);
     }
 }

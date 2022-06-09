@@ -7,7 +7,7 @@ public class ColorizerFoliage
 
     public static void setFoliageBiomeColorizer(int[] p_77467_0_)
     {
-        foliageBuffer = p_77467_0_;
+        ColorizerFoliage.foliageBuffer = p_77467_0_;
     }
 
     /**
@@ -18,7 +18,7 @@ public class ColorizerFoliage
         p_77470_2_ = p_77470_2_ * p_77470_0_;
         int i = (int)((1.0D - p_77470_0_) * 255.0D);
         int j = (int)((1.0D - p_77470_2_) * 255.0D);
-        return foliageBuffer[j << 8 | i];
+        return ColorizerFoliage.foliageBuffer[j << 8 | i];
     }
 
     /**

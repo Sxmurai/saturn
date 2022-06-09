@@ -22,15 +22,15 @@ public class ShapedRecipes implements IRecipe
 
     public ShapedRecipes(int width, int height, ItemStack[] p_i1917_3_, ItemStack output)
     {
-        this.recipeWidth = width;
-        this.recipeHeight = height;
-        this.recipeItems = p_i1917_3_;
-        this.recipeOutput = output;
+        recipeWidth = width;
+        recipeHeight = height;
+        recipeItems = p_i1917_3_;
+        recipeOutput = output;
     }
 
     public ItemStack getRecipeOutput()
     {
-        return this.recipeOutput;
+        return recipeOutput;
     }
 
     public ItemStack[] getRemainingItems(InventoryCrafting inv)
@@ -55,16 +55,16 @@ public class ShapedRecipes implements IRecipe
      */
     public boolean matches(InventoryCrafting inv, World worldIn)
     {
-        for (int i = 0; i <= 3 - this.recipeWidth; ++i)
+        for (int i = 0; i <= 3 - recipeWidth; ++i)
         {
-            for (int j = 0; j <= 3 - this.recipeHeight; ++j)
+            for (int j = 0; j <= 3 - recipeHeight; ++j)
             {
-                if (this.checkMatch(inv, i, j, true))
+                if (checkMatch(inv, i, j, true))
                 {
                     return true;
                 }
 
-                if (this.checkMatch(inv, i, j, false))
+                if (checkMatch(inv, i, j, false))
                 {
                     return true;
                 }
@@ -87,15 +87,15 @@ public class ShapedRecipes implements IRecipe
                 int l = j - p_77573_3_;
                 ItemStack itemstack = null;
 
-                if (k >= 0 && l >= 0 && k < this.recipeWidth && l < this.recipeHeight)
+                if (k >= 0 && l >= 0 && k < recipeWidth && l < recipeHeight)
                 {
                     if (p_77573_4_)
                     {
-                        itemstack = this.recipeItems[this.recipeWidth - k - 1 + l * this.recipeWidth];
+                        itemstack = recipeItems[recipeWidth - k - 1 + l * recipeWidth];
                     }
                     else
                     {
-                        itemstack = this.recipeItems[k + l * this.recipeWidth];
+                        itemstack = recipeItems[k + l * recipeWidth];
                     }
                 }
 
@@ -129,9 +129,9 @@ public class ShapedRecipes implements IRecipe
      */
     public ItemStack getCraftingResult(InventoryCrafting inv)
     {
-        ItemStack itemstack = this.getRecipeOutput().copy();
+        ItemStack itemstack = getRecipeOutput().copy();
 
-        if (this.copyIngredientNBT)
+        if (copyIngredientNBT)
         {
             for (int i = 0; i < inv.getSizeInventory(); ++i)
             {
@@ -152,6 +152,6 @@ public class ShapedRecipes implements IRecipe
      */
     public int getRecipeSize()
     {
-        return this.recipeWidth * this.recipeHeight;
+        return recipeWidth * recipeHeight;
     }
 }

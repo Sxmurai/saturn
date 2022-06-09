@@ -8,15 +8,15 @@ import net.minecraft.util.BlockPos;
 public class WorldChunkManagerHell extends WorldChunkManager
 {
     /** The biome generator object. */
-    private BiomeGenBase biomeGenerator;
+    private final BiomeGenBase biomeGenerator;
 
     /** The rainfall in the world */
-    private float rainfall;
+    private final float rainfall;
 
     public WorldChunkManagerHell(BiomeGenBase p_i45374_1_, float p_i45374_2_)
     {
-        this.biomeGenerator = p_i45374_1_;
-        this.rainfall = p_i45374_2_;
+        biomeGenerator = p_i45374_1_;
+        rainfall = p_i45374_2_;
     }
 
     /**
@@ -24,7 +24,7 @@ public class WorldChunkManagerHell extends WorldChunkManager
      */
     public BiomeGenBase getBiomeGenerator(BlockPos pos)
     {
-        return this.biomeGenerator;
+        return biomeGenerator;
     }
 
     /**
@@ -37,7 +37,7 @@ public class WorldChunkManagerHell extends WorldChunkManager
             biomes = new BiomeGenBase[width * height];
         }
 
-        Arrays.fill(biomes, 0, width * height, this.biomeGenerator);
+        Arrays.fill(biomes, 0, width * height, biomeGenerator);
         return biomes;
     }
 
@@ -51,7 +51,7 @@ public class WorldChunkManagerHell extends WorldChunkManager
             listToReuse = new float[width * length];
         }
 
-        Arrays.fill(listToReuse, 0, width * length, this.rainfall);
+        Arrays.fill(listToReuse, 0, width * length, rainfall);
         return listToReuse;
     }
 
@@ -66,7 +66,7 @@ public class WorldChunkManagerHell extends WorldChunkManager
             oldBiomeList = new BiomeGenBase[width * depth];
         }
 
-        Arrays.fill(oldBiomeList, 0, width * depth, this.biomeGenerator);
+        Arrays.fill(oldBiomeList, 0, width * depth, biomeGenerator);
         return oldBiomeList;
     }
 
@@ -76,12 +76,12 @@ public class WorldChunkManagerHell extends WorldChunkManager
      */
     public BiomeGenBase[] getBiomeGenAt(BiomeGenBase[] listToReuse, int x, int z, int width, int length, boolean cacheFlag)
     {
-        return this.loadBlockGeneratorData(listToReuse, x, z, width, length);
+        return loadBlockGeneratorData(listToReuse, x, z, width, length);
     }
 
     public BlockPos findBiomePosition(int x, int z, int range, List<BiomeGenBase> biomes, Random random)
     {
-        return biomes.contains(this.biomeGenerator) ? new BlockPos(x - range + random.nextInt(range * 2 + 1), 0, z - range + random.nextInt(range * 2 + 1)) : null;
+        return biomes.contains(biomeGenerator) ? new BlockPos(x - range + random.nextInt(range * 2 + 1), 0, z - range + random.nextInt(range * 2 + 1)) : null;
     }
 
     /**
@@ -89,6 +89,6 @@ public class WorldChunkManagerHell extends WorldChunkManager
      */
     public boolean areBiomesViable(int p_76940_1_, int p_76940_2_, int p_76940_3_, List<BiomeGenBase> p_76940_4_)
     {
-        return p_76940_4_.contains(this.biomeGenerator);
+        return p_76940_4_.contains(biomeGenerator);
     }
 }

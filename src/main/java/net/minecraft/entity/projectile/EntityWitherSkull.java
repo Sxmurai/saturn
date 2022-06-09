@@ -18,13 +18,13 @@ public class EntityWitherSkull extends EntityFireball
     public EntityWitherSkull(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.3125F, 0.3125F);
+        setSize(0.3125F, 0.3125F);
     }
 
     public EntityWitherSkull(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ)
     {
         super(worldIn, shooter, accelX, accelY, accelZ);
-        this.setSize(0.3125F, 0.3125F);
+        setSize(0.3125F, 0.3125F);
     }
 
     /**
@@ -32,13 +32,13 @@ public class EntityWitherSkull extends EntityFireball
      */
     protected float getMotionFactor()
     {
-        return this.isInvulnerable() ? 0.73F : super.getMotionFactor();
+        return isInvulnerable() ? 0.73F : super.getMotionFactor();
     }
 
     public EntityWitherSkull(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ)
     {
         super(worldIn, x, y, z, accelX, accelY, accelZ);
-        this.setSize(0.3125F, 0.3125F);
+        setSize(0.3125F, 0.3125F);
     }
 
     /**
@@ -57,7 +57,7 @@ public class EntityWitherSkull extends EntityFireball
         float f = super.getExplosionResistance(explosionIn, worldIn, pos, blockStateIn);
         Block block = blockStateIn.getBlock();
 
-        if (this.isInvulnerable() && EntityWither.func_181033_a(block))
+        if (isInvulnerable() && EntityWither.func_181033_a(block))
         {
             f = Math.min(0.8F, f);
         }
@@ -70,21 +70,21 @@ public class EntityWitherSkull extends EntityFireball
      */
     protected void onImpact(MovingObjectPosition movingObject)
     {
-        if (!this.worldObj.isRemote)
+        if (!worldObj.isRemote)
         {
             if (movingObject.entityHit != null)
             {
-                if (this.shootingEntity != null)
+                if (shootingEntity != null)
                 {
-                    if (movingObject.entityHit.attackEntityFrom(DamageSource.causeMobDamage(this.shootingEntity), 8.0F))
+                    if (movingObject.entityHit.attackEntityFrom(DamageSource.causeMobDamage(shootingEntity), 8.0F))
                     {
                         if (!movingObject.entityHit.isEntityAlive())
                         {
-                            this.shootingEntity.heal(5.0F);
+                            shootingEntity.heal(5.0F);
                         }
                         else
                         {
-                            this.applyEnchantments(this.shootingEntity, movingObject.entityHit);
+                            applyEnchantments(shootingEntity, movingObject.entityHit);
                         }
                     }
                 }
@@ -97,11 +97,11 @@ public class EntityWitherSkull extends EntityFireball
                 {
                     int i = 0;
 
-                    if (this.worldObj.getDifficulty() == EnumDifficulty.NORMAL)
+                    if (worldObj.getDifficulty() == EnumDifficulty.NORMAL)
                     {
                         i = 10;
                     }
-                    else if (this.worldObj.getDifficulty() == EnumDifficulty.HARD)
+                    else if (worldObj.getDifficulty() == EnumDifficulty.HARD)
                     {
                         i = 40;
                     }
@@ -113,8 +113,8 @@ public class EntityWitherSkull extends EntityFireball
                 }
             }
 
-            this.worldObj.newExplosion(this, this.posX, this.posY, this.posZ, 1.0F, false, this.worldObj.getGameRules().getBoolean("mobGriefing"));
-            this.setDead();
+            worldObj.newExplosion(this, posX, posY, posZ, 1.0F, false, worldObj.getGameRules().getBoolean("mobGriefing"));
+            setDead();
         }
     }
 
@@ -136,7 +136,7 @@ public class EntityWitherSkull extends EntityFireball
 
     protected void entityInit()
     {
-        this.dataWatcher.addObject(10, Byte.valueOf((byte)0));
+        dataWatcher.addObject(10, Byte.valueOf((byte)0));
     }
 
     /**
@@ -144,7 +144,7 @@ public class EntityWitherSkull extends EntityFireball
      */
     public boolean isInvulnerable()
     {
-        return this.dataWatcher.getWatchableObjectByte(10) == 1;
+        return dataWatcher.getWatchableObjectByte(10) == 1;
     }
 
     /**
@@ -152,6 +152,6 @@ public class EntityWitherSkull extends EntityFireball
      */
     public void setInvulnerable(boolean invulnerable)
     {
-        this.dataWatcher.updateObject(10, Byte.valueOf((byte)(invulnerable ? 1 : 0)));
+        dataWatcher.updateObject(10, Byte.valueOf((byte)(invulnerable ? 1 : 0)));
     }
 }

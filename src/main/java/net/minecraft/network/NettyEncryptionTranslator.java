@@ -13,42 +13,42 @@ public class NettyEncryptionTranslator
 
     protected NettyEncryptionTranslator(Cipher cipherIn)
     {
-        this.cipher = cipherIn;
+        cipher = cipherIn;
     }
 
     private byte[] func_150502_a(ByteBuf p_150502_1_)
     {
         int i = p_150502_1_.readableBytes();
 
-        if (this.field_150505_b.length < i)
+        if (field_150505_b.length < i)
         {
-            this.field_150505_b = new byte[i];
+            field_150505_b = new byte[i];
         }
 
-        p_150502_1_.readBytes((byte[])this.field_150505_b, 0, i);
-        return this.field_150505_b;
+        p_150502_1_.readBytes(field_150505_b, 0, i);
+        return field_150505_b;
     }
 
     protected ByteBuf decipher(ChannelHandlerContext ctx, ByteBuf buffer) throws ShortBufferException
     {
         int i = buffer.readableBytes();
-        byte[] abyte = this.func_150502_a(buffer);
-        ByteBuf bytebuf = ctx.alloc().heapBuffer(this.cipher.getOutputSize(i));
-        bytebuf.writerIndex(this.cipher.update(abyte, 0, i, bytebuf.array(), bytebuf.arrayOffset()));
+        byte[] abyte = func_150502_a(buffer);
+        ByteBuf bytebuf = ctx.alloc().heapBuffer(cipher.getOutputSize(i));
+        bytebuf.writerIndex(cipher.update(abyte, 0, i, bytebuf.array(), bytebuf.arrayOffset()));
         return bytebuf;
     }
 
     protected void cipher(ByteBuf p_150504_1_, ByteBuf p_150504_2_) throws ShortBufferException
     {
         int i = p_150504_1_.readableBytes();
-        byte[] abyte = this.func_150502_a(p_150504_1_);
-        int j = this.cipher.getOutputSize(i);
+        byte[] abyte = func_150502_a(p_150504_1_);
+        int j = cipher.getOutputSize(i);
 
-        if (this.field_150506_c.length < j)
+        if (field_150506_c.length < j)
         {
-            this.field_150506_c = new byte[j];
+            field_150506_c = new byte[j];
         }
 
-        p_150504_2_.writeBytes((byte[])this.field_150506_c, 0, this.cipher.update(abyte, 0, i, this.field_150506_c));
+        p_150504_2_.writeBytes(field_150506_c, 0, cipher.update(abyte, 0, i, field_150506_c));
     }
 }

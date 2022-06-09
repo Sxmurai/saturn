@@ -17,14 +17,14 @@ import net.minecraft.world.chunk.IChunkProvider;
 
 public class ChunkProviderDebug implements IChunkProvider
 {
-    private static final List<IBlockState> field_177464_a = Lists.<IBlockState>newArrayList();
+    private static final List<IBlockState> field_177464_a = Lists.newArrayList();
     private static final int field_177462_b;
     private static final int field_181039_c;
     private final World world;
 
     public ChunkProviderDebug(World worldIn)
     {
-        this.world = worldIn;
+        world = worldIn;
     }
 
     /**
@@ -42,7 +42,7 @@ public class ChunkProviderDebug implements IChunkProvider
                 int k = x * 16 + i;
                 int l = z * 16 + j;
                 chunkprimer.setBlockState(i, 60, j, Blocks.barrier.getDefaultState());
-                IBlockState iblockstate = func_177461_b(k, l);
+                IBlockState iblockstate = ChunkProviderDebug.func_177461_b(k, l);
 
                 if (iblockstate != null)
                 {
@@ -51,9 +51,9 @@ public class ChunkProviderDebug implements IChunkProvider
             }
         }
 
-        Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
+        Chunk chunk = new Chunk(world, chunkprimer, x, z);
         chunk.generateSkylightMap();
-        BiomeGenBase[] abiomegenbase = this.world.getWorldChunkManager().loadBlockGeneratorData((BiomeGenBase[])null, x * 16, z * 16, 16, 16);
+        BiomeGenBase[] abiomegenbase = world.getWorldChunkManager().loadBlockGeneratorData(null, x * 16, z * 16, 16, 16);
         byte[] abyte = chunk.getBiomeArray();
 
         for (int i1 = 0; i1 < abyte.length; ++i1)
@@ -74,13 +74,13 @@ public class ChunkProviderDebug implements IChunkProvider
             p_177461_0_ = p_177461_0_ / 2;
             p_177461_1_ = p_177461_1_ / 2;
 
-            if (p_177461_0_ <= field_177462_b && p_177461_1_ <= field_181039_c)
+            if (p_177461_0_ <= ChunkProviderDebug.field_177462_b && p_177461_1_ <= ChunkProviderDebug.field_181039_c)
             {
-                int i = MathHelper.abs_int(p_177461_0_ * field_177462_b + p_177461_1_);
+                int i = MathHelper.abs_int(p_177461_0_ * ChunkProviderDebug.field_177462_b + p_177461_1_);
 
-                if (i < field_177464_a.size())
+                if (i < ChunkProviderDebug.field_177464_a.size())
                 {
-                    iblockstate = (IBlockState)field_177464_a.get(i);
+                    iblockstate = ChunkProviderDebug.field_177464_a.get(i);
                 }
             }
         }
@@ -151,7 +151,7 @@ public class ChunkProviderDebug implements IChunkProvider
 
     public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos)
     {
-        BiomeGenBase biomegenbase = this.world.getBiomeGenForCoords(pos);
+        BiomeGenBase biomegenbase = world.getBiomeGenForCoords(pos);
         return biomegenbase.getSpawnableList(creatureType);
     }
 
@@ -171,17 +171,17 @@ public class ChunkProviderDebug implements IChunkProvider
 
     public Chunk provideChunk(BlockPos blockPosIn)
     {
-        return this.provideChunk(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4);
+        return provideChunk(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4);
     }
 
     static
     {
         for (Block block : Block.blockRegistry)
         {
-            field_177464_a.addAll(block.getBlockState().getValidStates());
+            ChunkProviderDebug.field_177464_a.addAll(block.getBlockState().getValidStates());
         }
 
-        field_177462_b = MathHelper.ceiling_float_int(MathHelper.sqrt_float((float)field_177464_a.size()));
-        field_181039_c = MathHelper.ceiling_float_int((float)field_177464_a.size() / (float)field_177462_b);
+        field_177462_b = MathHelper.ceiling_float_int(MathHelper.sqrt_float((float) ChunkProviderDebug.field_177464_a.size()));
+        field_181039_c = MathHelper.ceiling_float_int((float) ChunkProviderDebug.field_177464_a.size() / (float) ChunkProviderDebug.field_177462_b);
     }
 }

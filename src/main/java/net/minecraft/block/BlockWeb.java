@@ -17,7 +17,7 @@ public class BlockWeb extends Block
     public BlockWeb()
     {
         super(Material.web);
-        this.setCreativeTab(CreativeTabs.tabDecorations);
+        setCreativeTab(CreativeTabs.tabDecorations);
     }
 
     /**

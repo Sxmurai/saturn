@@ -21,12 +21,12 @@ public class S39PacketPlayerAbilities implements Packet<INetHandlerPlayClient>
 
     public S39PacketPlayerAbilities(PlayerCapabilities capabilities)
     {
-        this.setInvulnerable(capabilities.disableDamage);
-        this.setFlying(capabilities.isFlying);
-        this.setAllowFlying(capabilities.allowFlying);
-        this.setCreativeMode(capabilities.isCreativeMode);
-        this.setFlySpeed(capabilities.getFlySpeed());
-        this.setWalkSpeed(capabilities.getWalkSpeed());
+        setInvulnerable(capabilities.disableDamage);
+        setFlying(capabilities.isFlying);
+        setAllowFlying(capabilities.allowFlying);
+        setCreativeMode(capabilities.isCreativeMode);
+        setFlySpeed(capabilities.getFlySpeed());
+        setWalkSpeed(capabilities.getWalkSpeed());
     }
 
     /**
@@ -35,12 +35,12 @@ public class S39PacketPlayerAbilities implements Packet<INetHandlerPlayClient>
     public void readPacketData(PacketBuffer buf) throws IOException
     {
         byte b0 = buf.readByte();
-        this.setInvulnerable((b0 & 1) > 0);
-        this.setFlying((b0 & 2) > 0);
-        this.setAllowFlying((b0 & 4) > 0);
-        this.setCreativeMode((b0 & 8) > 0);
-        this.setFlySpeed(buf.readFloat());
-        this.setWalkSpeed(buf.readFloat());
+        setInvulnerable((b0 & 1) > 0);
+        setFlying((b0 & 2) > 0);
+        setAllowFlying((b0 & 4) > 0);
+        setCreativeMode((b0 & 8) > 0);
+        setFlySpeed(buf.readFloat());
+        setWalkSpeed(buf.readFloat());
     }
 
     /**
@@ -50,29 +50,29 @@ public class S39PacketPlayerAbilities implements Packet<INetHandlerPlayClient>
     {
         byte b0 = 0;
 
-        if (this.isInvulnerable())
+        if (isInvulnerable())
         {
             b0 = (byte)(b0 | 1);
         }
 
-        if (this.isFlying())
+        if (isFlying())
         {
             b0 = (byte)(b0 | 2);
         }
 
-        if (this.isAllowFlying())
+        if (isAllowFlying())
         {
             b0 = (byte)(b0 | 4);
         }
 
-        if (this.isCreativeMode())
+        if (isCreativeMode())
         {
             b0 = (byte)(b0 | 8);
         }
 
         buf.writeByte(b0);
-        buf.writeFloat(this.flySpeed);
-        buf.writeFloat(this.walkSpeed);
+        buf.writeFloat(flySpeed);
+        buf.writeFloat(walkSpeed);
     }
 
     /**
@@ -85,61 +85,61 @@ public class S39PacketPlayerAbilities implements Packet<INetHandlerPlayClient>
 
     public boolean isInvulnerable()
     {
-        return this.invulnerable;
+        return invulnerable;
     }
 
     public void setInvulnerable(boolean isInvulnerable)
     {
-        this.invulnerable = isInvulnerable;
+        invulnerable = isInvulnerable;
     }
 
     public boolean isFlying()
     {
-        return this.flying;
+        return flying;
     }
 
     public void setFlying(boolean isFlying)
     {
-        this.flying = isFlying;
+        flying = isFlying;
     }
 
     public boolean isAllowFlying()
     {
-        return this.allowFlying;
+        return allowFlying;
     }
 
     public void setAllowFlying(boolean isAllowFlying)
     {
-        this.allowFlying = isAllowFlying;
+        allowFlying = isAllowFlying;
     }
 
     public boolean isCreativeMode()
     {
-        return this.creativeMode;
+        return creativeMode;
     }
 
     public void setCreativeMode(boolean isCreativeMode)
     {
-        this.creativeMode = isCreativeMode;
+        creativeMode = isCreativeMode;
     }
 
     public float getFlySpeed()
     {
-        return this.flySpeed;
+        return flySpeed;
     }
 
     public void setFlySpeed(float flySpeedIn)
     {
-        this.flySpeed = flySpeedIn;
+        flySpeed = flySpeedIn;
     }
 
     public float getWalkSpeed()
     {
-        return this.walkSpeed;
+        return walkSpeed;
     }
 
     public void setWalkSpeed(float walkSpeedIn)
     {
-        this.walkSpeed = walkSpeedIn;
+        walkSpeed = walkSpeedIn;
     }
 }

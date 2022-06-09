@@ -50,7 +50,7 @@ public class CommandServerKick extends CommandBase
             {
                 if (args.length >= 2)
                 {
-                    s = getChatComponentFromNthArg(sender, args, 1).getUnformattedText();
+                    s = CommandBase.getChatComponentFromNthArg(sender, args, 1).getUnformattedText();
                     flag = true;
                 }
 
@@ -58,22 +58,22 @@ public class CommandServerKick extends CommandBase
 
                 if (flag)
                 {
-                    notifyOperators(sender, this, "commands.kick.success.reason", new Object[] {entityplayermp.getName(), s});
+                    CommandBase.notifyOperators(sender, this, "commands.kick.success.reason", entityplayermp.getName(), s);
                 }
                 else
                 {
-                    notifyOperators(sender, this, "commands.kick.success", new Object[] {entityplayermp.getName()});
+                    CommandBase.notifyOperators(sender, this, "commands.kick.success", entityplayermp.getName());
                 }
             }
         }
         else
         {
-            throw new WrongUsageException("commands.kick.usage", new Object[0]);
+            throw new WrongUsageException("commands.kick.usage");
         }
     }
 
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
-        return args.length >= 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
+        return args.length >= 1 ? CommandBase.getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
     }
 }

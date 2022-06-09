@@ -13,7 +13,7 @@ public class ItemGlassBottle extends Item
 {
     public ItemGlassBottle()
     {
-        this.setCreativeTab(CreativeTabs.tabBrewing);
+        setCreativeTab(CreativeTabs.tabBrewing);
     }
 
     /**
@@ -21,7 +21,7 @@ public class ItemGlassBottle extends Item
      */
     public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn)
     {
-        MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
+        MovingObjectPosition movingobjectposition = getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
 
         if (movingobjectposition == null)
         {

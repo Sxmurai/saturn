@@ -9,22 +9,22 @@ public class FrameTimer
 
     public void func_181747_a(long p_181747_1_)
     {
-        this.field_181752_a[this.field_181755_d] = p_181747_1_;
-        ++this.field_181755_d;
+        field_181752_a[field_181755_d] = p_181747_1_;
+        ++field_181755_d;
 
-        if (this.field_181755_d == 240)
+        if (field_181755_d == 240)
         {
-            this.field_181755_d = 0;
+            field_181755_d = 0;
         }
 
-        if (this.field_181754_c < 240)
+        if (field_181754_c < 240)
         {
-            this.field_181753_b = 0;
-            ++this.field_181754_c;
+            field_181753_b = 0;
+            ++field_181754_c;
         }
         else
         {
-            this.field_181753_b = this.func_181751_b(this.field_181755_d + 1);
+            field_181753_b = func_181751_b(field_181755_d + 1);
         }
     }
 
@@ -36,12 +36,12 @@ public class FrameTimer
 
     public int func_181749_a()
     {
-        return this.field_181753_b;
+        return field_181753_b;
     }
 
     public int func_181750_b()
     {
-        return this.field_181755_d;
+        return field_181755_d;
     }
 
     public int func_181751_b(int p_181751_1_)
@@ -51,6 +51,6 @@ public class FrameTimer
 
     public long[] func_181746_c()
     {
-        return this.field_181752_a;
+        return field_181752_a;
     }
 }

@@ -13,13 +13,13 @@ public class RenderPigZombie extends RenderBiped<EntityPigZombie>
     public RenderPigZombie(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelZombie(), 0.5F, 1.0F);
-        this.addLayer(new LayerHeldItem(this));
-        this.addLayer(new LayerBipedArmor(this)
+        addLayer(new LayerHeldItem(this));
+        addLayer(new LayerBipedArmor(this)
         {
             protected void initArmor()
             {
-                this.field_177189_c = new ModelZombie(0.5F, true);
-                this.field_177186_d = new ModelZombie(1.0F, true);
+                field_177189_c = new ModelZombie(0.5F, true);
+                field_177186_d = new ModelZombie(1.0F, true);
             }
         });
     }
@@ -29,6 +29,6 @@ public class RenderPigZombie extends RenderBiped<EntityPigZombie>
      */
     protected ResourceLocation getEntityTexture(EntityPigZombie entity)
     {
-        return ZOMBIE_PIGMAN_TEXTURE;
+        return RenderPigZombie.ZOMBIE_PIGMAN_TEXTURE;
     }
 }

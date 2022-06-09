@@ -26,9 +26,9 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 
     protected void updateAITasks()
     {
-        if (this.getGrowingAge() != 0)
+        if (getGrowingAge() != 0)
         {
-            this.inLove = 0;
+            inLove = 0;
         }
 
         super.updateAITasks();
@@ -42,21 +42,21 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
     {
         super.onLivingUpdate();
 
-        if (this.getGrowingAge() != 0)
+        if (getGrowingAge() != 0)
         {
-            this.inLove = 0;
+            inLove = 0;
         }
 
-        if (this.inLove > 0)
+        if (inLove > 0)
         {
-            --this.inLove;
+            --inLove;
 
-            if (this.inLove % 10 == 0)
+            if (inLove % 10 == 0)
             {
-                double d0 = this.rand.nextGaussian() * 0.02D;
-                double d1 = this.rand.nextGaussian() * 0.02D;
-                double d2 = this.rand.nextGaussian() * 0.02D;
-                this.worldObj.spawnParticle(EnumParticleTypes.HEART, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2, new int[0]);
+                double d0 = rand.nextGaussian() * 0.02D;
+                double d1 = rand.nextGaussian() * 0.02D;
+                double d2 = rand.nextGaussian() * 0.02D;
+                worldObj.spawnParticle(EnumParticleTypes.HEART, posX + (double)(rand.nextFloat() * width * 2.0F) - (double) width, posY + 0.5D + (double)(rand.nextFloat() * height), posZ + (double)(rand.nextFloat() * width * 2.0F) - (double) width, d0, d1, d2);
             }
         }
     }
@@ -66,20 +66,20 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
      */
     public boolean attackEntityFrom(DamageSource source, float amount)
     {
-        if (this.isEntityInvulnerable(source))
+        if (isEntityInvulnerable(source))
         {
             return false;
         }
         else
         {
-            this.inLove = 0;
+            inLove = 0;
             return super.attackEntityFrom(source, amount);
         }
     }
 
     public float getBlockPathWeight(BlockPos pos)
     {
-        return this.worldObj.getBlockState(pos.down()).getBlock() == Blocks.grass ? 10.0F : this.worldObj.getLightBrightness(pos) - 0.5F;
+        return worldObj.getBlockState(pos.down()).getBlock() == Blocks.grass ? 10.0F : worldObj.getLightBrightness(pos) - 0.5F;
     }
 
     /**
@@ -88,7 +88,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
     public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
         super.writeEntityToNBT(tagCompound);
-        tagCompound.setInteger("InLove", this.inLove);
+        tagCompound.setInteger("InLove", inLove);
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
     public void readEntityFromNBT(NBTTagCompound tagCompund)
     {
         super.readEntityFromNBT(tagCompund);
-        this.inLove = tagCompund.getInteger("InLove");
+        inLove = tagCompund.getInteger("InLove");
     }
 
     /**
@@ -105,11 +105,11 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
      */
     public boolean getCanSpawnHere()
     {
-        int i = MathHelper.floor_double(this.posX);
-        int j = MathHelper.floor_double(this.getEntityBoundingBox().minY);
-        int k = MathHelper.floor_double(this.posZ);
+        int i = MathHelper.floor_double(posX);
+        int j = MathHelper.floor_double(getEntityBoundingBox().minY);
+        int k = MathHelper.floor_double(posZ);
         BlockPos blockpos = new BlockPos(i, j, k);
-        return this.worldObj.getBlockState(blockpos.down()).getBlock() == this.spawnableBlock && this.worldObj.getLight(blockpos) > 8 && super.getCanSpawnHere();
+        return worldObj.getBlockState(blockpos.down()).getBlock() == spawnableBlock && worldObj.getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
 
     /**
@@ -133,7 +133,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
      */
     protected int getExperiencePoints(EntityPlayer player)
     {
-        return 1 + this.worldObj.rand.nextInt(3);
+        return 1 + worldObj.rand.nextInt(3);
     }
 
     /**
@@ -142,7 +142,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
      */
     public boolean isBreedingItem(ItemStack stack)
     {
-        return stack == null ? false : stack.getItem() == Items.wheat;
+        return stack != null && stack.getItem() == Items.wheat;
     }
 
     /**
@@ -154,17 +154,17 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 
         if (itemstack != null)
         {
-            if (this.isBreedingItem(itemstack) && this.getGrowingAge() == 0 && this.inLove <= 0)
+            if (isBreedingItem(itemstack) && getGrowingAge() == 0 && inLove <= 0)
             {
-                this.consumeItemFromStack(player, itemstack);
-                this.setInLove(player);
+                consumeItemFromStack(player, itemstack);
+                setInLove(player);
                 return true;
             }
 
-            if (this.isChild() && this.isBreedingItem(itemstack))
+            if (isChild() && isBreedingItem(itemstack))
             {
-                this.consumeItemFromStack(player, itemstack);
-                this.func_175501_a((int)((float)(-this.getGrowingAge() / 20) * 0.1F), true);
+                consumeItemFromStack(player, itemstack);
+                func_175501_a((int)((float)(-getGrowingAge() / 20) * 0.1F), true);
                 return true;
             }
         }
@@ -183,21 +183,21 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
 
             if (stack.stackSize <= 0)
             {
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
+                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
             }
         }
     }
 
     public void setInLove(EntityPlayer player)
     {
-        this.inLove = 600;
-        this.playerInLove = player;
-        this.worldObj.setEntityState(this, (byte)18);
+        inLove = 600;
+        playerInLove = player;
+        worldObj.setEntityState(this, (byte)18);
     }
 
     public EntityPlayer getPlayerInLove()
     {
-        return this.playerInLove;
+        return playerInLove;
     }
 
     /**
@@ -205,12 +205,12 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
      */
     public boolean isInLove()
     {
-        return this.inLove > 0;
+        return inLove > 0;
     }
 
     public void resetInLove()
     {
-        this.inLove = 0;
+        inLove = 0;
     }
 
     /**
@@ -218,7 +218,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
      */
     public boolean canMateWith(EntityAnimal otherAnimal)
     {
-        return otherAnimal == this ? false : (otherAnimal.getClass() != this.getClass() ? false : this.isInLove() && otherAnimal.isInLove());
+        return otherAnimal != this && (otherAnimal.getClass() == getClass() && isInLove() && otherAnimal.isInLove());
     }
 
     public void handleStatusUpdate(byte id)
@@ -227,10 +227,10 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
         {
             for (int i = 0; i < 7; ++i)
             {
-                double d0 = this.rand.nextGaussian() * 0.02D;
-                double d1 = this.rand.nextGaussian() * 0.02D;
-                double d2 = this.rand.nextGaussian() * 0.02D;
-                this.worldObj.spawnParticle(EnumParticleTypes.HEART, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2, new int[0]);
+                double d0 = rand.nextGaussian() * 0.02D;
+                double d1 = rand.nextGaussian() * 0.02D;
+                double d2 = rand.nextGaussian() * 0.02D;
+                worldObj.spawnParticle(EnumParticleTypes.HEART, posX + (double)(rand.nextFloat() * width * 2.0F) - (double) width, posY + 0.5D + (double)(rand.nextFloat() * height), posZ + (double)(rand.nextFloat() * width * 2.0F) - (double) width, d0, d1, d2);
             }
         }
         else

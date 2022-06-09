@@ -22,12 +22,12 @@ public class DataWatcher
 
     /** When isBlank is true the DataWatcher is not watching any objects */
     private boolean isBlank = true;
-    private static final Map < Class<?>, Integer > dataTypes = Maps. < Class<?>, Integer > newHashMap();
-    private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.<Integer, DataWatcher.WatchableObject>newHashMap();
+    private static final Map < Class<?>, Integer > dataTypes = Maps.newHashMap();
+    private final Map<Integer, DataWatcher.WatchableObject> watchedObjects = Maps.newHashMap();
 
     /** true if one or more object was changed */
     private boolean objectChanged;
-    private ReadWriteLock lock = new ReentrantReadWriteLock();
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
     public DataWatcher(Entity owner)
     {
@@ -36,7 +36,7 @@ public class DataWatcher
 
     public <T> void addObject(int id, T object)
     {
-        Integer integer = (Integer)dataTypes.get(object.getClass());
+        Integer integer = DataWatcher.dataTypes.get(object.getClass());
 
         if (integer == null)
         {
@@ -46,17 +46,17 @@ public class DataWatcher
         {
             throw new IllegalArgumentException("Data value id is too big with " + id + "! (Max is " + 31 + ")");
         }
-        else if (this.watchedObjects.containsKey(Integer.valueOf(id)))
+        else if (watchedObjects.containsKey(Integer.valueOf(id)))
         {
             throw new IllegalArgumentException("Duplicate id value for " + id + "!");
         }
         else
         {
             DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(integer.intValue(), id, object);
-            this.lock.writeLock().lock();
-            this.watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
-            this.lock.writeLock().unlock();
-            this.isBlank = false;
+            lock.writeLock().lock();
+            watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
+            lock.writeLock().unlock();
+            isBlank = false;
         }
     }
 
@@ -65,11 +65,11 @@ public class DataWatcher
      */
     public void addObjectByDataType(int id, int type)
     {
-        DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(type, id, (Object)null);
-        this.lock.writeLock().lock();
-        this.watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
-        this.lock.writeLock().unlock();
-        this.isBlank = false;
+        DataWatcher.WatchableObject datawatcher$watchableobject = new DataWatcher.WatchableObject(type, id, null);
+        lock.writeLock().lock();
+        watchedObjects.put(Integer.valueOf(id), datawatcher$watchableobject);
+        lock.writeLock().unlock();
+        isBlank = false;
     }
 
     /**
@@ -77,12 +77,12 @@ public class DataWatcher
      */
     public byte getWatchableObjectByte(int id)
     {
-        return ((Byte)this.getWatchedObject(id).getObject()).byteValue();
+        return ((Byte) getWatchedObject(id).getObject()).byteValue();
     }
 
     public short getWatchableObjectShort(int id)
     {
-        return ((Short)this.getWatchedObject(id).getObject()).shortValue();
+        return ((Short) getWatchedObject(id).getObject()).shortValue();
     }
 
     /**
@@ -90,12 +90,12 @@ public class DataWatcher
      */
     public int getWatchableObjectInt(int id)
     {
-        return ((Integer)this.getWatchedObject(id).getObject()).intValue();
+        return ((Integer) getWatchedObject(id).getObject()).intValue();
     }
 
     public float getWatchableObjectFloat(int id)
     {
-        return ((Float)this.getWatchedObject(id).getObject()).floatValue();
+        return ((Float) getWatchedObject(id).getObject()).floatValue();
     }
 
     /**
@@ -103,7 +103,7 @@ public class DataWatcher
      */
     public String getWatchableObjectString(int id)
     {
-        return (String)this.getWatchedObject(id).getObject();
+        return (String) getWatchedObject(id).getObject();
     }
 
     /**
@@ -111,7 +111,7 @@ public class DataWatcher
      */
     public ItemStack getWatchableObjectItemStack(int id)
     {
-        return (ItemStack)this.getWatchedObject(id).getObject();
+        return (ItemStack) getWatchedObject(id).getObject();
     }
 
     /**
@@ -119,12 +119,12 @@ public class DataWatcher
      */
     private DataWatcher.WatchableObject getWatchedObject(int id)
     {
-        this.lock.readLock().lock();
+        lock.readLock().lock();
         DataWatcher.WatchableObject datawatcher$watchableobject;
 
         try
         {
-            datawatcher$watchableobject = (DataWatcher.WatchableObject)this.watchedObjects.get(Integer.valueOf(id));
+            datawatcher$watchableobject = watchedObjects.get(Integer.valueOf(id));
         }
         catch (Throwable throwable)
         {
@@ -134,32 +134,32 @@ public class DataWatcher
             throw new ReportedException(crashreport);
         }
 
-        this.lock.readLock().unlock();
+        lock.readLock().unlock();
         return datawatcher$watchableobject;
     }
 
     public Rotations getWatchableObjectRotations(int id)
     {
-        return (Rotations)this.getWatchedObject(id).getObject();
+        return (Rotations) getWatchedObject(id).getObject();
     }
 
     public <T> void updateObject(int id, T newData)
     {
-        DataWatcher.WatchableObject datawatcher$watchableobject = this.getWatchedObject(id);
+        DataWatcher.WatchableObject datawatcher$watchableobject = getWatchedObject(id);
 
         if (ObjectUtils.notEqual(newData, datawatcher$watchableobject.getObject()))
         {
             datawatcher$watchableobject.setObject(newData);
-            this.owner.onDataWatcherUpdate(id);
+            owner.onDataWatcherUpdate(id);
             datawatcher$watchableobject.setWatched(true);
-            this.objectChanged = true;
+            objectChanged = true;
         }
     }
 
     public void setObjectWatched(int id)
     {
-        this.getWatchedObject(id).watched = true;
-        this.objectChanged = true;
+        getWatchedObject(id).watched = true;
+        objectChanged = true;
     }
 
     /**
@@ -167,7 +167,7 @@ public class DataWatcher
      */
     public boolean hasObjectChanged()
     {
-        return this.objectChanged;
+        return objectChanged;
     }
 
     /**
@@ -180,7 +180,7 @@ public class DataWatcher
         {
             for (DataWatcher.WatchableObject datawatcher$watchableobject : objectsList)
             {
-                writeWatchableObjectToPacketBuffer(buffer, datawatcher$watchableobject);
+                DataWatcher.writeWatchableObjectToPacketBuffer(buffer, datawatcher$watchableobject);
             }
         }
 
@@ -191,11 +191,11 @@ public class DataWatcher
     {
         List<DataWatcher.WatchableObject> list = null;
 
-        if (this.objectChanged)
+        if (objectChanged)
         {
-            this.lock.readLock().lock();
+            lock.readLock().lock();
 
-            for (DataWatcher.WatchableObject datawatcher$watchableobject : this.watchedObjects.values())
+            for (DataWatcher.WatchableObject datawatcher$watchableobject : watchedObjects.values())
             {
                 if (datawatcher$watchableobject.isWatched())
                 {
@@ -203,49 +203,49 @@ public class DataWatcher
 
                     if (list == null)
                     {
-                        list = Lists.<DataWatcher.WatchableObject>newArrayList();
+                        list = Lists.newArrayList();
                     }
 
                     list.add(datawatcher$watchableobject);
                 }
             }
 
-            this.lock.readLock().unlock();
+            lock.readLock().unlock();
         }
 
-        this.objectChanged = false;
+        objectChanged = false;
         return list;
     }
 
     public void writeTo(PacketBuffer buffer) throws IOException
     {
-        this.lock.readLock().lock();
+        lock.readLock().lock();
 
-        for (DataWatcher.WatchableObject datawatcher$watchableobject : this.watchedObjects.values())
+        for (DataWatcher.WatchableObject datawatcher$watchableobject : watchedObjects.values())
         {
-            writeWatchableObjectToPacketBuffer(buffer, datawatcher$watchableobject);
+            DataWatcher.writeWatchableObjectToPacketBuffer(buffer, datawatcher$watchableobject);
         }
 
-        this.lock.readLock().unlock();
+        lock.readLock().unlock();
         buffer.writeByte(127);
     }
 
     public List<DataWatcher.WatchableObject> getAllWatched()
     {
         List<DataWatcher.WatchableObject> list = null;
-        this.lock.readLock().lock();
+        lock.readLock().lock();
 
-        for (DataWatcher.WatchableObject datawatcher$watchableobject : this.watchedObjects.values())
+        for (DataWatcher.WatchableObject datawatcher$watchableobject : watchedObjects.values())
         {
             if (list == null)
             {
-                list = Lists.<DataWatcher.WatchableObject>newArrayList();
+                list = Lists.newArrayList();
             }
 
             list.add(datawatcher$watchableobject);
         }
 
-        this.lock.readLock().unlock();
+        lock.readLock().unlock();
         return list;
     }
 
@@ -308,7 +308,7 @@ public class DataWatcher
         {
             if (list == null)
             {
-                list = Lists.<DataWatcher.WatchableObject>newArrayList();
+                list = Lists.newArrayList();
             }
 
             int j = (i & 224) >> 5;
@@ -363,43 +363,43 @@ public class DataWatcher
 
     public void updateWatchedObjectsFromList(List<DataWatcher.WatchableObject> p_75687_1_)
     {
-        this.lock.writeLock().lock();
+        lock.writeLock().lock();
 
         for (DataWatcher.WatchableObject datawatcher$watchableobject : p_75687_1_)
         {
-            DataWatcher.WatchableObject datawatcher$watchableobject1 = (DataWatcher.WatchableObject)this.watchedObjects.get(Integer.valueOf(datawatcher$watchableobject.getDataValueId()));
+            DataWatcher.WatchableObject datawatcher$watchableobject1 = watchedObjects.get(Integer.valueOf(datawatcher$watchableobject.getDataValueId()));
 
             if (datawatcher$watchableobject1 != null)
             {
                 datawatcher$watchableobject1.setObject(datawatcher$watchableobject.getObject());
-                this.owner.onDataWatcherUpdate(datawatcher$watchableobject.getDataValueId());
+                owner.onDataWatcherUpdate(datawatcher$watchableobject.getDataValueId());
             }
         }
 
-        this.lock.writeLock().unlock();
-        this.objectChanged = true;
+        lock.writeLock().unlock();
+        objectChanged = true;
     }
 
     public boolean getIsBlank()
     {
-        return this.isBlank;
+        return isBlank;
     }
 
     public void func_111144_e()
     {
-        this.objectChanged = false;
+        objectChanged = false;
     }
 
     static
     {
-        dataTypes.put(Byte.class, Integer.valueOf(0));
-        dataTypes.put(Short.class, Integer.valueOf(1));
-        dataTypes.put(Integer.class, Integer.valueOf(2));
-        dataTypes.put(Float.class, Integer.valueOf(3));
-        dataTypes.put(String.class, Integer.valueOf(4));
-        dataTypes.put(ItemStack.class, Integer.valueOf(5));
-        dataTypes.put(BlockPos.class, Integer.valueOf(6));
-        dataTypes.put(Rotations.class, Integer.valueOf(7));
+        DataWatcher.dataTypes.put(Byte.class, Integer.valueOf(0));
+        DataWatcher.dataTypes.put(Short.class, Integer.valueOf(1));
+        DataWatcher.dataTypes.put(Integer.class, Integer.valueOf(2));
+        DataWatcher.dataTypes.put(Float.class, Integer.valueOf(3));
+        DataWatcher.dataTypes.put(String.class, Integer.valueOf(4));
+        DataWatcher.dataTypes.put(ItemStack.class, Integer.valueOf(5));
+        DataWatcher.dataTypes.put(BlockPos.class, Integer.valueOf(6));
+        DataWatcher.dataTypes.put(Rotations.class, Integer.valueOf(7));
     }
 
     public static class WatchableObject
@@ -411,35 +411,35 @@ public class DataWatcher
 
         public WatchableObject(int type, int id, Object object)
         {
-            this.dataValueId = id;
-            this.watchedObject = object;
-            this.objectType = type;
-            this.watched = true;
+            dataValueId = id;
+            watchedObject = object;
+            objectType = type;
+            watched = true;
         }
 
         public int getDataValueId()
         {
-            return this.dataValueId;
+            return dataValueId;
         }
 
         public void setObject(Object object)
         {
-            this.watchedObject = object;
+            watchedObject = object;
         }
 
         public Object getObject()
         {
-            return this.watchedObject;
+            return watchedObject;
         }
 
         public int getObjectType()
         {
-            return this.objectType;
+            return objectType;
         }
 
         public boolean isWatched()
         {
-            return this.watched;
+            return watched;
         }
 
         public void setWatched(boolean watched)

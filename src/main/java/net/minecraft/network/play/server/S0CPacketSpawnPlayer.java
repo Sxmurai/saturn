@@ -31,16 +31,16 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient>
 
     public S0CPacketSpawnPlayer(EntityPlayer player)
     {
-        this.entityId = player.getEntityId();
-        this.playerId = player.getGameProfile().getId();
-        this.x = MathHelper.floor_double(player.posX * 32.0D);
-        this.y = MathHelper.floor_double(player.posY * 32.0D);
-        this.z = MathHelper.floor_double(player.posZ * 32.0D);
-        this.yaw = (byte)((int)(player.rotationYaw * 256.0F / 360.0F));
-        this.pitch = (byte)((int)(player.rotationPitch * 256.0F / 360.0F));
+        entityId = player.getEntityId();
+        playerId = player.getGameProfile().getId();
+        x = MathHelper.floor_double(player.posX * 32.0D);
+        y = MathHelper.floor_double(player.posY * 32.0D);
+        z = MathHelper.floor_double(player.posZ * 32.0D);
+        yaw = (byte)((int)(player.rotationYaw * 256.0F / 360.0F));
+        pitch = (byte)((int)(player.rotationPitch * 256.0F / 360.0F));
         ItemStack itemstack = player.inventory.getCurrentItem();
-        this.currentItem = itemstack == null ? 0 : Item.getIdFromItem(itemstack.getItem());
-        this.watcher = player.getDataWatcher();
+        currentItem = itemstack == null ? 0 : Item.getIdFromItem(itemstack.getItem());
+        watcher = player.getDataWatcher();
     }
 
     /**
@@ -48,15 +48,15 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.entityId = buf.readVarIntFromBuffer();
-        this.playerId = buf.readUuid();
-        this.x = buf.readInt();
-        this.y = buf.readInt();
-        this.z = buf.readInt();
-        this.yaw = buf.readByte();
-        this.pitch = buf.readByte();
-        this.currentItem = buf.readShort();
-        this.field_148958_j = DataWatcher.readWatchedListFromPacketBuffer(buf);
+        entityId = buf.readVarIntFromBuffer();
+        playerId = buf.readUuid();
+        x = buf.readInt();
+        y = buf.readInt();
+        z = buf.readInt();
+        yaw = buf.readByte();
+        pitch = buf.readByte();
+        currentItem = buf.readShort();
+        field_148958_j = DataWatcher.readWatchedListFromPacketBuffer(buf);
     }
 
     /**
@@ -64,15 +64,15 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeVarIntToBuffer(this.entityId);
-        buf.writeUuid(this.playerId);
-        buf.writeInt(this.x);
-        buf.writeInt(this.y);
-        buf.writeInt(this.z);
-        buf.writeByte(this.yaw);
-        buf.writeByte(this.pitch);
-        buf.writeShort(this.currentItem);
-        this.watcher.writeTo(buf);
+        buf.writeVarIntToBuffer(entityId);
+        buf.writeUuid(playerId);
+        buf.writeInt(x);
+        buf.writeInt(y);
+        buf.writeInt(z);
+        buf.writeByte(yaw);
+        buf.writeByte(pitch);
+        buf.writeShort(currentItem);
+        watcher.writeTo(buf);
     }
 
     /**
@@ -85,51 +85,51 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient>
 
     public List<DataWatcher.WatchableObject> func_148944_c()
     {
-        if (this.field_148958_j == null)
+        if (field_148958_j == null)
         {
-            this.field_148958_j = this.watcher.getAllWatched();
+            field_148958_j = watcher.getAllWatched();
         }
 
-        return this.field_148958_j;
+        return field_148958_j;
     }
 
     public int getEntityID()
     {
-        return this.entityId;
+        return entityId;
     }
 
     public UUID getPlayer()
     {
-        return this.playerId;
+        return playerId;
     }
 
     public int getX()
     {
-        return this.x;
+        return x;
     }
 
     public int getY()
     {
-        return this.y;
+        return y;
     }
 
     public int getZ()
     {
-        return this.z;
+        return z;
     }
 
     public byte getYaw()
     {
-        return this.yaw;
+        return yaw;
     }
 
     public byte getPitch()
     {
-        return this.pitch;
+        return pitch;
     }
 
     public int getCurrentItemID()
     {
-        return this.currentItem;
+        return currentItem;
     }
 }

@@ -9,22 +9,22 @@ public class LockCode
 
     public LockCode(String code)
     {
-        this.lock = code;
+        lock = code;
     }
 
     public boolean isEmpty()
     {
-        return this.lock == null || this.lock.isEmpty();
+        return lock == null || lock.isEmpty();
     }
 
     public String getLock()
     {
-        return this.lock;
+        return lock;
     }
 
     public void toNBT(NBTTagCompound nbt)
     {
-        nbt.setString("Lock", this.lock);
+        nbt.setString("Lock", lock);
     }
 
     public static LockCode fromNBT(NBTTagCompound nbt)
@@ -36,7 +36,7 @@ public class LockCode
         }
         else
         {
-            return EMPTY_CODE;
+            return LockCode.EMPTY_CODE;
         }
     }
 }

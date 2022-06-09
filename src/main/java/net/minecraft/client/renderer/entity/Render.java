@@ -60,14 +60,14 @@ public abstract class Render<T extends Entity>
      */
     public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks)
     {
-        this.renderName(entity, x, y, z);
+        renderName(entity, x, y, z);
     }
 
     protected void renderName(T entity, double x, double y, double z)
     {
-        if (this.canRenderName(entity))
+        if (canRenderName(entity))
         {
-            this.renderLivingLabel(entity, entity.getDisplayName().getFormattedText(), x, y, z, 64);
+            renderLivingLabel(entity, entity.getDisplayName().getFormattedText(), x, y, z, 64);
         }
     }
 
@@ -78,7 +78,7 @@ public abstract class Render<T extends Entity>
 
     protected void renderOffsetLivingLabel(T entityIn, double x, double y, double z, String str, float p_177069_9_, double p_177069_10_)
     {
-        this.renderLivingLabel(entityIn, str, x, y, z, 64);
+        renderLivingLabel(entityIn, str, x, y, z, 64);
     }
 
     /**
@@ -88,7 +88,7 @@ public abstract class Render<T extends Entity>
 
     protected boolean bindEntityTexture(T entity)
     {
-        ResourceLocation resourcelocation = this.getEntityTexture(entity);
+        ResourceLocation resourcelocation = getEntityTexture(entity);
 
         if (resourcelocation == null)
         {
@@ -96,14 +96,14 @@ public abstract class Render<T extends Entity>
         }
         else
         {
-            this.bindTexture(resourcelocation);
+            bindTexture(resourcelocation);
             return true;
         }
     }
 
     public void bindTexture(ResourceLocation location)
     {
-        this.renderManager.renderEngine.bindTexture(location);
+        renderManager.renderEngine.bindTexture(location);
     }
 
     /**
@@ -125,7 +125,7 @@ public abstract class Render<T extends Entity>
         float f2 = 0.0F;
         float f3 = entity.height / f;
         float f4 = (float)(entity.posY - entity.getEntityBoundingBox().minY);
-        GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+        GlStateManager.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.translate(0.0F, 0.0F, -0.3F + (float)((int)f3) * 0.02F);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         float f5 = 0.0F;
@@ -135,7 +135,7 @@ public abstract class Render<T extends Entity>
         while (f3 > 0.0F)
         {
             TextureAtlasSprite textureatlassprite2 = i % 2 == 0 ? textureatlassprite : textureatlassprite1;
-            this.bindTexture(TextureMap.locationBlocksTexture);
+            bindTexture(TextureMap.locationBlocksTexture);
             float f6 = textureatlassprite2.getMinU();
             float f7 = textureatlassprite2.getMinV();
             float f8 = textureatlassprite2.getMaxU();
@@ -148,10 +148,10 @@ public abstract class Render<T extends Entity>
                 f6 = f10;
             }
 
-            worldrenderer.pos((double)(f1 - f2), (double)(0.0F - f4), (double)f5).tex((double)f8, (double)f9).endVertex();
-            worldrenderer.pos((double)(-f1 - f2), (double)(0.0F - f4), (double)f5).tex((double)f6, (double)f9).endVertex();
-            worldrenderer.pos((double)(-f1 - f2), (double)(1.4F - f4), (double)f5).tex((double)f6, (double)f7).endVertex();
-            worldrenderer.pos((double)(f1 - f2), (double)(1.4F - f4), (double)f5).tex((double)f8, (double)f7).endVertex();
+            worldrenderer.pos(f1 - f2, 0.0F - f4, f5).tex(f8, f9).endVertex();
+            worldrenderer.pos(-f1 - f2, 0.0F - f4, f5).tex(f6, f9).endVertex();
+            worldrenderer.pos(-f1 - f2, 1.4F - f4, f5).tex(f6, f7).endVertex();
+            worldrenderer.pos(f1 - f2, 1.4F - f4, f5).tex(f8, f7).endVertex();
             f3 -= 0.45F;
             f4 -= 0.45F;
             f1 *= 0.9F;
@@ -174,10 +174,10 @@ public abstract class Render<T extends Entity>
         {
             GlStateManager.enableBlend();
             GlStateManager.blendFunc(770, 771);
-            this.renderManager.renderEngine.bindTexture(shadowTextures);
-            World world = this.getWorldFromRenderManager();
+            renderManager.renderEngine.bindTexture(Render.shadowTextures);
+            World world = getWorldFromRenderManager();
             GlStateManager.depthMask(false);
-            float f = this.shadowSize;
+            float f = shadowSize;
 
             if (entityIn instanceof EntityLiving)
             {
@@ -212,7 +212,7 @@ public abstract class Render<T extends Entity>
 
                 if (block.getRenderType() != -1 && world.getLightFromNeighbors(blockpos) > 3)
                 {
-                    this.func_180549_a(block, x, y, z, blockpos, shadowAlpha, f, d2, d3, d4);
+                    func_180549_a(block, x, y, z, blockpos, shadowAlpha, f, d2, d3, d4);
                 }
             }
 
@@ -228,7 +228,7 @@ public abstract class Render<T extends Entity>
      */
     private World getWorldFromRenderManager()
     {
-        return this.renderManager.worldObj;
+        return renderManager.worldObj;
     }
 
     private void func_180549_a(Block blockIn, double p_180549_2_, double p_180549_4_, double p_180549_6_, BlockPos pos, float p_180549_9_, float p_180549_10_, double p_180549_11_, double p_180549_13_, double p_180549_15_)
@@ -237,7 +237,7 @@ public abstract class Render<T extends Entity>
         {
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            double d0 = ((double)p_180549_9_ - (p_180549_4_ - ((double)pos.getY() + p_180549_13_)) / 2.0D) * 0.5D * (double)this.getWorldFromRenderManager().getLightBrightness(pos);
+            double d0 = ((double)p_180549_9_ - (p_180549_4_ - ((double)pos.getY() + p_180549_13_)) / 2.0D) * 0.5D * (double) getWorldFromRenderManager().getLightBrightness(pos);
 
             if (d0 >= 0.0D)
             {
@@ -255,10 +255,10 @@ public abstract class Render<T extends Entity>
                 float f1 = (float)((p_180549_2_ - d2) / 2.0D / (double)p_180549_10_ + 0.5D);
                 float f2 = (float)((p_180549_6_ - d4) / 2.0D / (double)p_180549_10_ + 0.5D);
                 float f3 = (float)((p_180549_6_ - d5) / 2.0D / (double)p_180549_10_ + 0.5D);
-                worldrenderer.pos(d1, d3, d4).tex((double)f, (double)f2).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
-                worldrenderer.pos(d1, d3, d5).tex((double)f, (double)f3).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
-                worldrenderer.pos(d2, d3, d5).tex((double)f1, (double)f3).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
-                worldrenderer.pos(d2, d3, d4).tex((double)f1, (double)f2).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
+                worldrenderer.pos(d1, d3, d4).tex(f, f2).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
+                worldrenderer.pos(d1, d3, d5).tex(f, f3).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
+                worldrenderer.pos(d2, d3, d5).tex(f1, f3).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
+                worldrenderer.pos(d2, d3, d4).tex(f1, f2).color(1.0F, 1.0F, 1.0F, (float)d0).endVertex();
             }
         }
     }
@@ -308,22 +308,22 @@ public abstract class Render<T extends Entity>
      */
     public void doRenderShadowAndFire(Entity entityIn, double x, double y, double z, float yaw, float partialTicks)
     {
-        if (this.renderManager.options != null)
+        if (renderManager.options != null)
         {
-            if (this.renderManager.options.field_181151_V && this.shadowSize > 0.0F && !entityIn.isInvisible() && this.renderManager.isRenderShadow())
+            if (renderManager.options.field_181151_V && shadowSize > 0.0F && !entityIn.isInvisible() && renderManager.isRenderShadow())
             {
-                double d0 = this.renderManager.getDistanceToCamera(entityIn.posX, entityIn.posY, entityIn.posZ);
-                float f = (float)((1.0D - d0 / 256.0D) * (double)this.shadowOpaque);
+                double d0 = renderManager.getDistanceToCamera(entityIn.posX, entityIn.posY, entityIn.posZ);
+                float f = (float)((1.0D - d0 / 256.0D) * (double) shadowOpaque);
 
                 if (f > 0.0F)
                 {
-                    this.renderShadow(entityIn, x, y, z, f, partialTicks);
+                    renderShadow(entityIn, x, y, z, f, partialTicks);
                 }
             }
 
             if (entityIn.canRenderOnFire() && (!(entityIn instanceof EntityPlayer) || !((EntityPlayer)entityIn).isSpectator()))
             {
-                this.renderEntityOnFire(entityIn, x, y, z, partialTicks);
+                renderEntityOnFire(entityIn, x, y, z, partialTicks);
             }
         }
     }
@@ -333,7 +333,7 @@ public abstract class Render<T extends Entity>
      */
     public FontRenderer getFontRendererFromRenderManager()
     {
-        return this.renderManager.getFontRenderer();
+        return renderManager.getFontRenderer();
     }
 
     /**
@@ -341,18 +341,18 @@ public abstract class Render<T extends Entity>
      */
     protected void renderLivingLabel(T entityIn, String str, double x, double y, double z, int maxDistance)
     {
-        double d0 = entityIn.getDistanceSqToEntity(this.renderManager.livingPlayer);
+        double d0 = entityIn.getDistanceSqToEntity(renderManager.livingPlayer);
 
         if (d0 <= (double)(maxDistance * maxDistance))
         {
-            FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
+            FontRenderer fontrenderer = getFontRendererFromRenderManager();
             float f = 1.6F;
             float f1 = 0.016666668F * f;
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)x + 0.0F, (float)y + entityIn.height + 0.5F, (float)z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+            GlStateManager.rotate(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
             GlStateManager.scale(-f1, -f1, f1);
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);
@@ -371,10 +371,10 @@ public abstract class Render<T extends Entity>
             int i = fontrenderer.getStringWidth(str) / 2;
             GlStateManager.disableTexture2D();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-            worldrenderer.pos((double)(-i - 1), (double)(-1 + b0), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldrenderer.pos((double)(-i - 1), (double)(8 + b0), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldrenderer.pos((double)(i + 1), (double)(8 + b0), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
-            worldrenderer.pos((double)(i + 1), (double)(-1 + b0), 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(-i - 1, -1 + b0, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(-i - 1, 8 + b0, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(i + 1, 8 + b0, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
+            worldrenderer.pos(i + 1, -1 + b0, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             tessellator.draw();
             GlStateManager.enableTexture2D();
             fontrenderer.drawString(str, -fontrenderer.getStringWidth(str) / 2, b0, 553648127);
@@ -390,6 +390,6 @@ public abstract class Render<T extends Entity>
 
     public RenderManager getRenderManager()
     {
-        return this.renderManager;
+        return renderManager;
     }
 }

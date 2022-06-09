@@ -18,9 +18,9 @@ import net.minecraft.util.ResourceLocation;
 
 public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEntityBanner>
 {
-    private static final Map<String, TileEntityBannerRenderer.TimedBannerTexture> DESIGNS = Maps.<String, TileEntityBannerRenderer.TimedBannerTexture>newHashMap();
+    private static final Map<String, TileEntityBannerRenderer.TimedBannerTexture> DESIGNS = Maps.newHashMap();
     private static final ResourceLocation BANNERTEXTURES = new ResourceLocation("textures/entity/banner_base.png");
-    private ModelBanner bannerModel = new ModelBanner();
+    private final ModelBanner bannerModel = new ModelBanner();
 
     public void renderTileEntityAt(TileEntityBanner te, double x, double y, double z, float partialTicks, int destroyStage)
     {
@@ -36,7 +36,7 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
             GlStateManager.translate((float)x + 0.5F, (float)y + 0.75F * f, (float)z + 0.5F);
             float f1 = (float)(i * 360) / 16.0F;
             GlStateManager.rotate(-f1, 0.0F, 1.0F, 0.0F);
-            this.bannerModel.bannerStand.showModel = true;
+            bannerModel.bannerStand.showModel = true;
         }
         else
         {
@@ -60,21 +60,21 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
             GlStateManager.translate((float)x + 0.5F, (float)y - 0.25F * f, (float)z + 0.5F);
             GlStateManager.rotate(-f2, 0.0F, 1.0F, 0.0F);
             GlStateManager.translate(0.0F, -0.3125F, -0.4375F);
-            this.bannerModel.bannerStand.showModel = false;
+            bannerModel.bannerStand.showModel = false;
         }
 
         BlockPos blockpos = te.getPos();
         float f3 = (float)(blockpos.getX() * 7 + blockpos.getY() * 9 + blockpos.getZ() * 13) + (float)j + partialTicks;
-        this.bannerModel.bannerSlate.rotateAngleX = (-0.0125F + 0.01F * MathHelper.cos(f3 * (float)Math.PI * 0.02F)) * (float)Math.PI;
+        bannerModel.bannerSlate.rotateAngleX = (-0.0125F + 0.01F * MathHelper.cos(f3 * (float)Math.PI * 0.02F)) * (float)Math.PI;
         GlStateManager.enableRescaleNormal();
-        ResourceLocation resourcelocation = this.func_178463_a(te);
+        ResourceLocation resourcelocation = func_178463_a(te);
 
         if (resourcelocation != null)
         {
-            this.bindTexture(resourcelocation);
+            bindTexture(resourcelocation);
             GlStateManager.pushMatrix();
             GlStateManager.scale(f, -f, -f);
-            this.bannerModel.renderBanner();
+            bannerModel.renderBanner();
             GlStateManager.popMatrix();
         }
 
@@ -92,19 +92,19 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
         }
         else
         {
-            TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture = (TileEntityBannerRenderer.TimedBannerTexture)DESIGNS.get(s);
+            TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture = TileEntityBannerRenderer.DESIGNS.get(s);
 
             if (tileentitybannerrenderer$timedbannertexture == null)
             {
-                if (DESIGNS.size() >= 256)
+                if (TileEntityBannerRenderer.DESIGNS.size() >= 256)
                 {
                     long i = System.currentTimeMillis();
-                    Iterator<String> iterator = DESIGNS.keySet().iterator();
+                    Iterator<String> iterator = TileEntityBannerRenderer.DESIGNS.keySet().iterator();
 
                     while (iterator.hasNext())
                     {
-                        String s1 = (String)iterator.next();
-                        TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture1 = (TileEntityBannerRenderer.TimedBannerTexture)DESIGNS.get(s1);
+                        String s1 = iterator.next();
+                        TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture1 = TileEntityBannerRenderer.DESIGNS.get(s1);
 
                         if (i - tileentitybannerrenderer$timedbannertexture1.systemTime > 60000L)
                         {
@@ -113,7 +113,7 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
                         }
                     }
 
-                    if (DESIGNS.size() >= 256)
+                    if (TileEntityBannerRenderer.DESIGNS.size() >= 256)
                     {
                         return null;
                     }
@@ -121,7 +121,7 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
 
                 List<TileEntityBanner.EnumBannerPattern> list1 = bannerObj.getPatternList();
                 List<EnumDyeColor> list = bannerObj.getColorList();
-                List<String> list2 = Lists.<String>newArrayList();
+                List<String> list2 = Lists.newArrayList();
 
                 for (TileEntityBanner.EnumBannerPattern tileentitybanner$enumbannerpattern : list1)
                 {
@@ -130,8 +130,8 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
 
                 tileentitybannerrenderer$timedbannertexture = new TileEntityBannerRenderer.TimedBannerTexture();
                 tileentitybannerrenderer$timedbannertexture.bannerTexture = new ResourceLocation(s);
-                Minecraft.getMinecraft().getTextureManager().loadTexture(tileentitybannerrenderer$timedbannertexture.bannerTexture, new LayeredColorMaskTexture(BANNERTEXTURES, list2, list));
-                DESIGNS.put(s, tileentitybannerrenderer$timedbannertexture);
+                Minecraft.getMinecraft().getTextureManager().loadTexture(tileentitybannerrenderer$timedbannertexture.bannerTexture, new LayeredColorMaskTexture(TileEntityBannerRenderer.BANNERTEXTURES, list2, list));
+                TileEntityBannerRenderer.DESIGNS.put(s, tileentitybannerrenderer$timedbannertexture);
             }
 
             tileentitybannerrenderer$timedbannertexture.systemTime = System.currentTimeMillis();

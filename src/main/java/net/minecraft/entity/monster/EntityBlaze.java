@@ -30,29 +30,29 @@ public class EntityBlaze extends EntityMob
     public EntityBlaze(World worldIn)
     {
         super(worldIn);
-        this.isImmuneToFire = true;
-        this.experienceValue = 10;
-        this.tasks.addTask(4, new EntityBlaze.AIFireballAttack(this));
-        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
+        isImmuneToFire = true;
+        experienceValue = 10;
+        tasks.addTask(4, new EntityBlaze.AIFireballAttack(this));
+        tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        tasks.addTask(7, new EntityAIWander(this, 1.0D));
+        tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        tasks.addTask(8, new EntityAILookIdle(this));
+        targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
+        targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, true));
     }
 
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(6.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
-        this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(48.0D);
+        getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(6.0D);
+        getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.23000000417232513D);
+        getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(48.0D);
     }
 
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, new Byte((byte)0));
+        dataWatcher.addObject(16, new Byte((byte)0));
     }
 
     /**
@@ -98,21 +98,21 @@ public class EntityBlaze extends EntityMob
      */
     public void onLivingUpdate()
     {
-        if (!this.onGround && this.motionY < 0.0D)
+        if (!onGround && motionY < 0.0D)
         {
-            this.motionY *= 0.6D;
+            motionY *= 0.6D;
         }
 
-        if (this.worldObj.isRemote)
+        if (worldObj.isRemote)
         {
-            if (this.rand.nextInt(24) == 0 && !this.isSilent())
+            if (rand.nextInt(24) == 0 && !isSilent())
             {
-                this.worldObj.playSound(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, "fire.fire", 1.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
+                worldObj.playSound(posX + 0.5D, posY + 0.5D, posZ + 0.5D, "fire.fire", 1.0F + rand.nextFloat(), rand.nextFloat() * 0.7F + 0.3F, false);
             }
 
             for (int i = 0; i < 2; ++i)
             {
-                this.worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.posX + (this.rand.nextDouble() - 0.5D) * (double)this.width, this.posY + this.rand.nextDouble() * (double)this.height, this.posZ + (this.rand.nextDouble() - 0.5D) * (double)this.width, 0.0D, 0.0D, 0.0D, new int[0]);
+                worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, posX + (rand.nextDouble() - 0.5D) * (double) width, posY + rand.nextDouble() * (double) height, posZ + (rand.nextDouble() - 0.5D) * (double) width, 0.0D, 0.0D, 0.0D);
             }
         }
 
@@ -121,25 +121,25 @@ public class EntityBlaze extends EntityMob
 
     protected void updateAITasks()
     {
-        if (this.isWet())
+        if (isWet())
         {
-            this.attackEntityFrom(DamageSource.drown, 1.0F);
+            attackEntityFrom(DamageSource.drown, 1.0F);
         }
 
-        --this.heightOffsetUpdateTime;
+        --heightOffsetUpdateTime;
 
-        if (this.heightOffsetUpdateTime <= 0)
+        if (heightOffsetUpdateTime <= 0)
         {
-            this.heightOffsetUpdateTime = 100;
-            this.heightOffset = 0.5F + (float)this.rand.nextGaussian() * 3.0F;
+            heightOffsetUpdateTime = 100;
+            heightOffset = 0.5F + (float) rand.nextGaussian() * 3.0F;
         }
 
-        EntityLivingBase entitylivingbase = this.getAttackTarget();
+        EntityLivingBase entitylivingbase = getAttackTarget();
 
-        if (entitylivingbase != null && entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() > this.posY + (double)this.getEyeHeight() + (double)this.heightOffset)
+        if (entitylivingbase != null && entitylivingbase.posY + (double)entitylivingbase.getEyeHeight() > posY + (double) getEyeHeight() + (double) heightOffset)
         {
-            this.motionY += (0.30000001192092896D - this.motionY) * 0.30000001192092896D;
-            this.isAirBorne = true;
+            motionY += (0.30000001192092896D - motionY) * 0.30000001192092896D;
+            isAirBorne = true;
         }
 
         super.updateAITasks();
@@ -159,7 +159,7 @@ public class EntityBlaze extends EntityMob
      */
     public boolean isBurning()
     {
-        return this.func_70845_n();
+        return func_70845_n();
     }
 
     /**
@@ -169,23 +169,23 @@ public class EntityBlaze extends EntityMob
     {
         if (p_70628_1_)
         {
-            int i = this.rand.nextInt(2 + p_70628_2_);
+            int i = rand.nextInt(2 + p_70628_2_);
 
             for (int j = 0; j < i; ++j)
             {
-                this.dropItem(Items.blaze_rod, 1);
+                dropItem(Items.blaze_rod, 1);
             }
         }
     }
 
     public boolean func_70845_n()
     {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+        return (dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
 
     public void setOnFire(boolean onFire)
     {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = dataWatcher.getWatchableObjectByte(16);
 
         if (onFire)
         {
@@ -196,7 +196,7 @@ public class EntityBlaze extends EntityMob
             b0 = (byte)(b0 & -2);
         }
 
-        this.dataWatcher.updateObject(16, Byte.valueOf(b0));
+        dataWatcher.updateObject(16, Byte.valueOf(b0));
     }
 
     /**
@@ -209,94 +209,94 @@ public class EntityBlaze extends EntityMob
 
     static class AIFireballAttack extends EntityAIBase
     {
-        private EntityBlaze blaze;
+        private final EntityBlaze blaze;
         private int field_179467_b;
         private int field_179468_c;
 
         public AIFireballAttack(EntityBlaze p_i45846_1_)
         {
-            this.blaze = p_i45846_1_;
-            this.setMutexBits(3);
+            blaze = p_i45846_1_;
+            setMutexBits(3);
         }
 
         public boolean shouldExecute()
         {
-            EntityLivingBase entitylivingbase = this.blaze.getAttackTarget();
+            EntityLivingBase entitylivingbase = blaze.getAttackTarget();
             return entitylivingbase != null && entitylivingbase.isEntityAlive();
         }
 
         public void startExecuting()
         {
-            this.field_179467_b = 0;
+            field_179467_b = 0;
         }
 
         public void resetTask()
         {
-            this.blaze.setOnFire(false);
+            blaze.setOnFire(false);
         }
 
         public void updateTask()
         {
-            --this.field_179468_c;
-            EntityLivingBase entitylivingbase = this.blaze.getAttackTarget();
-            double d0 = this.blaze.getDistanceSqToEntity(entitylivingbase);
+            --field_179468_c;
+            EntityLivingBase entitylivingbase = blaze.getAttackTarget();
+            double d0 = blaze.getDistanceSqToEntity(entitylivingbase);
 
             if (d0 < 4.0D)
             {
-                if (this.field_179468_c <= 0)
+                if (field_179468_c <= 0)
                 {
-                    this.field_179468_c = 20;
-                    this.blaze.attackEntityAsMob(entitylivingbase);
+                    field_179468_c = 20;
+                    blaze.attackEntityAsMob(entitylivingbase);
                 }
 
-                this.blaze.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
+                blaze.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
             }
             else if (d0 < 256.0D)
             {
-                double d1 = entitylivingbase.posX - this.blaze.posX;
-                double d2 = entitylivingbase.getEntityBoundingBox().minY + (double)(entitylivingbase.height / 2.0F) - (this.blaze.posY + (double)(this.blaze.height / 2.0F));
-                double d3 = entitylivingbase.posZ - this.blaze.posZ;
+                double d1 = entitylivingbase.posX - blaze.posX;
+                double d2 = entitylivingbase.getEntityBoundingBox().minY + (double)(entitylivingbase.height / 2.0F) - (blaze.posY + (double)(blaze.height / 2.0F));
+                double d3 = entitylivingbase.posZ - blaze.posZ;
 
-                if (this.field_179468_c <= 0)
+                if (field_179468_c <= 0)
                 {
-                    ++this.field_179467_b;
+                    ++field_179467_b;
 
-                    if (this.field_179467_b == 1)
+                    if (field_179467_b == 1)
                     {
-                        this.field_179468_c = 60;
-                        this.blaze.setOnFire(true);
+                        field_179468_c = 60;
+                        blaze.setOnFire(true);
                     }
-                    else if (this.field_179467_b <= 4)
+                    else if (field_179467_b <= 4)
                     {
-                        this.field_179468_c = 6;
+                        field_179468_c = 6;
                     }
                     else
                     {
-                        this.field_179468_c = 100;
-                        this.field_179467_b = 0;
-                        this.blaze.setOnFire(false);
+                        field_179468_c = 100;
+                        field_179467_b = 0;
+                        blaze.setOnFire(false);
                     }
 
-                    if (this.field_179467_b > 1)
+                    if (field_179467_b > 1)
                     {
                         float f = MathHelper.sqrt_float(MathHelper.sqrt_double(d0)) * 0.5F;
-                        this.blaze.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1009, new BlockPos((int)this.blaze.posX, (int)this.blaze.posY, (int)this.blaze.posZ), 0);
+                        blaze.worldObj.playAuxSFXAtEntity(null, 1009, new BlockPos((int) blaze.posX, (int) blaze.posY, (int) blaze.posZ), 0);
 
                         for (int i = 0; i < 1; ++i)
                         {
-                            EntitySmallFireball entitysmallfireball = new EntitySmallFireball(this.blaze.worldObj, this.blaze, d1 + this.blaze.getRNG().nextGaussian() * (double)f, d2, d3 + this.blaze.getRNG().nextGaussian() * (double)f);
-                            entitysmallfireball.posY = this.blaze.posY + (double)(this.blaze.height / 2.0F) + 0.5D;
-                            this.blaze.worldObj.spawnEntityInWorld(entitysmallfireball);
+                            EntitySmallFireball entitysmallfireball = new EntitySmallFireball(blaze.worldObj, blaze, d1 + blaze.getRNG().nextGaussian() * (double)f, d2, d3 + blaze.getRNG().nextGaussian() * (double)f);
+                            entitysmallfireball.posY = blaze.posY + (double)(blaze.height / 2.0F) + 0.5D;
+                            blaze.worldObj.spawnEntityInWorld(entitysmallfireball);
                         }
                     }
                 }
 
-                this.blaze.getLookHelper().setLookPositionWithEntity(entitylivingbase, 10.0F, 10.0F);
+                blaze.getLookHelper().setLookPositionWithEntity(entitylivingbase, 10.0F, 10.0F);
             }
             else
             {
-                this.blaze.getNavigator().clearPathEntity();
-                this.blaze.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
+                blaze.getNavigator().clearPathEntity();
+                blaze.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
             }
 
             super.updateTask();

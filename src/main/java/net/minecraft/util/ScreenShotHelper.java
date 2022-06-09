@@ -37,7 +37,7 @@ public class ScreenShotHelper
      */
     public static IChatComponent saveScreenshot(File gameDirectory, int width, int height, Framebuffer buffer)
     {
-        return saveScreenshot(gameDirectory, (String)null, width, height, buffer);
+        return ScreenShotHelper.saveScreenshot(gameDirectory, null, width, height, buffer);
     }
 
     /**
@@ -59,28 +59,28 @@ public class ScreenShotHelper
 
             int i = width * height;
 
-            if (pixelBuffer == null || pixelBuffer.capacity() < i)
+            if (ScreenShotHelper.pixelBuffer == null || ScreenShotHelper.pixelBuffer.capacity() < i)
             {
-                pixelBuffer = BufferUtils.createIntBuffer(i);
-                pixelValues = new int[i];
+                ScreenShotHelper.pixelBuffer = BufferUtils.createIntBuffer(i);
+                ScreenShotHelper.pixelValues = new int[i];
             }
 
             GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
             GL11.glPixelStorei(GL11.GL_UNPACK_ALIGNMENT, 1);
-            pixelBuffer.clear();
+            ScreenShotHelper.pixelBuffer.clear();
 
             if (OpenGlHelper.isFramebufferEnabled())
             {
                 GlStateManager.bindTexture(buffer.framebufferTexture);
-                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
+                GL11.glGetTexImage(GL11.GL_TEXTURE_2D, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, ScreenShotHelper.pixelBuffer);
             }
             else
             {
-                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)pixelBuffer);
+                GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, ScreenShotHelper.pixelBuffer);
             }
 
-            pixelBuffer.get(pixelValues);
-            TextureUtil.processPixelValues(pixelValues, width, height);
+            ScreenShotHelper.pixelBuffer.get(ScreenShotHelper.pixelValues);
+            TextureUtil.processPixelValues(ScreenShotHelper.pixelValues, width, height);
             BufferedImage bufferedimage = null;
 
             if (OpenGlHelper.isFramebufferEnabled())
@@ -92,37 +92,37 @@ public class ScreenShotHelper
                 {
                     for (int l = 0; l < buffer.framebufferWidth; ++l)
                     {
-                        bufferedimage.setRGB(l, k - j, pixelValues[k * buffer.framebufferTextureWidth + l]);
+                        bufferedimage.setRGB(l, k - j, ScreenShotHelper.pixelValues[k * buffer.framebufferTextureWidth + l]);
                     }
                 }
             }
             else
             {
                 bufferedimage = new BufferedImage(width, height, 1);
-                bufferedimage.setRGB(0, 0, width, height, pixelValues, 0, width);
+                bufferedimage.setRGB(0, 0, width, height, ScreenShotHelper.pixelValues, 0, width);
             }
 
             File file2;
 
             if (screenshotName == null)
             {
-                file2 = getTimestampedPNGFileForDirectory(file1);
+                file2 = ScreenShotHelper.getTimestampedPNGFileForDirectory(file1);
             }
             else
             {
                 file2 = new File(file1, screenshotName);
             }
 
-            ImageIO.write(bufferedimage, "png", (File)file2);
+            ImageIO.write(bufferedimage, "png", file2);
             IChatComponent ichatcomponent = new ChatComponentText(file2.getName());
             ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath()));
             ichatcomponent.getChatStyle().setUnderlined(Boolean.valueOf(true));
-            return new ChatComponentTranslation("screenshot.success", new Object[] {ichatcomponent});
+            return new ChatComponentTranslation("screenshot.success", ichatcomponent);
         }
         catch (Exception exception)
         {
-            logger.warn((String)"Couldn\'t save screenshot", (Throwable)exception);
-            return new ChatComponentTranslation("screenshot.failure", new Object[] {exception.getMessage()});
+            ScreenShotHelper.logger.warn("Couldn't save screenshot", exception);
+            return new ChatComponentTranslation("screenshot.failure", exception.getMessage());
         }
     }
 
@@ -134,7 +134,7 @@ public class ScreenShotHelper
      */
     private static File getTimestampedPNGFileForDirectory(File gameDirectory)
     {
-        String s = dateFormat.format(new Date()).toString();
+        String s = ScreenShotHelper.dateFormat.format(new Date());
         int i = 1;
 
         while (true)

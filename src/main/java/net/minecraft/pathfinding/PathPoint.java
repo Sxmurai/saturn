@@ -36,10 +36,10 @@ public class PathPoint
 
     public PathPoint(int x, int y, int z)
     {
-        this.xCoord = x;
-        this.yCoord = y;
-        this.zCoord = z;
-        this.hash = makeHash(x, y, z);
+        xCoord = x;
+        yCoord = y;
+        zCoord = z;
+        hash = PathPoint.makeHash(x, y, z);
     }
 
     public static int makeHash(int x, int y, int z)
@@ -52,9 +52,9 @@ public class PathPoint
      */
     public float distanceTo(PathPoint pathpointIn)
     {
-        float f = (float)(pathpointIn.xCoord - this.xCoord);
-        float f1 = (float)(pathpointIn.yCoord - this.yCoord);
-        float f2 = (float)(pathpointIn.zCoord - this.zCoord);
+        float f = (float)(pathpointIn.xCoord - xCoord);
+        float f1 = (float)(pathpointIn.yCoord - yCoord);
+        float f2 = (float)(pathpointIn.zCoord - zCoord);
         return MathHelper.sqrt_float(f * f + f1 * f1 + f2 * f2);
     }
 
@@ -63,9 +63,9 @@ public class PathPoint
      */
     public float distanceToSquared(PathPoint pathpointIn)
     {
-        float f = (float)(pathpointIn.xCoord - this.xCoord);
-        float f1 = (float)(pathpointIn.yCoord - this.yCoord);
-        float f2 = (float)(pathpointIn.zCoord - this.zCoord);
+        float f = (float)(pathpointIn.xCoord - xCoord);
+        float f1 = (float)(pathpointIn.yCoord - yCoord);
+        float f2 = (float)(pathpointIn.zCoord - zCoord);
         return f * f + f1 * f1 + f2 * f2;
     }
 
@@ -78,13 +78,13 @@ public class PathPoint
         else
         {
             PathPoint pathpoint = (PathPoint)p_equals_1_;
-            return this.hash == pathpoint.hash && this.xCoord == pathpoint.xCoord && this.yCoord == pathpoint.yCoord && this.zCoord == pathpoint.zCoord;
+            return hash == pathpoint.hash && xCoord == pathpoint.xCoord && yCoord == pathpoint.yCoord && zCoord == pathpoint.zCoord;
         }
     }
 
     public int hashCode()
     {
-        return this.hash;
+        return hash;
     }
 
     /**
@@ -92,11 +92,11 @@ public class PathPoint
      */
     public boolean isAssigned()
     {
-        return this.index >= 0;
+        return index >= 0;
     }
 
     public String toString()
     {
-        return this.xCoord + ", " + this.yCoord + ", " + this.zCoord;
+        return xCoord + ", " + yCoord + ", " + zCoord;
     }
 }

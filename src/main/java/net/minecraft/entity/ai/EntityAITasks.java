@@ -10,17 +10,17 @@ import org.apache.logging.log4j.Logger;
 public class EntityAITasks
 {
     private static final Logger logger = LogManager.getLogger();
-    private List<EntityAITasks.EntityAITaskEntry> taskEntries = Lists.<EntityAITasks.EntityAITaskEntry>newArrayList();
-    private List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = Lists.<EntityAITasks.EntityAITaskEntry>newArrayList();
+    private final List<EntityAITasks.EntityAITaskEntry> taskEntries = Lists.newArrayList();
+    private final List<EntityAITasks.EntityAITaskEntry> executingTaskEntries = Lists.newArrayList();
 
     /** Instance of Profiler. */
     private final Profiler theProfiler;
     private int tickCount;
-    private int tickRate = 3;
+    private final int tickRate = 3;
 
     public EntityAITasks(Profiler profilerIn)
     {
-        this.theProfiler = profilerIn;
+        theProfiler = profilerIn;
     }
 
     /**
@@ -28,7 +28,7 @@ public class EntityAITasks
      */
     public void addTask(int priority, EntityAIBase task)
     {
-        this.taskEntries.add(new EntityAITasks.EntityAITaskEntry(priority, task));
+        taskEntries.add(new EntityAITasks.EntityAITaskEntry(priority, task));
     }
 
     /**
@@ -36,19 +36,19 @@ public class EntityAITasks
      */
     public void removeTask(EntityAIBase task)
     {
-        Iterator<EntityAITasks.EntityAITaskEntry> iterator = this.taskEntries.iterator();
+        Iterator<EntityAITasks.EntityAITaskEntry> iterator = taskEntries.iterator();
 
         while (iterator.hasNext())
         {
-            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = (EntityAITasks.EntityAITaskEntry)iterator.next();
+            EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry = iterator.next();
             EntityAIBase entityaibase = entityaitasks$entityaitaskentry.action;
 
             if (entityaibase == task)
             {
-                if (this.executingTaskEntries.contains(entityaitasks$entityaitaskentry))
+                if (executingTaskEntries.contains(entityaitasks$entityaitaskentry))
                 {
                     entityaibase.resetTask();
-                    this.executingTaskEntries.remove(entityaitasks$entityaitaskentry);
+                    executingTaskEntries.remove(entityaitasks$entityaitaskentry);
                 }
 
                 iterator.remove();
@@ -58,11 +58,11 @@ public class EntityAITasks
 
     public void onUpdateTasks()
     {
-        this.theProfiler.startSection("goalSetup");
+        theProfiler.startSection("goalSetup");
 
-        if (this.tickCount++ % this.tickRate == 0)
+        if (tickCount++ % tickRate == 0)
         {
-            Iterator iterator = this.taskEntries.iterator();
+            Iterator iterator = taskEntries.iterator();
             label38:
 
             while (true)
@@ -77,37 +77,37 @@ public class EntityAITasks
                     }
 
                     entityaitasks$entityaitaskentry = (EntityAITasks.EntityAITaskEntry)iterator.next();
-                    boolean flag = this.executingTaskEntries.contains(entityaitasks$entityaitaskentry);
+                    boolean flag = executingTaskEntries.contains(entityaitasks$entityaitaskentry);
 
                     if (!flag)
                     {
                         break;
                     }
 
-                    if (!this.canUse(entityaitasks$entityaitaskentry) || !this.canContinue(entityaitasks$entityaitaskentry))
+                    if (!canUse(entityaitasks$entityaitaskentry) || !canContinue(entityaitasks$entityaitaskentry))
                     {
                         entityaitasks$entityaitaskentry.action.resetTask();
-                        this.executingTaskEntries.remove(entityaitasks$entityaitaskentry);
+                        executingTaskEntries.remove(entityaitasks$entityaitaskentry);
                         break;
                     }
                 }
 
-                if (this.canUse(entityaitasks$entityaitaskentry) && entityaitasks$entityaitaskentry.action.shouldExecute())
+                if (canUse(entityaitasks$entityaitaskentry) && entityaitasks$entityaitaskentry.action.shouldExecute())
                 {
                     entityaitasks$entityaitaskentry.action.startExecuting();
-                    this.executingTaskEntries.add(entityaitasks$entityaitaskentry);
+                    executingTaskEntries.add(entityaitasks$entityaitaskentry);
                 }
             }
         }
         else
         {
-            Iterator<EntityAITasks.EntityAITaskEntry> iterator1 = this.executingTaskEntries.iterator();
+            Iterator<EntityAITasks.EntityAITaskEntry> iterator1 = executingTaskEntries.iterator();
 
             while (iterator1.hasNext())
             {
-                EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry1 = (EntityAITasks.EntityAITaskEntry)iterator1.next();
+                EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry1 = iterator1.next();
 
-                if (!this.canContinue(entityaitasks$entityaitaskentry1))
+                if (!canContinue(entityaitasks$entityaitaskentry1))
                 {
                     entityaitasks$entityaitaskentry1.action.resetTask();
                     iterator1.remove();
@@ -115,15 +115,15 @@ public class EntityAITasks
             }
         }
 
-        this.theProfiler.endSection();
-        this.theProfiler.startSection("goalTick");
+        theProfiler.endSection();
+        theProfiler.startSection("goalTick");
 
-        for (EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry2 : this.executingTaskEntries)
+        for (EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry2 : executingTaskEntries)
         {
             entityaitasks$entityaitaskentry2.action.updateTask();
         }
 
-        this.theProfiler.endSection();
+        theProfiler.endSection();
     }
 
     /**
@@ -141,18 +141,18 @@ public class EntityAITasks
      */
     private boolean canUse(EntityAITasks.EntityAITaskEntry taskEntry)
     {
-        for (EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry : this.taskEntries)
+        for (EntityAITasks.EntityAITaskEntry entityaitasks$entityaitaskentry : taskEntries)
         {
             if (entityaitasks$entityaitaskentry != taskEntry)
             {
                 if (taskEntry.priority >= entityaitasks$entityaitaskentry.priority)
                 {
-                    if (!this.areTasksCompatible(taskEntry, entityaitasks$entityaitaskentry) && this.executingTaskEntries.contains(entityaitasks$entityaitaskentry))
+                    if (!areTasksCompatible(taskEntry, entityaitasks$entityaitaskentry) && executingTaskEntries.contains(entityaitasks$entityaitaskentry))
                     {
                         return false;
                     }
                 }
-                else if (!entityaitasks$entityaitaskentry.action.isInterruptible() && this.executingTaskEntries.contains(entityaitasks$entityaitaskentry))
+                else if (!entityaitasks$entityaitaskentry.action.isInterruptible() && executingTaskEntries.contains(entityaitasks$entityaitaskentry))
                 {
                     return false;
                 }
@@ -177,8 +177,8 @@ public class EntityAITasks
 
         public EntityAITaskEntry(int priorityIn, EntityAIBase task)
         {
-            this.priority = priorityIn;
-            this.action = task;
+            priority = priorityIn;
+            action = task;
         }
     }
 }

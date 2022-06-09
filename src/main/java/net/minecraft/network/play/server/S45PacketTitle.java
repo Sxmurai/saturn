@@ -25,7 +25,7 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient>
 
     public S45PacketTitle(int fadeInTime, int displayTime, int fadeOutTime)
     {
-        this(S45PacketTitle.Type.TIMES, (IChatComponent)null, fadeInTime, displayTime, fadeOutTime);
+        this(S45PacketTitle.Type.TIMES, null, fadeInTime, displayTime, fadeOutTime);
     }
 
     public S45PacketTitle(S45PacketTitle.Type type, IChatComponent message, int fadeInTime, int displayTime, int fadeOutTime)
@@ -42,18 +42,18 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient>
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.type = (S45PacketTitle.Type)buf.readEnumValue(S45PacketTitle.Type.class);
+        type = buf.readEnumValue(Type.class);
 
-        if (this.type == S45PacketTitle.Type.TITLE || this.type == S45PacketTitle.Type.SUBTITLE)
+        if (type == S45PacketTitle.Type.TITLE || type == S45PacketTitle.Type.SUBTITLE)
         {
-            this.message = buf.readChatComponent();
+            message = buf.readChatComponent();
         }
 
-        if (this.type == S45PacketTitle.Type.TIMES)
+        if (type == S45PacketTitle.Type.TIMES)
         {
-            this.fadeInTime = buf.readInt();
-            this.displayTime = buf.readInt();
-            this.fadeOutTime = buf.readInt();
+            fadeInTime = buf.readInt();
+            displayTime = buf.readInt();
+            fadeOutTime = buf.readInt();
         }
     }
 
@@ -62,18 +62,18 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient>
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeEnumValue(this.type);
+        buf.writeEnumValue(type);
 
-        if (this.type == S45PacketTitle.Type.TITLE || this.type == S45PacketTitle.Type.SUBTITLE)
+        if (type == S45PacketTitle.Type.TITLE || type == S45PacketTitle.Type.SUBTITLE)
         {
-            buf.writeChatComponent(this.message);
+            buf.writeChatComponent(message);
         }
 
-        if (this.type == S45PacketTitle.Type.TIMES)
+        if (type == S45PacketTitle.Type.TIMES)
         {
-            buf.writeInt(this.fadeInTime);
-            buf.writeInt(this.displayTime);
-            buf.writeInt(this.fadeOutTime);
+            buf.writeInt(fadeInTime);
+            buf.writeInt(displayTime);
+            buf.writeInt(fadeOutTime);
         }
     }
 
@@ -87,27 +87,27 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient>
 
     public S45PacketTitle.Type getType()
     {
-        return this.type;
+        return type;
     }
 
     public IChatComponent getMessage()
     {
-        return this.message;
+        return message;
     }
 
     public int getFadeInTime()
     {
-        return this.fadeInTime;
+        return fadeInTime;
     }
 
     public int getDisplayTime()
     {
-        return this.displayTime;
+        return displayTime;
     }
 
     public int getFadeOutTime()
     {
-        return this.fadeOutTime;
+        return fadeOutTime;
     }
 
     public static enum Type
@@ -120,7 +120,7 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient>
 
         public static S45PacketTitle.Type byName(String name)
         {
-            for (S45PacketTitle.Type s45packettitle$type : values())
+            for (S45PacketTitle.Type s45packettitle$type : Type.values())
             {
                 if (s45packettitle$type.name().equalsIgnoreCase(name))
                 {
@@ -128,15 +128,15 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient>
                 }
             }
 
-            return TITLE;
+            return Type.TITLE;
         }
 
         public static String[] getNames()
         {
-            String[] astring = new String[values().length];
+            String[] astring = new String[Type.values().length];
             int i = 0;
 
-            for (S45PacketTitle.Type s45packettitle$type : values())
+            for (S45PacketTitle.Type s45packettitle$type : Type.values())
             {
                 astring[i++] = s45packettitle$type.name().toLowerCase();
             }

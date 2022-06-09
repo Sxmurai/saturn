@@ -19,7 +19,7 @@ public class RenderChicken extends RenderLiving<EntityChicken>
      */
     protected ResourceLocation getEntityTexture(EntityChicken entity)
     {
-        return chickenTextures;
+        return RenderChicken.chickenTextures;
     }
 
     /**

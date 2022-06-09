@@ -26,22 +26,22 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable
 
     private ZipFile getResourcePackZipFile() throws IOException
     {
-        if (this.resourcePackZipFile == null)
+        if (resourcePackZipFile == null)
         {
-            this.resourcePackZipFile = new ZipFile(this.resourcePackFile);
+            resourcePackZipFile = new ZipFile(resourcePackFile);
         }
 
-        return this.resourcePackZipFile;
+        return resourcePackZipFile;
     }
 
     protected InputStream getInputStreamByName(String name) throws IOException
     {
-        ZipFile zipfile = this.getResourcePackZipFile();
+        ZipFile zipfile = getResourcePackZipFile();
         ZipEntry zipentry = zipfile.getEntry(name);
 
         if (zipentry == null)
         {
-            throw new ResourcePackFileNotFoundException(this.resourcePackFile, name);
+            throw new ResourcePackFileNotFoundException(resourcePackFile, name);
         }
         else
         {
@@ -53,7 +53,7 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable
     {
         try
         {
-            return this.getResourcePackZipFile().getEntry(name) != null;
+            return getResourcePackZipFile().getEntry(name) != null;
         }
         catch (IOException var3)
         {
@@ -67,32 +67,32 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable
 
         try
         {
-            zipfile = this.getResourcePackZipFile();
+            zipfile = getResourcePackZipFile();
         }
         catch (IOException var8)
         {
-            return Collections.<String>emptySet();
+            return Collections.emptySet();
         }
 
         Enumeration <? extends ZipEntry > enumeration = zipfile.entries();
-        Set<String> set = Sets.<String>newHashSet();
+        Set<String> set = Sets.newHashSet();
 
         while (enumeration.hasMoreElements())
         {
-            ZipEntry zipentry = (ZipEntry)enumeration.nextElement();
+            ZipEntry zipentry = enumeration.nextElement();
             String s = zipentry.getName();
 
             if (s.startsWith("assets/"))
             {
-                List<String> list = Lists.newArrayList(entryNameSplitter.split(s));
+                List<String> list = Lists.newArrayList(FileResourcePack.entryNameSplitter.split(s));
 
                 if (list.size() > 1)
                 {
-                    String s1 = (String)list.get(1);
+                    String s1 = list.get(1);
 
                     if (!s1.equals(s1.toLowerCase()))
                     {
-                        this.logNameNotLowercase(s1);
+                        logNameNotLowercase(s1);
                     }
                     else
                     {
@@ -107,16 +107,16 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable
 
     protected void finalize() throws Throwable
     {
-        this.close();
+        close();
         super.finalize();
     }
 
     public void close() throws IOException
     {
-        if (this.resourcePackZipFile != null)
+        if (resourcePackZipFile != null)
         {
-            this.resourcePackZipFile.close();
-            this.resourcePackZipFile = null;
+            resourcePackZipFile.close();
+            resourcePackZipFile = null;
         }
     }
 }

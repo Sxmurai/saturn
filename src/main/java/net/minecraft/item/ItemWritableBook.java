@@ -10,7 +10,7 @@ public class ItemWritableBook extends Item
 {
     public ItemWritableBook()
     {
-        this.setMaxStackSize(1);
+        setMaxStackSize(1);
     }
 
     /**

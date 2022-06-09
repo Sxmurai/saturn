@@ -17,7 +17,7 @@ public class S47PacketPlayerListHeaderFooter implements Packet<INetHandlerPlayCl
 
     public S47PacketPlayerListHeaderFooter(IChatComponent headerIn)
     {
-        this.header = headerIn;
+        header = headerIn;
     }
 
     /**
@@ -25,8 +25,8 @@ public class S47PacketPlayerListHeaderFooter implements Packet<INetHandlerPlayCl
      */
     public void readPacketData(PacketBuffer buf) throws IOException
     {
-        this.header = buf.readChatComponent();
-        this.footer = buf.readChatComponent();
+        header = buf.readChatComponent();
+        footer = buf.readChatComponent();
     }
 
     /**
@@ -34,8 +34,8 @@ public class S47PacketPlayerListHeaderFooter implements Packet<INetHandlerPlayCl
      */
     public void writePacketData(PacketBuffer buf) throws IOException
     {
-        buf.writeChatComponent(this.header);
-        buf.writeChatComponent(this.footer);
+        buf.writeChatComponent(header);
+        buf.writeChatComponent(footer);
     }
 
     /**
@@ -48,11 +48,11 @@ public class S47PacketPlayerListHeaderFooter implements Packet<INetHandlerPlayCl
 
     public IChatComponent getHeader()
     {
-        return this.header;
+        return header;
     }
 
     public IChatComponent getFooter()
     {
-        return this.footer;
+        return footer;
     }
 }
