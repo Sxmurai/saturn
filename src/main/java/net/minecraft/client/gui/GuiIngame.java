@@ -43,6 +43,9 @@ import net.minecraft.util.StringUtils;
 import net.minecraft.world.border.WorldBorder;
 import optifine.Config;
 import optifine.CustomColors;
+import wtf.saturn.event.RenderHUDEvent;
+
+import static wtf.saturn.launch.Launcher.BUS;
 
 public class GuiIngame extends Gui
 {
@@ -349,6 +352,8 @@ public class GuiIngame extends Gui
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();
         GlStateManager.enableAlpha();
+
+        BUS.post(new RenderHUDEvent(scaledresolution));
     }
 
     protected void renderTooltip(ScaledResolution sr, float partialTicks)

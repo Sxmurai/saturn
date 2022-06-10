@@ -7,6 +7,8 @@ import me.bush.eventbus.annotation.EventListener;
 import wtf.saturn.event.KeyPressEvent;
 import wtf.saturn.feature.cache.BaseCache;
 import wtf.saturn.feature.cache.Caches;
+import wtf.saturn.feature.cache.impl.hud.HUDModule;
+import wtf.saturn.feature.cache.impl.hud.HudCache;
 import wtf.saturn.feature.cache.impl.module.impl.Module;
 import wtf.saturn.feature.cache.impl.module.impl.ModuleCategory;
 import wtf.saturn.util.reflect.ReflectionUtil;
@@ -36,6 +38,14 @@ public class ModuleCache extends BaseCache<Module> {
                 .forEach((clazz) -> {
                     try {
                         Module module = clazz.getConstructor().newInstance();
+
+                        module.reflectSettings();
+
+                        if (module instanceof HUDModule) {
+                            System.out.println(module.getName());
+                            HudCache.get().addModule((HUDModule) module);
+                        }
+
                         addModule(module);
                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                         e.printStackTrace();
@@ -61,8 +71,6 @@ public class ModuleCache extends BaseCache<Module> {
     }
 
     private void addModule(Module module) {
-        module.reflectSettings();
-
         objects.put(module.getClass(), module);
 
         CopyOnWriteArrayList<Module> category = modulesByCategory.computeIfAbsent(module.getCategory(),
