@@ -61,6 +61,8 @@ public class ModuleCache extends BaseCache<Module> {
     }
 
     private void addModule(Module module) {
+        module.reflectSettings();
+
         objects.put(module.getClass(), module);
 
         CopyOnWriteArrayList<Module> category = modulesByCategory.computeIfAbsent(module.getCategory(),

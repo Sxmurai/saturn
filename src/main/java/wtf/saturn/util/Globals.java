@@ -10,4 +10,8 @@ import net.minecraft.client.Minecraft;
  */
 public interface Globals {
     Minecraft mc = Minecraft.getMinecraft();
+
+    default boolean nullCheck() {
+        return mc.thePlayer == null || mc.theWorld == null;
+    }
 }
